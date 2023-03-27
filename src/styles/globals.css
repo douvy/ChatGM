@@ -13,6 +13,12 @@ body {
   font-size: 15px;
   letter-spacing: .02em;
 }
+body, html {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  height: 100%;
+}
 section a {
   color: #1eed88;
 }
@@ -156,6 +162,10 @@ input:focus, textarea:focus {
   resize: none;
   max-height: 190px;
   overflow-y: auto;
+}
+#main-container {
+  overflow-y: auto;
+  max-height: 100%;
 }
 
 /*responsive design*/

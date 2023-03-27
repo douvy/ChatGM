@@ -115,11 +115,11 @@ export default function Home() {
       <Head>
         <title>ChatGM</title>
         <meta name="description" content="a clean, visually appealing interface for ChatGPT" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="flex">
+      <div className="flex" id="main-container">
         <nav className="fixed h-full w-[225px] text-white shadow-md hidden lg:block">
           <ul className="pl-3">
             <a href="#" id="new-chat"><li className="p-2 mt-2 pl-4"><i className="far fa-arrow-up-right fa-lg"></i> New Chat</li></a>
@@ -138,7 +138,7 @@ export default function Home() {
             <a href="#"><li className="p-2 pl-4"><i className="far fa-coin fa-lg mr-4"></i> Crypto</li></a>
           </ul>
         </nav>
-        <div className="fixed top-0 left-0 z-50 flex items-center justify-end w-full p-4 lg:hidden">
+        <div className="fixed top-0 left-0 z-50 flex items-center justify-end w-full p-3 lg:hidden">
           <button className="text-red-400 hover:text-red-500">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-6 w-6">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
