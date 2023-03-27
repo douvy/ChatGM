@@ -16,7 +16,6 @@ export function addInfiniteScroll(container: HTMLElement | null): void {
                 // Load more content here
                 // Then scroll to the bottom
                 const lastChild = container.lastElementChild;
-                alert("here");
                 if (lastChild) {
                     lastChild.scrollIntoView({ behavior: 'smooth' });
                 }
@@ -25,9 +24,7 @@ export function addInfiniteScroll(container: HTMLElement | null): void {
     }, options);
 
     const lastChild = container.lastElementChild;
-    alert(lastChild);
     if (lastChild) {
-        alert("observing");
         observer.observe(lastChild);
     }
 }
