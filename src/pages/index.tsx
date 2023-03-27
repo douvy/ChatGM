@@ -39,7 +39,7 @@ export default function Home() {
           </button>
         </div>
 
-        <div class="flex flex-col h-full w-full lg:ml-[225px]">
+        <div className="flex flex-col h-full w-full lg:ml-[225px]">
           <main className="container mx-auto max-w-[770px] flex-1 p-4">
             <div className="p-4 overflow-y-auto" id="messages-box">
               
