@@ -1,8 +1,51 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
+import { useState } from 'react';
 
 export default function Home() {
+
+  const [newMessage, setMessage] = useState({
+    message: "",
+  });
+
+  const [newResponse, setResponse] = useState({
+    response: "Nothing yet",
+  })
+
+  const sendMessage = async () => {
+    fetch("/api/sendMessage", {
+      method: "POST",
+      body: JSON.stringify({ prompt: newMessage.message }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+      .then(data => {
+        setResponseValue(data.result);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  };
+
+  const setMessageValue = (e: { target: { value: any; }; }) => {
+    setMessage({
+      message: e.target.value,
+    });
+  };
+
+  const setResponseValue = (response: string) => {
+    setResponse({
+      response: response,
+    });
+  };
+
   return (
     <>
       <Head>
@@ -11,12 +54,12 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      
+
       <div className="flex">
         <nav className="fixed h-full w-[225px] text-white shadow-md hidden lg:block">
           <ul className="pl-3">
             <a href="#" id="new-chat"><li className="p-2 mt-2 pl-4"><i className="far fa-arrow-up-right fa-lg"></i> New Chat</li></a>
-            <a href="#"><li className="p-2  pl-4 mb-3 mt-1"><img src="assets/img/avatar.jpg" className="w-7 rounded-full"/><span className="ml-3">douvy</span></li></a>
+            <a href="#"><li className="p-2  pl-4 mb-3 mt-1"><img src="assets/img/avatar.jpg" className="w-7 rounded-full" /><span className="ml-3">douvy</span></li></a>
             <a href="#" className="active"><li className="p-2 pl-4"><i className="far fa-message-middle fa-xl mr-4"></i>AI Food App Ideas</li></a>
             <a href="#"><li className="p-2 pl-4"><i className="far fa-message-middle fa-xl mr-4"></i> Cryptography</li></a>
             <a href="#"><li className="p-2 pl-4"><i className="far fa-message-middle fa-xl mr-4"></i> Blockchain Explorer</li></a>
@@ -42,7 +85,7 @@ export default function Home() {
         <div className="flex flex-col h-full w-full lg:ml-[225px]">
           <main className="container mx-auto max-w-[770px] flex-1 p-4">
             <div className="p-4 overflow-y-auto" id="messages-box">
-              
+
               <div className="w-full box">
                 <div className="message p-4 pt-4 relative">
                   <img src="assets/img/avatar.jpg" alt="Avatar" className="w-9 h-9 rounded-full absolute left-4 top-3" />
@@ -101,16 +144,7 @@ export default function Home() {
                         Received <i className="fa-regular fa-arrow-down-left fa-lg ml-1 mr-3 mt-5" />
                       </span> 3:43 PM
                     </p>
-                    <ol className="list-decimal list-inside">
-                      <li>Set up a Next.js project</li>
-                      <li>Choose a database and set up the schema</li>
-                      <li>Create an API layer to interact with the database</li>
-                      <li>Build the user interface</li>
-                      <li>Implement search and filtering</li>
-                      <li>Add authentication and user management</li>
-                      <li>Deploy the app</li>
-                      <li>Test and iterate</li>
-                    </ol>
+                    <p>{newResponse.response}</p>
                   </div>
                 </div>
               </div>
@@ -118,9 +152,9 @@ export default function Home() {
             </div>
 
             <form className="flex items-center max-w-[770px] p-4">
-              <input type="text" className="w-full p-2 mr-2" placeholder="Type your message..." />
+              <input type="text" className="w-full p-2 mr-2" placeholder="Type your message..." onChange={setMessageValue} value={newMessage.message} />
               <span className="button-container">
-                <button type="submit" className="font-semibold uppercase p-2">Send</button>
+                <button type="button" onClick={sendMessage} className="font-semibold uppercase p-2">Send</button>
               </span>
             </form>
           </main>
