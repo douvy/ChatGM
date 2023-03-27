@@ -156,7 +156,7 @@ export default function Home() {
 
             </div>
 
-            <form className="flex items-center max-w-[770px] p-4">
+            <form className="flex items-center max-w-[770px] p-0 md:p-4">
               <textarea className="w-full p-2 mr-2" placeholder="Type your message..." onKeyDown={handleKeyDown} onChange={setMessageValue} value={newMessage.content} />
               <span className="button-container">
                 <button type="button" onClick={sendMessage} className="font-semibold uppercase p-2">Send</button>
