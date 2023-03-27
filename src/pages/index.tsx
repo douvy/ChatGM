@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import { useState } from 'react';
+import ChatMessage from '../Components/ChatMessage';
 
 export default function Home() {
 
@@ -28,6 +29,9 @@ export default function Home() {
     })
       .then(data => {
         setResponseValue(data.result);
+        setMessage({
+          message: "",
+        })
       })
       .catch(error => {
         console.error('Error fetching data:', error);
@@ -86,20 +90,7 @@ export default function Home() {
           <main className="container mx-auto max-w-[770px] flex-1 p-4">
             <div className="p-4 overflow-y-auto" id="messages-box">
 
-              <div className="w-full box">
-                <div className="message p-4 pt-4 relative">
-                  <img src="/avatar.jpg" alt="Avatar" className="w-9 h-9 rounded-full absolute left-4 top-3" />
-                  <div className="pl-16 pt-0">
-                    <span className="text-sm mb-1 inline-block name">douvy</span>
-                    <p className="text-xs inline-block absolute top-1 right-4 timestamp">
-                      <span className="message-direction">Sent <i className="fa-regular fa-arrow-up-right fa-lg ml-1 mr-3 mt-5"></i></span> 3:42 PM
-                    </p>
-                    <p>
-                      I like technology and cooking. What are 5 two-week web apps I could build using AI that is inexpensive and has the potential to generate revenue?
-                    </p>
-                  </div>
-                </div>
-              </div>
+              <ChatMessage message="Hey!" />
               <div className="w-full box">
                 <div className="message p-4 pt-4 relative">
                   <img src="avatar-chat.png" alt="Avatar" className="w-9 h-9 rounded-full absolute left-4 top-3" />
@@ -152,7 +143,7 @@ export default function Home() {
             </div>
 
             <form className="flex items-center max-w-[770px] p-4">
-              <input type="text" className="w-full p-2 mr-2" placeholder="Type your message..." onChange={setMessageValue} value={newMessage.message} />
+              <textarea className="w-full p-2 mr-2" placeholder="Type your message..." onChange={setMessageValue} value={newMessage.message} />
               <span className="button-container">
                 <button type="button" onClick={sendMessage} className="font-semibold uppercase p-2">Send</button>
               </span>
