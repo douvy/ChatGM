@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import { useState } from 'react';
 import ChatMessage from '../Components/ChatMessage';
+import ChatResponse from '../Components/ChatResponse';
 
 export default function Home() {
 
@@ -91,54 +92,10 @@ export default function Home() {
             <div className="p-4 overflow-y-auto" id="messages-box">
 
               <ChatMessage message="Hey!" />
-              <div className="w-full box">
-                <div className="message p-4 pt-4 relative">
-                  <img src="avatar-chat.png" alt="Avatar" className="w-9 h-9 rounded-full absolute left-4 top-3" />
-                  <div className="pl-16 pt-0">
-                    <span className="text-sm mb-1 inline-block name">GPT-3.5</span>
-                    <p className="text-xs inline-block absolute top-1 right-4 timestamp">
-                      <span className="message-direction">Received <i className="fa-regular fa-arrow-down-left fa-lg ml-1 mr-3 mt-5"></i></span> 3:42 PM
-                    </p>
-                    <ol className="list-decimal list-inside">
-                      <li className="mb-3">AI Recipe Generator: Create a web app that uses AI to analyze a user's taste preferences and suggest personalized recipes based on their favorite ingredients and dietary restrictions.</li>
-                      <li>Kitchen Inventory Manager: Build an app that tracks users' kitchen inventory and suggests recipes based on available ingredients, using AI for efficient organization and management.</li>
-                    </ol>
-                  </div>
-                </div>
-              </div>
-
-              <div className="w-full box">
-                <div className="message p-4 pt-4 relative">
-                  <img src="avatar.jpg" alt="Avatar" className="w-9 h-9 rounded-full absolute left-4 top-3" />
-                  <div className="pl-16 pt-0">
-                    <span className="text-sm mb-1 inline-block name">douvy</span>
-                    <p className="text-xs inline-block absolute top-1 right-4 timestamp">
-                      <span className="message-direction">
-                        Sent <i className="fa-regular fa-arrow-up-right fa-lg ml-1 mr-3 mt-5" />
-                      </span> 3:43 PM
-                    </p>
-                    <p>
-                      thanks, let's go with the kitchen inventory manager and use next.js. what should I do after I create a spreadsheet
-                      of all available ingredients?
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="w-full box last">
-                <div className="message p-4 pt-4 relative">
-                  <img src="avatar-chat.png" alt="Avatar" className="w-9 h-9 rounded-full absolute left-4 top-3" />
-                  <div className="pl-16 pt-0">
-                    <span className="text-sm mb-1 inline-block name">GPT-3.5</span>
-                    <p className="text-xs inline-block absolute top-1 right-4 timestamp">
-                      <span className="message-direction">
-                        Received <i className="fa-regular fa-arrow-down-left fa-lg ml-1 mr-3 mt-5" />
-                      </span> 3:43 PM
-                    </p>
-                    <p>{newResponse.response}</p>
-                  </div>
-                </div>
-              </div>
+              <ChatResponse response="Hey!" />
+              <ChatMessage message="thanks, let's go with the kitchen inventory manager and use next.js. what should I do after I create a spreadsheet
+              of all available ingredients?" />
+              <ChatResponse response={newResponse.response} />
 
             </div>
 
