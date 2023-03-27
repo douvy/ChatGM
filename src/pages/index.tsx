@@ -16,7 +16,7 @@ export default function Home() {
         <nav className="fixed h-full w-[225px] text-white shadow-md hidden lg:block">
           <ul className="pl-3">
             <a href="#" id="new-chat"><li className="p-2 mt-2 pl-4"><i className="far fa-arrow-up-right fa-lg"></i> New Chat</li></a>
-            <a href="#"><li className="p-2  pl-4 mb-3 mt-1"><img src="assets/img/avatar.jpg" className="w-7 rounded-full"/><span className="ml-3">douvy</span></li></a>
+            <a href="#"><li className="p-2  pl-4 mb-3 mt-1"><img src="/avatar.jpg" className="w-7 h-7 rounded-full"/><span className="ml-3">douvy</span></li></a>
             <a href="#" className="active"><li className="p-2 pl-4"><i className="far fa-message-middle fa-xl mr-4"></i>AI Food App Ideas</li></a>
             <a href="#"><li className="p-2 pl-4"><i className="far fa-message-middle fa-xl mr-4"></i> Cryptography</li></a>
             <a href="#"><li className="p-2 pl-4"><i className="far fa-message-middle fa-xl mr-4"></i> Blockchain Explorer</li></a>
@@ -45,7 +45,7 @@ export default function Home() {
               
               <div className="w-full box">
                 <div className="message p-4 pt-4 relative">
-                  <img src="assets/img/avatar.jpg" alt="Avatar" className="w-9 h-9 rounded-full absolute left-4 top-3" />
+                  <img src="/avatar.jpg" alt="Avatar" className="w-9 h-9 rounded-full absolute left-4 top-3" />
                   <div className="pl-16 pt-0">
                     <span className="text-sm mb-1 inline-block name">douvy</span>
                     <p className="text-xs inline-block absolute top-1 right-4 timestamp">
@@ -59,7 +59,7 @@ export default function Home() {
               </div>
               <div className="w-full box">
                 <div className="message p-4 pt-4 relative">
-                  <img src="assets/img/favicon.png" alt="Avatar" className="w-9 h-9 rounded-full absolute left-4 top-3" />
+                  <img src="avatar-chat.png" alt="Avatar" className="w-9 h-9 rounded-full absolute left-4 top-3" />
                   <div className="pl-16 pt-0">
                     <span className="text-sm mb-1 inline-block name">GPT-3.5</span>
                     <p className="text-xs inline-block absolute top-1 right-4 timestamp">
@@ -75,7 +75,7 @@ export default function Home() {
 
               <div className="w-full box">
                 <div className="message p-4 pt-4 relative">
-                  <img src="assets/img/avatar.jpg" alt="Avatar" className="w-9 h-9 rounded-full absolute left-4 top-3" />
+                  <img src="avatar-chat.png" alt="Avatar" className="w-9 h-9 rounded-full absolute left-4 top-3" />
                   <div className="pl-16 pt-0">
                     <span className="text-sm mb-1 inline-block name">douvy</span>
                     <p className="text-xs inline-block absolute top-1 right-4 timestamp">
@@ -93,7 +93,7 @@ export default function Home() {
 
               <div className="w-full box last">
                 <div className="message p-4 pt-4 relative">
-                  <img src="assets/img/favicon.png" alt="Avatar" className="w-9 h-9 rounded-full absolute left-4 top-3" />
+                  <img src="avatar-chat.png" alt="Avatar" className="w-9 h-9 rounded-full absolute left-4 top-3" />
                   <div className="pl-16 pt-0">
                     <span className="text-sm mb-1 inline-block name">GPT-3.5</span>
                     <p className="text-xs inline-block absolute top-1 right-4 timestamp">
