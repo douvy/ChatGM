@@ -114,6 +114,49 @@ hr {
 .message-direction {
   color: #d0d1d6;
 }
+form button {
+  color:  #dedfe1;
+  border-top: 2px solid #E85A40;
+  border-left: 2px solid #E85A40;
+  transition: .69s;
+}
+form button:hover {
+  background: #da381a !important;
+  border-top: 2px solid #da381a;
+  color: #ffffff;
+}
+form button:hover {
+  border-bottom: 3px solid #691b0d;
+  border-left: 2px solid #ad2c15;
+}
+form input {
+  border-radius: 4px;
+  border: 2px solid #BDBEBF;
+}
+form textarea {
+  border-radius: 4px;
+  border: 2px solid #BDBEBF;
+  height: 45px;
+  resize: none;
+}
+input[type="text"], textarea {
+  color: #1C1D20 !important;
+  font-weight: 500 !important;
+  font-size: 15px;
+}
+
+input[type="text"]::placeholder, textarea::placeholder {
+  color: #6f6f6f !important;
+}
+input:focus, textarea:focus {
+  outline: none;
+  border: 2px solid #83FFC1;
+}
+.auto-expand-textarea {
+  resize: none;
+  max-height: 190px;
+  overflow-y: auto;
+}
 
 /*responsive design*/
 
