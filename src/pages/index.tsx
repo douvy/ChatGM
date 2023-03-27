@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import { useState, useEffect, useRef } from 'react';
-import ChatMessage from '../Components/ChatMessage';
+import ChatMessage from '../components/ChatMessage';
 import ChatResponse from '../Components/ChatResponse';
 import { addInfiniteScroll } from '../utils/infiniteScroll';
 
