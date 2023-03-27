@@ -162,8 +162,12 @@ input:focus, textarea:focus {
 
 @media (min-width: 768px) {
   #messages-box {
-    min-height: 594px;
+    min-height: 593px;
   }
+}
 
-  
+@media (max-width: 768px) {
+  #messages-box {
+    min-height: 593px;
+  }
 }
