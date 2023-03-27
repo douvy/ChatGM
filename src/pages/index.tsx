@@ -75,7 +75,7 @@ export default function Home() {
 
               <div className="w-full box">
                 <div className="message p-4 pt-4 relative">
-                  <img src="avatar-chat.png" alt="Avatar" className="w-9 h-9 rounded-full absolute left-4 top-3" />
+                  <img src="avatar.jpg" alt="Avatar" className="w-9 h-9 rounded-full absolute left-4 top-3" />
                   <div className="pl-16 pt-0">
                     <span className="text-sm mb-1 inline-block name">douvy</span>
                     <p className="text-xs inline-block absolute top-1 right-4 timestamp">
