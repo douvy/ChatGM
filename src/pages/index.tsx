@@ -20,7 +20,7 @@ export default function Home() {
     role: "user",
     content: "",
     avatarSource: "avatar.png",
-    sender: "douvy",
+    sender: "user",
   });
 
   const [newResponse, setResponse] = useState({
@@ -48,7 +48,7 @@ export default function Home() {
       role: "user",
       content: "nothing",
       avatarSource: "avatar.png",
-      sender: "douvy",
+      sender: "user",
     })
     fetch("/api/sendMessage", {
       method: "POST",
@@ -74,7 +74,7 @@ export default function Home() {
           role: "user",
           content: "",
           avatarSource: "avatar.png",
-          sender: "douvy",
+          sender: "user",
         })
       })
       .catch(error => {
@@ -123,8 +123,8 @@ export default function Home() {
         <nav className="fixed h-full w-[225px] text-white shadow-md hidden lg:block">
           <ul className="pl-3">
             <a href="#" id="new-chat"><li className="p-2 mt-2 pl-4"><i className="far fa-arrow-up-right fa-lg"></i> New Chat</li></a>
-            <a href="#"><li className="p-2  pl-4 mb-3 mt-1"><img src="/avatar.png" className="w-7 h-7 rounded-full" /><span className="ml-3">douvy</span></li></a>
-            <a href="#" className="active"><li className="p-2 pl-4"><i className="far fa-message-middle fa-xl mr-4"></i>AI Food App Ideas</li></a>
+            <a href="#"><li className="p-2  pl-4 mb-3 mt-1"><img src="/avatar.png" className="w-7 h-7 rounded-full" /><span className="ml-3">user</span></li></a>
+            <a href="#" className="active"><li className="p-2 pl-4"><i className="far fa-message-middle fa-xl mr-4"></i>New Chat</li></a>
             <a href="#"><li className="p-2 pl-4"><i className="far fa-message-middle fa-xl mr-4"></i> Cryptography</li></a>
             <a href="#"><li className="p-2 pl-4"><i className="far fa-message-middle fa-xl mr-4"></i> Blockchain Explorer</li></a>
             <a href="#"><li className="p-2 pl-4"><i className="far fa-message-middle fa-xl mr-4"></i> New Chat UI</li></a>
