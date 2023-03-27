@@ -7,9 +7,10 @@ const configuration = new Configuration({
 });
 
 const openai = new OpenAIApi(configuration);
-const messages: ChatCompletionRequestMessage[] = [];
+// const messages: ChatCompletionRequestMessage[] = [];
+type Message = { role: string, content: string };
 
-export default async function (req: { body: { prompt: string; }; }, res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { error?: { message: string; } | { message: string; } | { message: string; }; result?: string; }): void; new(): any; }; }; }) {
+export default async function (req: { body: { prompt: string, previousMessages: []; }; }, res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { error?: { message: string; } | { message: string; } | { message: string; }; result?: string; }): void; new(): any; }; }; }) {
     if (!configuration.apiKey) {
         res.status(500).json({
             error: {
@@ -18,6 +19,9 @@ export default async function (req: { body: { prompt: string; }; }, res: { statu
         });
         return;
     }
+
+    var previousMessages = req.body.previousMessages || [];
+    console.log(previousMessages);
 
     const prompt = req.body.prompt || '';
     if (prompt.trim().length === 0) {
@@ -29,8 +33,11 @@ export default async function (req: { body: { prompt: string; }; }, res: { statu
         return;
     }
 
+    var messages: ChatCompletionRequestMessage[] = previousMessages.map(({ role, content }) => ({ role, content }));
+    messages.push({ role: "user", content: prompt })
+    console.log(messages);
+
     try {
-        pushMessage(prompt)
         const completion = await openai.createChatCompletion({
             model: "gpt-3.5-turbo",
             messages: messages,
@@ -52,9 +59,4 @@ export default async function (req: { body: { prompt: string; }; }, res: { statu
             });
         }
     }
-}
-
-function pushMessage(prompt: string) {
-    const capitalizedprompt =
-        messages.push({ role: "user", content: prompt })
 }

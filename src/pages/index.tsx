@@ -1,24 +1,58 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import ChatMessage from '../Components/ChatMessage';
 import ChatResponse from '../Components/ChatResponse';
+import { addInfiniteScroll } from '../utils/infiniteScroll';
+
+interface Message {
+  role: string,
+  content: string;
+  avatarSource: string,
+  sender: string,
+}
 
 export default function Home() {
+  const [messages, setMessages] = useState<Message[]>([]);
 
-  const [newMessage, setMessage] = useState({
-    message: "",
+  const [newMessage, setMessage] = useState<Message>({
+    role: "user",
+    content: "",
+    avatarSource: "avatar.jpg",
+    sender: "douvy",
   });
 
   const [newResponse, setResponse] = useState({
     response: "Nothing yet",
   })
 
+  const scrollContainer = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    scrollContainer.current?.lastElementChild?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
+  const lastMessage = useRef<HTMLDivElement>(null);
+
+
+  const appendMessage = (message: Message) => {
+    setMessages((messages) => ([
+      ...messages,
+      message
+    ]));
+  }
+
   const sendMessage = async () => {
+    appendMessage(newMessage);
+    setMessage({
+      role: "user",
+      content: "nothing",
+      avatarSource: "avatar.jpg",
+      sender: "douvy",
+    })
     fetch("/api/sendMessage", {
       method: "POST",
-      body: JSON.stringify({ prompt: newMessage.message }),
+      body: JSON.stringify({ prompt: newMessage.content, previousMessages: messages }),
       headers: {
         "Content-Type": "application/json",
       },
@@ -30,8 +64,17 @@ export default function Home() {
     })
       .then(data => {
         setResponseValue(data.result);
+        appendMessage({
+          role: "assistant",
+          content: data.result,
+          avatarSource: "avatar-chat.png",
+          sender: "ChatGPT-3.5",
+        })
         setMessage({
-          message: "",
+          role: "user",
+          content: "",
+          avatarSource: "avatar.jpg",
+          sender: "douvy",
         })
       })
       .catch(error => {
@@ -40,9 +83,10 @@ export default function Home() {
   };
 
   const setMessageValue = (e: { target: { value: any; }; }) => {
-    setMessage({
-      message: e.target.value,
-    });
+    setMessage((prevMessage) => ({
+      ...prevMessage,
+      content: e.target.value,
+    }));
   };
 
   const setResponseValue = (response: string) => {
@@ -50,6 +94,21 @@ export default function Home() {
       response: response,
     });
   };
+
+  function handleKeyDown(event: { preventDefault: () => void; keyCode: number; }) {
+    if (event.keyCode === 13) {
+      // handle "Enter" key press
+      sendMessage();
+    }
+  }
+
+  useEffect(() => {
+    if (scrollContainer.current) {
+      addInfiniteScroll(scrollContainer.current);
+    }
+  }, []);
+
+  var chat = [];
 
   return (
     <>
@@ -89,18 +148,16 @@ export default function Home() {
 
         <div className="flex flex-col h-full w-full lg:ml-[225px]">
           <main className="container mx-auto max-w-[770px] flex-1 p-4">
-            <div className="p-4 overflow-y-auto" id="messages-box">
+            <div className="p-4 overflow-y-auto" id="messages-box" ref={scrollContainer}>
 
-              <ChatMessage message="Hey!" />
-              <ChatResponse response="Hey!" />
-              <ChatMessage message="thanks, let's go with the kitchen inventory manager and use next.js. what should I do after I create a spreadsheet
-              of all available ingredients?" />
-              <ChatResponse response={newResponse.response} />
+              {messages.map((message, index) => (
+                <ChatMessage key={index} message={message.content} avatarSource={message.avatarSource} sender={message.sender} ref={index === messages.length - 1 ? lastMessage : null} />
+              ))}
 
             </div>
 
             <form className="flex items-center max-w-[770px] p-4">
-              <textarea className="w-full p-2 mr-2" placeholder="Type your message..." onChange={setMessageValue} value={newMessage.message} />
+              <textarea className="w-full p-2 mr-2" placeholder="Type your message..." onKeyDown={handleKeyDown} onChange={setMessageValue} value={newMessage.content} />
               <span className="button-container">
                 <button type="button" onClick={sendMessage} className="font-semibold uppercase p-2">Send</button>
               </span>
