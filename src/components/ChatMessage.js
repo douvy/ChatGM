@@ -7,7 +7,7 @@ function ChatMessage({ message, avatarSource, sender, ref }) {
                 <img src={avatarSource} alt="Avatar" className="w-9 h-9 rounded-full absolute left-4 top-3" />
                 <div className="pl-16 pt-0">
                     <span className="text-sm mb-1 inline-block name">{sender}</span>
-                    <p className="text-xs inline-block absolute top-1 right-4 timestamp">
+                    <p className="text-xs inline-block absolute top-3 right-4 timestamp">
                         <span className="message-direction">Sent <i className="fa-regular fa-arrow-up-right fa-lg ml-1 mr-3 mt-5"></i></span> 3:42 PM
                     </p>
                     <p>
