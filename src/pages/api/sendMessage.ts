@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { Configuration, OpenAIApi, ChatCompletionRequestMessage } from "openai";
-import { saveConversation } from '../../utils/db'
+import { saveConversation, setUserId } from '../../utils/db'
 import { ObjectId } from 'mongodb';
 
 const configuration = new Configuration({
@@ -13,6 +13,7 @@ const openai = new OpenAIApi(configuration);
 type Message = { role: string, content: string };
 
 export default async function (req: {
+    headers: any;
     body: {
         prompt: string, conversation: {
             name?: string,
@@ -32,6 +33,7 @@ export default async function (req: {
         };
     };
 }) {
+
     if (!configuration.apiKey) {
         res.status(500).json({
             error: {
@@ -78,23 +80,6 @@ export default async function (req: {
         if (typeof conversation._id !== "undefined") {
             console.log("updating");
             conversation._id = new ObjectId(conversation._id);
-        } else {
-            // // generate a name for a new conversation
-            // console.log("generating name....");
-            // var nameRequestMessage: ChatCompletionRequestMessage = {
-            //     role: "user",
-            //     content: "generate a name for this conversation without quotation marks "
-            // }
-            // const completion = await openai.createChatCompletion({
-            //     model: "gpt-3.5-turbo",
-            //     messages: [...messages, nameRequestMessage],
-            // });
-            // var name = completion?.data?.choices[0]?.message?.content || undefined;
-            // name = name?.trim().replace(/^"(.*)"$/, '$1');
-
-            // console.log("Chat name:");
-            // console.log(name);
-            // conversation.name = name;
         }
         console.log(typeof conversation._id);
         var _id = await saveConversation(conversation);

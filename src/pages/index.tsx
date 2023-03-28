@@ -81,7 +81,7 @@ const Home: NextPage<InitialProps> = ({ }) => {
     appendMessage(newMessage);
     setMessage({
       role: "user",
-      content: "nothing",
+      content: "",
       avatarSource: "avatar.png",
       sender: "user",
     })
