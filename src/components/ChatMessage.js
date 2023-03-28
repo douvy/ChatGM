@@ -3,8 +3,8 @@ import React from 'react';
 function ChatMessage({ message, avatarSource, sender, ref }) {
     return (
         <div className="w-full box">
-            <div className="message p-4 pt-4 relative">
-                <img src={avatarSource} alt="Avatar" className="w-9 h-9 rounded-full absolute left-4 top-3" />
+            <div className="message p-4 pt-2 relative">
+                <img src={avatarSource} alt="Avatar" className="w-9 h-9 rounded-full absolute left-4 top-2" />
                 <div className="pl-16 pt-0">
                     <span className="text-sm mb-1 inline-block name">{sender}</span>
                     <p className="text-xs inline-block absolute top-3 right-4 timestamp">
