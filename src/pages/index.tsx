@@ -4,7 +4,14 @@ import { Inter } from 'next/font/google'
 import { useState, useEffect, useRef } from 'react';
 import ChatMessage from '../components/ChatMessage';
 import ChatResponse from '../components/ChatResponse';
+import ConversationLinkListItem from '../components/ConversationLinkListItem';
+import ConversationLinkList from '../components/ConversationLinkList';
 import { addInfiniteScroll } from '../utils/infiniteScroll';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeRaw from 'rehype-raw';
+import { ObjectId } from 'mongodb';
+import { GetServerSideProps, NextPage } from 'next';
 
 interface Message {
   role: string,
@@ -13,8 +20,23 @@ interface Message {
   sender: string,
 }
 
-export default function Home() {
+interface Conversation {
+  name?: string,
+  messages: Message[],
+  _id?: ObjectId,
+}
+
+interface InitialProps {
+  conversations: Conversation[]
+}
+
+const Home: NextPage<InitialProps> = ({ }) => {
+
   const [messages, setMessages] = useState<Message[]>([]);
+
+  const [conversation, setConversation] = useState<Conversation>({
+    messages: messages,
+  });
 
   const [newMessage, setMessage] = useState<Message>({
     role: "user",
@@ -27,6 +49,16 @@ export default function Home() {
     response: "Nothing yet",
   })
 
+  const [conversations, setConversations] = useState<Conversation[]>([]);
+
+  useEffect(() => {
+    // Fetch the conversations data from an API
+    fetch('/api/getConversations')
+      .then(response => response.json())
+      .then(data => setConversations(data))
+      .catch(error => console.error(error));
+  }, []);
+
   const scrollContainer = useRef<HTMLDivElement>(null);
   useEffect(() => {
     scrollContainer.current?.lastElementChild?.scrollIntoView({ behavior: 'smooth' });
@@ -36,23 +68,23 @@ export default function Home() {
 
 
   const appendMessage = (message: Message) => {
-    setMessages((messages) => ([
-      ...messages,
-      message
-    ]));
+    conversation.messages.push(message);
+    setConversation((conversation) => (conversation));
   }
 
   const sendMessage = async () => {
     appendMessage(newMessage);
     setMessage({
       role: "user",
-      content: "nothing",
+      content: "",
       avatarSource: "avatar.jpg",
       sender: "douvy",
     })
+    console.log(conversation._id);
+    console.log(typeof conversation._id);
     fetch("/api/sendMessage", {
       method: "POST",
-      body: JSON.stringify({ prompt: newMessage.content, previousMessages: messages }),
+      body: JSON.stringify({ prompt: newMessage.content, conversation: conversation }),
       headers: {
         "Content-Type": "application/json",
       },
@@ -63,19 +95,21 @@ export default function Home() {
       return response.json();
     })
       .then(data => {
-        setResponseValue(data.result);
-        appendMessage({
-          role: "assistant",
-          content: data.result,
-          avatarSource: "avatar-chat.png",
-          sender: "ChatGPT-3.5",
-        })
-        setMessage({
-          role: "user",
-          content: "",
-          avatarSource: "avatar.jpg",
-          sender: "douvy",
-        })
+        setResponseValue(data.result.response);
+        setConversation((conversation) => (data.result.conversation));
+        setConversations((conversations) => [...conversations, data.result.conversation]);
+        // appendMessage({
+        //   role: "assistant",
+        //   content: data.result,
+        //   avatarSource: "avatar-chat.png",
+        //   sender: "ChatGPT-3.5",
+        // })
+        // setMessage({
+        //   role: "user",
+        //   content: "",
+        //   avatarSource: "avatar.jpg",
+        //   sender: "douvy",
+        // })
       })
       .catch(error => {
         console.error('Error fetching data:', error);
@@ -109,7 +143,6 @@ export default function Home() {
   }, []);
 
   var chat = [];
-
   return (
     <>
       <Head>
@@ -121,14 +154,7 @@ export default function Home() {
 
       <div className="flex">
         <nav className="fixed h-full w-[225px] text-white shadow-md hidden lg:block">
-          <ul className="pl-3">
-            <a href="#" id="new-chat"><li className="p-2 mt-2 pl-4"><i className="far fa-arrow-up-right fa-lg"></i> New Chat</li></a>
-            <a href="#"><li className="p-2  pl-4 mb-3 mt-1"><img src="/avatar.jpg" className="w-7 h-7 rounded-full" /><span className="ml-3">douvy</span></li></a>
-            <a href="#" className="active"><li className="p-2 pl-4"><i className="far fa-message-middle fa-xl mr-4"></i>AI Food App Ideas</li></a>
-            <a href="#"><li className="p-2 pl-4"><i className="far fa-message-middle fa-xl mr-4"></i> Cryptography</li></a>
-            <a href="#"><li className="p-2 pl-4"><i className="far fa-message-middle fa-xl mr-4"></i> Blockchain Explorer</li></a>
-            <a href="#"><li className="p-2 pl-4"><i className="far fa-message-middle fa-xl mr-4"></i> New Chat UI</li></a>
-          </ul>
+          <ConversationLinkList conversations={conversations}></ConversationLinkList>
           <hr className="my-4 border-t border-red" />
           <ul className="pl-3 z">
             <a href="#"><li className="p-2 pl-4"><i className="far fa-trash-can-xmark fa-lg mr-4"></i> Clear Conversations</li></a>
@@ -150,7 +176,7 @@ export default function Home() {
           <main className="container mx-auto max-w-[770px] flex-1 p-4">
             <div className="p-4 overflow-y-auto" id="messages-box" ref={scrollContainer}>
 
-              {messages.map((message, index) => (
+              {conversation.messages.map((message, index) => (
                 <ChatMessage key={index} message={message.content} avatarSource={message.avatarSource} sender={message.sender} ref={index === messages.length - 1 ? lastMessage : null} />
               ))}
 
@@ -169,3 +195,14 @@ export default function Home() {
     </>
   )
 }
+
+export const loadConversations: GetServerSideProps<InitialProps> = async (context) => {
+  const res = await fetch("/api/sendMessage");
+  const conversations = await res.json();
+
+  return {
+    props: { conversations },
+  };
+}
+
+export default Home;

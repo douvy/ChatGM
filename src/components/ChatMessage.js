@@ -1,4 +1,7 @@
 import React from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeRaw from 'rehype-raw';
 
 function ChatMessage({ message, avatarSource, sender, ref }) {
     return (
@@ -11,7 +14,11 @@ function ChatMessage({ message, avatarSource, sender, ref }) {
                         <span className="message-direction">Sent <i className="fa-regular fa-arrow-up-right fa-lg ml-1 mr-3 mt-5"></i></span> 3:42 PM
                     </p>
                     <p>
-                        {message}
+                        <ReactMarkdown
+                            remarkPlugins={[remarkGfm]}
+                            rehypePlugins={[rehypeRaw]}
+                            children={message}
+                        />
                     </p>
                 </div>
             </div>
