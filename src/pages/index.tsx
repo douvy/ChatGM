@@ -97,19 +97,29 @@ const Home: NextPage<InitialProps> = ({ }) => {
       .then(data => {
         setResponseValue(data.result.response);
         setConversation((conversation) => (data.result.conversation));
+        alert(conversations.length);
         setConversations((conversations) => [...conversations, data.result.conversation]);
-        // appendMessage({
-        //   role: "assistant",
-        //   content: data.result,
-        //   avatarSource: "avatar-chat.png",
-        //   sender: "ChatGPT-3.5",
-        // })
-        // setMessage({
-        //   role: "user",
-        //   content: "",
-        //   avatarSource: "avatar.jpg",
-        //   sender: "douvy",
-        // })
+        alert(conversations.length);
+
+        fetch('/api/assignName', {
+          method: "POST",
+          body: JSON.stringify({ conversation: data.result.conversation }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then(response => response.json())
+          .then(data => {
+            // const updatedConversations = conversations.map(_conversation => {
+            //   if (_conversation._id === conversation._id) {
+            //     return data.conversation;
+            //   } else {
+            //     return _conversation;
+            //   }
+            // });
+            setConversations([...conversations, data.conversation]);
+          })
+          .catch(error => console.error(error));
       })
       .catch(error => {
         console.error('Error fetching data:', error);

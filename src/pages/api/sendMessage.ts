@@ -79,22 +79,22 @@ export default async function (req: {
             console.log("updating");
             conversation._id = new ObjectId(conversation._id);
         } else {
-            // generate a name for a new conversation
-            console.log("generating name....");
-            var nameRequestMessage: ChatCompletionRequestMessage = {
-                role: "user",
-                content: "generate a name for this conversation without quotation marks "
-            }
-            const completion = await openai.createChatCompletion({
-                model: "gpt-3.5-turbo",
-                messages: [...messages, nameRequestMessage],
-            });
-            var name = completion?.data?.choices[0]?.message?.content || undefined;
-            name = name?.trim().replace(/^"(.*)"$/, '$1');
+            // // generate a name for a new conversation
+            // console.log("generating name....");
+            // var nameRequestMessage: ChatCompletionRequestMessage = {
+            //     role: "user",
+            //     content: "generate a name for this conversation without quotation marks "
+            // }
+            // const completion = await openai.createChatCompletion({
+            //     model: "gpt-3.5-turbo",
+            //     messages: [...messages, nameRequestMessage],
+            // });
+            // var name = completion?.data?.choices[0]?.message?.content || undefined;
+            // name = name?.trim().replace(/^"(.*)"$/, '$1');
 
-            console.log("Chat name:");
-            console.log(name);
-            conversation.name = name;
+            // console.log("Chat name:");
+            // console.log(name);
+            // conversation.name = name;
         }
         console.log(typeof conversation._id);
         var _id = await saveConversation(conversation);

@@ -17,7 +17,12 @@ async function saveConversation(conversation) {
 
         if (conversation._id) {
             // If _id exists, update the existing conversation
-            const result = await conversations.updateOne({ _id: new ObjectId(conversation._id) }, { $set: conversation });
+            const result = await conversations.updateOne({ _id: new ObjectId(conversation._id) }, {
+                $set: {
+                    name: conversation.name,
+                    messages: conversation.messages,
+                }
+            });
             console.log(result);
             if (result.modifiedCount === 1) {
                 id = conversation._id;
