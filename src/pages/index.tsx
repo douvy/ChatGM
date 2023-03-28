@@ -163,8 +163,8 @@ const Home: NextPage<InitialProps> = ({ }) => {
       <div className="flex" id="main-container">
         <nav className="fixed h-full w-[225px] text-white shadow-md hidden lg:block">
           <ConversationLinkList conversations={conversations}></ConversationLinkList>
-          <hr className="my-4 border-t border-red" />
-          <ul className="pl-3 z">
+          <hr className="my-4 border-t" />
+          <ul className="pl-3">
             <a href="#"><li className="p-2 pl-4" onClick={() => {
               fetch('/api/clearConversations')
                 .then(response => response.json())
@@ -192,7 +192,7 @@ const Home: NextPage<InitialProps> = ({ }) => {
           </button>
         </div>
 
-        <div className="flex flex-col h-full w-full lg:ml-[225px] mt-6">
+        <div className="flex flex-col h-full w-full lg:ml-[225px]">
           <main className="container mx-auto max-w-[770px] flex-1 p-0 md:p-4">
             <div className="p-4 overflow-y-auto" id="messages-box" ref={scrollContainer}>
 

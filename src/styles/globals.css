@@ -168,7 +168,7 @@ input:focus, textarea:focus {
   overflow-y: auto;
   max-height: 100%;
 }
- form {
+ main form {
   position: absolute;
   bottom: 0;
   width: 100%;
