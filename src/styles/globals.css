@@ -168,23 +168,8 @@ input:focus, textarea:focus {
   overflow-y: auto;
   max-height: 100%;
 }
-
-/*responsive design*/
-
-@media (min-width: 768px) {
-  #messages-box {
-    min-height: 585px;
-  }
-}
-
-@media (max-width: 768px) {
-  #messages-box {
-    min-height: 608px;
-  }
-}
-
-@media (max-width: 480px) {
-  #messages-box {
-    min-height: 638px;
-  }
+ form {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
