@@ -138,7 +138,7 @@ export default function Home() {
             <a href="#"><li className="p-2 pl-4"><i className="far fa-coin fa-lg mr-4"></i> Crypto</li></a>
           </ul>
         </nav>
-        <div className="fixed top-0 left-0 z-50 flex items-center justify-end w-full p-2 lg:hidden">
+        <div className="fixed top-0 left-0 z-50 flex items-center justify-end w-full p-2 pr-3 lg:hidden">
           <button className="text-red-400 hover:text-red-500">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-6 w-6">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -146,8 +146,8 @@ export default function Home() {
           </button>
         </div>
 
-        <div className="flex flex-col h-full w-full lg:ml-[225px]">
-          <main className="container mx-auto max-w-[770px] flex-1 p-4">
+        <div className="flex flex-col h-full w-full lg:ml-[225px] mt-6">
+          <main className="container mx-auto max-w-[770px] flex-1 p-0 md:p-4">
             <div className="p-4 overflow-y-auto" id="messages-box" ref={scrollContainer}>
 
               {messages.map((message, index) => (
@@ -156,7 +156,7 @@ export default function Home() {
 
             </div>
 
-            <form className="flex items-center max-w-[770px] p-0 md:p-4">
+            <form className="flex items-center max-w-[770px] p-4 md:p-4">
               <textarea className="w-full p-2 mr-2" placeholder="Type your message..." onKeyDown={handleKeyDown} onChange={setMessageValue} value={newMessage.content} />
               <span className="button-container">
                 <button type="button" onClick={sendMessage} className="font-semibold uppercase p-2">Send</button>
