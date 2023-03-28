@@ -6,7 +6,7 @@ function ConversationLinkListItem({ conversation, selectConversation }) {
   }
   return (
     <a onClick={handleClick} href="#" className={conversation?.isActive ? "active" : ""}>
-      <li className="p-2 pl-4">
+      <li className="p-2 pl-4 whitespace-nowrap overflow-x-auto">
         <i className="far fa-message-middle fa-xl mr-4"></i>
         {conversation.name}
       </li>

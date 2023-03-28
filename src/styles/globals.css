@@ -16,7 +16,6 @@ body {
 body, html {
   margin: 0;
   padding: 0;
-  overflow: hidden;
   height: 100%;
 }
 section a {
@@ -168,8 +167,16 @@ input:focus, textarea:focus {
   overflow-y: auto;
   max-height: 100%;
 }
- form {
+ main form {
   position: absolute;
   bottom: 0;
   width: 100%;
+}
+
+/*responsive design*/
+
+@media (max-width: 640px) {
+  body,html {
+    overflow: hidden;
+  }
 }
