@@ -157,7 +157,19 @@ const Home: NextPage<InitialProps> = ({ }) => {
           <ConversationLinkList conversations={conversations}></ConversationLinkList>
           <hr className="my-4 border-t border-red" />
           <ul className="pl-3 z">
-            <a href="#"><li className="p-2 pl-4"><i className="far fa-trash-can-xmark fa-lg mr-4"></i> Clear Conversations</li></a>
+            <a href="#"><li className="p-2 pl-4" onClick={() => {
+              fetch('/api/clearConversations')
+                .then(response => response.json())
+                .then(data => {
+                  if (data === true) {
+                    setConversations([]);
+                    setConversation({
+                      messages: [],
+                    });
+                  }
+                })
+                .catch(error => console.error(error));
+            }}><i className="far fa-trash-can-xmark fa-lg mr-4" ></i> Clear Conversations</li></a>
             <a href="#"><li className="p-2 pl-4"><i className="far fa-brightness fa-lg mr-4"></i> Light Mode</li></a>
             <a href="#"><li className="p-2 pl-4"><i className="far fa-user-hair-mullet fa-lg mr-4"></i> My Account</li></a>
             <a href="#"><li className="p-2 pl-4"><i className="far fa-arrow-right-from-bracket fa-lg mr-4"></i> Log Out</li></a>

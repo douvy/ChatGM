@@ -49,5 +49,13 @@ async function loadConversations() {
     return documents;
 }
 
+async function deleteConversations() {
+    await client.connect();
 
-export { saveConversation, loadConversations }
+    const db = client.db('ChatGM');
+    const conversations = db.collection('conversations');
+    return await conversations.deleteMany();
+}
+
+
+export { saveConversation, loadConversations, deleteConversations }

@@ -83,13 +83,15 @@ export default async function (req: {
             console.log("generating name....");
             var nameRequestMessage: ChatCompletionRequestMessage = {
                 role: "user",
-                content: "generate a name for this conversation without quotation marks"
+                content: "generate a name for this conversation without quotation marks "
             }
             const completion = await openai.createChatCompletion({
                 model: "gpt-3.5-turbo",
                 messages: [...messages, nameRequestMessage],
             });
             var name = completion?.data?.choices[0]?.message?.content || undefined;
+            name = name?.trim().replace(/^"(.*)"$/, '$1');
+
             console.log("Chat name:");
             console.log(name);
             conversation.name = name;
