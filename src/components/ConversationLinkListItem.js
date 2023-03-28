@@ -1,11 +1,14 @@
 import React from 'react';
 
-function ConversationLinkListItem({ name, isActive }) {
+function ConversationLinkListItem({ conversation, selectConversation }) {
+  function handleClick() {
+    selectConversation(conversation);
+  }
   return (
-    <a href="#" className={isActive ? "active" : ""}>
+    <a onClick={handleClick} href="#" className={conversation?.isActive ? "active" : ""}>
       <li className="p-2 pl-4">
         <i className="far fa-message-middle fa-xl mr-4"></i>
-        {name}
+        {conversation.name}
       </li>
     </a>
   );

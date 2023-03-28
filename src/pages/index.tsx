@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, SetStateAction } from 'react';
 import ChatMessage from '../components/ChatMessage';
 import ChatResponse from '../components/ChatResponse';
 import ConversationLinkListItem from '../components/ConversationLinkListItem';
@@ -24,6 +24,7 @@ interface Conversation {
   name?: string,
   messages: Message[],
   _id?: ObjectId,
+  isActive?: boolean,
 }
 
 interface InitialProps {
@@ -36,6 +37,7 @@ const Home: NextPage<InitialProps> = ({ }) => {
 
   const [conversation, setConversation] = useState<Conversation>({
     messages: messages,
+    isActive: false,
   });
 
   const [newMessage, setMessage] = useState<Message>({
@@ -66,6 +68,10 @@ const Home: NextPage<InitialProps> = ({ }) => {
 
   const lastMessage = useRef<HTMLDivElement>(null);
 
+  const setActiveConversation = (conversation: Conversation) => {
+    conversation.isActive = true;
+    setConversation(conversation);
+  }
 
   const appendMessage = (message: Message) => {
     conversation.messages.push(message);
@@ -162,7 +168,7 @@ const Home: NextPage<InitialProps> = ({ }) => {
 
       <div className="flex" id="main-container">
         <nav className="fixed h-full w-[225px] text-white shadow-md hidden lg:block">
-          <ConversationLinkList conversations={conversations}></ConversationLinkList>
+          <ConversationLinkList conversations={conversations} selectConversation={setActiveConversation}></ConversationLinkList>
           <hr className="my-4 border-t border-red" />
           <ul className="pl-3 z">
             <a href="#"><li className="p-2 pl-4" onClick={() => {
