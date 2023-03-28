@@ -41,8 +41,8 @@ const Home: NextPage<InitialProps> = ({ }) => {
   const [newMessage, setMessage] = useState<Message>({
     role: "user",
     content: "",
-    avatarSource: "avatar.jpg",
-    sender: "douvy",
+    avatarSource: "avatar.png",
+    sender: "user",
   });
 
   const [newResponse, setResponse] = useState({
@@ -76,9 +76,9 @@ const Home: NextPage<InitialProps> = ({ }) => {
     appendMessage(newMessage);
     setMessage({
       role: "user",
-      content: "",
-      avatarSource: "avatar.jpg",
-      sender: "douvy",
+      content: "nothing",
+      avatarSource: "avatar.png",
+      sender: "user",
     })
     console.log(conversation._id);
     console.log(typeof conversation._id);
@@ -148,11 +148,11 @@ const Home: NextPage<InitialProps> = ({ }) => {
       <Head>
         <title>ChatGM</title>
         <meta name="description" content="a clean, visually appealing interface for ChatGPT" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="flex">
+      <div className="flex" id="main-container">
         <nav className="fixed h-full w-[225px] text-white shadow-md hidden lg:block">
           <ConversationLinkList conversations={conversations}></ConversationLinkList>
           <hr className="my-4 border-t border-red" />
@@ -164,7 +164,7 @@ const Home: NextPage<InitialProps> = ({ }) => {
             <a href="#"><li className="p-2 pl-4"><i className="far fa-coin fa-lg mr-4"></i> Crypto</li></a>
           </ul>
         </nav>
-        <div className="fixed top-0 left-0 z-50 flex items-center justify-end w-full p-4 lg:hidden">
+        <div className="fixed top-0 left-0 z-50 flex items-center justify-end w-full p-2 pr-3 lg:hidden">
           <button className="text-red-400 hover:text-red-500">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-6 w-6">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -172,8 +172,8 @@ const Home: NextPage<InitialProps> = ({ }) => {
           </button>
         </div>
 
-        <div className="flex flex-col h-full w-full lg:ml-[225px]">
-          <main className="container mx-auto max-w-[770px] flex-1 p-4">
+        <div className="flex flex-col h-full w-full lg:ml-[225px] mt-6">
+          <main className="container mx-auto max-w-[770px] flex-1 p-0 md:p-4">
             <div className="p-4 overflow-y-auto" id="messages-box" ref={scrollContainer}>
 
               {conversation.messages.map((message, index) => (
@@ -182,7 +182,7 @@ const Home: NextPage<InitialProps> = ({ }) => {
 
             </div>
 
-            <form className="flex items-center max-w-[770px] p-4">
+            <form className="flex items-center max-w-[770px] p-4 md:p-4">
               <textarea className="w-full p-2 mr-2" placeholder="Type your message..." onKeyDown={handleKeyDown} onChange={setMessageValue} value={newMessage.content} />
               <span className="button-container">
                 <button type="button" onClick={sendMessage} className="font-semibold uppercase p-2">Send</button>

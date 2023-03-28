@@ -13,6 +13,12 @@ body {
   font-size: 15px;
   letter-spacing: .02em;
 }
+body, html {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  height: 100%;
+}
 section a {
   color: #1eed88;
 }
@@ -71,6 +77,7 @@ a:hover li,.active li {
 }
 form button {
   background: #E85A40 !important;
+  border-top: 3px solid #E85A40 !important;
   border-bottom: 3px solid #C13E31;
   padding-left: 18px !important;
   padding-right: 18px !important;
@@ -157,13 +164,12 @@ input:focus, textarea:focus {
   max-height: 190px;
   overflow-y: auto;
 }
-
-/*responsive design*/
-
-@media (min-width: 768px) {
-  #messages-box {
-    min-height: 594px;
-  }
-
-  
+#main-container {
+  overflow-y: auto;
+  max-height: 100%;
+}
+ form {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
