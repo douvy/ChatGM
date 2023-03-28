@@ -97,9 +97,7 @@ const Home: NextPage<InitialProps> = ({ }) => {
       .then(data => {
         setResponseValue(data.result.response);
         setConversation((conversation) => (data.result.conversation));
-        alert(conversations.length);
         setConversations((conversations) => [...conversations, data.result.conversation]);
-        alert(conversations.length);
 
         fetch('/api/assignName', {
           method: "POST",
