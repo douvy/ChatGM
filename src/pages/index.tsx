@@ -69,7 +69,6 @@ const Home: NextPage<InitialProps> = ({ }) => {
   const lastMessage = useRef<HTMLDivElement>(null);
 
   const setActiveConversation = (conversation: Conversation) => {
-    conversation.isActive = true;
     setConversation(conversation);
   }
 
@@ -168,7 +167,7 @@ const Home: NextPage<InitialProps> = ({ }) => {
 
       <div className="flex" id="main-container">
         <nav className="fixed h-full w-[225px] text-white shadow-md hidden lg:block">
-          <ConversationLinkList conversations={conversations} selectConversation={setActiveConversation}></ConversationLinkList>
+          <ConversationLinkList conversations={conversations} activeConversation={conversation} selectConversation={setActiveConversation}></ConversationLinkList>
           <hr className="my-4 border-t" />
           <ul className="pl-3">
             <a href="#"><li className="p-2 pl-4" onClick={() => {

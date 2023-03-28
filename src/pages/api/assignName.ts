@@ -31,7 +31,6 @@ export default async function (req: {
 
     var conversation = req.body.conversation;
     if (conversation.name) {
-        console.log("it has a name");
     } else {
         var previousMessages = conversation.messages || [];
         var messages: ChatCompletionRequestMessage[] = previousMessages.map(({ role, content }) => ({ role, content }));
