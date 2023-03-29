@@ -209,7 +209,7 @@ const Home: NextPage<InitialProps> = ({ }) => {
                 if (message.role === 'user') {
                   return (
                     // fix ref...
-                    <ChatMessage key={index} message={message.content} avatarSource={message.avatarSource} sender={message.sender} ref={index === messages.length - 1 ? lastMessage : null} />
+                    <ChatMessage key={index} message={message.content} avatarSource={message.avatarSource} sender={message.sender} />
                   );
                 } else {
                   return (
