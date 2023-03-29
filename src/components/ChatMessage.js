@@ -3,7 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 
-function ChatMessage({ message, avatarSource, sender, received = false }) {
+function ChatMessage({ message, avatarSource, sender }) {
   const currentTimestamp = new Date().toLocaleString('en-US', {
     timeZone: 'America/New_York',
     hour: 'numeric',
@@ -38,11 +38,10 @@ function ChatMessage({ message, avatarSource, sender, received = false }) {
           <span className="text-sm mb-1 inline-block name">{sender}</span> <br />
           <p className="text-xs inline-block absolute top-3 right-4 timestamp">
             <span className="message-direction">
-              {received ? 'Received' : 'Sent'}
+              {sender == 'assistant' ? 'Received' : 'Sent'}
               <i
-                className={`fa-regular ${
-                  received ? 'fa-arrow-down-left' : 'fa-arrow-up-right'
-                } fa-lg ml-1 mr-3 mt-2`}
+                className={`fa-regular ${sender == 'assistant' ? 'fa-arrow-down-left' : 'fa-arrow-up-right'
+                  } fa-lg ml-1 mr-3 mt-2`}
               ></i>
             </span>{' '}
             {currentTimestamp}
