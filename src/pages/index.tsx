@@ -12,6 +12,7 @@ import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import { ObjectId } from 'mongodb';
 import { GetServerSideProps, NextPage } from 'next';
+import AutoExpandTextarea from '../components/AutoExpandTextarea';
 
 interface Message {
   role: string,
@@ -44,7 +45,7 @@ const Home: NextPage<InitialProps> = ({ }) => {
     role: "user",
     content: "",
     avatarSource: "avatar.png",
-    sender: "user",
+    sender: "GM",
   });
 
   const [newResponse, setResponse] = useState({
@@ -142,9 +143,10 @@ const Home: NextPage<InitialProps> = ({ }) => {
     });
   };
 
-  function handleKeyDown(event: { preventDefault: () => void; keyCode: number; }) {
-    if (event.keyCode === 13) {
-      // handle "Enter" key press
+  function handleKeyDown(event: React.KeyboardEvent) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      // handle "Enter" key press without the Shift key
+      event.preventDefault();
       sendMessage();
     }
   }
@@ -198,21 +200,37 @@ const Home: NextPage<InitialProps> = ({ }) => {
         </div>
 
         <div className="flex flex-col h-full w-full lg:ml-[225px]">
-          <main className="container mx-auto max-w-[770px] flex-1 p-0 md:p-4">
+          <main className="container mx-auto max-w-[760px] flex-1 mt-6 md:mt-2">
             <div className="p-4 overflow-y-auto" id="messages-box" ref={scrollContainer}>
 
-              {conversation.messages.map((message, index) => (
-                <ChatMessage key={index} message={message.content} avatarSource={message.avatarSource} sender={message.sender} ref={index === messages.length - 1 ? lastMessage : null} />
-              ))}
+              {conversation.messages.map((message, index) => {
+                if (message.role === 'user') {
+                  return (
+                    <ChatMessage key={index} message={message.content} avatarSource={message.avatarSource} sender={message.sender} ref={index === messages.length - 1 ? lastMessage : null} />
+                  );
+                } else {
+                  return (
+                    <ChatResponse key={index} response={message.content} />
+                  );
+                }
+              })}
 
             </div>
 
-            <form className="flex items-center max-w-[770px] p-4 md:p-4">
-              <textarea className="w-full p-2 mr-2" placeholder="Type your message..." onKeyDown={handleKeyDown} onChange={setMessageValue} value={newMessage.content} />
+            <form className="flex items-end max-w-[760px] p-4 md:p-4">
+              <AutoExpandTextarea
+                value={newMessage.content}
+                onChange={setMessageValue}
+                onKeyDown={handleKeyDown}
+                placeholder="Type your message..."
+                className="w-full p-2 mr-2"
+              />
               <span className="button-container">
                 <button type="button" onClick={sendMessage} className="font-semibold uppercase p-2">Send</button>
               </span>
             </form>
+
+
           </main>
         </div>
 

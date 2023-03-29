@@ -1,0 +1,42 @@
+import React, { useState, useRef, useEffect } from 'react';
+
+const AutoExpandTextarea = ({ value, onChange, onKeyDown, placeholder, className }) => {
+  const [height, setHeight] = useState(45);
+  const textareaRef = useRef(null);
+
+  const handleChange = (event) => {
+    onChange(event);
+    if (event.target.value === '') {
+      setHeight(45); // Set height to 45px when there's no content in the textarea
+    } else {
+      setHeight('auto');
+      setHeight(textareaRef.current.scrollHeight);
+    }
+  };
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      setHeight(textareaRef.current.scrollHeight);
+    }
+  }, [value]);
+
+  return (
+    <textarea
+      ref={textareaRef}
+      value={value}
+      onChange={handleChange}
+      onKeyDown={onKeyDown}
+      placeholder={placeholder}
+      className={className}
+      style={{
+        height: height,
+        minHeight: '45px',
+        maxHeight: '120px',
+        resize: 'none',
+        overflow: 'auto',
+      }}
+    />
+  );
+};
+
+export default AutoExpandTextarea;

@@ -101,7 +101,22 @@ hr {
   border-color: #4F5054;
 }
 #messages-box {
-  max-height: 594px;
+  max-height: 590px;
+}
+#messages-box ul li, ol li {
+  margin-bottom: 8px;
+}
+#messages-box ul {
+  list-style-type: disc; /* bullet style */
+  padding-left: 1.5em; /* indentation */
+}
+#messages-box li {
+  padding-left: 6px; /* Adjust the padding amount as needed */
+}
+/* Style for ordered lists */
+#messages-box ol {
+  list-style-type: decimal; /* numbering style */
+  padding-left: 1em; /* indentation */
 }
 #messages-box .last {
   border-bottom: 1px solid #313336;
@@ -171,6 +186,7 @@ input:focus, textarea:focus {
   position: absolute;
   bottom: 0;
   width: 100%;
+  box-sizing: border-box;
 }
 
 /*responsive design*/
