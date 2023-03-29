@@ -86,8 +86,6 @@ const Home: NextPage<InitialProps> = ({ }) => {
       avatarSource: "avatar.png",
       sender: "user",
     })
-    console.log(conversation._id);
-    console.log(typeof conversation._id);
     fetch("/api/sendMessage", {
       method: "POST",
       body: JSON.stringify({ prompt: newMessage.content, conversation: conversation }),
@@ -102,28 +100,32 @@ const Home: NextPage<InitialProps> = ({ }) => {
     })
       .then(data => {
         setResponseValue(data.result.response);
-        setConversation((conversation) => (data.result.conversation));
-        setConversations((conversations) => [...conversations, data.result.conversation]);
+        if (conversation._id != data.result.conversation._id) {
+          setConversations((conversations) => [...conversations, data.result.conversation]);
 
-        fetch('/api/assignName', {
-          method: "POST",
-          body: JSON.stringify({ conversation: data.result.conversation }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-          .then(response => response.json())
-          .then(data => {
-            // const updatedConversations = conversations.map(_conversation => {
-            //   if (_conversation._id === conversation._id) {
-            //     return data.conversation;
-            //   } else {
-            //     return _conversation;
-            //   }
-            // });
-            setConversations([...conversations, data.conversation]);
+          fetch('/api/assignName', {
+            method: "POST",
+            body: JSON.stringify({ conversation: data.result.conversation }),
+            headers: {
+              "Content-Type": "application/json",
+            },
           })
-          .catch(error => console.error(error));
+            .then(response => response.json())
+            .then(data => {
+              // const updatedConversations = conversations.map(_conversation => {
+              //   if (_conversation._id === conversation._id) {
+              //     return data.conversation;
+              //   } else {
+              //     return _conversation;
+              //   }
+              // });
+              setConversations([...conversations, data.conversation]);
+              setConversation(data.conversation);
+            })
+            .catch(error => console.error(error));
+        }
+
+        setConversation((conversation) => (data.result.conversation));
       })
       .catch(error => {
         console.error('Error fetching data:', error);
@@ -206,6 +208,7 @@ const Home: NextPage<InitialProps> = ({ }) => {
               {conversation.messages.map((message, index) => {
                 if (message.role === 'user') {
                   return (
+                    // fix ref...
                     <ChatMessage key={index} message={message.content} avatarSource={message.avatarSource} sender={message.sender} ref={index === messages.length - 1 ? lastMessage : null} />
                   );
                 } else {
