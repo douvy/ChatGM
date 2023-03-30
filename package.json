@@ -30,7 +30,8 @@
     "remark": "^14.0.2",
     "remark-gfm": "^3.0.1",
     "tls": "^0.0.1",
-    "typescript": "5.0.2"
+    "typescript": "5.0.2",
+    "ws": "^8.13.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.14",

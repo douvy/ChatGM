@@ -34,6 +34,24 @@ interface InitialProps {
 
 const Home: NextPage<InitialProps> = ({ }) => {
 
+  useEffect(() => {
+    const ws = new WebSocket('ws://localhost:8080')
+    ws.onopen = function () {
+      console.log('WebSocket connection established')
+      ws.send('Hello, server!')
+    }
+    ws.onmessage = function (event) {
+      console.log(`Received message from server: ${event.data}`)
+      setConversations(JSON.parse(event.data));
+    }
+    ws.onclose = function () {
+      console.log('WebSocket connection closed')
+    }
+    return () => {
+      ws.close()
+    }
+  }, [])
+
   const [messages, setMessages] = useState<Message[]>([]);
 
   const [conversation, setConversation] = useState<Conversation>({
