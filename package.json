@@ -19,6 +19,7 @@
     "eslint": "8.36.0",
     "eslint-config-next": "13.2.4",
     "fs": "^0.0.1-security",
+    "jsonwebtoken": "^9.0.0",
     "mongodb": "^5.1.0",
     "net": "^1.0.2",
     "next": "13.2.4",
