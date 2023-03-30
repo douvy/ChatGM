@@ -256,7 +256,7 @@ main form {
 }
 
 /*signin*/
-
+/*
 .container {
   display: flex;
   justify-content: center;
@@ -327,9 +327,9 @@ main form {
   margin: 0 10px;
   color: #ccc;
 }
-
+*/
 /*signup*/
-
+/*
 .auth-container {
   display: flex;
   justify-content: center;
@@ -390,3 +390,4 @@ main form {
   font-weight: bold;
   margin-bottom: 10px;
 }
+*/
