@@ -8,13 +8,13 @@ function SignInForm() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
-    const { status } = useSession();
-    console.log(status);
+    // const { status } = useSession();
+    // console.log(status);
 
-    if (status === 'authenticated') {
-        Router.push('/');
-        return null;
-    }
+    // if (status === 'authenticated') {
+    //     Router.push('/');
+    //     return null;
+    // }
 
     const handleSubmit = async (e) => {
         e.preventDefault()
