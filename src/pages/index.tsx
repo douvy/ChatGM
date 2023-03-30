@@ -34,24 +34,6 @@ interface InitialProps {
 
 const Home: NextPage<InitialProps> = ({ }) => {
 
-  useEffect(() => {
-    const ws = new WebSocket('ws://localhost:8080')
-    ws.onopen = function () {
-      console.log('WebSocket connection established')
-      ws.send('Hello, server!')
-    }
-    ws.onmessage = function (event) {
-      console.log(`Received message from server: ${event.data}`)
-      setConversations(JSON.parse(event.data));
-    }
-    ws.onclose = function () {
-      console.log('WebSocket connection closed')
-    }
-    return () => {
-      ws.close()
-    }
-  }, [])
-
   const [messages, setMessages] = useState<Message[]>([]);
 
   const [conversation, setConversation] = useState<Conversation>({
@@ -71,6 +53,37 @@ const Home: NextPage<InitialProps> = ({ }) => {
   })
 
   const [conversations, setConversations] = useState<Conversation[]>([]);
+
+  useEffect(() => {
+    const ws = new WebSocket('ws://localhost:8080')
+    ws.onopen = function () {
+      console.log('WebSocket connection established')
+      ws.send('Hello, server!')
+    }
+    ws.onmessage = function (event) {
+      console.log(`Received message from server: ${event.data}`)
+      const updatedConversations = JSON.parse(event.data);
+      setConversations(updatedConversations);
+      const updatedConversation = updatedConversations.find((_: Conversation) => {
+        return _._id == conversation._id;
+      });
+      if (updatedConversation) {
+        setConversation(updatedConversation);
+      } else {
+        setMessages([]);
+        setConversation({
+          messages: messages,
+          isActive: false,
+        });
+      }
+    }
+    ws.onclose = function () {
+      console.log('WebSocket connection closed')
+    }
+    return () => {
+      ws.close()
+    }
+  }, [conversation, messages])
 
   useEffect(() => {
     // Fetch the conversations data from an API

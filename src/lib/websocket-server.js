@@ -25,7 +25,7 @@ async function doCall() {
       const conversations = dbo.collection('conversations');
       var cursor = await conversations.find();
       const result = await cursor.toArray();
-      console.log(result);
+      console.log("Websocket update result:", result);
       ws.send(JSON.stringify(result))
 
       // dbo
