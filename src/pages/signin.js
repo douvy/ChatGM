@@ -3,7 +3,7 @@ import axios from 'axios';
 import Router from 'next/router';
 import { useSession, signIn } from 'next-auth/react'
 
-
+console.log(process.env.NEXTAUTH_URL);
 function SignInForm() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -18,17 +18,38 @@ function SignInForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        alert("starting");
         const result = await signIn('credentials', {
             username,
             password,
-            callbackUrl: '/',
+            redirect: false,
+            callbackUrl: '',
         })
-        // if (!result.error) {
-        //     router.push('/')
-        // } else {
-        //     setError(result.error)
-        // }
+        alert(result);
+        if (!result.error) {
+            // router.push('/')
+        } else {
+            setError(result.error)
+        }
     }
+
+    // async function handleSubmit(event) {
+    //     event.preventDefault();
+
+    //     const response = await fetch('/api/auth/signin', {
+    //         method: 'POST',
+    //         headers: { 'Content-Type': 'application/json' },
+    //         body: JSON.stringify({ username, password }),
+    //     });
+    //     if (response.ok) {
+    //         const data = await response.json();
+    //         localStorage.setItem('session', JSON.stringify(data.session));
+    //         Router.push('/');
+    //     } else {
+    //         const { message } = await response.json();
+    //         setError(message);
+    //     }
+    // }
 
     function handleSignUp() {
         Router.push('/signup');

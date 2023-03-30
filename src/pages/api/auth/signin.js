@@ -66,9 +66,7 @@ async function createSession(sessionData, db) {
     const token = sign({ id: result.insertedId.toString() }, process.env.JWT_SECRET);
 
     return {
-        id: result.insertedId.toString(),
-        token,
-        createdAt: session.createdAt,
-        updatedAt: session.updatedAt,
-    };
+        ...session,
+        token: token
+    }
 }

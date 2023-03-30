@@ -4,32 +4,33 @@ import clientPromise from '../../../lib/mongodb';
 
 export default NextAuth({
     providers: [
-        // CredentialsProvider({
-        //     id: 'credentials',
-        //     name: 'Credentials',
-        //     credentials: {
-        //         username: { label: "Username", type: "text", placeholder: "jsmith" },
-        //         password: { label: "Password", type: "password" }
-        //     },
+        CredentialsProvider({
+            id: 'credentials',
+            name: 'Credentials',
+            credentials: {
+                username: { label: "Username", type: "text", placeholder: "jsmith" },
+                password: { label: "Password", type: "password" }
+            },
 
-        //     async authorize(credentials) {
-        //         const { username, password } = credentials;
-        //         const client = await clientPromise;
-        //         await client.connect();
+            async authorize(credentials) {
+                console.log('......')
+                const { username, password } = credentials;
+                const client = await clientPromise;
+                await client.connect();
 
-        //         const db = client.db('ChatGM');
+                const db = client.db('ChatGM');
 
-        //         const user = await db.collection('users').findOne({ username });
+                const user = await db.collection('users').findOne({ username });
 
-        //         if (user && user.password === password) {
-        //             // Return true if the username and password are valid
-        //             return user;
-        //         } else {
-        //             // Return null if the username or password is invalid
-        //             return null;
-        //         }
-        //     },
-        // }),
+                if (user && user.password === password) {
+                    // Return true if the username and password are valid
+                    return user;
+                } else {
+                    // Return null if the username or password is invalid
+                    return null;
+                }
+            },
+        }),
     ],
 
     // Use JWTs instead of sessions to store token data
