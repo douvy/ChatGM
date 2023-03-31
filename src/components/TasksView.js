@@ -92,7 +92,7 @@ function TaskView({ passedTasks = [] }) {
                         id="taskName"
                         value={newTaskName}
                         onChange={(e) => setNewTaskName(e.target.value)}
-                        className="shadow appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
                     />
                 </div>
                 <button type="submit" className=" w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline">
