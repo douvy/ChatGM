@@ -238,7 +238,7 @@ textarea:focus {
   max-height: 100%;
 }
 
-main form {
+#chat-form {
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -253,6 +253,9 @@ main form {
   html {
     overflow: hidden;
   }
+}
+table td, table tr {
+  background: transparent !important;
 }
 
 /*signin*/

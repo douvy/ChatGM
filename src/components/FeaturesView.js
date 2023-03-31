@@ -18,17 +18,17 @@ function FeatureView() {
     };
 
     return (
-        <div className="container mx-auto">
+        <div className="container mx-auto mt-4">
             <div className="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
                 <div className="w-full overflow-x-auto">
                     <table className="w-full">
                         <thead>
-                            <tr className="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                            <tr className="text-md font-semibold tracking-wide text-left uppercase border-b">
                                 <th className="px-4 py-3">Feature Name</th>
                                 <th className="px-4 py-3">Description</th>
                             </tr>
                         </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
+                        <tbody className="divide-y divide-gray-200">
                             {features.map((feature, index) => (
                                 <tr key={index}>
                                     <td className="px-4 py-3 whitespace-no-wrap">{feature.name}</td>
@@ -40,9 +40,9 @@ function FeatureView() {
                 </div>
             </div>
 
-            <form onSubmit={addFeature} className="mx-auto">
+            <form onSubmit={addFeature} className="mx-auto max-w-[760px] flex-1 mt-6 md:mt-2">
                 <div className="mb-4">
-                    <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
+                    <label htmlFor="name" className="block font-bold mb-2">
                         Feature Name:
                     </label>
                     <input
@@ -54,7 +54,7 @@ function FeatureView() {
                     />
                 </div>
                 <div className="mb-6">
-                    <label htmlFor="description" className="block text-gray-700 font-bold mb-2">
+                    <label htmlFor="description" className="block font-bold mb-2">
                         Description:
                     </label>
                     <textarea
