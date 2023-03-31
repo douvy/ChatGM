@@ -53,7 +53,7 @@ function FeatureView({ passedFeatures = [] }) {
 
 
     return (
-        <div className="container mx-auto mt-4">
+        <div className="container mx-auto mt-8">
             <div className="w-full mb-8 overflow-hidden-lg shadow-lg">
                 <div className="w-full overflow-x-auto">
                     <table className="w-full">
@@ -80,7 +80,7 @@ function FeatureView({ passedFeatures = [] }) {
             </div>
 
             <form onSubmit={addFeature} className="mx-auto max-w-[400px] flex-1 mt-6 md:mt-2">
-                <h1 className="font-display text-title font-medium tracking-wide uppercase mt-50 mb-50">Add Feature</h1>
+                <h1 className="font-display text-title font-medium tracking-wide uppercase mt-50 mb-30">Add Feature</h1>
                 <div className="mb-4">
                     <label htmlFor="name" className="block font-bold mb-2 text-xs font-semibold uppercase italic text-white">
                         Feature Name

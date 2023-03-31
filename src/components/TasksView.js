@@ -52,8 +52,8 @@ function TaskView({ passedTasks = [] }) {
     };
 
     return (
-        <div className="container mx-auto mt-4">
-            <div className="w-full mb-8 overflow-hidden-lg shadow-lg">
+        <div className="container mx-auto mt-8">
+            <div className="w-full mb-8 overflow-hidden-lg" id="add-task">
                 <div className="w-full overflow-x-auto">
                     <table className="w-full">
                         <thead>
@@ -71,7 +71,7 @@ function TaskView({ passedTasks = [] }) {
                                             type="checkbox"
                                             checked={task.complete}
                                             onChange={() => toggleComplete(index)}
-                                            className="cursor-pointer"
+                                            className="cursor-pointer red-checkbox"
                                         />
                                     </td>
                                 </tr>
@@ -82,7 +82,7 @@ function TaskView({ passedTasks = [] }) {
             </div>
 
             <form onSubmit={addTask} className="mx-auto max-w-[400px] flex-1 mt-6 md:mt-2">
-                <h1 className="font-display text-title font-medium tracking-wide uppercase mt-50 mb-50">Add Task</h1>
+                <h1 className="font-display text-title font-medium tracking-wide uppercase mt-50 mb-30">Add Task</h1>
                 <div className="mb-4">
                     <label htmlFor="name" className="block font-bold mb-2 text-xs font-semibold uppercase italic text-white">
                         Task Name
