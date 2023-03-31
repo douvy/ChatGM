@@ -8,6 +8,7 @@ import ConversationLinkListItem from '../components/ConversationLinkListItem';
 import ConversationLinkList from '../components/ConversationLinkList';
 import Sidebar from '../components/Sidebar';
 import ChatWindow from '../components/ChatWindow';
+import FeaturesView from '../components/FeaturesView';
 import { addInfiniteScroll } from '../utils/infiniteScroll';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -279,7 +280,8 @@ const Home: NextPage<PageProps> = (props) => {
 
         <div className="flex flex-col h-full w-full lg:ml-[225px]">
           <main className="container mx-auto max-w-[760px] flex-1 mt-6 md:mt-2">
-            <ChatWindow conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} setMessage={setMessage} />
+            {/* <ChatWindow conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} setMessage={setMessage} /> */}
+            <FeaturesView></FeaturesView>
           </main>
         </div>
 
