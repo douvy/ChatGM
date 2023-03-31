@@ -59,7 +59,9 @@ interface Feature {
 
 interface PageProps {
   session: any;
-  features: Feature[]
+  conversations: Conversation[],
+  features: Feature[],
+  tasks: any[]
 }
 
 function withLocalStorage<T extends WithSession>(WrappedComponent: React.ComponentType<T>) {
@@ -142,7 +144,7 @@ const Home: NextPage<PageProps> = (props) => {
     response: "Nothing yet",
   })
 
-  const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [conversations, setConversations] = useState<Conversation[]>(props.conversations);
 
   useEffect(() => {
     const ws = new WebSocket('ws://localhost:8080')
@@ -175,13 +177,13 @@ const Home: NextPage<PageProps> = (props) => {
     }
   }, [conversation, messages])
 
-  useEffect(() => {
-    // Fetch the conversations data from an API
-    fetch('/api/getConversations')
-      .then(response => response.json())
-      .then(data => setConversations(data))
-      .catch(error => console.error(error));
-  }, []);
+  // useEffect(() => {
+  //   // Fetch the conversations data from an API
+  //   fetch('/api/getConversations')
+  //     .then(response => response.json())
+  //     .then(data => setConversations(data))
+  //     .catch(error => console.error(error));
+  // }, []);
 
   const scrollContainer = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -339,15 +341,19 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (context)
   const session = await getSession(context);
   console.log(session);
 
-  const res = await fetch(`http://${baseUrl}/api/getFeatures`);
-  const features = await res.json();
+  const conversationsRes = await fetch(`http://${baseUrl}/api/getConversations`);
+  const conversations = await conversationsRes.json();
 
-  const taskRes = await fetch(`http://${baseUrl}/api/getTasks`);
-  const tasks = await taskRes.json();
+  const featuresRes = await fetch(`http://${baseUrl}/api/getFeatures`);
+  const features = await featuresRes.json();
+
+  const tasksRes = await fetch(`http://${baseUrl}/api/getTasks`);
+  const tasks = await tasksRes.json();
 
   return {
     props: {
       session,
+      conversations,
       features,
       tasks,
     },
