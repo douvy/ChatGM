@@ -33,7 +33,9 @@ export default function Sidebar({ setConversations, setConversation, handleLogou
                 <SidebarItem iconName="user-hair-mullet" itemText="My Account" />
                 <SidebarItem iconName="arrow-right-from-bracket" itemText="Log Out" onClick={handleLogout} />
                 <SidebarItem iconName="coin" itemText="Crypto" />
-                <SidebarItem iconName="check-square" itemText="Todos" />
+                <SidebarItem iconName="check-square" itemText="Todos" onClick={() => {
+                    setCurrentRoute('/tasks');
+                }} />
                 <SidebarItem iconName="check-square" itemText="Features" onClick={() => {
                     setCurrentRoute('/features');
                 }} />

@@ -9,6 +9,7 @@ import ConversationLinkList from '../components/ConversationLinkList';
 import Sidebar from '../components/Sidebar';
 import ChatWindow from '../components/ChatWindow';
 import FeaturesView from '../components/FeaturesView';
+import TasksView from '../components/TasksView';
 import { addInfiniteScroll } from '../utils/infiniteScroll';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -283,7 +284,6 @@ const Home: NextPage<PageProps> = (props) => {
   var chat = [];
 
   const [activeComponent, setActiveComponent] = useState<any>(
-    // <FeaturesView passedFeatures={props.features}></FeaturesView>
     <ChatWindow conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} messageContent={messageContent} setMessageContent={setMessageContent} />
   );
 
@@ -314,6 +314,7 @@ const Home: NextPage<PageProps> = (props) => {
           <main className="container mx-auto max-w-[760px] flex-1 mt-6 md:mt-2">
             {currentRoute == '/' ? <ChatWindow conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} messageContent={messageContent} setMessageContent={setMessageContent} /> : null}
             {currentRoute == '/features' ? <FeaturesView passedFeatures={props.features}></FeaturesView> : null}
+            {currentRoute == '/tasks' ? <TasksView passedTasks={props.tasks}></TasksView> : null}
           </main>
         </div>
 
@@ -340,12 +341,15 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (context)
 
   const res = await fetch(`http://${baseUrl}/api/getFeatures`);
   const features = await res.json();
-  console.log(features);
+
+  const taskRes = await fetch(`http://${baseUrl}/api/getTasks`);
+  const tasks = await taskRes.json();
 
   return {
     props: {
       session,
       features,
+      tasks,
     },
   };
 };
