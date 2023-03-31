@@ -10,7 +10,7 @@ function SidebarItem({ itemText, iconName, onClick }) {
     );
 }
 
-export default function Sidebar({ setConversations, setConversation, handleLogout, setActiveComponent, features }) {
+export default function Sidebar({ setConversations, setConversation, handleLogout, setActiveComponent, features, setCurrentRoute }) {
     function handleClearConversations() {
         fetch('/api/clearConversations')
             .then(response => response.json())
@@ -35,7 +35,7 @@ export default function Sidebar({ setConversations, setConversation, handleLogou
                 <SidebarItem iconName="coin" itemText="Crypto" />
                 <SidebarItem iconName="check-square" itemText="Todos" />
                 <SidebarItem iconName="check-square" itemText="Features" onClick={() => {
-                    setActiveComponent(<FeaturesView passedFeatures={features}></FeaturesView>);
+                    setCurrentRoute('/features');
                 }} />
             </ul>
         </div>

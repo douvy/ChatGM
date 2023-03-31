@@ -108,6 +108,8 @@ const Home: NextPage<PageProps> = (props) => {
     Router.push('/signin');
   }
 
+  const [currentRoute, setCurrentRoute] = useState('/');
+
   const [messages, setMessages] = useState<Message[]>([]);
 
   const [conversation, setConversation] = useState<Conversation>({
@@ -115,12 +117,25 @@ const Home: NextPage<PageProps> = (props) => {
     isActive: false,
   });
 
+  const [messageContent, setMessageContent] = useState('');
+
   const [newMessage, setMessage] = useState<Message>({
     role: "user",
-    content: "",
+    content: messageContent,
     avatarSource: "avatar.png",
     sender: session?.user?.username || "anonymous"
   });
+
+  const updateMessageValue = (event: any) => {
+    console.log(event.target.value);
+    setMessageContent(event.target.value);
+    setMessage({ ...newMessage, content: event.target.value });
+    // setActiveComponent(<ChatWindow conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} />
+  }
+
+  const getMessageContent = () => {
+    return newMessage.content;
+  }
 
   const [newResponse, setResponse] = useState({
     response: "Nothing yet",
@@ -176,7 +191,7 @@ const Home: NextPage<PageProps> = (props) => {
 
   const setActiveConversation = (conversation: Conversation) => {
     setConversation(conversation);
-    setActiveComponent(<ChatWindow conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} setMessage={setMessage} />)
+    setActiveComponent(<ChatWindow conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} messageContent={messageContent} setMessageContent={setMessageContent} />)
   }
 
   const appendMessage = (message: Message) => {
@@ -269,7 +284,7 @@ const Home: NextPage<PageProps> = (props) => {
 
   const [activeComponent, setActiveComponent] = useState<any>(
     // <FeaturesView passedFeatures={props.features}></FeaturesView>
-    <ChatWindow conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} setMessage={setMessage} />
+    <ChatWindow conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} messageContent={messageContent} setMessageContent={setMessageContent} />
   );
 
   return (
@@ -285,7 +300,7 @@ const Home: NextPage<PageProps> = (props) => {
         <nav className="fixed h-full w-[225px] text-white shadow-md hidden lg:block">
           <ConversationLinkList conversations={conversations} activeConversation={conversation} selectConversation={setActiveConversation} ></ConversationLinkList>
           <hr className="my-4 border-t" />
-          <Sidebar setConversations={setConversations} setConversation={setConversation} handleLogout={handleLogout} setActiveComponent={setActiveComponent} features={props.features} />
+          <Sidebar setConversations={setConversations} setConversation={setConversation} handleLogout={handleLogout} setActiveComponent={setActiveComponent} features={props.features} setCurrentRoute={setCurrentRoute} />
         </nav>
         <div className="fixed top-0 left-0 z-50 flex items-center justify-end w-full p-2 pr-3 lg:hidden">
           <button className="text-red-400 hover:text-red-500">
@@ -297,7 +312,8 @@ const Home: NextPage<PageProps> = (props) => {
 
         <div className="flex flex-col h-full w-full lg:ml-[225px]">
           <main className="container mx-auto max-w-[760px] flex-1 mt-6 md:mt-2">
-            {activeComponent}
+            {currentRoute == '/' ? <ChatWindow conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} messageContent={messageContent} setMessageContent={setMessageContent} /> : null}
+            {currentRoute == '/features' ? <FeaturesView passedFeatures={props.features}></FeaturesView> : null}
           </main>
         </div>
 

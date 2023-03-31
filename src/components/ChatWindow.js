@@ -3,12 +3,8 @@ import AutoExpandTextarea from './AutoExpandTextarea';
 import ChatMessage from './ChatMessage';
 import ChatResponse from './ChatResponse';
 
-function ChatWindow({ conversation, setConversation, newMessage, setMessage, sendMessage }) {
+function ChatWindow({ conversation, setConversation, newMessage, sendMessage, updateMessageValue, messageContent, setMessageContent }) {
     const scrollContainer = useRef(null);
-
-    function setMessageValue(event) {
-        setMessage({ content: event.target.value });
-    }
 
     function handleKeyDown(event) {
         if (event.key === 'Enter' && !event.shiftKey) {
@@ -16,6 +12,13 @@ function ChatWindow({ conversation, setConversation, newMessage, setMessage, sen
             sendMessage();
         }
     }
+
+    function updateMessageContent(e) {
+        setMessage(e.target.value);
+    }
+
+    console.log(updateMessageValue, "updateMessageValue");
+    console.log(messageContent, "messageContent");
 
     return (
         <div>
@@ -36,8 +39,8 @@ function ChatWindow({ conversation, setConversation, newMessage, setMessage, sen
             <form className="flex items-end max-w-[760px] p-4 md:p-4" id="chat-form">
                 <AutoExpandTextarea
                     value={newMessage.content}
-                    onChange={setMessageValue}
-                    onKeyDown={handleKeyDown}
+                    onChange={(updateMessageValue)}
+                    // onKeyDown={handleKeyDown}
                     placeholder="Type your message..."
                     className="w-full p-2 mr-2 bg-white"
                 />
