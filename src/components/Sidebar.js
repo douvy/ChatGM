@@ -1,3 +1,5 @@
+import FeaturesView from './FeaturesView';
+
 function SidebarItem({ itemText, iconName, onClick }) {
     return (
         <a href="#">
@@ -8,7 +10,7 @@ function SidebarItem({ itemText, iconName, onClick }) {
     );
 }
 
-export default function Sidebar({ setConversations, setConversation, handleLogout }) {
+export default function Sidebar({ setConversations, setConversation, handleLogout, setActiveComponent }) {
     function handleClearConversations() {
         fetch('/api/clearConversations')
             .then(response => response.json())
@@ -32,7 +34,9 @@ export default function Sidebar({ setConversations, setConversation, handleLogou
                 <SidebarItem iconName="arrow-right-from-bracket" itemText="Log Out" onClick={handleLogout} />
                 <SidebarItem iconName="coin" itemText="Crypto" />
                 <SidebarItem iconName="check-square" itemText="Todos" />
-                <SidebarItem iconName="check-square" itemText="Features" />
+                <SidebarItem iconName="check-square" itemText="Features" onClick={() => {
+                    setActiveComponent(<FeaturesView></FeaturesView>);
+                }} />
             </ul>
         </div>
     );

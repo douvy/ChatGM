@@ -18,6 +18,8 @@ import { GetServerSideProps, NextPage } from 'next';
 import AutoExpandTextarea from '../components/AutoExpandTextarea';
 import Router from 'next/router';
 import { getSession } from 'next-auth/react';
+// import { Route, Routes } from 'react-router-dom';
+import { useRouter } from 'next/router';
 
 interface Message {
   role: string,
@@ -63,6 +65,8 @@ function withLocalStorage<T extends WithSession>(WrappedComponent: React.Compone
 }
 
 const Home: NextPage<PageProps> = (props) => {
+  const router = useRouter();
+  const { route } = router;
 
   console.log("props", props);
   const session = {};
@@ -166,6 +170,7 @@ const Home: NextPage<PageProps> = (props) => {
 
   const setActiveConversation = (conversation: Conversation) => {
     setConversation(conversation);
+    setActiveComponent(<ChatWindow conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} setMessage={setMessage} />)
   }
 
   const appendMessage = (message: Message) => {
@@ -255,6 +260,11 @@ const Home: NextPage<PageProps> = (props) => {
   }, []);
 
   var chat = [];
+
+  const [activeComponent, setActiveComponent] = useState<any>(
+    <ChatWindow conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} setMessage={setMessage} />
+  );
+
   return (
     <>
       <Head>
@@ -266,9 +276,9 @@ const Home: NextPage<PageProps> = (props) => {
 
       <div className="flex" id="main-container">
         <nav className="fixed h-full w-[225px] text-white shadow-md hidden lg:block">
-          <ConversationLinkList conversations={conversations} activeConversation={conversation} selectConversation={setActiveConversation}></ConversationLinkList>
+          <ConversationLinkList conversations={conversations} activeConversation={conversation} selectConversation={setActiveConversation} ></ConversationLinkList>
           <hr className="my-4 border-t" />
-          <Sidebar setConversations={setConversations} setConversation={setConversation} handleLogout={handleLogout} />
+          <Sidebar setConversations={setConversations} setConversation={setConversation} handleLogout={handleLogout} setActiveComponent={setActiveComponent} />
         </nav>
         <div className="fixed top-0 left-0 z-50 flex items-center justify-end w-full p-2 pr-3 lg:hidden">
           <button className="text-red-400 hover:text-red-500">
@@ -280,8 +290,7 @@ const Home: NextPage<PageProps> = (props) => {
 
         <div className="flex flex-col h-full w-full lg:ml-[225px]">
           <main className="container mx-auto max-w-[760px] flex-1 mt-6 md:mt-2">
-            {/* <ChatWindow conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} setMessage={setMessage} /> */}
-            <FeaturesView></FeaturesView>
+            {activeComponent}
           </main>
         </div>
 

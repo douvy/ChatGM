@@ -18,7 +18,7 @@ function FeatureView() {
     };
 
     return (
-        <div className="container mx-auto">
+        <div className="">
             <div className="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
                 <div className="w-full overflow-x-auto">
                     <table className="w-full">
@@ -40,7 +40,7 @@ function FeatureView() {
                 </div>
             </div>
 
-            <form onSubmit={addFeature} className="mx-auto">
+            <form onSubmit={addFeature} className="mx-auto max-w-[760px] flex-1 mt-6 md:mt-2">
                 <div className="mb-4">
                     <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
                         Feature Name:
