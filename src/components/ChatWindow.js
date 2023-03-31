@@ -39,7 +39,7 @@ function ChatWindow({ conversation, setConversation, newMessage, setMessage, sen
                     onChange={setMessageValue}
                     onKeyDown={handleKeyDown}
                     placeholder="Type your message..."
-                    className="w-full p-2 mr-2"
+                    className="w-full p-2 mr-2 bg-white"
                 />
                 <span className="button-container">
                     <button type="button" onClick={sendMessage} className="font-semibold uppercase p-2">Send</button>
