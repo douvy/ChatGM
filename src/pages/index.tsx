@@ -51,8 +51,14 @@ interface WithSession {
   session: {} | null;
 }
 
+interface Feature {
+  name: string,
+  description: string
+}
+
 interface PageProps {
   session: any;
+  features: Feature[]
 }
 
 function withLocalStorage<T extends WithSession>(WrappedComponent: React.ComponentType<T>) {
@@ -262,6 +268,7 @@ const Home: NextPage<PageProps> = (props) => {
   var chat = [];
 
   const [activeComponent, setActiveComponent] = useState<any>(
+    // <FeaturesView passedFeatures={props.features}></FeaturesView>
     <ChatWindow conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} setMessage={setMessage} />
   );
 
@@ -278,7 +285,7 @@ const Home: NextPage<PageProps> = (props) => {
         <nav className="fixed h-full w-[225px] text-white shadow-md hidden lg:block">
           <ConversationLinkList conversations={conversations} activeConversation={conversation} selectConversation={setActiveConversation} ></ConversationLinkList>
           <hr className="my-4 border-t" />
-          <Sidebar setConversations={setConversations} setConversation={setConversation} handleLogout={handleLogout} setActiveComponent={setActiveComponent} />
+          <Sidebar setConversations={setConversations} setConversation={setConversation} handleLogout={handleLogout} setActiveComponent={setActiveComponent} features={props.features} />
         </nav>
         <div className="fixed top-0 left-0 z-50 flex items-center justify-end w-full p-2 pr-3 lg:hidden">
           <button className="text-red-400 hover:text-red-500">
@@ -309,13 +316,20 @@ export const loadConversations: GetServerSideProps<InitialProps> = async (contex
 }
 
 export const getServerSideProps: GetServerSideProps<PageProps> = async (context) => {
-  console.log("where am i");
+  const { req } = context;
+  const baseUrl = req ? `${req.headers.host}` : '';
+
   const session = await getSession(context);
   console.log(session);
+
+  const res = await fetch(`http://${baseUrl}/api/getFeatures`);
+  const features = await res.json();
+  console.log(features);
 
   return {
     props: {
       session,
+      features,
     },
   };
 };

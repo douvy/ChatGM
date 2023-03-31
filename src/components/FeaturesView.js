@@ -1,20 +1,32 @@
 import { useState } from "react";
 
-function FeatureView() {
-    const [features, setFeatures] = useState([
-        { name: "Feature 1", description: "Description of feature 1." },
-        { name: "Feature 2", description: "Description of feature 2." },
-        { name: "Feature 3", description: "Description of feature 3." },
-    ]);
+function FeatureView({ passedFeatures = [] }) {
+    const [features, setFeatures] = useState(passedFeatures);
 
     const [newFeatureName, setNewFeatureName] = useState("");
     const [newFeatureDescription, setNewFeatureDescription] = useState("");
 
-    const addFeature = (e) => {
+    const addFeature = async (e) => {
         e.preventDefault();
-        setFeatures([...features, { name: newFeatureName, description: newFeatureDescription }]);
-        setNewFeatureName("");
-        setNewFeatureDescription("");
+        try {
+            const response = await fetch("/api/addFeature", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ name: newFeatureName, description: newFeatureDescription })
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to add feature.");
+            }
+
+            setFeatures([...features, { name: newFeatureName, description: newFeatureDescription }]);
+            setNewFeatureName("");
+            setNewFeatureDescription("");
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     return (
