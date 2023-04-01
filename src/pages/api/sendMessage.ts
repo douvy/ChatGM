@@ -1,7 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { Configuration, OpenAIApi, ChatCompletionRequestMessage } from "openai";
-import { saveConversation } from '../../utils/db'
+// import { saveConversation } from '../../utils/db'
+import saveConversation from './conversations/saveConversation'
 import { ObjectId } from 'mongodb';
 
 const configuration = new Configuration({
@@ -44,7 +45,6 @@ export default async function (req: {
     }
 
     var conversation = req.body.conversation;
-    console.log(conversation);
     var previousMessages = conversation.messages || [];
 
     const prompt = req.body.prompt || '';
@@ -58,7 +58,6 @@ export default async function (req: {
     }
 
     var messages: ChatCompletionRequestMessage[] = previousMessages.map(({ role, content }) => ({ role, content }));
-    console.log(messages);
 
     try {
         const completion = await openai.createChatCompletion({
@@ -73,18 +72,14 @@ export default async function (req: {
             avatarSource: "avatar-chat.png",
             sender: "ChatGPT-3.5",
         });
-        console.log(conversation.messages);
 
-        console.log("Maybe generating name...");
-        console.log(conversation._id);
-        if (typeof conversation._id !== "undefined") {
-            console.log("updating");
-            conversation._id = new ObjectId(conversation._id);
-        }
-        console.log(typeof conversation._id);
-        var _id = await saveConversation(conversation);
-        conversation._id = new ObjectId(_id);
+        // if (typeof conversation._id !== "undefined") {
+        //     console.log("updating");
+        //     conversation._id = new ObjectId(conversation._id);
+        // }
 
+        var savedConversation = await saveConversation(conversation);
+        console.log(savedConversation);
         res.status(200).json({
             result: {
                 response: response,

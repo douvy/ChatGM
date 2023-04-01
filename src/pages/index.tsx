@@ -390,7 +390,7 @@ export const getServerSideProps: GetServerSideProps<any> = async (context) => {
   const conversationsRes = await fetch(`http://${baseUrl}/api/getConversations`);
   const conversations = await conversationsRes.json();
 
-  const featuresRes = await fetch(`http://${baseUrl}/api/getFeatures`);
+  const featuresRes = await fetch(`http://${baseUrl}/api/features`);
   const features = await featuresRes.json();
 
   const tasksRes = await fetch(`http://${baseUrl}/api/getTasks`);

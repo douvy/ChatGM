@@ -9,7 +9,7 @@ function FeatureView({ passedFeatures = [] }) {
     const addFeature = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch("/api/addFeature", {
+            const response = await fetch("/api/features", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -31,15 +31,16 @@ function FeatureView({ passedFeatures = [] }) {
 
     const deleteFeature = async (feature) => {
         try {
-            const response = await fetch(`/api/deleteFeature?id=${feature._id}`, {
+            const response = await fetch(`/api/features?id=${feature.id}`, {
                 method: "DELETE",
             });
+            alert(JSON.stringify(response));
 
             if (!response.ok) {
                 throw new Error("Failed to delete feature.");
             }
 
-            setFeatures(features.filter((t) => t._id !== feature._id));
+            setFeatures(features.filter((t) => t.id !== feature.id));
         } catch (error) {
             console.error(error);
         }
@@ -48,10 +49,11 @@ function FeatureView({ passedFeatures = [] }) {
     const toggleStar = async (index) => {
         try {
             const updatedFeatures = [...features];
-            updatedFeatures[index].starred = !updatedFeatures[index].starred;
+            let feature = updatedFeatures[index];
+            feature.starred = !feature.starred
             setFeatures(updatedFeatures);
 
-            const response = await fetch("/api/updateFeature", {
+            const response = await fetch(`/api/features?id=${feature.id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
