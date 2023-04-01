@@ -206,7 +206,7 @@ const Home: NextPage<PageProps> = (props) => {
 
   const setActiveConversation = (conversation: Conversation) => {
     setConversation(conversation);
-    setActiveComponent(<ChatWindow conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} messageContent={messageContent} setMessageContent={setMessageContent} />)
+    // setActiveComponent(<ChatWindow conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} messageContent={messageContent} setMessageContent={setMessageContent} />)
   }
 
   const appendMessage = (message: Message) => {
@@ -289,6 +289,11 @@ const Home: NextPage<PageProps> = (props) => {
     }
   }
 
+  const updateConversations = (updatedConversation: Conversation, index: number) => {
+    const updatedConversations = [...conversations];
+    updatedConversations[index] = updatedConversation;
+  }
+
   useEffect(() => {
     if (scrollContainer.current) {
       addInfiniteScroll(scrollContainer.current);
@@ -325,7 +330,7 @@ const Home: NextPage<PageProps> = (props) => {
 
         <div className="flex flex-col h-full w-full lg:ml-[225px]">
           <main className="container mx-auto p-4 flex-1 mt-6 md:mt-2">
-            {currentRoute == '/' ? <ChatWindow conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} messageContent={messageContent} setMessageContent={setMessageContent} /> : null}
+            {currentRoute == '/' ? <ChatWindow conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} messageContent={messageContent} setMessageContent={setMessageContent} updateConversations={updateConversations} /> : null}
             {currentRoute == '/features' ? <FeaturesView passedFeatures={props.features}></FeaturesView> : null}
             {currentRoute == '/tasks' ? <TasksView passedTasks={props.tasks}></TasksView> : null}
             {currentRoute == '/conversations' ? <ConversationsView conversations={conversations} setConversations={setConversations}></ConversationsView> : null}

@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 
-function ChatMessage({ message, avatarSource, sender }) {
+function ChatMessage({ index, message, avatarSource, sender, updateConversation }) {
+  const [localMessage, setLocalMessage] = useState(message);
+
   const currentTimestamp = new Date().toLocaleString('en-US', {
     timeZone: 'America/New_York',
     hour: 'numeric',
@@ -30,6 +32,15 @@ function ChatMessage({ message, avatarSource, sender }) {
     ),
   };
 
+  const starMessage = () => {
+    const updatedMessage = {
+      ...localMessage,
+      starred: !localMessage.starred
+    };
+    setLocalMessage(updatedMessage);
+    updateConversation(index, updatedMessage);
+  };
+
   return (
     <div className="w-full box">
       <div className="message p-4 pt-4 relative">
@@ -45,16 +56,18 @@ function ChatMessage({ message, avatarSource, sender }) {
               ></i>
             </span>{' '}
             {currentTimestamp}
+            <i className={`fa-star ${localMessage.starred ? 'fa-solid' : 'fa-regular'} ml-2 cursor-pointer`} onClick={starMessage}></i>
           </p>
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             rehypePlugins={[rehypeRaw]}
-            children={message}
+            children={localMessage.content}
             components={customRenderer}
           />
         </div>
       </div>
     </div>
+
   );
 }
 

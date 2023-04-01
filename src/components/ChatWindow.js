@@ -3,8 +3,9 @@ import AutoExpandTextarea from './AutoExpandTextarea';
 import ChatMessage from './ChatMessage';
 import ChatResponse from './ChatResponse';
 
-function ChatWindow({ conversation, setConversation, newMessage, sendMessage, updateMessageValue, messageContent, setMessageContent }) {
+function ChatWindow({ conversation, setConversation, newMessage, sendMessage, updateMessageValue, messageContent, setMessageContent, updateConversations }) {
     const scrollContainer = useRef(null);
+    console.log(conversation);
 
     function handleKeyDown(event) {
         if (event.key === 'Enter' && !event.shiftKey) {
@@ -20,19 +21,30 @@ function ChatWindow({ conversation, setConversation, newMessage, sendMessage, up
     console.log(updateMessageValue, "updateMessageValue");
     console.log(messageContent, "messageContent");
 
+    function updateConversation(messageIndex, updatedMessate) {
+        console.log(conversation.messages[messageIndex].starred);
+        console.log(updatedMessate.starred);
+        conversation.messages[messageIndex] = updatedMessate
+        const updatedMessages = [...conversation.messages];
+        conversation.messages = updatedMessages
+        setConversation(conversation);
+    }
+
     return (
         <div className="mx-auto max-w-[760px]">
             <div className="p-4 overflow-y-auto" id="messages-box" ref={scrollContainer}>
                 {conversation.messages.map((message, index) => {
-                    if (message.role === 'user') {
-                        return (
-                            <ChatMessage key={index} message={message.content} avatarSource={message.avatarSource} sender={message.sender} />
-                        );
-                    } else {
-                        return (
-                            <ChatResponse key={index} response={message.content} />
-                        );
-                    }
+                    return (
+                        <ChatMessage
+                            key={conversation._id + index}
+                            index={index}
+                            message={message}
+                            avatarSource={message.role == "user" ? message.avatarSource : "avatar-chat.png"}
+                            sender={message.role == "user" ? message.sender : "ChatGPT-3.5"}
+                            received={true}
+                            updateConversation={updateConversation}
+                        />
+                    );
                 })}
             </div>
 
