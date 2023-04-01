@@ -36,7 +36,7 @@ function ChatWindow({ conversation, setConversation, newMessage, sendMessage, up
                 {conversation.messages.map((message, index) => {
                     return (
                         <ChatMessage
-                            key={conversation._id + index}
+                            key={conversation.id + index}
                             index={index}
                             message={message}
                             avatarSource={message.role == "user" ? message.avatarSource : "avatar-chat.png"}

@@ -37,7 +37,7 @@ interface Message {
 interface Conversation {
   name?: string,
   messages: Message[],
-  _id?: ObjectId,
+  id?: number,
   isActive?: boolean,
 }
 
@@ -236,7 +236,7 @@ const Home: NextPage<PageProps> = (props) => {
     })
       .then(data => {
         setResponseValue(data.result.response);
-        if (conversation._id != data.result.conversation._id) {
+        if (conversation.id != data.result.conversation.id) {
           setConversations((conversations) => [...conversations, data.result.conversation]);
 
           fetch('/api/assignName', {
@@ -387,14 +387,8 @@ export const getServerSideProps: GetServerSideProps<any> = async (context) => {
   }
   console.log("SESSION:", session);
 
-  const conversationsRes = await fetch(`http://${baseUrl}/api/getConversations`);
-  const conversations = await conversationsRes.json();
-
-  const featuresRes = await fetch(`http://${baseUrl}/api/features`);
-  const features = await featuresRes.json();
-
-  const tasksRes = await fetch(`http://${baseUrl}/api/getTasks`);
-  const tasks = await tasksRes.json();
+  const response = await fetch(`http://${baseUrl}/api/initialPageData`);
+  const { conversations, features, tasks } = await response.json();
 
   return {
     props: {

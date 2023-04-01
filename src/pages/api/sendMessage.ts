@@ -13,14 +13,17 @@ const openai = new OpenAIApi(configuration);
 // const messages: ChatCompletionRequestMessage[] = [];
 type Message = { role: string, content: string };
 
+interface Conversation {
+    name?: string,
+    messages: any[],
+    id?: number,
+    isActive?: boolean,
+}
+
 export default async function (req: {
     headers: any;
     body: {
-        prompt: string, conversation: {
-            name?: string,
-            messages: any[],
-            _id?: ObjectId,
-        };
+        prompt: string, conversation: Conversation
     };
 }, res: {
     status: (arg0: number) => {
@@ -83,7 +86,7 @@ export default async function (req: {
         res.status(200).json({
             result: {
                 response: response,
-                conversation: conversation,
+                conversation: savedConversation as Conversation,
             }
         });
         return res;

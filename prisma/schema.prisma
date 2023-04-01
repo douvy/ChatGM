@@ -30,3 +30,9 @@ model Feature {
     description String
     starred     Boolean @default(false)
 }
+
+model Task {
+    id       Int     @id @default(autoincrement())
+    name     String
+    complete Boolean @default(false)
+}

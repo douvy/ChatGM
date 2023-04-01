@@ -1,8 +1,9 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { Configuration, OpenAIApi, ChatCompletionRequestMessage } from "openai";
-import { saveConversation } from '../../utils/db'
-import { ObjectId } from 'mongodb';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
@@ -16,7 +17,7 @@ export default async function (req: {
         conversation: {
             name?: string,
             messages: any[],
-            _id?: ObjectId,
+            id?: number,
         };
     };
 }, res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { error?: { message: string; }; conversation?: { name?: string | undefined; messages: any[]; _id?: ObjectId | undefined; }; }): void; new(): any; }; }; }) {
@@ -30,11 +31,9 @@ export default async function (req: {
     }
 
     var conversation = req.body.conversation;
-    if (conversation.name) {
-    } else {
+    if (!conversation.name) {
         var previousMessages = conversation.messages || [];
         var messages: ChatCompletionRequestMessage[] = previousMessages.map(({ role, content }) => ({ role, content }));
-        console.log("generating name....");
         var nameRequestMessage: ChatCompletionRequestMessage = {
             role: "user",
             content: "generate a name for this conversation without quotation marks "
@@ -49,10 +48,13 @@ export default async function (req: {
         console.log("Chat name:");
         console.log(name);
         conversation.name = name;
-
-        console.log("Conversation ID:", conversation._id);
-        console.log(conversation);
-        await saveConversation(conversation);
+        const updatedConversation = await prisma.conversation.update({
+            where: { id: conversation.id },
+            data: {
+                name: conversation.name,
+            },
+            include: { messages: true },
+        });
     }
 
     res.status(200).json({
