@@ -2,8 +2,8 @@ import { useState } from 'react';
 import axios from 'axios';
 import Router from 'next/router';
 import { useSession, signIn } from 'next-auth/react'
+import styles from './signin.module.css';
 
-console.log(process.env.NEXTAUTH_URL);
 function SignInForm() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -18,16 +18,15 @@ function SignInForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        alert("starting");
-        const result = await signIn('credentials', {
+        const result = signIn('credentials', {
             username,
             password,
             redirect: false,
-            callbackUrl: '',
+            // callbackUrl: '/',
         })
-        alert(result);
+        // alert(JSON.stringify(result));
         if (!result.error) {
-            // router.push('/')
+            Router.push('/')
         } else {
             setError(result.error)
         }
@@ -43,8 +42,9 @@ function SignInForm() {
     //     });
     //     if (response.ok) {
     //         const data = await response.json();
+    //         console.log(data);
     //         localStorage.setItem('session', JSON.stringify(data.session));
-    //         Router.push('/');
+    //         // Router.push('/');
     //     } else {
     //         const { message } = await response.json();
     //         setError(message);
@@ -52,7 +52,7 @@ function SignInForm() {
     // }
 
     function handleSignUp() {
-        Router.push('/signup');
+        Router.push('/auth/signup');
     }
 
     function handleForgotPassword() {
@@ -62,7 +62,7 @@ function SignInForm() {
     return (
         <div className="container">
             <div className="formContainer">
-                <form onSubmit={handleSubmit} className="form">
+                <form onSubmit={(handleSubmit)} className="form">
                     <h2 className="heading">Sign In</h2>
                     <div className="formGroup">
                         <label htmlFor="username" className="label">Username:</label>

@@ -1,8 +1,8 @@
 import FeaturesView from './FeaturesView';
 
-function SidebarItem({ itemText, iconName, onClick }) {
+function SidebarItem({ itemText, iconName, onClick, link = '#' }) {
     return (
-        <a href="#">
+        <a href={link}>
             <li className="p-2 pl-4" onClick={onClick}>
                 <i className={`far fa-${iconName} fa-lg mr-4`}></i> {itemText}
             </li>
@@ -10,7 +10,7 @@ function SidebarItem({ itemText, iconName, onClick }) {
     );
 }
 
-export default function Sidebar({ setConversations, setConversation, handleLogout, setActiveComponent, features, setCurrentRoute }) {
+export default function Sidebar({ setConversations, setConversation, handleLogout, setActiveComponent, features, setCurrentRoute, session }) {
     function handleClearConversations() {
         fetch('/api/clearConversations')
             .then(response => response.json())

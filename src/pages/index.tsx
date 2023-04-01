@@ -18,9 +18,12 @@ import { ObjectId } from 'mongodb';
 import { GetServerSideProps, NextPage } from 'next';
 import AutoExpandTextarea from '../components/AutoExpandTextarea';
 import Router from 'next/router';
-import { getSession } from 'next-auth/react';
+import { getSession, signOut } from 'next-auth/react';
 // import { Route, Routes } from 'react-router-dom';
 import { useRouter } from 'next/router';
+import { parse } from 'cookie';
+import { verify } from 'jsonwebtoken';
+import { useSession } from 'next-auth/react';
 
 interface Message {
   role: string,
@@ -77,8 +80,12 @@ const Home: NextPage<PageProps> = (props) => {
   const router = useRouter();
   const { route } = router;
 
+  const { data: session, status } = useSession()
+  if (status === "authenticated") {
+
+  }
+
   console.log("props", props);
-  const session = {};
 
   // const [session, setSession] = useState<Session | null>({
   //   user: {
@@ -107,8 +114,11 @@ const Home: NextPage<PageProps> = (props) => {
 
   function handleLogout(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
     e.preventDefault();
-    localStorage.removeItem('session');
-    Router.push('/signin');
+    signOut({
+      callbackUrl: '/auth/signin',
+    });
+    // localStorage.removeItem('session');
+    // Router.push('/signin');
   }
 
   const [currentRoute, setCurrentRoute] = useState('/');
@@ -297,12 +307,11 @@ const Home: NextPage<PageProps> = (props) => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <div className="flex" id="main-container">
         <nav className="fixed h-full w-[225px] text-white shadow-md hidden lg:block">
-          <ConversationLinkList conversations={conversations} activeConversation={conversation} selectConversation={setActiveConversation} ></ConversationLinkList>
+          <ConversationLinkList conversations={conversations} activeConversation={conversation} selectConversation={setActiveConversation} session={props.session}></ConversationLinkList>
           <hr className="my-4 border-t" />
-          <Sidebar setConversations={setConversations} setConversation={setConversation} handleLogout={handleLogout} setActiveComponent={setActiveComponent} features={props.features} setCurrentRoute={setCurrentRoute} />
+          <Sidebar setConversations={setConversations} setConversation={setConversation} handleLogout={handleLogout} setActiveComponent={setActiveComponent} features={props.features} setCurrentRoute={setCurrentRoute} session={props.session} />
         </nav>
         <div className="fixed top-0 left-0 z-50 flex items-center justify-end w-full p-2 pr-3 lg:hidden">
           <button className="text-red-400 hover:text-red-500">
@@ -334,12 +343,40 @@ export const loadConversations: GetServerSideProps<InitialProps> = async (contex
   };
 }
 
-export const getServerSideProps: GetServerSideProps<PageProps> = async (context) => {
+export const getServerSideProps: GetServerSideProps<any> = async (context) => {
   const { req } = context;
+  const cookies = context.req.headers.cookie;
+
+  // Default user is null
+  let user = null;
+
+  if (cookies) {
+    console.log("cookies:", cookies);
+    try {
+      // Parse cookies and get the token
+      const parsedCookies = parse(cookies);
+      const token = parsedCookies['authtoken'];
+
+      // Verify the token and extract the user payload
+      // const decoded = verify(token, process.env.JWT_SECRET);
+      // var sessionId = decoded.id;
+      // console.log(sessionId);
+    } catch (error) {
+      console.error('Error while decoding the token:', error);
+    }
+  }
   const baseUrl = req ? `${req.headers.host}` : '';
 
   const session = await getSession(context);
-  console.log(session);
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/auth/signin',
+        permanent: false,
+      },
+    }
+  }
+  console.log("SESSION:", session);
 
   const conversationsRes = await fetch(`http://${baseUrl}/api/getConversations`);
   const conversations = await conversationsRes.json();

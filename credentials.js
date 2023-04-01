@@ -47,7 +47,7 @@ export default async function signin(req, res) {
     const newSession = await createSession(sessionData, db);
 
     console.log("SESSION:", newSession);
-    return res.status(200).json({ message: 'Sign in successful', session: newSession });
+    return res.status(200).json({ message: 'Sign in successful', session: newSession, url: 'http://localhost:3000/' });
 }
 
 async function createSession(sessionData, db) {

@@ -60,6 +60,8 @@ function TaskView({ passedTasks = [] }) {
                             <tr className="text-md font-semibold tracking-wide text-left uppercase border-b border-gray">
                                 <th className="px-4 py-3">Task Name</th>
                                 <th className="px-4 py-3">Complete</th>
+                                <th className="px-4 py-3">Edit</th>
+                                <th className="px-4 py-3">Delete</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray">
@@ -73,6 +75,18 @@ function TaskView({ passedTasks = [] }) {
                                             onChange={() => toggleComplete(index)}
                                             className="cursor-pointer"
                                         />
+                                    </td>
+                                    <td className="px-4 py-3 whitespace-no-wrap">
+                                        <i
+                                            className="fas fa-edit cursor-pointer"
+                                            onClick={() => handleEdit(index)}
+                                        ></i>
+                                    </td>
+                                    <td className="px-4 py-3 whitespace-no-wrap">
+                                        <i
+                                            className="fas fa-trash cursor-pointer"
+                                            onClick={() => handleDelete(index)}
+                                        ></i>
                                     </td>
                                 </tr>
                             ))}
