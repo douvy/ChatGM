@@ -21,7 +21,7 @@ function ChatWindow({ conversation, setConversation, newMessage, sendMessage, up
     console.log(messageContent, "messageContent");
 
     return (
-        <div>
+        <div className="mx-auto max-w-[760px]">
             <div className="p-4 overflow-y-auto" id="messages-box" ref={scrollContainer}>
                 {conversation.messages.map((message, index) => {
                     if (message.role === 'user') {

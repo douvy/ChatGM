@@ -42,6 +42,9 @@ export default function Sidebar({ setConversations, setConversation, handleLogou
                 <SidebarItem iconName="check-square" itemText="Conversations" onClick={() => {
                     setCurrentRoute('/conversations');
                 }} />
+                <SidebarItem iconName="check-square" itemText="Component builder" onClick={() => {
+                    setCurrentRoute('/builder');
+                }} />
             </ul>
         </div>
     );

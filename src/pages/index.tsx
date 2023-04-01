@@ -11,6 +11,7 @@ import ChatWindow from '../components/ChatWindow';
 import FeaturesView from '../components/FeaturesView';
 import TasksView from '../components/TasksView';
 import ConversationsView from '../components/ConversationsView';
+import ComponentBuilder from '../components/ComponentBuilder';
 import { addInfiniteScroll } from '../utils/infiniteScroll';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -310,7 +311,7 @@ const Home: NextPage<PageProps> = (props) => {
       </Head>
       <div className="flex" id="main-container">
         <nav className="fixed h-full w-[225px] text-white shadow-md hidden lg:block">
-          <ConversationLinkList conversations={conversations} activeConversation={conversation} selectConversation={setActiveConversation} session={props.session}></ConversationLinkList>
+          <ConversationLinkList conversations={conversations} activeConversation={conversation} selectConversation={setActiveConversation} session={props.session} setCurrentRoute={setCurrentRoute}></ConversationLinkList>
           <hr className="my-4 border-t" />
           <Sidebar setConversations={setConversations} setConversation={setConversation} handleLogout={handleLogout} setActiveComponent={setActiveComponent} features={props.features} setCurrentRoute={setCurrentRoute} session={props.session} />
         </nav>
@@ -323,11 +324,12 @@ const Home: NextPage<PageProps> = (props) => {
         </div>
 
         <div className="flex flex-col h-full w-full lg:ml-[225px]">
-          <main className="container mx-auto max-w-[760px] flex-1 mt-6 md:mt-2">
+          <main className="container mx-auto p-4 flex-1 mt-6 md:mt-2">
             {currentRoute == '/' ? <ChatWindow conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} messageContent={messageContent} setMessageContent={setMessageContent} /> : null}
             {currentRoute == '/features' ? <FeaturesView passedFeatures={props.features}></FeaturesView> : null}
             {currentRoute == '/tasks' ? <TasksView passedTasks={props.tasks}></TasksView> : null}
             {currentRoute == '/conversations' ? <ConversationsView conversations={conversations} setConversations={setConversations}></ConversationsView> : null}
+            {currentRoute == '/builder' ? <ComponentBuilder></ComponentBuilder> : null}
           </main>
         </div>
 

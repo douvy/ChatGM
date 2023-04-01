@@ -1,8 +1,9 @@
 import React from 'react';
 
-function ConversationLinkListItem({ conversation, isActive, selectConversation }) {
+function ConversationLinkListItem({ conversation, isActive, selectConversation, setCurrentRoute }) {
   function handleClick() {
     selectConversation(conversation);
+    setCurrentRoute('/');
   }
   return (
     <a onClick={handleClick} href="#" className={isActive ? "active" : ""}>
