@@ -221,8 +221,11 @@ h1 {
   line-height: 150%;
   color: #ffffff;
 }
-.mb-50 {
-  margin-bottom: 50px;
+.red-checkbox {
+  accent-color: #e85a40;
+}
+.mb-30 {
+  margin-bottom: 30px;
 }
 .mt-50 {
   margin-top: 50px;
@@ -278,6 +281,12 @@ table td, table tr {
 }
 table {
   border: 1px solid #4D4D4D;
+}
+
+@media (min-width: 710px) {
+  #add-task {
+    min-height: 250px;
+  }
 }
 /*signin*/
 /*
