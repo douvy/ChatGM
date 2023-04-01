@@ -29,6 +29,22 @@ function TaskView({ passedTasks = [] }) {
         }
     };
 
+    const deleteTask = async (task) => {
+        try {
+            const response = await fetch(`/api/deleteTask?id=${task._id}`, {
+                method: "DELETE",
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to delete task.");
+            }
+
+            setTasks(tasks.filter((t) => t._id !== task._id));
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     const toggleComplete = async (index) => {
         try {
             const updatedTasks = [...tasks];
@@ -85,7 +101,7 @@ function TaskView({ passedTasks = [] }) {
                                     <td className="px-4 py-3 whitespace-no-wrap">
                                         <i
                                             className="fas fa-trash cursor-pointer"
-                                            onClick={() => handleDelete(index)}
+                                            onClick={() => deleteTask(task)}
                                         ></i>
                                     </td>
                                 </tr>

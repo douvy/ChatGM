@@ -29,6 +29,22 @@ function FeatureView({ passedFeatures = [] }) {
         }
     };
 
+    const deleteFeature = async (feature) => {
+        try {
+            const response = await fetch(`/api/deleteFeature?id=${feature._id}`, {
+                method: "DELETE",
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to delete feature.");
+            }
+
+            setFeatures(features.filter((t) => t._id !== feature._id));
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     const toggleStar = async (index) => {
         try {
             const updatedFeatures = [...features];
@@ -72,6 +88,18 @@ function FeatureView({ passedFeatures = [] }) {
                                     <td className="px-4 py-3 whitespace-no-wrap">
                                         <i className={`fa-stars text-yellow-400 cursor-pointer ${feature.starred ? 'fa-solid' : 'fa-thin'}`} onClick={() => toggleStar(index)}></i>
                                     </td>
+                                    <td className="px-4 py-3 whitespace-no-wrap">
+                                        <i
+                                            className="fas fa-edit cursor-pointer"
+                                            onClick={() => handleEdit(index)}
+                                        ></i>
+                                    </td>
+                                    <td className="px-4 py-3 whitespace-no-wrap">
+                                        <i
+                                            className="fas fa-trash cursor-pointer"
+                                            onClick={() => deleteFeature(feature)}
+                                        ></i>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
@@ -87,7 +115,7 @@ function FeatureView({ passedFeatures = [] }) {
                     </label>
                     <input
                         type="text"
-                        id="name"
+                        id="featureName"
                         value={newFeatureName}
                         onChange={(e) => setNewFeatureName(e.target.value)}
                         className="shadow appearance-none border w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
