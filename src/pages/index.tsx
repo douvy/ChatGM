@@ -28,6 +28,10 @@ import { parse } from 'cookie';
 import { verify } from 'jsonwebtoken';
 import { useSession } from 'next-auth/react';
 
+interface User {
+  username: string,
+}
+
 interface Message {
   role: string,
   content: string;
@@ -138,12 +142,14 @@ const Home: NextPage<PageProps> = (props) => {
 
   const [messageContent, setMessageContent] = useState('');
 
+  const user = session?.user as User;
   const [newMessage, setMessage] = useState<Message>({
     role: "user",
     content: messageContent,
     avatarSource: "avatar.png",
-    sender: session?.user?.username || "anonymous"
+    sender: user.username || "anonymous"
   });
+  console.log("SESSION:", session);
 
   const updateMessageValue = (event: any) => {
     console.log(event.target.value);
@@ -173,7 +179,7 @@ const Home: NextPage<PageProps> = (props) => {
       const updatedConversations = JSON.parse(event.data);
       setConversations(updatedConversations);
       const updatedConversation = updatedConversations.find((_: Conversation) => {
-        return _._id == conversation._id;
+        return _.id == conversation.id;
       });
       if (updatedConversation) {
         setConversation(updatedConversation);
@@ -224,7 +230,7 @@ const Home: NextPage<PageProps> = (props) => {
       role: "user",
       content: "",
       avatarSource: "avatar.png",
-      sender: session?.user?.username || "anonymous",
+      sender: user.username || "anonymous",
     })
     fetch("/api/sendMessage", {
       method: "POST",
@@ -391,7 +397,6 @@ export const getServerSideProps: GetServerSideProps<any> = async (context) => {
       },
     }
   }
-  console.log("SESSION:", session);
 
   const response = await fetch(`http://${baseUrl}/api/initialPageData`);
   const { conversations, starredMessages, features, tasks } = await response.json();

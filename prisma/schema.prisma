@@ -39,7 +39,17 @@ model Task {
 }
 
 model User {
-    id       Int    @id @default(autoincrement())
-    username String @unique
+    id       Int       @id @default(autoincrement())
+    username String    @unique
     password String
+    sessions Session[]
+}
+
+model Session {
+    id           Int      @id @default(autoincrement())
+    sessionToken String   @unique
+    accessToken  String?
+    expiresAt    DateTime
+    user         User     @relation(fields: [userId], references: [id])
+    userId       Int
 }
