@@ -20,7 +20,7 @@ export default async function (req: {
             id?: number,
         };
     };
-}, res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { error?: { message: string; }; conversation?: { name?: string | undefined; messages: any[]; _id?: ObjectId | undefined; }; }): void; new(): any; }; }; }) {
+}, res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { error?: { message: string; }; conversation?: { name?: string | undefined; messages: any[]; id?: number | undefined; }; }): void; new(): any; }; }; }) {
     if (!configuration.apiKey) {
         res.status(500).json({
             error: {
