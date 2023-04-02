@@ -31,7 +31,6 @@ export default function Sidebar({ setConversations, setConversation, handleLogou
                 {/* <SidebarItem iconName="trash-can-xmark" itemText="Clear Conversations" onClick={handleClearConversations} /> */}
                 {/*<SidebarItem iconName="brightness" itemText="Light Mode" />*/}
                 <SidebarItem iconName="user-hair-mullet" itemText="My Account" />
-                <SidebarItem iconName="arrow-right-from-bracket" itemText="Log Out" onClick={handleLogout} />
                 {/*<SidebarItem iconName="coin" itemText="Crypto" />*/}
                 {/*<SidebarItem iconName="check-square" itemText="Todos" onClick={() => {
                     setCurrentRoute('/tasks');
@@ -39,18 +38,19 @@ export default function Sidebar({ setConversations, setConversation, handleLogou
                 {/*<SidebarItem iconName="check-square" itemText="Features" onClick={() => {
                     setCurrentRoute('/features');
                 }} />*/}
-                <SidebarItem iconName="check-square" itemText="Conversations" onClick={() => {
+                <SidebarItem iconName="fa-solid fa-messages" itemText="Conversations" onClick={() => {
                     setCurrentRoute('/conversations');
                 }} />
-                <SidebarItem iconName="star fa-solid" itemText="Saved prompts" onClick={() => {
+                <SidebarItem iconName="fa-solid fa-bookmark" itemText="Saved prompts" onClick={() => {
                     setCurrentRoute('/savedPrompts');
                 }} />
-                <SidebarItem iconName="star fa-solid" itemText="Saved responses" onClick={() => {
+                <SidebarItem iconName="fa-solid fa-bookmark" itemText="Saved responses" onClick={() => {
                     setCurrentRoute('/savedResponses');
                 }} />
-                <SidebarItem iconName="check-square" itemText="Component builder" onClick={() => {
+                <SidebarItem iconName="fa-solid fa-toolbox" itemText="Component builder" onClick={() => {
                     setCurrentRoute('/builder');
                 }} />
+                <SidebarItem iconName="arrow-right-from-bracket" itemText="Log Out" onClick={handleLogout} />
             </ul>
         </div>
     );
