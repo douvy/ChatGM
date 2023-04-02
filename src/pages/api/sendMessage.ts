@@ -1,7 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { Configuration, OpenAIApi, ChatCompletionRequestMessage } from "openai";
-// import { saveConversation } from '../../utils/db'
 import saveConversation from './conversations/saveConversation'
 import { ObjectId } from 'mongodb';
 
@@ -76,17 +75,12 @@ export default async function (req: {
             sender: "ChatGPT-3.5",
         });
 
-        // if (typeof conversation._id !== "undefined") {
-        //     console.log("updating");
-        //     conversation._id = new ObjectId(conversation._id);
-        // }
-
         var savedConversation = await saveConversation(conversation);
         console.log(savedConversation);
         res.status(200).json({
             result: {
                 response: response,
-                conversation: savedConversation as Conversation,
+                conversation: savedConversation as {},
             }
         });
         return res;

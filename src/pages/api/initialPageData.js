@@ -1,6 +1,9 @@
 import { PrismaClient } from '@prisma/client';
+// import { prisma } from '../../utils/prisma';
+import { prisma } from '@utils/prismaSingleton';
 
-const prisma = new PrismaClient();
+// const prisma = new PrismaClient();
+// console.log(prisma);
 
 export default async function handler(req, res) {
     try {

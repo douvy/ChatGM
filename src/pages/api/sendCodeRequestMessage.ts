@@ -1,8 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { Configuration, OpenAIApi, ChatCompletionRequestMessage } from "openai";
-import { saveConversation } from '../../utils/db'
-import { ObjectId } from 'mongodb';
 
 const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,

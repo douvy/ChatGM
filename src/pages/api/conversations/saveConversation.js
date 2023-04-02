@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import axios from 'axios';
 
 const prisma = new PrismaClient();
 
@@ -52,10 +53,13 @@ async function saveConversation(conversation) {
         }
 
         // Create new messages
+        console.log("CREATING MESSAGES");
         const messagesToCreate = messages.filter(message => message.id === undefined);
+        console.log(messagesToCreate);
         if (messagesToCreate.length > 0) {
             await Promise.all(messagesToCreate.map(async (message) => {
-                await prisma.message.create({
+                console.log(message);
+                const result = await prisma.message.create({
                     data: {
                         content: message.content,
                         role: message.role,
@@ -64,13 +68,31 @@ async function saveConversation(conversation) {
                         conversation: { connect: { id } }
                     }
                 });
+                console.log(result);
+                console.log("starting");
+                const baseUrl = req ? `${req.headers.host}` : '';
+                fetch(`http://${baseUrl}/api/publishChange`, {
+                    method: "POST",
+                    body: JSON.stringify({ event: 'message_created', channelName: 'active-conversation', data: result }),
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }).then(response => {
+                    console.log("published");
+                })
+                await axios.post('/api/publishChange', {
+                    event: 'message_created',
+                    channelName: 'active-conversation',
+                    data: result,
+                });
+                console.log("done");
             }));
         }
 
         // Return the updated conversation with messages
         const updatedConversation = await prisma.conversation.findUnique({
             where: { id },
-            include: { messages: { orderBy: { name: 'asc' } } }
+            include: { messages: { orderBy: { id: 'asc' } } }
         });
 
         return updatedConversation;

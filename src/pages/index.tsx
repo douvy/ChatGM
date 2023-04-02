@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
-import { useState, useEffect, useRef, SetStateAction } from 'react';
+import React, { useState, useEffect, useRef, SetStateAction } from 'react';
 import ChatMessage from '../components/ChatMessage';
 import ChatResponse from '../components/ChatResponse';
 import ConversationLinkListItem from '../components/ConversationLinkListItem';
@@ -27,6 +27,7 @@ import { useRouter } from 'next/router';
 import { parse } from 'cookie';
 import { verify } from 'jsonwebtoken';
 import { useSession } from 'next-auth/react';
+import { ably } from "../lib/ably";
 
 interface User {
   username: string,
@@ -234,6 +235,10 @@ const Home: NextPage<PageProps> = (props) => {
   }
 
   const sendMessage = async () => {
+    // const channel = ably.channels.get('a-conversation');
+    // console.log(channel);
+    // channel.publish({ name: "content", data: newMessage })
+    // alert("published");
     appendMessage(newMessage);
     setMessage({
       role: "user",

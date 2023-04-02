@@ -1,11 +1,20 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import AutoExpandTextarea from './AutoExpandTextarea';
 import ChatMessage from './ChatMessage';
 import ChatResponse from './ChatResponse';
+import { ably, subscribeToChannel } from "../lib/ably";
 
 function ChatWindow({ conversation, setConversation, newMessage, sendMessage, updateMessageValue, messageContent, setMessageContent, updateConversations, starredMessages, setStarredMessages }) {
     const scrollContainer = useRef(null);
     console.log(conversation);
+
+    useEffect(() => {
+        subscribeToChannel("active-conversation", (data) => {
+            alert(JSON.stringify(data));
+            // conversation.messages.push(data);
+            // setConversation(conversation);
+        });
+    }, []);
 
     function handleKeyDown(event) {
         if (event.key === 'Enter' && !event.shiftKey) {
@@ -31,9 +40,15 @@ function ChatWindow({ conversation, setConversation, newMessage, sendMessage, up
         }
         conversation.messages[messageIndex] = updatedMessage
         const updatedMessages = [...conversation.messages];
-        conversation.messages = updatedMessages
+        conversation.messages = updatedMessages;
         setConversation(conversation);
     }
+
+    let messageEnd = null;
+    useEffect(() => {
+        console.log("conversation changed");
+        messageEnd.scrollIntoView({ behaviour: "smooth" });
+    }, [conversation]);
 
     return (
         <div className="mx-auto max-w-[760px]">
@@ -51,6 +66,7 @@ function ChatWindow({ conversation, setConversation, newMessage, sendMessage, up
                         />
                     );
                 })}
+                <div ref={(element) => { messageEnd = element; }}></div>
             </div>
 
             <form className="flex items-end max-w-[760px] p-4 md:p-4" id="chat-form">
