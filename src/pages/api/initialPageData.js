@@ -7,7 +7,9 @@ import { prisma } from '@utils/prismaSingleton';
 
 export default async function handler(req, res) {
     try {
-        const conversations = await prisma.conversation.findMany({ include: { messages: true } });
+        const conversations = await prisma.conversation.findMany({
+            include: { messages: { orderBy: { id: 'asc' } } }
+        });
         const starredMessages = await prisma.message.findMany({ where: { starred: true } });
         const features = await prisma.feature.findMany();
         const tasks = await prisma.task.findMany();

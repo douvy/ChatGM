@@ -150,7 +150,6 @@ const Home: NextPage<PageProps> = (props) => {
     avatarSource: "avatar.png",
     sender: user?.username || "anonymous"
   });
-  console.log("SESSION:", session);
 
   const updateMessageValue = (event: any) => {
     console.log(event.target.value);
@@ -164,7 +163,7 @@ const Home: NextPage<PageProps> = (props) => {
   }
 
   const [newResponse, setResponse] = useState({
-    response: "Nothing yet",
+    response: "",
   })
 
   const [conversations, setConversations] = useState<Conversation[]>(props.conversations);
@@ -227,6 +226,7 @@ const Home: NextPage<PageProps> = (props) => {
       messages: [],
       isActive: true,
     })
+    setCurrentRoute('/');
   }
 
   const appendMessage = (message: Message) => {
@@ -235,10 +235,6 @@ const Home: NextPage<PageProps> = (props) => {
   }
 
   const sendMessage = async () => {
-    // const channel = ably.channels.get('a-conversation');
-    // console.log(channel);
-    // channel.publish({ name: "content", data: newMessage })
-    // alert("published");
     appendMessage(newMessage);
     setMessage({
       role: "user",
@@ -391,11 +387,6 @@ export const getServerSideProps: GetServerSideProps<any> = async (context) => {
       // Parse cookies and get the token
       const parsedCookies = parse(cookies);
       const token = parsedCookies['authtoken'];
-
-      // Verify the token and extract the user payload
-      // const decoded = verify(token, process.env.JWT_SECRET);
-      // var sessionId = decoded.id;
-      // console.log(sessionId);
     } catch (error) {
       console.error('Error while decoding the token:', error);
     }

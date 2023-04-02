@@ -5,7 +5,8 @@ const prisma = new PrismaClient();
 
 async function saveConversation(conversation) {
     const { id, name, messages } = conversation;
-
+    console.log("SAVE CONVERSATION");
+    console.log(conversation);
     // If conversation has an id, it already exists and we need to update it
     if (id) {
         const existingConversation = await prisma.conversation.findUnique({
@@ -53,40 +54,17 @@ async function saveConversation(conversation) {
         }
 
         // Create new messages
-        console.log("CREATING MESSAGES");
         const messagesToCreate = messages.filter(message => message.id === undefined);
-        console.log(messagesToCreate);
         if (messagesToCreate.length > 0) {
-            await Promise.all(messagesToCreate.map(async (message) => {
-                console.log(message);
-                const result = await prisma.message.create({
-                    data: {
-                        content: message.content,
-                        role: message.role,
-                        sender: message.sender,
-                        avatarSource: message.avatarSource,
-                        conversation: { connect: { id } }
-                    }
-                });
-                console.log(result);
-                console.log("starting");
-                const baseUrl = req ? `${req.headers.host}` : '';
-                fetch(`http://${baseUrl}/api/publishChange`, {
-                    method: "POST",
-                    body: JSON.stringify({ event: 'message_created', channelName: 'active-conversation', data: result }),
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                }).then(response => {
-                    console.log("published");
-                })
-                await axios.post('/api/publishChange', {
-                    event: 'message_created',
-                    channelName: 'active-conversation',
-                    data: result,
-                });
-                console.log("done");
-            }));
+            await prisma.message.createMany({
+                data: messagesToCreate.map((message) => ({
+                    content: message.content,
+                    role: message.role,
+                    sender: message.sender,
+                    avatarSource: message.avatarSource,
+                    conversationId: id,
+                })),
+            });
         }
 
         // Return the updated conversation with messages
@@ -106,17 +84,15 @@ async function saveConversation(conversation) {
 
         // Create new messages
         if (messages.length > 0) {
-            await Promise.all(messages.map(async (message) => {
-                await prisma.message.create({
-                    data: {
-                        content: message.content,
-                        role: message.role,
-                        sender: message.sender,
-                        avatarSource: message.avatarSource,
-                        conversation: { connect: { id: newConversation.id } }
-                    }
-                });
-            }));
+            await prisma.message.createMany({
+                data: messages.map((message) => ({
+                    content: message.content,
+                    role: message.role,
+                    sender: message.sender,
+                    avatarSource: message.avatarSource,
+                    conversationId: newConversation.id,
+                })),
+            });
         }
 
         const updatedConversation = await prisma.conversation.findUnique({

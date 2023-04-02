@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
+import { validateLocaleAndSetLanguage } from 'typescript';
 
 function ChatMessage({ index, message, avatarSource, sender, updateState }) {
   const [localMessage, setLocalMessage] = useState(message);
@@ -61,6 +62,7 @@ function ChatMessage({ index, message, avatarSource, sender, updateState }) {
               ></i>
             </span>{' '}
             {currentTimestamp}
+            {localMessage.id}
             <i className={`fa-star ${localMessage.starred ? 'fa-solid' : 'fa-regular'} ml-2 cursor-pointer`} onClick={starMessage}></i>
           </p>
           <ReactMarkdown
