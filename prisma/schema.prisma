@@ -16,6 +16,7 @@ model Message {
     avatarSource   String
     conversation   Conversation @relation(fields: [conversationId], references: [id])
     conversationId Int
+    starred        Boolean      @default(false)
 }
 
 model Conversation {

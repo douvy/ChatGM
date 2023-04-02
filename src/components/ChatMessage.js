@@ -32,12 +32,17 @@ function ChatMessage({ index, message, avatarSource, sender, updateConversation 
     ),
   };
 
-  const starMessage = () => {
+  const starMessage = async () => {
     const updatedMessage = {
       ...localMessage,
       starred: !localMessage.starred
     };
     setLocalMessage(updatedMessage);
+    const response = await fetch(`/api/messages/${message.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedMessage),
+    });
     updateConversation(index, updatedMessage);
   };
 

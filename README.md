@@ -21,3 +21,6 @@ npm install & npm run dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+
+To do a Prisma migration, run 'npx prisma migrate dev --name [migration_name]'
+To regenerate the Prisma client library, run 'npx prisma generate'
