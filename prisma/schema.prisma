@@ -5,7 +5,6 @@ datasource db {
 
 generator client {
     provider = "prisma-client-js"
-    // output   = "./prisma-client"
 }
 
 model Message {
@@ -36,4 +35,10 @@ model Task {
     id       Int     @id @default(autoincrement())
     name     String
     complete Boolean @default(false)
+}
+
+model User {
+    id       Int    @id @default(autoincrement())
+    username String @unique
+    password String
 }

@@ -18,7 +18,7 @@ function SignUpForm() {
 
         if (response.ok) {
             // Redirect to the sign-in page if the user was successfully created
-            Router.push('/signin');
+            Router.push('/auth/signin');
         } else {
             const { message } = await response.json();
             setError(message);

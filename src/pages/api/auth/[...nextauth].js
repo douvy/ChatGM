@@ -1,17 +1,11 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import clientPromise from '../../../lib/mongodb';
 import { compare } from 'bcrypt';
-import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
-import { MongoClient } from "mongodb";
+import { PrismaClient } from '@prisma/client';
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { useRouter } from 'next/router';
 
-const client = new MongoClient(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
-
-// const client = await clientPromise;
+const prisma = new PrismaClient();
 
 export default NextAuth({
     providers: [
@@ -24,23 +18,18 @@ export default NextAuth({
 
             async authorize(credentials, req) {
                 const { username, password } = credentials;
-                const client = await clientPromise;
-                await client.connect();
-
-                const db = client.db('ChatGM');
-
-                const user = await db.collection('users').findOne({ username });
+                const user = await prisma.user.findUnique({ where: { username } });
 
                 if (user) {
                     const passwordsMatch = await compare(password, user.password);
                     if (passwordsMatch) {
                         return user;
                     }
-                } else {
-                    // Return null if the username or password is invalid
-                    return null;
                 }
-            },
+
+                // Return null if the username or password is invalid
+                return null;
+            }
         }),
     ],
 
@@ -88,7 +77,5 @@ export default NextAuth({
         verifyRequest: '/auth/verify-request', // (used for check email message)
         newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
     },
-    adapter: MongoDBAdapter(client, {
-        dbName: process.env.MONGODB_DB,
-    }),
+    adapter: PrismaAdapter(prisma),
 });

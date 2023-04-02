@@ -1,5 +1,7 @@
-import clientPromise from '../../../lib/mongodb';
+import { PrismaClient } from '@prisma/client';
 import { hash } from 'bcrypt';
+
+const prisma = new PrismaClient();
 
 export default async function signup(req, res) {
   if (req.method !== 'POST') {
@@ -12,12 +14,7 @@ export default async function signup(req, res) {
     return res.status(400).json({ message: 'Username and password are required' });
   }
 
-  const client = await clientPromise;
-  await client.connect();
-
-  const db = client.db('ChatGM');
-
-  const userExists = await db.collection('users').findOne({ username });
+  const userExists = await prisma.user.findUnique({ where: { username } });
 
   if (userExists) {
     return res.status(409).json({ message: 'Username already exists' });
@@ -25,16 +22,12 @@ export default async function signup(req, res) {
 
   const hashedPassword = await hash(password, 10);
 
-  const newUser = {
-    username,
-    password: hashedPassword,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  };
+  const newUser = await prisma.user.create({
+    data: {
+      username,
+      password: hashedPassword,
+    },
+  });
 
-  const result = await db.collection('users').insertOne(newUser);
-  const insertedUserId = result.insertedId;
-
-  const insertedUser = await db.collection('users').findOne({ _id: insertedUserId });
-  return res.status(200).json({ message: 'Sign up successful', user: insertedUser });
+  return res.status(200).json({ message: 'Sign up successful', user: newUser });
 }
