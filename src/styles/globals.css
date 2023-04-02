@@ -295,6 +295,10 @@ table {
   #add-task {
     min-height: 250px;
   }
+  .form-container {
+    padding-left: 100px;
+    margin-top: 100px;
+  }
 }
 /*signin*/
 /*
