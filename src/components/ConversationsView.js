@@ -89,10 +89,10 @@ function ConversationsView({ conversations, setConversations }) {
     };
 
     return (
-        <div className="container mx-auto mt-8">
-            <div className="w-full mb-8 overflow-hidden-lg" id="conversation-table">
+        <div className="container flex justify-center mx-auto mt-8">
+            <div className="w-full md:w-8/12 mb-8 overflow-hidden-lg" id="conversation-table">
                 <div className="w-full overflow-x-auto">
-                    <table className="w-full">
+                    <table className="w-full max-w-[760px]">
                         <thead>
                             <tr className="text-md font-semibold tracking-wide text-left uppercase border-b border-gray">
                                 <th className="px-4 py-3">Name</th>
@@ -148,6 +148,7 @@ function ConversationsView({ conversations, setConversations }) {
                 </div>
             </div>
         </div>
+
     );
 }
 
