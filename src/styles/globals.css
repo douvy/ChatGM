@@ -160,7 +160,7 @@ ol li {
 }
 
 #messages-box, #component-box .last {
-  border-bottom: 1px solid #313336;
+  /*border-bottom: 1px solid #313336;*/
 }
 
 #new-chat i {
