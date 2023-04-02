@@ -1,6 +1,13 @@
 import { PrismaClient, Prisma } from "@prisma/client";
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  log: [
+    {
+      emit: "event",
+      level: "query",
+    },
+  ],
+});
 
 export default function handler(req, res) {
   // Set SSE headers
@@ -9,7 +16,7 @@ export default function handler(req, res) {
   res.setHeader("Connection", "keep-alive");
   res.statusCode = 200;
 
-  const sendEvent = (data) => {
+  const sendEvent = (data: any) => {
     res.write(`data: ${JSON.stringify(data)}\n\n`);
   };
 
@@ -17,8 +24,8 @@ export default function handler(req, res) {
   const onChange = async (prisma: PrismaClient) => {
     await prisma.$connect();
 
-    prisma.$on("query", (event: Prisma.QueryEvent) => {
-      console.log(event);
+    prisma.$on("query", async (e) => {
+      console.log(`${e.query} ${e.params}`)
     });
 
     const stream = await prisma.conversation.findMany().$stream();
