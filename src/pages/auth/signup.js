@@ -26,12 +26,12 @@ function SignUpForm() {
     }
 
     return (
-        <div className="auth-container">
-            <form onSubmit={handleSubmit} className="auth-form">
-                <h2>Sign up for an account</h2>
+        <div className="auth-container mx-auto w-[400px] flex-1 mt-5 md:mt-2">
+            <form onSubmit={handleSubmit} className="auth-form ">
+            <h1 className="heading font-display text-title font-medium  uppercase mt-50 mb-30">Sign up for an account</h1>
                 {error && <div className="auth-error">{error}</div>}
-                <div className="auth-input-group">
-                    <label htmlFor="username" className="auth-input-label">
+                <div className="auth-input-group mb-5">
+                    <label htmlFor="username" className="auth-input-label block font-bold mb-2 text-xs font-semibold uppercase italic text-white">
                         Username:
                     </label>
                     <input
@@ -39,11 +39,11 @@ function SignUpForm() {
                         id="username"
                         value={username}
                         onChange={(event) => setUsername(event.target.value)}
-                        className="auth-input-field"
+                        className="auth-input-field w-full"
                     />
                 </div>
                 <div className="auth-input-group">
-                    <label htmlFor="password" className="auth-input-label">
+                    <label htmlFor="password" className="auth-input-label block font-bold mb-2 text-xs font-semibold uppercase italic text-white">
                         Password:
                     </label>
                     <input
@@ -51,10 +51,10 @@ function SignUpForm() {
                         id="password"
                         value={password}
                         onChange={(event) => setPassword(event.target.value)}
-                        className="auth-input-field"
+                        className="auth-input-field w-full"
                     />
                 </div>
-                <button type="submit" className="auth-button">
+                <button type="submit" className="auth-button font-semibold w-full mt-5 mb-8 h-11">
                     Create account
                 </button>
             </form>
