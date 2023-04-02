@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function ConversationView({ conversations, setConversations }) {
+function ConversationsView({ conversations, setConversations }) {
     const [editingIndex, setEditingIndex] = useState(-1);
 
     const handleEdit = (index) => {
@@ -65,6 +65,29 @@ function ConversationView({ conversations, setConversations }) {
         }
     };
 
+    const handlePublicChange = async (index, event) => {
+        const updatedConversations = [...conversations];
+        updatedConversations[index] = { ...updatedConversations[index], isPublic: event.target.checked };
+        setConversations(updatedConversations);
+
+        const id = conversations[index].id;
+        try {
+            const response = await fetch(`/api/conversations/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ isPublic: updatedConversations[index].isPublic }),
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to update conversation.");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     return (
         <div className="container mx-auto mt-8">
             <div className="w-full mb-8 overflow-hidden-lg" id="conversation-table">
@@ -75,6 +98,7 @@ function ConversationView({ conversations, setConversations }) {
                                 <th className="px-4 py-3">Name</th>
                                 <th className="px-4 py-3">Edit</th>
                                 <th className="px-4 py-3">Delete</th>
+                                <th className="px-4 py-3">Public</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray">
@@ -110,6 +134,13 @@ function ConversationView({ conversations, setConversations }) {
                                             onClick={() => handleDelete(conversation)}
                                         ></i>
                                     </td>
+                                    <td className="px-4 py-3 whitespace-no-wrap">
+                                        <input
+                                            type="checkbox"
+                                            checked={conversation.isPublic}
+                                            onChange={(e) => handlePublicChange(index, e)}
+                                        />
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
@@ -120,4 +151,4 @@ function ConversationView({ conversations, setConversations }) {
     );
 }
 
-export default ConversationView;
+export default ConversationsView;

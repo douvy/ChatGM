@@ -30,7 +30,7 @@ export default async function handler(req, res) {
 
         case 'PUT':
             try {
-                const { name, messages } = req.body;
+                const { name, messages, isPublic } = req.body;
                 const data = {};
 
                 if (name !== undefined) {
@@ -39,6 +39,10 @@ export default async function handler(req, res) {
 
                 if (messages !== undefined) {
                     data.messages = { upsert: messages.map(msg => ({ where: { id: msg.id || -1 }, create: msg, update: msg })) };
+                }
+
+                if (isPublic !== undefined) {
+                    data.isPublic = isPublic
                 }
 
                 const conversation = await prisma.conversation.update({

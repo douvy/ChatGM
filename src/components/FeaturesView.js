@@ -52,7 +52,7 @@ function FeatureView({ passedFeatures = [] }) {
             feature.starred = !feature.starred
             setFeatures(updatedFeatures);
 
-            const response = await fetch(`/api/features?id=${feature.id}`, {
+            const response = await fetch(`/api/features/${feature.id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
