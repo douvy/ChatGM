@@ -147,7 +147,7 @@ const Home: NextPage<PageProps> = (props) => {
     role: "user",
     content: messageContent,
     avatarSource: "avatar.png",
-    sender: user.username || "anonymous"
+    sender: user?.username || "anonymous"
   });
   console.log("SESSION:", session);
 
