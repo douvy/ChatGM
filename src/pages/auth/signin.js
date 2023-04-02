@@ -18,13 +18,12 @@ function SignInForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const result = signIn('credentials', {
+        const result = await signIn('credentials', {
             username,
             password,
             redirect: false,
             // callbackUrl: '/',
         })
-        // alert(JSON.stringify(result));
         if (!result.error) {
             Router.push('/')
         } else {
