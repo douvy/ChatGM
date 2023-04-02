@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { darcula } from 'react-syntax-highlighter/dist/cjs/styles/hljs';
-import { xonokai } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import "@uiw/react-textarea-code-editor/dist.css";
 import AutoExpandTextarea from './AutoExpandTextarea';
 
@@ -55,8 +52,8 @@ function ComponentBuilder() {
 
     return (
         <>
-            <div class="flex w-full h-screen">
-                <div class="relative w-1/2">
+            <div className="flex flex-wrap w-full h-screen p-4">
+                <div className="relative w-full lg:w-1/2 h-[570px] pr-2" id="code-editor-wrapper">
                     <CodeEditor
                         value={code}
                         language="html"
@@ -65,30 +62,34 @@ function ComponentBuilder() {
                         padding={15}
                         style={{
                             fontSize: 12,
-                            backgroundColor: "#f5f5f5",
-                            fontFamily: "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace"
+                            backgroundColor: "#222427",
+                            height: "100%",
+                            minHeight: "400px",
+                            overflowY: "auto",
                         }}
-                        className="w-full h-1/2"
+                        className="w-full h-full"
+                        id="code-editor"
                     />
-                    <form className="absolute bottom-0 flex items-end w-full p-4 md:p-4">
-                        <AutoExpandTextarea
-                            value={codeRequestMessage}
-                            onChange={updateCodeRequestMessage}
-                            onKeyDown={handleKeyDown}
-                            placeholder="Write a code prompt"
-                            className="w-full p-2 mr-2 bg-white border border-gray-400 rounded"
-                        />
-                        <span className="button-container">
-                            <button type="button" onClick={sendMessage} className="font-semibold uppercase p-2">Send</button>
-                        </span>
-                    </form>
                 </div>
-                <div class="w-1/2">
-                    <div dangerouslySetInnerHTML={{ __html: code }} />
+                <div className="w-full lg:w-1/2 h-[570px] pl-2">
+                    <div className="h-full overflow-y-auto" dangerouslySetInnerHTML={{ __html: code }} />
                 </div>
             </div>
 
-
+            <div className="flex w-full justify-center">
+                <form className="absolute bottom-0 flex items-end w-[730px] p-4 md:p-4">
+                    <AutoExpandTextarea
+                        value={codeRequestMessage}
+                        onChange={updateCodeRequestMessage}
+                        onKeyDown={handleKeyDown}
+                        placeholder="Write a code prompt"
+                        className="w-full p-2 mr-2 text-black bg-white border border-gray-400 rounded"
+                    />
+                    <span className="button-container">
+                        <button type="button" onClick={sendMessage} className="font-semibold uppercase p-2">Send</button>
+                    </span>
+                </form>
+            </div>
         </>
     );
 }
