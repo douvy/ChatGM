@@ -19,6 +19,7 @@ html {
   margin: 0;
   padding: 0;
   height: 100%;
+  overflow-y: hidden;
 }
 
 section a {
@@ -129,36 +130,36 @@ hr {
   border-color: #4F5054;
 }
 
-#messages-box {
+#messages-box, #component-box {
   max-height: 590px;
 }
 
-#messages-box ul li,
+#messages-box, #component-box ul li,
 ol li {
   margin-bottom: 8px;
 }
 
-#messages-box ul {
+#messages-box, #component-box ul {
   list-style-type: disc;
   /* bullet style */
   padding-left: 1.5em;
   /* indentation */
 }
 
-#messages-box li {
+#messages-box, #component-box li {
   padding-left: 6px;
   /* Adjust the padding amount as needed */
 }
 
 /* Style for ordered lists */
-#messages-box ol {
+#messages-box, #component-box ol {
   list-style-type: decimal;
   /* numbering style */
   padding-left: 1em;
   /* indentation */
 }
 
-#messages-box .last {
+#messages-box, #component-box .last {
   border-bottom: 1px solid #313336;
 }
 
@@ -263,6 +264,13 @@ textarea:focus {
   bottom: 0;
   width: 100%;
   box-sizing: border-box;
+}
+#code-editor {
+  border: 1px solid #313234 !important;
+  color: #c4c5c8;
+}
+.uiw-react-textarea-code-editor .uiw-react-textarea-code-editor-placeholder {
+    color: #c4c5c8 !important;
 }
 
 /*responsive design*/
