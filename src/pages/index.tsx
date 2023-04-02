@@ -8,6 +8,7 @@ import ConversationLinkListItem from '../components/ConversationLinkListItem';
 import ConversationLinkList from '../components/ConversationLinkList';
 import Sidebar from '../components/Sidebar';
 import ChatWindow from '../components/ChatWindow';
+import SavedMessages from '../components/SavedMessages';
 import FeaturesView from '../components/FeaturesView';
 import TasksView from '../components/TasksView';
 import ConversationsView from '../components/ConversationsView';
@@ -65,6 +66,7 @@ interface Feature {
 interface PageProps {
   session: any;
   conversations: Conversation[],
+  starredMessages: Message[],
   features: Feature[],
   tasks: any[]
 }
@@ -335,6 +337,8 @@ const Home: NextPage<PageProps> = (props) => {
             {currentRoute == '/tasks' ? <TasksView passedTasks={props.tasks}></TasksView> : null}
             {currentRoute == '/conversations' ? <ConversationsView conversations={conversations} setConversations={setConversations}></ConversationsView> : null}
             {currentRoute == '/builder' ? <ComponentBuilder></ComponentBuilder> : null}
+            {currentRoute == '/savedPrompts' ? <SavedMessages starredMessages={props.starredMessages} role='user'></SavedMessages> : null}
+            {currentRoute == '/savedResponses' ? <SavedMessages starredMessages={props.starredMessages} role='assistant'></SavedMessages> : null}
           </main>
         </div>
 
@@ -388,12 +392,13 @@ export const getServerSideProps: GetServerSideProps<any> = async (context) => {
   console.log("SESSION:", session);
 
   const response = await fetch(`http://${baseUrl}/api/initialPageData`);
-  const { conversations, features, tasks } = await response.json();
+  const { conversations, starredMessages, features, tasks } = await response.json();
 
   return {
     props: {
       session,
       conversations,
+      starredMessages,
       features,
       tasks,
     },

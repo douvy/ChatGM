@@ -14,7 +14,7 @@ model Message {
     role           String
     sender         String
     avatarSource   String
-    conversation   Conversation @relation(fields: [conversationId], references: [id])
+    conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
     conversationId Int
     starred        Boolean      @default(false)
 }

@@ -9,7 +9,7 @@ function ConversationView({ conversations, setConversations }) {
 
     const handleDelete = async (conversation) => {
         try {
-            const response = await fetch(`/api/deleteConversation?id=${conversation._id}`, {
+            const response = await fetch(`/api/conversations/${conversation.id}`, {
                 method: "DELETE",
             });
 
@@ -17,7 +17,7 @@ function ConversationView({ conversations, setConversations }) {
                 throw new Error("Failed to delete task.");
             }
 
-            setConversations(conversations.filter((t) => t._id !== conversation._id));
+            setConversations(conversations.filter((t) => t.id !== conversation.id));
         } catch (error) {
             console.error(error);
         }
@@ -31,14 +31,14 @@ function ConversationView({ conversations, setConversations }) {
 
     const saveName = (index, name) => {
         const updateName = async () => {
-            const _id = conversations[index]._id;
+            const id = conversations[index].id;
             try {
-                const response = await fetch(`/api/updateConversationName`, {
+                const response = await fetch(`/api/conversations/${id}`, {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ _id, name }),
+                    body: JSON.stringify({ name: name }),
                 });
 
                 if (!response.ok) {

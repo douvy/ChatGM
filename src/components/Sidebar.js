@@ -42,6 +42,12 @@ export default function Sidebar({ setConversations, setConversation, handleLogou
                 <SidebarItem iconName="check-square" itemText="Conversations" onClick={() => {
                     setCurrentRoute('/conversations');
                 }} />
+                <SidebarItem iconName="star fa-solid" itemText="Saved prompts" onClick={() => {
+                    setCurrentRoute('/savedPrompts');
+                }} />
+                <SidebarItem iconName="star fa-solid" itemText="Saved responses" onClick={() => {
+                    setCurrentRoute('/savedResponses');
+                }} />
                 <SidebarItem iconName="check-square" itemText="Component builder" onClick={() => {
                     setCurrentRoute('/builder');
                 }} />

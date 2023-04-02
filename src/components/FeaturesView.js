@@ -31,10 +31,9 @@ function FeatureView({ passedFeatures = [] }) {
 
     const deleteFeature = async (feature) => {
         try {
-            const response = await fetch(`/api/features?id=${feature.id}`, {
+            const response = await fetch(`/api/features/${feature.id}`, {
                 method: "DELETE",
             });
-            alert(JSON.stringify(response));
 
             if (!response.ok) {
                 throw new Error("Failed to delete feature.");

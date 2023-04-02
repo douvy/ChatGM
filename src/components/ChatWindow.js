@@ -52,7 +52,7 @@ function ChatWindow({ conversation, setConversation, newMessage, sendMessage, up
                 <AutoExpandTextarea
                     value={newMessage.content}
                     onChange={(updateMessageValue)}
-                    // onKeyDown={handleKeyDown}
+                    onKeyDown={handleKeyDown}
                     placeholder="Type your message..."
                     className="w-full p-2 mr-2 bg-white"
                 />
