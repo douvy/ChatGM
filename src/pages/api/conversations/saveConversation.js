@@ -70,7 +70,7 @@ async function saveConversation(conversation) {
         // Return the updated conversation with messages
         const updatedConversation = await prisma.conversation.findUnique({
             where: { id },
-            include: { messages: true }
+            include: { messages: { orderBy: { name: 'asc' } } }
         });
 
         return updatedConversation;
@@ -99,7 +99,7 @@ async function saveConversation(conversation) {
 
         const updatedConversation = await prisma.conversation.findUnique({
             where: { id: newConversation.id },
-            include: { messages: true }
+            include: { messages: { orderBy: { id: 'asc' } } }
         });
 
         return updatedConversation;

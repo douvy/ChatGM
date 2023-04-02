@@ -215,8 +215,17 @@ const Home: NextPage<PageProps> = (props) => {
   const lastMessage = useRef<HTMLDivElement>(null);
 
   const setActiveConversation = (conversation: Conversation) => {
+    // conversation.isActive = true;
     setConversation(conversation);
     // setActiveComponent(<ChatWindow conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} messageContent={messageContent} setMessageContent={setMessageContent} />)
+  }
+
+  const newConversation = (e) => {
+    e.preventDefault();
+    setConversation({
+      messages: [],
+      isActive: true,
+    })
   }
 
   const appendMessage = (message: Message) => {
@@ -326,7 +335,7 @@ const Home: NextPage<PageProps> = (props) => {
       </Head>
       <div className="flex" id="main-container">
         <nav className="fixed h-full w-[225px] text-white shadow-md hidden lg:block">
-          <ConversationLinkList conversations={conversations} activeConversation={conversation} selectConversation={setActiveConversation} session={props.session} setCurrentRoute={setCurrentRoute}></ConversationLinkList>
+          <ConversationLinkList conversations={conversations} activeConversation={conversation} selectConversation={setActiveConversation} session={props.session} setCurrentRoute={setCurrentRoute} newConversation={newConversation}></ConversationLinkList>
           <hr className="my-4 border-t" />
           <Sidebar setConversations={setConversations} setConversation={setConversation} handleLogout={handleLogout} setActiveComponent={setActiveComponent} features={props.features} setCurrentRoute={setCurrentRoute} session={props.session} />
         </nav>
