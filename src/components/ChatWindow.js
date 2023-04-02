@@ -3,7 +3,7 @@ import AutoExpandTextarea from './AutoExpandTextarea';
 import ChatMessage from './ChatMessage';
 import ChatResponse from './ChatResponse';
 
-function ChatWindow({ conversation, setConversation, newMessage, sendMessage, updateMessageValue, messageContent, setMessageContent, updateConversations }) {
+function ChatWindow({ conversation, setConversation, newMessage, sendMessage, updateMessageValue, messageContent, setMessageContent, updateConversations, starredMessages, setStarredMessages }) {
     const scrollContainer = useRef(null);
     console.log(conversation);
 
@@ -21,10 +21,15 @@ function ChatWindow({ conversation, setConversation, newMessage, sendMessage, up
     console.log(updateMessageValue, "updateMessageValue");
     console.log(messageContent, "messageContent");
 
-    function updateConversation(messageIndex, updatedMessate) {
-        console.log(conversation.messages[messageIndex].starred);
-        console.log(updatedMessate.starred);
-        conversation.messages[messageIndex] = updatedMessate
+    function updateConversation(messageIndex, updatedMessage) {
+        if (conversation.messages[messageIndex].starred != updatedMessage.starred) {
+            if (updatedMessage.starred) {
+                setStarredMessages([...starredMessages, updatedMessage]);
+            } else {
+                setStarredMessages(starredMessages.filter((t) => t.id !== updatedMessage.id));
+            }
+        }
+        conversation.messages[messageIndex] = updatedMessage
         const updatedMessages = [...conversation.messages];
         conversation.messages = updatedMessages
         setConversation(conversation);
@@ -42,7 +47,7 @@ function ChatWindow({ conversation, setConversation, newMessage, sendMessage, up
                             avatarSource={message.role == "user" ? message.avatarSource : "avatar-chat.png"}
                             sender={message.role == "user" ? message.sender : "ChatGPT-3.5"}
                             received={true}
-                            updateConversation={updateConversation}
+                            updateState={updateConversation}
                         />
                     );
                 })}

@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import AutoExpandTextarea from './AutoExpandTextarea';
 import ChatMessage from './ChatMessage';
 
-function SavedMessages({ starredMessages, role }) {
+function SavedMessages({ starredMessages, setStarredMessages, role }) {
     const scrollContainer = useRef(null);
 
     return (
@@ -20,7 +20,12 @@ function SavedMessages({ starredMessages, role }) {
                             avatarSource={message.role == "user" ? message.avatarSource : "avatar-chat.png"}
                             sender={message.role == "user" ? message.sender : "ChatGPT-3.5"}
                             received={true}
-                            updateConversation={() => { }}
+                            updateState={(index, updatedMessage) => {
+                                // const updatedMessages = [...starredMessages];
+                                // updatedMessages[index] = updatedMessage;
+                                // setStarredMessages(updatedMessages)
+                                setStarredMessages(starredMessages.filter((t) => t.id !== updatedMessage.id));
+                            }}
                         />
                     );
                 })}

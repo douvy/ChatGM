@@ -3,7 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 
-function ChatMessage({ index, message, avatarSource, sender, updateConversation }) {
+function ChatMessage({ index, message, avatarSource, sender, updateState }) {
   const [localMessage, setLocalMessage] = useState(message);
 
   const currentTimestamp = new Date().toLocaleString('en-US', {
@@ -43,7 +43,7 @@ function ChatMessage({ index, message, avatarSource, sender, updateConversation 
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(updatedMessage),
     });
-    updateConversation(index, updatedMessage);
+    updateState(index, updatedMessage);
   };
 
   return (

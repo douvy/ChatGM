@@ -129,6 +129,8 @@ const Home: NextPage<PageProps> = (props) => {
 
   const [messages, setMessages] = useState<Message[]>([]);
 
+  const [starredMessages, setStarredMessages] = useState<Message[]>(props.starredMessages);
+
   const [conversation, setConversation] = useState<Conversation>({
     messages: messages,
     isActive: false,
@@ -305,7 +307,7 @@ const Home: NextPage<PageProps> = (props) => {
   var chat = [];
 
   const [activeComponent, setActiveComponent] = useState<any>(
-    <ChatWindow conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} messageContent={messageContent} setMessageContent={setMessageContent} />
+    // <ChatWindow conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} messageContent={messageContent} setMessageContent={setMessageContent} updateConversations={updateConversations} />
   );
 
   return (
@@ -332,13 +334,13 @@ const Home: NextPage<PageProps> = (props) => {
 
         <div className="flex flex-col h-full w-full lg:ml-[225px]">
           <main className="container mx-auto p-4 flex-1 mt-6 md:mt-2">
-            {currentRoute == '/' ? <ChatWindow conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} messageContent={messageContent} setMessageContent={setMessageContent} updateConversations={updateConversations} /> : null}
+            {currentRoute == '/' ? <ChatWindow conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} messageContent={messageContent} setMessageContent={setMessageContent} updateConversations={updateConversations} starredMessages={starredMessages} setStarredMessages={setStarredMessages} /> : null}
             {currentRoute == '/features' ? <FeaturesView passedFeatures={props.features}></FeaturesView> : null}
             {currentRoute == '/tasks' ? <TasksView passedTasks={props.tasks}></TasksView> : null}
             {currentRoute == '/conversations' ? <ConversationsView conversations={conversations} setConversations={setConversations}></ConversationsView> : null}
             {currentRoute == '/builder' ? <ComponentBuilder></ComponentBuilder> : null}
-            {currentRoute == '/savedPrompts' ? <SavedMessages starredMessages={props.starredMessages} role='user'></SavedMessages> : null}
-            {currentRoute == '/savedResponses' ? <SavedMessages starredMessages={props.starredMessages} role='assistant'></SavedMessages> : null}
+            {currentRoute == '/savedPrompts' ? <SavedMessages starredMessages={starredMessages} setStarredMessages={setStarredMessages} role='user'></SavedMessages> : null}
+            {currentRoute == '/savedResponses' ? <SavedMessages starredMessages={starredMessages} setStarredMessages={setStarredMessages} role='assistant'></SavedMessages> : null}
           </main>
         </div>
 
