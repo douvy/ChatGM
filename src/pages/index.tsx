@@ -28,10 +28,7 @@ import { parse } from 'cookie';
 import { verify } from 'jsonwebtoken';
 import { useSession } from 'next-auth/react';
 import { ably } from "../lib/ably";
-
-interface User {
-  username: string,
-}
+import { User } from "@prisma/client";
 
 interface Message {
   role: string,
@@ -214,9 +211,16 @@ const Home: NextPage<PageProps> = (props) => {
 
   const lastMessage = useRef<HTMLDivElement>(null);
 
-  const setActiveConversation = (conversation: Conversation) => {
+  const setActiveConversation = async (conversation: Conversation) => {
     // conversation.isActive = true;
-    setConversation(conversation);
+    const response = await fetch(`api/conversations/${conversation.id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    const fullConversation = await response.json();
+    setConversation(fullConversation);
     // setActiveComponent(<ChatWindow conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} messageContent={messageContent} setMessageContent={setMessageContent} />)
   }
 

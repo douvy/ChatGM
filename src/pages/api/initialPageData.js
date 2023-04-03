@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client';
-// import { prisma } from '../../utils/prisma';
 import { prisma } from '@utils/prismaSingleton';
 
 // const prisma = new PrismaClient();
@@ -8,7 +7,7 @@ import { prisma } from '@utils/prismaSingleton';
 export default async function handler(req, res) {
     try {
         const conversations = await prisma.conversation.findMany({
-            include: { messages: { orderBy: { id: 'asc' } } }
+            // include: { messages: { orderBy: { id: 'asc' } } }
         });
         const starredMessages = await prisma.message.findMany({ where: { starred: true } });
         const features = await prisma.feature.findMany();
