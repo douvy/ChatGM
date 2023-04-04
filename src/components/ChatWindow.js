@@ -3,10 +3,10 @@ import AutoExpandTextarea from './AutoExpandTextarea';
 import ChatMessage from './ChatMessage';
 import ChatResponse from './ChatResponse';
 import { ably, subscribeToChannel } from "../lib/ably";
+import { trpc } from '../utils/trpc';
 
 function ChatWindow({ conversation, setConversation, newMessage, sendMessage, updateMessageValue, messageContent, setMessageContent, updateConversations, starredMessages, setStarredMessages }) {
     const scrollContainer = useRef(null);
-    console.log(conversation);
 
     useEffect(() => {
         subscribeToChannel("active-conversation", (data) => {
@@ -27,9 +27,6 @@ function ChatWindow({ conversation, setConversation, newMessage, sendMessage, up
         setMessage(e.target.value);
     }
 
-    console.log(updateMessageValue, "updateMessageValue");
-    console.log(messageContent, "messageContent");
-
     function updateConversation(messageIndex, updatedMessage) {
         if (conversation.messages[messageIndex].starred != updatedMessage.starred) {
             if (updatedMessage.starred) {
@@ -45,11 +42,13 @@ function ChatWindow({ conversation, setConversation, newMessage, sendMessage, up
     }
 
     let messageEnd = null;
-    useEffect(() => {
-        console.log("conversation changed");
-        messageEnd.scrollIntoView({ behaviour: "smooth" });
-    }, [conversation]);
-
+    // useEffect(() => {
+    //     console.log("conversation changed");
+    //     messageEnd.scrollIntoView({ behaviour: "smooth" });
+    // }, [conversation]);
+    if (!conversation.messages) {
+        return <></>
+    }
     return (
         <div className="mx-auto max-w-[760px]">
             <div className="p-4 overflow-y-auto" id="messages-box" ref={scrollContainer}>

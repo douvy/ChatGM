@@ -27,8 +27,12 @@ import { useRouter } from 'next/router';
 import { parse } from 'cookie';
 import { verify } from 'jsonwebtoken';
 import { useSession } from 'next-auth/react';
-import { ably } from "../lib/ably";
+// import { ably } from "../lib/ably";
 import { User } from "@prisma/client";
+import { client } from '../trpc/client';
+import { trpc } from '../utils/trpc';
+// import { useQuery } from "@trpc/react";
+
 
 interface Message {
   role: string,
@@ -131,12 +135,50 @@ const Home: NextPage<PageProps> = (props) => {
 
   const [messages, setMessages] = useState<Message[]>([]);
 
-  const [starredMessages, setStarredMessages] = useState<Message[]>(props.starredMessages);
+  const [starredMessages, setStarredMessages] = useState<Message[]>(trpc.messages.query.useQuery(
+
+  ).data || []);
 
   const [conversation, setConversation] = useState<Conversation>({
+    name: "",
     messages: messages,
     isActive: false,
   });
+
+  const [conversationId, setConversationId] = useState<number | undefined>();
+
+  trpc.conversations.get.useQuery({ id: conversationId }, {
+    enabled: Boolean(conversationId),
+    onSuccess(data) {
+      setConversation(data);
+    }
+  });
+
+  // const { isSuccess } = trpc.conversations.create.useQuery((conversation), {
+  //   enabled: (!conversation.id && conversation.messages.length == 1),
+  //   onSuccess(data: React.SetStateAction<Conversation>) {
+  //     setConversation(data);
+  //     console.log(data);
+  //   }
+  // });
+
+
+  // const { isFetching } = trpc.openai.query.useQuery((conversation), {
+  //   enabled: (!!conversation.id && conversation.messages.length == 1),
+  //   onSuccess(data: React.SetStateAction<Conversation>) {
+  //     setConversation(data);
+  //     console.log(data);
+  //   }
+  // });
+
+  // trpc.openai.generateName.useQuery((conversation), {
+  //   enabled: (!!conversation.id && conversation.messages.length == 1),
+  //   onSuccess(data: any) {
+  //     setConversation(data);
+  //     setConversations([...conversations, data]);
+  //     console.log("Named conversation", data);
+  //   }
+  // });
 
   const [messageContent, setMessageContent] = useState('');
 
@@ -145,7 +187,7 @@ const Home: NextPage<PageProps> = (props) => {
     role: "user",
     content: messageContent,
     avatarSource: "avatar.png",
-    sender: user?.username || "anonymous"
+    sender: session?.user?.username || "anonymous"
   });
 
   const updateMessageValue = (event: any) => {
@@ -163,7 +205,7 @@ const Home: NextPage<PageProps> = (props) => {
     response: "",
   })
 
-  const [conversations, setConversations] = useState<Conversation[]>(props.conversations);
+  const [conversations, setConversations] = useState<Conversation[]>(trpc.conversations.query.useQuery().data || []);
 
   useEffect(() => {
     const ws = new WebSocket('ws://localhost:8080')
@@ -196,6 +238,18 @@ const Home: NextPage<PageProps> = (props) => {
     }
   }, [conversation, messages])
 
+  useEffect(() => {
+    setCurrentRoute('/');
+  }, [conversation]);
+
+  // useEffect(() => {
+  //   if (conversation.messages.length == 1) {
+  //     alert("one message");
+  //   }
+  //   alert(Boolean(!conversation.id && conversation.messages.length == 1));
+  //   // alert(JSON.stringify(conversation));
+  // }, [conversation]);
+
   // useEffect(() => {
   //   // Fetch the conversations data from an API
   //   fetch('/api/getConversations')
@@ -211,18 +265,21 @@ const Home: NextPage<PageProps> = (props) => {
 
   const lastMessage = useRef<HTMLDivElement>(null);
 
-  const setActiveConversation = async (conversation: Conversation) => {
-    // conversation.isActive = true;
-    const response = await fetch(`api/conversations/${conversation.id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-    const fullConversation = await response.json();
-    setConversation(fullConversation);
-    // setActiveComponent(<ChatWindow conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} messageContent={messageContent} setMessageContent={setMessageContent} />)
-  }
+  // const setActiveConversation = async (conversation: Conversation) => {
+  //   // conversation.isActive = true;
+
+  //   setConversationId(conversation.id);
+  //   const response = await fetch(`api/conversations/${conversation.id}`, {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   })
+  //   const fullConversation = await response.json();
+  //   setConversation(fullConversation);
+  //   // setConversation(conversation);
+  //   // setActiveComponent(<ChatWindow conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} messageContent={messageContent} setMessageContent={setMessageContent} />)
+  // }
 
   const newConversation = (e) => {
     e.preventDefault();
@@ -235,61 +292,44 @@ const Home: NextPage<PageProps> = (props) => {
 
   const appendMessage = (message: Message) => {
     conversation.messages.push(message);
-    setConversation((conversation) => (conversation));
+    // setConversation((conversation) => ({
+    //   ...conversation,
+    // }));
   }
 
   const sendMessage = async () => {
+    // console.log(await client.conversations.query.query());
     appendMessage(newMessage);
+    console.log(conversation);
+    var updatedConversation = conversation;
+    if (!conversation.id) {
+      console.log('1');
+      updatedConversation = await client.conversations.create.query(conversation) as Conversation;
+      console.log('2');
+      console.log(updatedConversation);
+      setConversation(updatedConversation);
+      updatedConversation = await client.openai.generateName.query((updatedConversation)) as Conversation;
+      setConversation(updatedConversation);
+      console.log('3');
+    } else {
+      updatedConversation = await client.messages.create.query(({
+        ...newMessage,
+        conversationId: conversation.id,
+      })) as Conversation;
+    }
+    console.log('4');
+
+    updatedConversation = await client.openai.query.query((updatedConversation)) as Conversation;
+    setConversation(updatedConversation);
+    console.log(updatedConversation);
+
+    console.log('.');
     setMessage({
       role: "user",
       content: "",
       avatarSource: "avatar.png",
       sender: user.username || "anonymous",
     })
-    fetch("/api/sendMessage", {
-      method: "POST",
-      body: JSON.stringify({ prompt: newMessage.content, conversation: conversation }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-    })
-      .then(data => {
-        setResponseValue(data.result.response);
-        if (conversation.id != data.result.conversation.id) {
-          setConversations((conversations) => [...conversations, data.result.conversation]);
-
-          fetch('/api/assignName', {
-            method: "POST",
-            body: JSON.stringify({ conversation: data.result.conversation }),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          })
-            .then(response => response.json())
-            .then(data => {
-              // const updatedConversations = conversations.map(_conversation => {
-              //   if (_conversation._id === conversation._id) {
-              //     return data.conversation;
-              //   } else {
-              //     return _conversation;
-              //   }
-              // });
-              setConversations([...conversations, data.conversation]);
-              setConversation(data.conversation);
-            })
-            .catch(error => console.error(error));
-        }
-
-        setConversation((conversation) => (data.result.conversation));
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
   };
 
   const setMessageValue = (e: { target: { value: any; }; }) => {
@@ -340,7 +380,7 @@ const Home: NextPage<PageProps> = (props) => {
       </Head>
       <div className="flex" id="main-container">
         <nav className="fixed h-full w-[225px] text-white shadow-md hidden lg:block">
-          <ConversationLinkList conversations={conversations} activeConversation={conversation} selectConversation={setActiveConversation} session={props.session} setCurrentRoute={setCurrentRoute} newConversation={newConversation}></ConversationLinkList>
+          <ConversationLinkList conversations={conversations} activeConversation={conversation} selectConversation={setConversationId} session={props.session} setCurrentRoute={setCurrentRoute} newConversation={newConversation}></ConversationLinkList>
           <hr className="my-4 border-t" />
           <Sidebar setConversations={setConversations} setConversation={setConversation} handleLogout={handleLogout} setActiveComponent={setActiveComponent} features={props.features} setCurrentRoute={setCurrentRoute} session={props.session} />
         </nav>
@@ -351,7 +391,6 @@ const Home: NextPage<PageProps> = (props) => {
             </svg>
           </button>
         </div>
-
         <div className="flex flex-col h-full w-full lg:ml-[225px]">
           <main className="container mx-auto p-4 flex-1 mt-6 md:mt-2">
             {currentRoute == '/' ? <ChatWindow conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} messageContent={messageContent} setMessageContent={setMessageContent} updateConversations={updateConversations} starredMessages={starredMessages} setStarredMessages={setStarredMessages} /> : null}
@@ -379,25 +418,19 @@ export const loadConversations: GetServerSideProps<InitialProps> = async (contex
 }
 
 export const getServerSideProps: GetServerSideProps<any> = async (context) => {
+  console.log("getServerSideProps");
+  // const convos = trpc.conversations.useQuery();
+  // console.log("CONVOS:", convos);
+  // console.log(convos.data);
   const { req } = context;
-  const cookies = context.req.headers.cookie;
 
   // Default user is null
   let user = null;
 
-  if (cookies) {
-    console.log("cookies:", cookies);
-    try {
-      // Parse cookies and get the token
-      const parsedCookies = parse(cookies);
-      const token = parsedCookies['authtoken'];
-    } catch (error) {
-      console.error('Error while decoding the token:', error);
-    }
-  }
   const baseUrl = req ? `${req.headers.host}` : '';
 
   const session = await getSession(context);
+  console.log(session);
   if (!session) {
     return {
       redirect: {
@@ -408,7 +441,16 @@ export const getServerSideProps: GetServerSideProps<any> = async (context) => {
   }
 
   const response = await fetch(`http://${baseUrl}/api/initialPageData`);
+  console.log("response:", response);
   const { conversations, starredMessages, features, tasks } = await response.json();
+
+  console.log("props:", {
+    session,
+    conversations,
+    starredMessages,
+    features,
+    tasks,
+  })
 
   return {
     props: {

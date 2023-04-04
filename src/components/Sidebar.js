@@ -11,20 +11,6 @@ function SidebarItem({ itemText, iconName, onClick, link = '#' }) {
 }
 
 export default function Sidebar({ setConversations, setConversation, handleLogout, setActiveComponent, features, setCurrentRoute, session }) {
-    function handleClearConversations() {
-        fetch('/api/clearConversations')
-            .then(response => response.json())
-            .then(data => {
-                if (data === true) {
-                    setConversations([]);
-                    setConversation({
-                        messages: [],
-                    });
-                }
-            })
-            .catch(error => console.error(error));
-    }
-
     return (
         <div>
             <ul className="pl-3">

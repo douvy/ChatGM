@@ -1,12 +1,13 @@
 import '@/styles/globals.css';
-import type { AppProps } from 'next/app';
+import type { AppProps, AppType } from 'next/app';
 import Head from 'next/head';
 import Layout from '../components/Layout';
 import Provider from "next-auth/react";
 import { SessionProvider } from "next-auth/react"
 import React from 'react';
+import { trpc } from '../utils/trpc';
 
-export default function App({ Component, pageProps }: AppProps) {
+const App: AppType = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <Head>
@@ -20,3 +21,6 @@ export default function App({ Component, pageProps }: AppProps) {
     </>
   );
 }
+
+// export default App;
+export default trpc.withTRPC(App);

@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { trpc } from '../utils/trpc';
 
 function ConversationsView({ conversations, setConversations }) {
     const [editingIndex, setEditingIndex] = useState(-1);
+    const deleteConversationMutation = trpc.conversations.delete.useMutation();
 
     const handleEdit = (index) => {
         setEditingIndex(index);
@@ -9,14 +11,8 @@ function ConversationsView({ conversations, setConversations }) {
 
     const handleDelete = async (conversation) => {
         try {
-            const response = await fetch(`/api/conversations/${conversation.id}`, {
-                method: "DELETE",
-            });
-
-            if (!response.ok) {
-                throw new Error("Failed to delete task.");
-            }
-
+            const response = await deleteConversationMutation.mutate(conversation.id);
+            console.log("delete response:", response);
             setConversations(conversations.filter((t) => t.id !== conversation.id));
         } catch (error) {
             console.error(error);
