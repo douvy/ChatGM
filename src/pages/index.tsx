@@ -237,6 +237,12 @@ const Home: NextPage<PageProps> = (props) => {
   const sendMessage = async () => {
     // console.log(await client.conversations.query.query());
     appendMessage(newMessage);
+    setMessage({
+      role: "user",
+      content: "",
+      avatarSource: "avatar.png",
+      sender: user.username || "anonymous",
+    })
     var updatedConversation = conversation;
     if (!conversation.id) {
       updatedConversation = await client.conversations.create.query(conversation) as Conversation;
@@ -253,13 +259,6 @@ const Home: NextPage<PageProps> = (props) => {
 
     updatedConversation = await client.openai.query.query((updatedConversation)) as Conversation;
     setConversation(updatedConversation);
-
-    setMessage({
-      role: "user",
-      content: "",
-      avatarSource: "avatar.png",
-      sender: user.username || "anonymous",
-    })
   };
 
   const updateConversations = (updatedConversation: Conversation, index: number) => {
