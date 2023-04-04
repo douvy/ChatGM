@@ -1,4 +1,4 @@
-import FeaturesView from './FeaturesView';
+import { signOut } from 'next-auth/react';
 
 function SidebarItem({ itemText, iconName, onClick, link = '#' }) {
     return (
@@ -10,7 +10,7 @@ function SidebarItem({ itemText, iconName, onClick, link = '#' }) {
     );
 }
 
-export default function Sidebar({ setConversations, setConversation, handleLogout, setActiveComponent, features, setCurrentRoute, session }) {
+export default function Sidebar({ setConversations, setConversation, setActiveComponent, features, setCurrentRoute, session }) {
     return (
         <div>
             <ul className="pl-3">
@@ -36,7 +36,11 @@ export default function Sidebar({ setConversations, setConversation, handleLogou
                 <SidebarItem iconName="fa-solid fa-toolbox" itemText="Component builder" onClick={() => {
                     setCurrentRoute('/builder');
                 }} />
-                <SidebarItem iconName="arrow-right-from-bracket" itemText="Log Out" onClick={handleLogout} />
+                <SidebarItem iconName="arrow-right-from-bracket" itemText="Log Out" onClick={() => {
+                    signOut({
+                        callbackUrl: '/auth/signin',
+                    });
+                }} />
             </ul>
         </div>
     );

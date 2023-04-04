@@ -1,10 +1,6 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import React, { useState, useEffect, useRef, SetStateAction } from 'react';
-import ChatMessage from '../components/ChatMessage';
-import ChatResponse from '../components/ChatResponse';
-import ConversationLinkListItem from '../components/ConversationLinkListItem';
 import ConversationLinkList from '../components/ConversationLinkList';
 import Sidebar from '../components/Sidebar';
 import ChatWindow from '../components/ChatWindow';
@@ -14,24 +10,14 @@ import TasksView from '../components/TasksView';
 import ConversationsView from '../components/ConversationsView';
 import ComponentBuilder from '../components/ComponentBuilder';
 import { addInfiniteScroll } from '../utils/infiniteScroll';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import rehypeRaw from 'rehype-raw';
-import { ObjectId } from 'mongodb';
 import { GetServerSideProps, NextPage } from 'next';
-import AutoExpandTextarea from '../components/AutoExpandTextarea';
 import Router from 'next/router';
-import { getSession, signOut } from 'next-auth/react';
-// import { Route, Routes } from 'react-router-dom';
+import { getSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { parse } from 'cookie';
-import { verify } from 'jsonwebtoken';
 import { useSession } from 'next-auth/react';
-// import { ably } from "../lib/ably";
 import { User } from "@prisma/client";
 import { client } from '../trpc/client';
 import { trpc } from '../utils/trpc';
-// import { useQuery } from "@trpc/react";
 
 
 interface Message {
@@ -60,10 +46,6 @@ interface Session {
   _id?: String
 }
 
-interface WithSession {
-  session: {} | null;
-}
-
 interface Feature {
   name: string,
   description: string
@@ -77,15 +59,6 @@ interface PageProps {
   tasks: any[]
 }
 
-function withLocalStorage<T extends WithSession>(WrappedComponent: React.ComponentType<T>) {
-  const sessionStr = localStorage.getItem('session');
-  const session = JSON.parse(sessionStr || "{}");
-
-  return function WithLocalStorage(props: T) {
-    return <WrappedComponent {...props} session={session} />;
-  };
-}
-
 const Home: NextPage<PageProps> = (props) => {
   const router = useRouter();
   const { route } = router;
@@ -93,42 +66,6 @@ const Home: NextPage<PageProps> = (props) => {
   const { data: session, status } = useSession()
   if (status === "authenticated") {
 
-  }
-
-  console.log("props", props);
-
-  // const [session, setSession] = useState<Session | null>({
-  //   user: {
-  //     username: "anonymous",
-  //   }
-  // });
-
-  // useEffect(() => {
-  //   if (typeof window !== 'undefined') {
-  //     var sessionStr = localStorage.getItem('session');
-
-  //     if (sessionStr !== null) {
-  //       var session = JSON.parse(sessionStr);
-  //       setSession(session);
-  //       console.log(session);
-  //     } else {
-  //       setSession({
-  //         user: {
-  //           username: "anonymous",
-  //         }
-  //       })
-  //       // Router.push('/signin');
-  //     }
-  //   }
-  // }, []);
-
-  function handleLogout(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
-    e.preventDefault();
-    signOut({
-      callbackUrl: '/auth/signin',
-    });
-    // localStorage.removeItem('session');
-    // Router.push('/signin');
   }
 
   const [currentRoute, setCurrentRoute] = useState('/');
@@ -300,30 +237,23 @@ const Home: NextPage<PageProps> = (props) => {
   const sendMessage = async () => {
     // console.log(await client.conversations.query.query());
     appendMessage(newMessage);
-    console.log(conversation);
     var updatedConversation = conversation;
     if (!conversation.id) {
-      console.log('1');
       updatedConversation = await client.conversations.create.query(conversation) as Conversation;
-      console.log('2');
       console.log(updatedConversation);
       setConversation(updatedConversation);
       updatedConversation = await client.openai.generateName.query((updatedConversation)) as Conversation;
       setConversation(updatedConversation);
-      console.log('3');
     } else {
       updatedConversation = await client.messages.create.query(({
         ...newMessage,
         conversationId: conversation.id,
       })) as Conversation;
     }
-    console.log('4');
 
     updatedConversation = await client.openai.query.query((updatedConversation)) as Conversation;
     setConversation(updatedConversation);
-    console.log(updatedConversation);
 
-    console.log('.');
     setMessage({
       role: "user",
       content: "",
@@ -331,27 +261,6 @@ const Home: NextPage<PageProps> = (props) => {
       sender: user.username || "anonymous",
     })
   };
-
-  const setMessageValue = (e: { target: { value: any; }; }) => {
-    setMessage((prevMessage) => ({
-      ...prevMessage,
-      content: e.target.value,
-    }));
-  };
-
-  const setResponseValue = (response: string) => {
-    setResponse({
-      response: response,
-    });
-  };
-
-  function handleKeyDown(event: React.KeyboardEvent) {
-    if (event.key === 'Enter' && !event.shiftKey) {
-      // handle "Enter" key press without the Shift key
-      event.preventDefault();
-      sendMessage();
-    }
-  }
 
   const updateConversations = (updatedConversation: Conversation, index: number) => {
     const updatedConversations = [...conversations];
@@ -382,7 +291,7 @@ const Home: NextPage<PageProps> = (props) => {
         <nav className="fixed h-full w-[225px] text-white shadow-md hidden lg:block">
           <ConversationLinkList conversations={conversations} activeConversation={conversation} selectConversation={setConversationId} session={props.session} setCurrentRoute={setCurrentRoute} newConversation={newConversation}></ConversationLinkList>
           <hr className="my-4 border-t" />
-          <Sidebar setConversations={setConversations} setConversation={setConversation} handleLogout={handleLogout} setActiveComponent={setActiveComponent} features={props.features} setCurrentRoute={setCurrentRoute} session={props.session} />
+          <Sidebar setConversations={setConversations} setConversation={setConversation} setActiveComponent={setActiveComponent} features={props.features} setCurrentRoute={setCurrentRoute} session={props.session} />
         </nav>
         <div className="fixed top-0 left-0 z-50 flex items-center justify-end w-full p-2 pr-3 lg:hidden">
           <button className="text-red-400 hover:text-red-500">
