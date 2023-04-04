@@ -235,7 +235,6 @@ const Home: NextPage<PageProps> = (props) => {
   }
 
   const sendMessage = async () => {
-    // console.log(await client.conversations.query.query());
     appendMessage(newMessage);
     setMessage({
       role: "user",
