@@ -89,7 +89,9 @@ form input {
 
   color: #C4C5C8;
 }
-
+.message i {
+  color:  #ffffff;
+}
 .message img {
   margin-top: 7px;
 }

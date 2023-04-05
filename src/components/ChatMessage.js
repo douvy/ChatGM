@@ -77,7 +77,7 @@ function ChatMessage({ index, message, avatarSource, sender, updateState }) {
               <i className="fa-solid fa-check w-5 h-5 ml-2"></i>
             ) : (
               <i
-                className={`fa-light fa-copy w-5 h-5 ml-2 cursor-pointer`}
+                className={`fa-light fa-copy w-5 h-5 ml-3 cursor-pointer`}
                 onClick={() => {
                   copyToClipboard(localMessage.content);
                 }}
