@@ -60,6 +60,7 @@ interface PageProps {
 }
 
 const Home: NextPage<PageProps> = (props) => {
+  console.log("PROPS:", props);
   const router = useRouter();
   const { route } = router;
 
@@ -141,7 +142,7 @@ const Home: NextPage<PageProps> = (props) => {
     response: "",
   })
 
-  const [conversations, setConversations] = useState<Conversation[]>(props.conversations);
+  const [conversations, setConversations] = useState<Conversation[]>(props.conversations || []);
 
   useEffect(() => {
     const ws = new WebSocket('ws://localhost:8080')
@@ -228,10 +229,13 @@ const Home: NextPage<PageProps> = (props) => {
     var updatedConversation = conversation;
     if (!conversation.id) {
       updatedConversation = await client.conversations.create.query(conversation) as Conversation;
-      console.log(updatedConversation);
-      setConversation(updatedConversation);
+      setConversations([...conversations, updatedConversation]);
       updatedConversation = await client.openai.generateName.query((updatedConversation)) as Conversation;
-      setConversation(updatedConversation);
+      setConversations([...conversations, updatedConversation]);
+      setConversation({
+        ...conversation,
+        name: updatedConversation.name
+      });
     } else {
       updatedConversation = await client.messages.create.query(({
         ...newMessage,
@@ -239,8 +243,30 @@ const Home: NextPage<PageProps> = (props) => {
       })) as Conversation;
     }
 
+    // const placeholderResponse = {
+    //   role: "assistant",
+    //   content: ".",
+    //   avatarSource: "avatar-chat.png",
+    //   sender: "ChatGPT-3.5",
+    // };
+    // setConversation({
+    //   ...updatedConversation,
+    //   messages: [...updatedConversation.messages, placeholderResponse]
+    // });
+    // const interval = setInterval(() => {
+    //   placeholderResponse.content += '.';
+    //   setConversation({
+    //     ...updatedConversation,
+    //     messages: [...updatedConversation.messages, placeholderResponse]
+    //   });
+    // }, 100);
+
     updatedConversation = await client.openai.query.query((updatedConversation)) as Conversation;
-    setConversation(updatedConversation);
+    // clearInterval(interval);
+    setConversation({
+      ...updatedConversation,
+      messages: updatedConversation.messages,
+    });
   };
 
   const updateConversations = (updatedConversation: Conversation, index: number) => {
@@ -324,6 +350,7 @@ export const getServerSideProps: GetServerSideProps<any> = async (context) => {
   console.log("response:", response);
   const { conversations, starredMessages, features, tasks } = await response.json();
 
+  console.log("CONVERSATIONS", conversations);
   return {
     props: {
       session,
