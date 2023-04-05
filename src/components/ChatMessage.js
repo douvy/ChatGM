@@ -7,6 +7,7 @@ import copy from 'clipboard-copy';
 
 function ChatMessage({ index, message, avatarSource, sender, updateState }) {
   const [localMessage, setLocalMessage] = useState(message);
+  const [copied, setCopied] = useState(false);
   const updateMessageMutation = trpc.messages.update.useMutation();
 
   const currentTimestamp = new Date().toLocaleString('en-US', {
@@ -38,22 +39,21 @@ function ChatMessage({ index, message, avatarSource, sender, updateState }) {
   const starMessage = async () => {
     const updatedMessage = {
       ...localMessage,
-      starred: !localMessage.starred
+      starred: !localMessage.starred,
     };
     updateMessageMutation.mutate(updatedMessage);
     setLocalMessage(updatedMessage);
-    // const response = await fetch(`/api/messages/${message.id}`, {
-    //   method: 'PUT',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify(updatedMessage),
-    // });
     updateState(index, updatedMessage);
   };
 
   function copyToClipboard(text) {
     copy(text)
-      .then(() => console.log('Copied to clipboard:', text))
-      .catch(err => console.error('Failed to copy:', err));
+      .then(() => {
+        console.log('Copied to clipboard:', text);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000); // Revert back to copy icon after 2 seconds
+      })
+      .catch((err) => console.error('Failed to copy:', err));
   }
 
   return (
@@ -73,9 +73,18 @@ function ChatMessage({ index, message, avatarSource, sender, updateState }) {
             {currentTimestamp}
             {localMessage.id}
             <i className={`fa-star ${localMessage.starred ? 'fa-solid' : 'fa-regular'} ml-2 cursor-pointer`} onClick={starMessage}></i>
-            <i className={`fas fa-clipboard ml-2 cursor-pointer`} onClick={() => { copyToClipboard(localMessage.content); }}></i>
+            {copied ? (
+              <i className="fa-solid fa-check w-8 h-8 ml-2"></i>
+            ) : (
+              <i
+                className={`fa-light fa-copy w-8 h-8 ml-2 cursor-pointer`}
+                onClick={() => {
+                  copyToClipboard(localMessage.content);
+                }}
+              ></i>
+            )}
           </p>
-          <ReactMarkdown
+                    <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             rehypePlugins={[rehypeRaw]}
             children={localMessage.content}
@@ -84,7 +93,6 @@ function ChatMessage({ index, message, avatarSource, sender, updateState }) {
         </div>
       </div>
     </div>
-
   );
 }
 
