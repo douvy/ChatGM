@@ -4,7 +4,7 @@ function SidebarItem({ itemText, iconName, onClick, link = '#' }) {
     return (
         <a href={link}>
             <li className="p-2 pl-4" onClick={onClick}>
-                <i className={`far fa-${iconName} fa-lg mr-4`}></i> {itemText}
+                <i className={`far fa-${iconName} fa-lg mr-4 w-4`}></i> {itemText}
             </li>
         </a>
     );
