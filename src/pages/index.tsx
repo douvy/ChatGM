@@ -319,9 +319,7 @@ const Home: NextPage<PageProps> = (props) => {
             {currentRoute == '/' ? <ChatWindow conversationId={conversationId} conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} starredMessages={starredMessages} setStarredMessages={setStarredMessages} /> : null}
             {currentRoute == '/features' ? <FeaturesView passedFeatures={props.features}></FeaturesView> : null}
             {currentRoute == '/tasks' ? <TasksView passedTasks={props.tasks}></TasksView> : null}{currentRoute == '/features' ? <FeaturesView passedFeatures={props.features}></FeaturesView> : null}
-           
-            {currentRoute == '/myAccount' ? <MyAccount passedTasks={props.tasks}></MyAccount> : null}
-           
+            {currentRoute == '/myAccount' ? <MyAccount></MyAccount> : null}
             {currentRoute == '/conversations' ? <ConversationsView conversations={conversations} setConversations={setConversations}></ConversationsView> : null}
             {currentRoute == '/builder' ? <ComponentBuilder></ComponentBuilder> : null}
             {currentRoute == '/savedPrompts' ? <SavedMessages starredMessages={starredMessages} setStarredMessages={setStarredMessages} role='user'></SavedMessages> : null}
