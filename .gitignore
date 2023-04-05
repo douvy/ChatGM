@@ -106,5 +106,5 @@ dist
 
 **/.DS_Store
 
-generate-types.ts
-.eslintrc.json
+generate-types.ts*
+.eslintrc.json*
