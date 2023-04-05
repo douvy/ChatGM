@@ -44,7 +44,7 @@ export const createConversation = trpc.procedure.input((req: any) => {
 
 export const get = trpc.procedure.input(
   z.object({
-    id: z.number() || undefined,
+    id: z.union([z.number(), z.undefined()]),
   }),
 ).query(async ({ input }) => {
   const conversation = await prisma.conversation.findUnique({ where: { id: Number(input.id) }, include: { messages: { orderBy: { id: 'asc' } } } });

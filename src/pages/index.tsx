@@ -87,7 +87,7 @@ const Home: NextPage<PageProps> = (props) => {
   trpc.conversations.get.useQuery({ id: conversationId }, {
     enabled: Boolean(conversationId),
     onSuccess(data) {
-      setConversation(data);
+      setConversation(data as Conversation);
     }
   });
 
@@ -142,7 +142,7 @@ const Home: NextPage<PageProps> = (props) => {
     response: "",
   })
 
-  const [conversations, setConversations] = useState<Conversation[]>(trpc.conversations.query.useQuery().data || []);
+  const [conversations, setConversations] = useState<Conversation[]>(props.conversations);
 
   useEffect(() => {
     const ws = new WebSocket('ws://localhost:8080')
@@ -218,7 +218,7 @@ const Home: NextPage<PageProps> = (props) => {
   //   // setActiveComponent(<ChatWindow conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} messageContent={messageContent} setMessageContent={setMessageContent} />)
   // }
 
-  const newConversation = (e) => {
+  const newConversation = (e: Event) => {
     e.preventDefault();
     setConversation({
       messages: [],
@@ -350,14 +350,6 @@ export const getServerSideProps: GetServerSideProps<any> = async (context) => {
   const response = await fetch(`http://${baseUrl}/api/initialPageData`);
   console.log("response:", response);
   const { conversations, starredMessages, features, tasks } = await response.json();
-
-  console.log("props:", {
-    session,
-    conversations,
-    starredMessages,
-    features,
-    tasks,
-  })
 
   return {
     props: {
