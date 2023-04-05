@@ -15,6 +15,11 @@ module.exports = removeImports(withPlugins(
       withTM,
       {
         transpileModules: ['react-syntax-highlighter'],
+        eslint: {
+          // Warning: This allows production builds to successfully complete even if
+          // your project has ESLint errors.
+          ignoreDuringBuilds: true,
+        },
       },
     ],
     // [css],

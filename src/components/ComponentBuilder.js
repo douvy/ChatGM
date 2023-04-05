@@ -12,10 +12,6 @@ function ComponentBuilder() {
     const [codeRequestMessage, setCodeRequestMessage] = useState('');
     const [code, setCode] = useState('');
 
-    const handleCodeChange = (event) => {
-        setCode(event.target.textContent);
-    };
-
     const updateCodeRequestMessage = (event) => {
         setCodeRequestMessage(event.target.value);
     }
@@ -41,7 +37,6 @@ function ComponentBuilder() {
             return response.json();
         })
             .then(data => {
-                console.log(data);
                 setCode(data.result.response);
             })
             .catch(error => {
