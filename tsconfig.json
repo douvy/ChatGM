@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "target": "es2018",
-    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -14,13 +13,30 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "esModuleInterop": true,
     "paths": {
-      "@/*": ["./src/*"],
-      "@utils/*": ["./src/utils/*"]
+      "@/*": [
+        "./src/*"
+      ],
+      "@utils/*": [
+        "./src/utils/*"
+      ]
     },
-    "typeRoots": ["./node_modules/@types", "./node_modules/typegraphql-prisma"],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./node_modules/typegraphql-prisma"
+    ],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

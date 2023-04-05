@@ -7,9 +7,9 @@ generator client {
     provider = "prisma-client-js"
 }
 
-generator typegraphql {
-    provider = "typegraphql-prisma"
-}
+// generator typegraphql {
+//     provider = "typegraphql-prisma"
+// }
 
 model Message {
     id             Int           @id @default(autoincrement())
