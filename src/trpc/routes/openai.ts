@@ -49,7 +49,7 @@ export const query = trpc.procedure.input((req: any) => {
             include: { messages: { orderBy: { id: 'asc' } } },
         });
         console.log("updatedConversation", updatedConversation);
-        pusher.trigger("conversation", "new-message", {
+        pusher.trigger(`conversation-${updatedConversation.id}`, "new-message", {
             conversation: updatedConversation
         });
         return updatedConversation;

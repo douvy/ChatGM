@@ -16,7 +16,11 @@ function ChatWindow({ conversationId, conversation, setConversation, newMessage,
     }
 
     useEffect(() => {
+        channelRef.current.unsubscribe();
         channelRef.current = pusher.subscribe(`conversation-${conversationId}`);
+        channelRef.current.bind('new-message', function (data) {
+            setConversation(data.conversation);
+        });
     }, [conversationId]);
 
     function handleKeyDown(event) {
