@@ -1,5 +1,4 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from 'next'
 import { Configuration, OpenAIApi, ChatCompletionRequestMessage } from "openai";
 
 const configuration = new Configuration({
@@ -7,7 +6,6 @@ const configuration = new Configuration({
 });
 
 const openai = new OpenAIApi(configuration);
-type Message = { role: string, content: string };
 
 export default async function (req: {
     headers: any;
@@ -45,7 +43,7 @@ export default async function (req: {
         return;
     }
 
-    var messages: ChatCompletionRequestMessage[] = [{
+    const messages: ChatCompletionRequestMessage[] = [{
         role: 'user',
         content: prompt,
     }]
@@ -56,7 +54,7 @@ export default async function (req: {
             messages: messages,
         });
 
-        var response = completion?.data?.choices[0]?.message?.content || undefined;
+        const response = completion?.data?.choices[0]?.message?.content || undefined;
 
         res.status(200).json({
             result: {

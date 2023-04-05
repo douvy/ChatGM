@@ -1,13 +1,9 @@
 // trpc/conversations.ts
 import { prisma } from '@utils/prismaSingleton';
 import { trpc } from '../instance'
-import { router, procedure } from '../../server/trpc';
+import { router } from '../../server/trpc';
 // import { trpc } from '../../utils/trpc'
 import { z } from 'zod';
-import { create } from 'domain';
-import chalk from 'chalk';
-const { Prisma } = require('@prisma/client');
-const { createMany } = Prisma;
 
 export const query = trpc.procedure.query(async () => {
   const conversations =
@@ -59,7 +55,7 @@ export const update = trpc.procedure.input((req: any) => {
   return req;
 }).query(async ({ input }) => {
   const conversation = input;
-  const updatedConversation = await prisma.conversation.update({
+  return await prisma.conversation.update({
     where: { id: conversation.id },
     data: conversation,
     include: { messages: { orderBy: { id: 'asc' } } },

@@ -2,7 +2,6 @@ import { prisma } from '@utils/prismaSingleton';
 import { trpc } from '../instance'
 import { router } from '../../server/trpc';
 import { z } from 'zod';
-import chalk from 'chalk';
 
 export const query = trpc.procedure.query(async () => {
     const messages =

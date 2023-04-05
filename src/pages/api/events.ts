@@ -1,4 +1,4 @@
-import { PrismaClient, Prisma } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient({
   log: [
@@ -16,9 +16,9 @@ export default function handler(req: any, res: any) {
   res.setHeader("Connection", "keep-alive");
   res.statusCode = 200;
 
-  const sendEvent = (data: any) => {
-    res.write(`data: ${JSON.stringify(data)}\n\n`);
-  };
+  // const sendEvent = (data: any) => {
+  //   res.write(`data: ${JSON.stringify(data)}\n\n`);
+  // };
 
   // Watch the database for changes
   const onChange = async (prisma: PrismaClient) => {

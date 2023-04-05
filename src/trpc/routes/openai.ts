@@ -1,8 +1,7 @@
 import { prisma } from '@utils/prismaSingleton';
 import { trpc } from '../instance'
-import { router, procedure } from '../../server/trpc';
-import { z } from 'zod';
-const { Prisma } = require('@prisma/client');
+import { router } from '../../server/trpc';
+// import { z } from 'zod';
 import { Configuration, OpenAIApi, ChatCompletionRequestMessage } from "openai";
 
 const configuration = new Configuration({
@@ -22,17 +21,15 @@ export const query = trpc.procedure.input((req: any) => {
     console.log("requesting response from assistant");
     return req;
 }).query(async ({ input }) => {
-    console.log("trying)");
-    console.log('\x1b[31m%s\x1b[0m', "fucking trying", input);
     try {
         const conversation = input as Conversation;
-        var messages: ChatCompletionRequestMessage[] = conversation.messages.map(({ role, content }) => ({ role, content }));
+        const messages: ChatCompletionRequestMessage[] = conversation.messages.map(({ role, content }) => ({ role, content }));
         const completion = await openai.createChatCompletion({
             model: "gpt-3.5-turbo",
             messages: messages,
         });
 
-        var response = completion?.data?.choices[0]?.message?.content || undefined;
+        const response = completion?.data?.choices[0]?.message?.content || undefined;
         const responseMessage = {
             role: "assistant",
             content: response || "",
@@ -51,7 +48,7 @@ export const query = trpc.procedure.input((req: any) => {
             include: { messages: { orderBy: { id: 'asc' } } },
         });
         console.log("updatedConversation", updatedConversation);
-        return updatedConversation;;
+        return updatedConversation;
     } catch (e) {
         console.log("openai error:", e);
     }
@@ -63,8 +60,8 @@ export const generateName = trpc.procedure.input((req: any) => {
 }).query(async ({ input }) => {
     try {
         const conversation = input as Conversation;
-        var messages: ChatCompletionRequestMessage[] = conversation.messages.map(({ role, content }) => ({ role, content }));
-        var nameRequestMessage: ChatCompletionRequestMessage = {
+        const messages: ChatCompletionRequestMessage[] = conversation.messages.map(({ role, content }) => ({ role, content }));
+        const nameRequestMessage: ChatCompletionRequestMessage = {
             role: "user",
             content: "generate a name for this conversation without quotation marks "
         }
@@ -73,7 +70,7 @@ export const generateName = trpc.procedure.input((req: any) => {
             model: "gpt-3.5-turbo",
             messages: [...messages, nameRequestMessage],
         });
-        var name = completion?.data?.choices[0]?.message?.content || undefined;
+        let name = completion?.data?.choices[0]?.message?.content || undefined;
         name = name?.trim().replace(/^"(.*)"$/, '$1');
         console.log("New name:", name);
         const updatedConversation = await prisma.conversation.update({

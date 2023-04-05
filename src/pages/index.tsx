@@ -315,15 +315,6 @@ const Home: NextPage<PageProps> = (props) => {
   )
 }
 
-export const loadConversations: GetServerSideProps<InitialProps> = async (context) => {
-  const res = await fetch("/api/sendMessage");
-  const conversations = await res.json();
-
-  return {
-    props: { conversations },
-  };
-}
-
 export const getServerSideProps: GetServerSideProps<any> = async (context) => {
   console.log("getServerSideProps");
   // const convos = trpc.conversations.useQuery();
