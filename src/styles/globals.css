@@ -129,6 +129,22 @@ ul i {
 hr {
   border-color: #4F5054;
 }
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #232426;
+  border-radius: 4px;
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #232426 transparent;
+}
 
 #messages-box, #component-box {
   max-height: 590px;
