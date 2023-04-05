@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
-import { validateLocaleAndSetLanguage } from 'typescript';
 import { trpc } from '../utils/trpc';
 
 function ChatMessage({ index, message, avatarSource, sender, updateState }) {
   const [localMessage, setLocalMessage] = useState(message);
-  const updateNoteMutation = trpc.messages.update.useMutation();
+  const updateMessageMutation = trpc.messages.update.useMutation();
 
   const currentTimestamp = new Date().toLocaleString('en-US', {
     timeZone: 'America/New_York',
@@ -19,7 +18,7 @@ function ChatMessage({ index, message, avatarSource, sender, updateState }) {
   const customRenderer = {
     p: ({ children }) => (
       <>
-        {children.map((child, index) => {
+        {children.map((child) => {
           if (typeof child === 'string') {
             const parts = child.split('\n');
             return parts.map((part, i) => (
@@ -40,7 +39,7 @@ function ChatMessage({ index, message, avatarSource, sender, updateState }) {
       ...localMessage,
       starred: !localMessage.starred
     };
-    updateNoteMutation.mutate(updatedMessage);
+    updateMessageMutation.mutate(updatedMessage);
     setLocalMessage(updatedMessage);
     // const response = await fetch(`/api/messages/${message.id}`, {
     //   method: 'PUT',

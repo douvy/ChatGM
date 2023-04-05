@@ -131,7 +131,6 @@ const Home: NextPage<PageProps> = (props) => {
     console.log(event.target.value);
     setMessageContent(event.target.value);
     setMessage({ ...newMessage, content: event.target.value });
-    // setActiveComponent(<ChatWindow conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} />
   }
 
   const getMessageContent = () => {
@@ -202,22 +201,6 @@ const Home: NextPage<PageProps> = (props) => {
 
   const lastMessage = useRef<HTMLDivElement>(null);
 
-  // const setActiveConversation = async (conversation: Conversation) => {
-  //   // conversation.isActive = true;
-
-  //   setConversationId(conversation.id);
-  //   const response = await fetch(`api/conversations/${conversation.id}`, {
-  //     method: "GET",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   })
-  //   const fullConversation = await response.json();
-  //   setConversation(fullConversation);
-  //   // setConversation(conversation);
-  //   // setActiveComponent(<ChatWindow conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} messageContent={messageContent} setMessageContent={setMessageContent} />)
-  // }
-
   const newConversation = (e: Event) => {
     e.preventDefault();
     setConversation({
@@ -274,7 +257,6 @@ const Home: NextPage<PageProps> = (props) => {
   var chat = [];
 
   const [activeComponent, setActiveComponent] = useState<any>(
-    // <ChatWindow conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} messageContent={messageContent} setMessageContent={setMessageContent} updateConversations={updateConversations} />
   );
 
   return (
@@ -300,7 +282,7 @@ const Home: NextPage<PageProps> = (props) => {
         </div>
         <div className="flex flex-col h-full w-full lg:ml-[225px]">
           <main className="container mx-auto p-4 flex-1 mt-6 md:mt-2">
-            {currentRoute == '/' ? <ChatWindow conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} messageContent={messageContent} setMessageContent={setMessageContent} updateConversations={updateConversations} starredMessages={starredMessages} setStarredMessages={setStarredMessages} /> : null}
+            {currentRoute == '/' ? <ChatWindow conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} starredMessages={starredMessages} setStarredMessages={setStarredMessages} /> : null}
             {currentRoute == '/features' ? <FeaturesView passedFeatures={props.features}></FeaturesView> : null}
             {currentRoute == '/tasks' ? <TasksView passedTasks={props.tasks}></TasksView> : null}
             {currentRoute == '/conversations' ? <ConversationsView conversations={conversations} setConversations={setConversations}></ConversationsView> : null}

@@ -1,9 +1,7 @@
-import { useState, useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import AutoExpandTextarea from './AutoExpandTextarea';
 import ChatMessage from './ChatMessage';
-import ChatResponse from './ChatResponse';
-import { ably, subscribeToChannel } from "../lib/ably";
-import { trpc } from '../utils/trpc';
+import { subscribeToChannel } from "../lib/ably";
 
 function ChatWindow({ conversation, setConversation, newMessage, sendMessage, updateMessageValue, messageContent, setMessageContent, updateConversations, starredMessages, setStarredMessages }) {
     const scrollContainer = useRef(null);
