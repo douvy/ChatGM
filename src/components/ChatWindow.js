@@ -4,35 +4,20 @@ import ChatMessage from './ChatMessage';
 import { subscribeToChannel } from "../lib/ably";
 import pusher from '../lib/pusher';
 
-function ChatWindow({ conversation, setConversation, newMessage, sendMessage, updateMessageValue, starredMessages, setStarredMessages }) {
+function ChatWindow({ conversationId, conversation, setConversation, newMessage, sendMessage, updateMessageValue, starredMessages, setStarredMessages }) {
     const scrollContainer = useRef(null);
-
-    function getConversation() {
-        return conversation;
-    }
-
     const channelRef = useRef(null);
+
     if (!channelRef.current) {
         channelRef.current = pusher.subscribe('conversation');
         channelRef.current.bind('new-message', function (data) {
-            console.log('Received data:', data);
             setConversation(data.conversation);
-            // let conversation = getConversation();
-            // if (!conversation.messages.some(message => message.id === data.message.id)) {
-            //     alert("setting convo");
-            //     alert(JSON.stringify(conversation.messages));
-            //     setConversation({
-            //         ...conversation,
-            //         messages: [...conversation.messages, data.mesage]
-            //     });
-            // }
         });
     }
 
-    // useEffect(() => {
-    //     subscribeToChannel("active-conversation", () => {
-    //     });
-    // }, []);
+    useEffect(() => {
+        channelRef.current = pusher.subscribe(`conversation-${conversationId}`);
+    }, [conversationId]);
 
     function handleKeyDown(event) {
         if (event.key === 'Enter' && !event.shiftKey) {

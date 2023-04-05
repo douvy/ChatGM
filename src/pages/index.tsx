@@ -60,7 +60,7 @@ interface PageProps {
 }
 
 const Home: NextPage<PageProps> = (props) => {
-  console.log("PROPS:", props);
+  // console.log("PROPS:", props);
   const router = useRouter();
   const { route } = router;
 
@@ -129,7 +129,6 @@ const Home: NextPage<PageProps> = (props) => {
   });
 
   const updateMessageValue = (event: any) => {
-    console.log(event.target.value);
     setMessageContent(event.target.value);
     setMessage({ ...newMessage, content: event.target.value });
   }
@@ -308,7 +307,7 @@ const Home: NextPage<PageProps> = (props) => {
         </div>
         <div className="flex flex-col h-full w-full lg:ml-[225px]">
           <main className="container mx-auto p-4 flex-1 mt-6 md:mt-2">
-            {currentRoute == '/' ? <ChatWindow conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} starredMessages={starredMessages} setStarredMessages={setStarredMessages} /> : null}
+            {currentRoute == '/' ? <ChatWindow conversationId={conversationId} conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} starredMessages={starredMessages} setStarredMessages={setStarredMessages} /> : null}
             {currentRoute == '/features' ? <FeaturesView passedFeatures={props.features}></FeaturesView> : null}
             {currentRoute == '/tasks' ? <TasksView passedTasks={props.tasks}></TasksView> : null}
             {currentRoute == '/conversations' ? <ConversationsView conversations={conversations} setConversations={setConversations}></ConversationsView> : null}
