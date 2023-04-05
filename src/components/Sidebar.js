@@ -16,7 +16,13 @@ export default function Sidebar({ setConversations, setConversation, setActiveCo
             <ul className="pl-3">
                 {/* <SidebarItem iconName="trash-can-xmark" itemText="Clear Conversations" onClick={handleClearConversations} /> */}
                 {/*<SidebarItem iconName="brightness" itemText="Light Mode" />*/}
-                <SidebarItem iconName="user-hair-mullet" itemText="My Account" />
+               
+
+                <SidebarItem iconName="user-hair-mullet" itemText="My Account" onClick={() => {
+                    setCurrentRoute('/myAccount');
+                }} />
+
+
                 {/*<SidebarItem iconName="coin" itemText="Crypto" />*/}
                 {/*<SidebarItem iconName="check-square" itemText="Todos" onClick={() => {
                     setCurrentRoute('/tasks');
