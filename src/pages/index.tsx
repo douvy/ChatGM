@@ -178,6 +178,12 @@ const Home: NextPage<PageProps> = (props) => {
     setCurrentRoute('/');
   }, [conversation]);
 
+  useEffect(() => {
+    setMessage({
+      ...newMessage,
+      sender: session?.user?.username || "anonymous"
+    })
+  }, [session])
   // useEffect(() => {
   //   if (conversation.messages.length == 1) {
   //     alert("one message");
