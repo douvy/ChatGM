@@ -9,7 +9,7 @@ const prisma = new PrismaClient({
   ],
 });
 
-export default function handler(req, res) {
+export default function handler(req: any, res: any) {
   // Set SSE headers
   res.setHeader("Content-Type", "text/event-stream");
   res.setHeader("Cache-Control", "no-cache");
@@ -24,19 +24,19 @@ export default function handler(req, res) {
   const onChange = async (prisma: PrismaClient) => {
     await prisma.$connect();
 
-    prisma.$on("query", async (e) => {
-      console.log(`${e.query} ${e.params}`)
-    });
+    // prisma.$on("query", async (e) => {
+    //   console.log(`${e.query} ${e.params}`)
+    // });
 
-    const stream = await prisma.conversation.findMany().$stream();
-    stream.on("data", (conversation) => {
-      sendEvent(conversation);
-    });
+    // const stream = await prisma.conversation.findMany().$stream();
+    // stream.on("data", (conversation: any) => {
+    //   sendEvent(conversation);
+    // });
 
-    stream.on("end", () => {
-      console.log("Stream ended");
-      prisma.$disconnect();
-    });
+    // stream.on("end", () => {
+    //   console.log("Stream ended");
+    //   prisma.$disconnect();
+    // });
   };
 
   onChange(prisma);
