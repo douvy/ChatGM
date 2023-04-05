@@ -9,6 +9,7 @@ import FeaturesView from '../components/FeaturesView';
 import TasksView from '../components/TasksView';
 import ConversationsView from '../components/ConversationsView';
 import ComponentBuilder from '../components/ComponentBuilder';
+import MyAccount from '../components/MyAccount';
 import { addInfiniteScroll } from '../utils/infiniteScroll';
 import { GetServerSideProps, NextPage } from 'next';
 import Router from 'next/router';
@@ -317,7 +318,10 @@ const Home: NextPage<PageProps> = (props) => {
           <main className="container mx-auto p-4 flex-1 mt-6 md:mt-2">
             {currentRoute == '/' ? <ChatWindow conversationId={conversationId} conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} starredMessages={starredMessages} setStarredMessages={setStarredMessages} /> : null}
             {currentRoute == '/features' ? <FeaturesView passedFeatures={props.features}></FeaturesView> : null}
-            {currentRoute == '/tasks' ? <TasksView passedTasks={props.tasks}></TasksView> : null}
+            {currentRoute == '/tasks' ? <TasksView passedTasks={props.tasks}></TasksView> : null}{currentRoute == '/features' ? <FeaturesView passedFeatures={props.features}></FeaturesView> : null}
+           
+            {currentRoute == '/myAccount' ? <MyAccount passedTasks={props.tasks}></MyAccount> : null}
+           
             {currentRoute == '/conversations' ? <ConversationsView conversations={conversations} setConversations={setConversations}></ConversationsView> : null}
             {currentRoute == '/builder' ? <ComponentBuilder></ComponentBuilder> : null}
             {currentRoute == '/savedPrompts' ? <SavedMessages starredMessages={starredMessages} setStarredMessages={setStarredMessages} role='user'></SavedMessages> : null}
