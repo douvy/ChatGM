@@ -3,14 +3,11 @@ import AutoExpandTextarea from './AutoExpandTextarea';
 import ChatMessage from './ChatMessage';
 import { subscribeToChannel } from "../lib/ably";
 
-function ChatWindow({ conversation, setConversation, newMessage, sendMessage, updateMessageValue, messageContent, setMessageContent, updateConversations, starredMessages, setStarredMessages }) {
+function ChatWindow({ conversation, setConversation, newMessage, sendMessage, updateMessageValue, starredMessages, setStarredMessages }) {
     const scrollContainer = useRef(null);
 
     useEffect(() => {
         subscribeToChannel("active-conversation", (data) => {
-            alert(JSON.stringify(data));
-            // conversation.messages.push(data);
-            // setConversation(conversation);
         });
     }, []);
 
@@ -19,10 +16,6 @@ function ChatWindow({ conversation, setConversation, newMessage, sendMessage, up
             event.preventDefault();
             sendMessage();
         }
-    }
-
-    function updateMessageContent(e) {
-        setMessage(e.target.value);
     }
 
     function updateConversation(messageIndex, updatedMessage) {
@@ -39,7 +32,7 @@ function ChatWindow({ conversation, setConversation, newMessage, sendMessage, up
         setConversation(conversation);
     }
 
-    let messageEnd = null;
+    // let messageEnd = null;
     // useEffect(() => {
     //     console.log("conversation changed");
     //     messageEnd.scrollIntoView({ behaviour: "smooth" });

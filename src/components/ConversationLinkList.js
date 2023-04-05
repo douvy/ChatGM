@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
 import ConversationLinkListItem from './ConversationLinkListItem';
 
-function ConversationLinkList({ conversations, activeConversation, selectConversation, session, setCurrentRoute, newConversation }) {
+function ConversationLinkList({ conversations, activeConversation, selectConversation, session, newConversation }) {
   return (
     <div>
       <ul className="pl-3">
@@ -11,12 +10,12 @@ function ConversationLinkList({ conversations, activeConversation, selectConvers
       <div className="max-h-[315px] overflow-y-auto">
         <ul className="pl-3">
           {conversations.map((conversation, index) => {
-            return <ConversationLinkListItem key={index} index={index} selectConversation={selectConversation} conversation={conversation} isActive={activeConversation.id == conversation.id} setCurrentRoute={setCurrentRoute} />
+            return <ConversationLinkListItem key={index} index={index} selectConversation={selectConversation} conversation={conversation} isActive={activeConversation.id == conversation.id} />
           })}
         </ul>
       </div>
     </div>
-  );
+  )
 };
 
 export default ConversationLinkList;

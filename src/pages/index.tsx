@@ -269,7 +269,7 @@ const Home: NextPage<PageProps> = (props) => {
       </Head>
       <div className="flex" id="main-container">
         <nav className="fixed h-full w-[225px] text-white shadow-md hidden lg:block">
-          <ConversationLinkList conversations={conversations} activeConversation={conversation} selectConversation={setConversationId} session={props.session} setCurrentRoute={setCurrentRoute} newConversation={newConversation}></ConversationLinkList>
+          <ConversationLinkList conversations={conversations} activeConversation={conversation} selectConversation={setConversationId} session={props.session} newConversation={newConversation}></ConversationLinkList>
           <hr className="my-4 border-t" />
           <Sidebar setConversations={setConversations} setConversation={setConversation} setActiveComponent={setActiveComponent} features={props.features} setCurrentRoute={setCurrentRoute} session={props.session} />
         </nav>
