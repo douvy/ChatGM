@@ -18,6 +18,9 @@ function ChatWindow({ conversationId, conversation, setConversation, newMessage,
     });
 
     const subscribeToChannel = async () => {
+        if (typeof conversationId === 'undefined') {
+            return;
+        }
         if (channelRef.current) {
             channelRef.current.unsubscribe();
         }
