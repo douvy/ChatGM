@@ -108,3 +108,4 @@ dist
 
 generate-types.ts*
 .eslintrc.json*
+jsconfig.json
