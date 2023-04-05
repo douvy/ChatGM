@@ -4,9 +4,11 @@ import { router } from '../../server/trpc';
 import { z } from 'zod';
 import pusher from '../../server/lib/pusher';
 
-export const query = trpc.procedure.query(async () => {
+export const query = trpc.procedure.input((req: any) => {
+    return req;
+}).query(async ({ input }) => {
     const messages =
-        await prisma.message.findMany();
+        await prisma.message.findMany(input);
     console.log("fetched trpc messages");
     return messages;
 })

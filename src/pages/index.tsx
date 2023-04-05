@@ -74,7 +74,9 @@ const Home: NextPage<PageProps> = (props) => {
   const [messages, setMessages] = useState<Message[]>([]);
 
   const [starredMessages, setStarredMessages] = useState<Message[]>(trpc.messages.query.useQuery(
-
+    {
+      where: { starred: true }
+    }
   ).data || []);
 
   const [conversation, setConversation] = useState<Conversation>({
@@ -218,9 +220,9 @@ const Home: NextPage<PageProps> = (props) => {
 
   const appendMessage = (message: Message) => {
     conversation.messages.push(message);
-    // setConversation((conversation) => ({
-    //   ...conversation,
-    // }));
+    setConversation((conversation) => ({
+      ...conversation,
+    }));
   }
 
   const sendMessage = async () => {
