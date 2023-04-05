@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import { trpc } from '../utils/trpc';
+import copy from 'clipboard-copy';
 
 function ChatMessage({ index, message, avatarSource, sender, updateState }) {
   const [localMessage, setLocalMessage] = useState(message);
@@ -49,6 +50,12 @@ function ChatMessage({ index, message, avatarSource, sender, updateState }) {
     updateState(index, updatedMessage);
   };
 
+  function copyToClipboard(text) {
+    copy(text)
+      .then(() => console.log('Copied to clipboard:', text))
+      .catch(err => console.error('Failed to copy:', err));
+  }
+
   return (
     <div className="w-full box">
       <div className="message p-4 pt-4 relative">
@@ -66,6 +73,7 @@ function ChatMessage({ index, message, avatarSource, sender, updateState }) {
             {currentTimestamp}
             {localMessage.id}
             <i className={`fa-star ${localMessage.starred ? 'fa-solid' : 'fa-regular'} ml-2 cursor-pointer`} onClick={starMessage}></i>
+            <i className={`fas fa-clipboard ml-2 cursor-pointer`} onClick={() => { copyToClipboard(localMessage.content); }}></i>
           </p>
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
