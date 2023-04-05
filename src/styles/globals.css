@@ -21,9 +21,32 @@ html {
   height: 100%;
   overflow-y: hidden;
 }
-
+.text-red {
+  color: #e85a40
+}
+.text-yellow {
+  color: #DEF241;
+}
+.border-red {
+  border-color: #e85a40;
+}
+.border-yellow {
+  border-color: #DEF241;
+}
+.btn-yellow:hover {
+  background: #DEF241;
+}
+.btn-red:hover  {
+  background: #e85a40;
+}
+.text-2xs {
+  font-size: 10px;
+}
 section a {
   color: #1eed88;
+}
+form input {
+  border-color: #000;
 }
 
 h1,
@@ -56,7 +79,7 @@ form {
 
 form input {
   border-radius: 4px;
-  border: 1px solid #BDBEBF;
+  border: 1px solid #4F5054;
 }
 
 .message {
@@ -98,7 +121,8 @@ a:hover li,
 
 form button {
   background: #E85A40 !important;
-  border-top: 3px solid #E85A40 !important;
+  height: 45px;
+  border-top: 3px solid #C13E31;
   border-bottom: 3px solid #C13E31;
   padding-left: 18px !important;
   padding-right: 18px !important;
@@ -128,6 +152,9 @@ ul i {
 
 hr {
   border-color: #4F5054;
+}
+.tracking-wide {
+    letter-spacing: .08em;
 }
 ::-webkit-scrollbar {
   width: 4px;
@@ -198,26 +225,26 @@ ol li {
 }
 
 form button {
-  color: #dedfe1;
-  border-top: 2px solid #E85A40;
+  color: #fff;
   border-left: 2px solid #E85A40;
   transition: .69s;
 }
 
 form button:hover {
-  background: #da381a !important;
-  border-top: 2px solid #da381a;
-  color: #ffffff;
+  background: #e54628 !important;
+  border-top: 3px solid #691b0d;
+  color: #ffffff !important;
 }
 
 form button:hover {
   border-bottom: 3px solid #691b0d;
+  border-top: 3px solid #691b0d;
   border-left: 2px solid #ad2c15;
 }
 
 form input {
   border-radius: 4px;
-  border: 2px solid #BDBEBF;
+  border: 2px solid #4F5054;
   height: 45px;
   background: transparent;
 }
@@ -258,10 +285,13 @@ textarea::placeholder {
   color: #6f6f6f !important;
 }
 
-input:focus,
-textarea:focus {
+#chat-form input:focus,
+#chat-form textarea:focus {
   outline: none;
   border: 2px solid #83FFC1;
+}
+input, textarea {
+  border: 2px solid #1F2025;
 }
 
 .auto-expand-textarea {
@@ -287,6 +317,11 @@ textarea:focus {
 }
 .uiw-react-textarea-code-editor .uiw-react-textarea-code-editor-placeholder {
     color: #c4c5c8 !important;
+}
+
+/*my account*/
+#my-account input, #my-account button{
+  max-width: 600px;
 }
 
 /*responsive design*/
@@ -319,139 +354,3 @@ table {
     margin-top: 100px !important;
   }
 }
-/*signin*/
-/*
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-.formContainer {
-  max-width: 400px;
-  width: 100%;
-  padding: 20px;
-  border-radius: 5px;
-  background: #fff;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-}
-
-.heading {
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.formGroup {
-  margin-bottom: 20px;
-  width: 100%;
-}
-
-.label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-.input {
-  width: 100%;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  box-shadow: none;
-}
-
-.submitButton {
-  padding: 10px 20px;
-  border-radius: 5px;
-  background: blue;
-  color: white;
-  border: none;
-  box-shadow: none;
-  cursor: pointer;
-}
-
-.linksContainer {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.link {
-  margin: 0 10px;
-  color: blue;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.separator {
-  margin: 0 10px;
-  color: #ccc;
-}
-*/
-/*signup*/
-/*
-.auth-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
-
-.auth-form {
-  width: calc(100vw / 3);
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #f5f5f5;
-}
-
-.auth-input-group {
-  margin-bottom: 10px;
-}
-
-.auth-input-label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-
-.auth-input-field {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #fff;
-  font-size: 16px;
-}
-
-.auth-button {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  background-color: #0070f3;
-  color: #fff;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
-}
-
-.auth-button:hover {
-  background-color: #0052cc;
-}
-
-.auth-error {
-  color: red;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-*/
