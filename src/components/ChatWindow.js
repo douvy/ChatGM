@@ -6,10 +6,10 @@ import { subscribeToChannel } from "../lib/ably";
 function ChatWindow({ conversation, setConversation, newMessage, sendMessage, updateMessageValue, starredMessages, setStarredMessages }) {
     const scrollContainer = useRef(null);
 
-    useEffect(() => {
-        subscribeToChannel("active-conversation", (data) => {
-        });
-    }, []);
+    // useEffect(() => {
+    //     subscribeToChannel("active-conversation", () => {
+    //     });
+    // }, []);
 
     function handleKeyDown(event) {
         if (event.key === 'Enter' && !event.shiftKey) {
@@ -32,11 +32,10 @@ function ChatWindow({ conversation, setConversation, newMessage, sendMessage, up
         setConversation(conversation);
     }
 
-    // let messageEnd = null;
-    // useEffect(() => {
-    //     console.log("conversation changed");
-    //     messageEnd.scrollIntoView({ behaviour: "smooth" });
-    // }, [conversation]);
+    let messageEnd = null;
+    useEffect(() => {
+        messageEnd.scrollIntoView({ behaviour: "smooth" });
+    }, [conversation]);
     if (!conversation.messages) {
         return <></>
     }

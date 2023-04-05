@@ -16,6 +16,6 @@ function ConversationLinkList({ conversations, activeConversation, selectConvers
       </div>
     </div>
   )
-};
+}
 
 export default ConversationLinkList;
