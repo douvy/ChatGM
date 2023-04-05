@@ -7,6 +7,11 @@ const removeImports = require("next-remove-imports")();
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  eslint: {
+    // Warning: This allows production builds to successfully complete even if
+    // your project has ESLint errors.
+    ignoreDuringBuilds: true,
+  },
 }
 
 module.exports = removeImports(withPlugins(
@@ -15,11 +20,6 @@ module.exports = removeImports(withPlugins(
       withTM,
       {
         transpileModules: ['react-syntax-highlighter'],
-        eslint: {
-          // Warning: This allows production builds to successfully complete even if
-          // your project has ESLint errors.
-          ignoreDuringBuilds: true,
-        },
       },
     ],
     // [css],

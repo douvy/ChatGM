@@ -1,5 +1,0 @@
-{
-  "build": {
-    "ignore": ["**/.eslint*", "**/node_modules/**"]
-  }
-}
