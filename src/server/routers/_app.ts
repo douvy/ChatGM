@@ -3,6 +3,7 @@ import { procedure, router } from '../trpc';
 import { conversationsRouter } from '../../trpc/routes/conversations'
 import { messagesRouter } from '../../trpc/routes/messages'
 import { openaiRouter } from '../../trpc/routes/openai'
+import { pusherRouter } from '../../trpc/routes/pusher'
 
 export const appRouter = router({
   hello: procedure
@@ -20,6 +21,7 @@ export const appRouter = router({
   conversations: conversationsRouter,
   messages: messagesRouter,
   openai: openaiRouter,
+  pusher: pusherRouter,
 });
 
 // export type definition of API

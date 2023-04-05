@@ -4,10 +4,30 @@ import { trpc } from '../instance'
 import { router } from '../../server/trpc';
 // import { trpc } from '../../utils/trpc'
 import { z } from 'zod';
+import pusher from '../../server/lib/pusher';
 
 export const query = trpc.procedure.query(async () => {
   const conversations =
     await prisma.conversation.findMany();
+  console.log('\x1b[31m%s\x1b[0m', "conversations", conversations);
+  return conversations
+})
+
+export const withPartialMessages = trpc.procedure.query(async () => {
+  const conversations = await prisma.conversation.findMany({
+    include: {
+      messages: {
+        orderBy: { id: 'desc' }, // Order messages by id in ascending order
+        take: 10 // Fetch only the last 10 messages for each conversation
+      },
+    },
+  });
+  return conversations.map((conversation: any) => {
+    return {
+      ...conversation,
+      messages: conversation.messages.reverse() // Reverse the messages so that they are in ascending order
+    }
+  });
   console.log('\x1b[31m%s\x1b[0m', "conversations", conversations);
   return conversations
 })
@@ -35,6 +55,9 @@ export const createConversation = trpc.procedure.input((req: any) => {
     },
   });
   console.log('\x1b[31m%s\x1b[0m', "inserted", conversation);
+  pusher.trigger(`conversation-${conversation?.id}`, "new-message", {
+    conversation: conversation
+  });
   return conversation;
 })
 
@@ -73,6 +96,7 @@ export const deleteConversation = trpc.procedure.input((req) => {
 
 export const conversationsRouter = router({
   query: query,
+  withPartialMessages: withPartialMessages,
   create: createConversation,
   get: get,
   update: update,

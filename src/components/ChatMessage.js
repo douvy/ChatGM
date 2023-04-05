@@ -64,7 +64,7 @@ function ChatMessage({ index, message, avatarSource, sender, updateState }) {
           <span className="text-sm mb-1 inline-block name">{sender}</span> <br />
           <p className="text-xs inline-block absolute top-3 right-4 timestamp">
             <span className="message-direction">
-              {sender == 'ChatGPT-3.5' ? 'Received' : 'Sent'}
+              {sender == 'ChatGPT-3.5' ? 'Received' : (message.inProgress ? 'Typing...' : 'Sent')}
               <i
                 className={`fa-regular ${sender == 'ChatGPT-3.5' ? 'fa-arrow-down-left' : 'fa-arrow-up-right'
                   } fa-lg ml-1 mr-3 mt-2`}
@@ -78,7 +78,7 @@ function ChatMessage({ index, message, avatarSource, sender, updateState }) {
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             rehypePlugins={[rehypeRaw]}
-            children={localMessage.content}
+            children={message.content}
             components={customRenderer}
           />
         </div>

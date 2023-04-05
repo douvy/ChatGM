@@ -1,8 +1,12 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 
 function ConversationLinkListItem({ conversation, isActive, selectConversation }) {
+  const router = useRouter();
+
   function handleClick() {
-    selectConversation(conversation.id);
+    // router.push(`/chats/${conversation.id}`);
+    selectConversation(conversation);
   }
   return (
     <a onClick={handleClick} href="#" className={isActive ? "active" : ""}>

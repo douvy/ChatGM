@@ -63,6 +63,8 @@ const Home: NextPage<PageProps> = (props) => {
   // console.log("PROPS:", props);
   const router = useRouter();
   const { route } = router;
+  const { slug } = router.query;
+  // console.log("SLUG", slug);
 
   const { data: session, status } = useSession()
   if (status === "authenticated") {
@@ -73,11 +75,7 @@ const Home: NextPage<PageProps> = (props) => {
 
   const [messages, setMessages] = useState<Message[]>([]);
 
-  const [starredMessages, setStarredMessages] = useState<Message[]>(trpc.messages.query.useQuery(
-    {
-      where: { starred: true }
-    }
-  ).data || []);
+  const [starredMessages, setStarredMessages] = useState<Message[]>(props.starredMessages || []);
 
   const [conversation, setConversation] = useState<Conversation>({
     name: "",
@@ -87,12 +85,22 @@ const Home: NextPage<PageProps> = (props) => {
 
   const [conversationId, setConversationId] = useState<number | undefined>();
 
-  trpc.conversations.get.useQuery({ id: conversationId }, {
-    enabled: Boolean(conversationId),
-    onSuccess(data) {
-      setConversation(data as Conversation);
+  // trpc.conversations.get.useQuery({ id: conversationId }, {
+  //   enabled: Boolean(conversationId),
+  //   onSuccess(data) {
+  //     console.log("updating conversation");
+  //     setConversation(data as Conversation);
+  //   }
+  // });
+
+  useEffect(() => {
+    if (conversationId != conversation.id) {
+      client.conversations.get.query({ id: conversationId }).then((data) => {
+        console.log("updating conversation");
+        setConversation(data as Conversation);
+      })
     }
-  });
+  }, [conversationId]);
 
   // const { isSuccess } = trpc.conversations.create.useQuery((conversation), {
   //   enabled: (!conversation.id && conversation.messages.length == 1),
@@ -145,36 +153,10 @@ const Home: NextPage<PageProps> = (props) => {
 
   const [conversations, setConversations] = useState<Conversation[]>(props.conversations || []);
 
-  useEffect(() => {
-    const ws = new WebSocket('ws://localhost:8080')
-    ws.onopen = function () {
-      console.log('WebSocket connection established')
-      ws.send('Hello, server!')
-    }
-    ws.onmessage = function (event) {
-      console.log(`Received message from server: ${event.data}`)
-      const updatedConversations = JSON.parse(event.data);
-      setConversations(updatedConversations);
-      const updatedConversation = updatedConversations.find((_: Conversation) => {
-        return _.id == conversation.id;
-      });
-      if (updatedConversation) {
-        setConversation(updatedConversation);
-      } else {
-        setMessages([]);
-        setConversation({
-          messages: messages,
-          isActive: false,
-        });
-      }
-    }
-    ws.onclose = function () {
-      console.log('WebSocket connection closed')
-    }
-    return () => {
-      ws.close()
-    }
-  }, [conversation, messages])
+  const selectConversation = (conversation: Conversation) => {
+    setConversation(conversation);
+    setConversationId(conversation.id);
+  }
 
   useEffect(() => {
     setCurrentRoute('/');
@@ -302,7 +284,7 @@ const Home: NextPage<PageProps> = (props) => {
       </Head>
       <div className="flex" id="main-container">
         <nav className="fixed h-full w-[225px] text-white shadow-md hidden lg:block">
-          <ConversationLinkList conversations={conversations} activeConversation={conversation} selectConversation={setConversationId} session={props.session} newConversation={newConversation}></ConversationLinkList>
+          <ConversationLinkList conversations={conversations} activeConversation={conversation} selectConversation={selectConversation} session={props.session} newConversation={newConversation}></ConversationLinkList>
           <hr className="my-4 border-t" />
           <Sidebar setConversations={setConversations} setConversation={setConversation} setActiveComponent={setActiveComponent} features={props.features} setCurrentRoute={setCurrentRoute} session={props.session} />
         </nav>
@@ -361,8 +343,12 @@ export const getServerSideProps: GetServerSideProps<any> = async (context) => {
   return {
     props: {
       session,
-      conversations,
-      starredMessages,
+      conversations: (await client.conversations.withPartialMessages.query()),
+      starredMessages: (await client.messages.query.query(
+        {
+          where: { starred: true }
+        }
+      )) || [],
       features,
       tasks,
     },

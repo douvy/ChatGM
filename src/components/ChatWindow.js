@@ -1,32 +1,75 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import AutoExpandTextarea from './AutoExpandTextarea';
 import ChatMessage from './ChatMessage';
 import { subscribeToChannel } from "../lib/ably";
 import pusher from '../lib/pusher';
+import Pusher from 'pusher-js';
+import { client } from '../trpc/client';
 
 function ChatWindow({ conversationId, conversation, setConversation, newMessage, sendMessage, updateMessageValue, starredMessages, setStarredMessages }) {
     const scrollContainer = useRef(null);
     const channelRef = useRef(null);
+    const [socketId, setSocketId] = useState(null);
+    const [submitLocket, setSubmitLock] = useState(false);
 
-    if (!channelRef.current) {
-        channelRef.current = pusher.subscribe('conversation');
+    pusher.connection.bind('connected', async () => {
+        setSocketId(pusher.connection.socket_id);
+        subscribeToChannel();
+    });
+
+    const subscribeToChannel = async () => {
+        if (channelRef.current) {
+            channelRef.current.unsubscribe();
+        }
+
+        let channelName = `private-conversation-${conversationId}`;
+        const auth = await client.pusher.authenticate.query({
+            socketId: pusher.connection.socket_id,
+            channelName: channelName,
+        })
+        channelRef.current = pusher.subscribe(channelName, auth);
+        console.log("current channel:", channelRef.current);
         channelRef.current.bind('new-message', function (data) {
             setConversation(data.conversation);
+        });
+        channelRef.current.bind('client-is-typing', function (newMessage) {
+            console.log("someone is typing!", newMessage);
+            if (!submitLocket) {
+                setSubmitLock(true);
+                console.log("newMessage", newMessage);
+                if (newMessage.content) {
+                    setConversation({
+                        ...conversation,
+                        messages: [...conversation.messages, newMessage]
+                    });
+                } else {
+                    setConversation(conversation);
+                }
+
+            }
+            // setConversation(data.conversation);
         });
     }
 
     useEffect(() => {
-        channelRef.current.unsubscribe();
-        channelRef.current = pusher.subscribe(`conversation-${conversationId}`);
-        channelRef.current.bind('new-message', function (data) {
-            setConversation(data.conversation);
-        });
+        subscribeToChannel();
     }, [conversationId]);
 
     function handleKeyDown(event) {
         if (event.key === 'Enter' && !event.shiftKey) {
             event.preventDefault();
             sendMessage();
+        } else {
+            if (channelRef) {
+                console.log("client is typing", channelRef.current);
+                // channelRef.current.trigger('client-is-typing', {
+                //     message: conversation.message,
+                // });
+                channelRef.current?.trigger('client-is-typing', {
+                    ...newMessage,
+                    inProgress: true,
+                });
+            }
         }
     }
 
@@ -46,7 +89,7 @@ function ChatWindow({ conversationId, conversation, setConversation, newMessage,
 
     let messageEnd = null;
     useEffect(() => {
-        messageEnd.scrollIntoView({ behaviour: "smooth" });
+        messageEnd?.scrollIntoView({ behaviour: "smooth" });
     }, [conversation]);
     if (!conversation.messages) {
         return <></>
@@ -69,13 +112,12 @@ function ChatWindow({ conversationId, conversation, setConversation, newMessage,
                 })}
                 <div ref={(element) => { messageEnd = element; }}></div>
             </div>
-
             <form className="flex items-end max-w-[760px] p-4 md:p-4" id="chat-form">
                 <AutoExpandTextarea
                     value={newMessage.content}
                     onChange={(updateMessageValue)}
                     onKeyDown={handleKeyDown}
-                    placeholder="Type your message..."
+                    placeholder="Type your message here..."
                     className="w-full p-2 mr-2 bg-white"
                 />
                 <span className="button-container">
