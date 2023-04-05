@@ -162,8 +162,19 @@ hr {
   background-color: transparent;
 }
 
+#sidebar-top ::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+  background-color: transparent;
+}
+
 ::-webkit-scrollbar-thumb {
   background-color: #232426;
+  border-radius: 4px;
+}
+
+#sidebar-top ::-webkit-scrollbar-thumb {
+  background-color: transparent;
   border-radius: 4px;
 }
 
