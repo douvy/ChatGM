@@ -169,13 +169,13 @@ hr {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #232426;
-  border-radius: 4px;
+  background-color: #4F5054;
+  border-radius: 1px;
 }
 
 #sidebar-top ::-webkit-scrollbar-thumb {
   background-color: transparent;
-  border-radius: 4px;
+  border-radius: 1px;
 }
 
 /* For Firefox */
