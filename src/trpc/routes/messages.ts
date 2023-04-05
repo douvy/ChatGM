@@ -2,6 +2,7 @@ import { prisma } from '@utils/prismaSingleton';
 import { trpc } from '../instance'
 import { router } from '../../server/trpc';
 import { z } from 'zod';
+import pusher from '../../server/lib/pusher';
 
 export const query = trpc.procedure.query(async () => {
     const messages =
@@ -14,7 +15,11 @@ export const createMessage = trpc.procedure.input((req: any) => {
     return req;
 }).query(async ({ input }) => {
     const message = await prisma.message.create({ data: input });
+
     const conversation = await prisma.conversation.findUnique({ where: { id: Number(message.conversationId) }, include: { messages: { orderBy: { id: 'asc' } } } });
+    pusher.trigger("conversation", "new-message", {
+        conversation: conversation
+    });
     return conversation;
 })
 

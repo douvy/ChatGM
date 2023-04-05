@@ -3,6 +3,7 @@ import { trpc } from '../instance'
 import { router } from '../../server/trpc';
 // import { z } from 'zod';
 import { Configuration, OpenAIApi, ChatCompletionRequestMessage } from "openai";
+import pusher from '../../server/lib/pusher';
 
 const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
@@ -48,6 +49,9 @@ export const query = trpc.procedure.input((req: any) => {
             include: { messages: { orderBy: { id: 'asc' } } },
         });
         console.log("updatedConversation", updatedConversation);
+        pusher.trigger("conversation", "new-message", {
+            conversation: updatedConversation
+        });
         return updatedConversation;
     } catch (e) {
         console.log("openai error:", e);
