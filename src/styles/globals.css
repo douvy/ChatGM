@@ -20,7 +20,7 @@ body {
   font-family: "Chakra Petch", sans-serif;
   color: #c7c8cd;
   color: #eeeeee;
-  background-color: #1C1D20;
+  background-color: #0C1117;
   font-size: 15px;
   letter-spacing: .02em;
 }
@@ -119,10 +119,10 @@ form input {
   border-radius: 4px;
 }
 .message {
-  background-color: #232427;
-  border-bottom: 1px solid #3d4043;
-  border-left: 1px solid #3d4043;
-  border-right: 1px solid #3d4043;
+  background-color: #161B22;
+  border-bottom: 1px solid #2F363C;
+  border-left: 1px solid #2F363C;
+  border-right: 1px solid #2F363C;
   color: #e1e1e1;
   font-size: 14px;
 }
@@ -134,8 +134,8 @@ form input {
 }
 
 nav {
-  background-color: #222427;
-  border-right: 1px solid #313234;
+  background-color: #161B22;
+  border-right: 1px solid #2F363C;
 }
 
 nav a {
@@ -190,7 +190,7 @@ ul i {
 }
 
 hr {
-  border-color: #4F5054;
+  border-color: #2F363C;
 }
 .tracking-wide {
     letter-spacing: .08em;
@@ -217,8 +217,8 @@ hr {
   border-radius: 1px;
 }
 #top-nav {
-  background: #232427;
-  border: 1px solid #3d4043;
+  background: #161B22;
+  border: 1px solid #2F363C;
   border-left: none;
 }
 
@@ -228,7 +228,7 @@ hr {
   scrollbar-color: #232426 transparent;
 }
 #saved #messages-box {
-  border-top: 1px solid #3d4043;
+  border-top: 1px solid #2F363C;
 }
 #messages-box, #component-box {
   max-height: 590px;
@@ -260,7 +260,7 @@ ol li {
 }
 
 #messages-box, #component-box .last {
-  /*border-bottom: 1px solid #3d4043;*/
+  /*border-bottom: 1px solid #2F363C;*/
 }
 
 #new-chat i {
@@ -301,7 +301,7 @@ form button:hover {
 
 form input {
   border-radius: 4px;
-  border: 1px solid #3d4043;
+  border: 1px solid #2F363C;
   height: 45px;
   background: transparent;
 }
