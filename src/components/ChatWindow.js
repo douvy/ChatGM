@@ -99,7 +99,7 @@ function ChatWindow({ conversationId, conversation, setConversation, newMessage,
     }
     return (
         <div className="mx-auto max-w-[760px]">
-            <div className="p-2 pt-0 pb-0 mt-4 overflow-y-auto" id="messages-box" ref={scrollContainer}>
+            <div className="p-2 pt-0 pb-0 mt-0 overflow-y-auto" id="messages-box" ref={scrollContainer}>
                 {conversation.messages.map((message, index) => {
                     return (
                         <ChatMessage

@@ -33,10 +33,10 @@ export default function Sidebar({ setConversations, setConversation, setActiveCo
                 <SidebarItem iconName="fa-solid fa-messages" itemText="Conversations" onClick={() => {
                     setCurrentRoute('/conversations');
                 }} />
-                <SidebarItem iconName="fa-solid fa-bookmark" itemText="Saved prompts" onClick={() => {
+                <SidebarItem iconName="fa-solid fa-stars" itemText="Saved prompts" onClick={() => {
                     setCurrentRoute('/savedPrompts');
                 }} />
-                <SidebarItem iconName="fa-solid fa-bookmark" itemText="Saved responses" onClick={() => {
+                <SidebarItem iconName="fa-solid fa-stars" itemText="Saved responses" onClick={() => {
                     setCurrentRoute('/savedResponses');
                 }} />
                 <SidebarItem iconName="fa-solid fa-toolbox" itemText="Component builder" onClick={() => {

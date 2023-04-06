@@ -9,6 +9,7 @@
 body {
   font-family: "Chakra Petch", sans-serif;
   color: #c7c8cd;
+  color: #eeeeee;
   background-color: #1C1D20;
   font-size: 15px;
   letter-spacing: .02em;
@@ -27,14 +28,26 @@ html {
 .text-yellow {
   color: #DEF241;
 }
+.text-gray {
+  color: #313336;
+}
 .border-red {
   border-color: #e85a40;
 }
 .border-yellow {
   border-color: #DEF241;
 }
+.border-gray {
+  border-color: #313336;
+}
 .btn-yellow:hover {
   background: #DEF241;
+}
+.btn-gray {
+  background: #2A2929;
+}
+.btn-gray:hover {
+  background: #313336;
 }
 .btn-red:hover  {
   background: #e85a40;
@@ -79,15 +92,14 @@ form {
 
 form input {
   border-radius: 4px;
-  border: 1px solid #4F5054;
 }
-
 .message {
   background-color: #232427;
-  border: 1px solid #313336;
-
-
-  color: #C4C5C8;
+  border-bottom: 1px solid #3d4043;
+  border-left: 1px solid #3d4043;
+  border-right: 1px solid #3d4043;
+  color: #e1e1e1;
+  font-size: 14px;
 }
 .message i {
   color:  #ffffff;
@@ -179,11 +191,19 @@ hr {
   background-color: transparent;
   border-radius: 1px;
 }
+#top-nav {
+  background: #232427;
+  border: 1px solid #3d4043;
+  border-left: none;
+}
 
 /* For Firefox */
 * {
   scrollbar-width: thin;
   scrollbar-color: #232426 transparent;
+}
+#messages-box {
+  
 }
 
 #messages-box, #component-box {
@@ -211,12 +231,12 @@ ol li {
 #messages-box, #component-box ol {
   list-style-type: decimal;
   /* numbering style */
-  padding-left: 1em;
+  padding-left: .8em;
   /* indentation */
 }
 
 #messages-box, #component-box .last {
-  /*border-bottom: 1px solid #313336;*/
+  /*border-bottom: 1px solid #3d4043;*/
 }
 
 #new-chat i {
@@ -257,7 +277,7 @@ form button:hover {
 
 form input {
   border-radius: 4px;
-  border: 2px solid #4F5054;
+  border: 1px solid #3d4043;
   height: 45px;
   background: transparent;
 }
@@ -291,6 +311,7 @@ h1 {
   color: #1C1D20 !important;
   font-weight: 500 !important;
   font-size: 15px;
+  margin-left: -15px;
 }
 
 input[type="text"]::placeholder,
@@ -304,7 +325,7 @@ textarea::placeholder {
   border: 2px solid #83FFC1;
 }
 input, textarea {
-  border: 2px solid #1F2025;
+  border: 1px solid #1F2025;
 }
 
 .auto-expand-textarea {
@@ -317,7 +338,6 @@ input, textarea {
   overflow-y: auto;
   max-height: 100%;
 }
-
 #chat-form {
   position: absolute;
   bottom: 0;
@@ -336,6 +356,9 @@ input, textarea {
 #my-account input, #my-account button{
   max-width: 600px;
 }
+#chat-participants {
+  max-width: 200px;
+}
 
 /*responsive design*/
 
@@ -344,6 +367,12 @@ input, textarea {
   body,
   html {
     overflow: hidden;
+  }
+  #chat-participants {
+    display: none;
+  }
+  #chat-form {
+    margin-left: 0em;
   }
 }
 table td, table tr {
@@ -365,5 +394,8 @@ table {
   }
   .auth-container {
     margin-top: 100px !important;
+  }
+  #chat-form {
+    margin-left: 0em;
   }
 }
