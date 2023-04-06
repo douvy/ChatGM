@@ -3,8 +3,8 @@ import { signOut } from 'next-auth/react';
 function SidebarItem({ itemText, iconName, onClick, link = '#' }) {
     return (
         <a href={link}>
-            <li className="p-2 pl-4" onClick={onClick}>
-                <i className={`far fa-${iconName} fa-lg mr-4 w-4`}></i> {itemText}
+            <li className="p-2 pl-3" onClick={onClick}>
+                <i className={`far fa-${iconName} mr-4 w-4`}></i> {itemText}
             </li>
         </a>
     );
@@ -18,31 +18,29 @@ export default function Sidebar({ setConversations, setConversation, setActiveCo
                 {/*<SidebarItem iconName="brightness" itemText="Light Mode" />*/}
                
 
-                <SidebarItem iconName="user-hair-mullet" itemText="My Account" onClick={() => {
+                <SidebarItem iconName="user-hair-mullet text-blue" itemText="My Account" onClick={() => {
                     setCurrentRoute('/myAccount');
                 }} />
 
-
-                {/*<SidebarItem iconName="coin" itemText="Crypto" />*/}
                 {/*<SidebarItem iconName="check-square" itemText="Todos" onClick={() => {
                     setCurrentRoute('/tasks');
                 }} />*/}
                 {/*<SidebarItem iconName="check-square" itemText="Features" onClick={() => {
                     setCurrentRoute('/features');
                 }} />*/}
-                <SidebarItem iconName="fa-solid fa-messages" itemText="Conversations" onClick={() => {
+                <SidebarItem iconName="fa-solid fa-messages text-white" itemText="Conversations" onClick={() => {
                     setCurrentRoute('/conversations');
                 }} />
-                <SidebarItem iconName="fa-solid fa-stars" itemText="Saved prompts" onClick={() => {
+                <SidebarItem iconName="fa-solid fa-stars text-yellow" itemText="Saved prompts" onClick={() => {
                     setCurrentRoute('/savedPrompts');
                 }} />
-                <SidebarItem iconName="fa-solid fa-stars" itemText="Saved responses" onClick={() => {
+                <SidebarItem iconName="fa-solid fa-stars text-yellow" itemText="Saved responses" onClick={() => {
                     setCurrentRoute('/savedResponses');
                 }} />
-                <SidebarItem iconName="fa-solid fa-toolbox" itemText="Component builder" onClick={() => {
+                <SidebarItem iconName="fa-solid fa-toolbox text-purple" itemText="Component builder" onClick={() => {
                     setCurrentRoute('/builder');
                 }} />
-                <SidebarItem iconName="arrow-right-from-bracket" itemText="Log Out" onClick={() => {
+                <SidebarItem iconName="arrow-right-from-bracket text-red" itemText="Log Out" onClick={() => {
                     signOut({
                         callbackUrl: '/auth/signin',
                     });

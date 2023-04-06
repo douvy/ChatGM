@@ -11,6 +11,7 @@ yellow: #FEE77E;
 dark-1: ##1B1D1F;
 dark-2: #232426;
 gray: #3E4043;
+blue: #5497FF;
 */
 
 /*global styles*/
@@ -42,6 +43,15 @@ html {
 }
 .text-green {
   color:  #79E8B3 !important;
+}
+.text-blue {
+  color: #5497FF;
+}
+.text-purple {
+  color: #AA6EFE;
+}
+.text-offwhite {
+  color: blue !important;
 }
 .fa-stars.fa-solid {
   color: #FEE77E !important;
@@ -129,7 +139,7 @@ nav {
 }
 
 nav a {
-  color: #F6F6F9;
+  color: #ffffffde;
   font-size: 14px;
 }
 
