@@ -52,6 +52,9 @@ html {
 .text-offwhite {
   color: #e6edf3 !important;
 }
+.text-gray {
+  color: #7E8490;
+}
 .fa-stars.fa-solid {
   color: #FEE77E !important;
 }
@@ -68,10 +71,12 @@ html {
   background: #DEF241;
 }
 .btn-gray {
-  background: #2A2929;
+  background: #21262D;
+  border: 2px solid #363B42;
 }
 .btn-gray:hover {
-  background: #313336;
+  background: #30363C;
+  border-color: #8B949D;
 }
 .btn-red:hover  {
   background: #e85a40;
@@ -222,7 +227,9 @@ hr {
   border: 1px solid #2F363C;
   border-left: none;
 }
-
+.fa-message-middle {
+  color: #7E8490;
+}
 /* For Firefox */
 * {
   scrollbar-width: thin;

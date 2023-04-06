@@ -22,8 +22,8 @@ function MyAccount() {
                 <span className="text-2xs uppercase tracking-wide text-white/60">0123456789abcdef0123456789abcdef01234567</span>
                 <div className="mt-auto">
                   <div className="flex flex-row gap-4">
-                    <button className="relative whitespace-nowrap px-6 py-2 text-xs font-semibold uppercase tracking-wide transition-colors duration-200 border border-transparent text-white btn-gray bg-transparent">Change</button>
-                    <button className="relative whitespace-nowrap px-6 py-2 text-xs font-semibold uppercase tracking-wide transition-colors duration-200 border border-red text-red btn-red bg-transparent hover:text-black">Remove</button>
+                    <button className="relative whitespace-nowrap px-6 py-2 text-xs font-semibold uppercase tracking-wide transition-colors duration-200 border rounded border-transparent text-white btn-gray bg-transparent">Change</button>
+                    <button className="relative whitespace-nowrap px-6 py-2 text-xs font-semibold uppercase tracking-wide transition-colors duration-200 border rounded border-red text-red btn-red bg-transparent hover:text-black">Remove</button>
                   </div>
                 </div>
               </div>

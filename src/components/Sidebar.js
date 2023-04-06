@@ -28,7 +28,7 @@ export default function Sidebar({ setConversations, setConversation, setActiveCo
                 {/*<SidebarItem iconName="check-square" itemText="Features" onClick={() => {
                     setCurrentRoute('/features');
                 }} />*/}
-                <SidebarItem iconName="fa-solid fa-messages text-white" itemText="Conversations" onClick={() => {
+                <SidebarItem iconName="fa-solid fa-messages text-gray" itemText="Conversations" onClick={() => {
                     setCurrentRoute('/conversations');
                 }} />
                 <SidebarItem iconName="fa-solid fa-stars text-yellow" itemText="Saved prompts" onClick={() => {
