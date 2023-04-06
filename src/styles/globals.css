@@ -92,7 +92,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: #919297;
+  color: #7d8590;
   font-weight: 700;
   font-family: "Chakra Petch", sans-serif;
 }
@@ -140,7 +140,7 @@ nav {
 }
 
 nav a {
-  color: #ffffffde;
+  color: #e6edf3;
   font-size: 14px;
 }
 
@@ -269,11 +269,11 @@ ol li {
 }
 
 .name {
-  color: #919297;
+  color: #7d8590;
 }
 
 .timestamp {
-  color: #8c8d92;
+  color: #7d8590;
   padding-top: 2px;
   padding-right: 2px;
 }
@@ -319,7 +319,7 @@ form textarea {
   resize: none;
 }
 h1 {
-  font-size: 2rem;
+  font-size: 1.9rem;
   line-height: 150%;
   color: #ffffff;
 }
