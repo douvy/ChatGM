@@ -4,6 +4,15 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&display=swap');
 
+/*color palette
+red: #e85a40;
+green:  #79E9B3;
+yellow: #FEE77E;
+dark-1: ##1B1D1F;
+dark-2: #232426;
+gray: #3E4043;
+*/
+
 /*global styles*/
 
 body {
@@ -30,6 +39,12 @@ html {
 }
 .text-gray {
   color: #313336;
+}
+.text-green {
+  color:  #79E8B3 !important;
+}
+.fa-stars.fa-solid {
+  color: #FEE77E !important;
 }
 .border-red {
   border-color: #e85a40;
@@ -322,7 +337,7 @@ textarea::placeholder {
 #chat-form input:focus,
 #chat-form textarea:focus {
   outline: none;
-  border: 2px solid #83FFC1;
+  border: 2px solid #79E9B3;
 }
 input, textarea {
   border: 1px solid #1F2025;
