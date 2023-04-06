@@ -5,7 +5,7 @@ function MyAccount() {
     const scrollContainer = useRef(null);
 
     return (
-        <div className="mx-auto max-w-[760px] mt-3 md:mt-6" id="my-account">
+        <div className="mx-auto max-w-[760px] mt-3 md:mt-8" id="my-account">
             <h1 class="hidden text-title font-medium uppercase mb-10 text-white tracking-wide md:block">Account Information</h1>
             <div class="flex w-full flex-row gap-x-6">
               <div class="relative h-[20px] w-[80px] cursor-pointer gap-10 border border-white/20 hover:border-white/40 lg:h-[104px] lg:w-[104px]">

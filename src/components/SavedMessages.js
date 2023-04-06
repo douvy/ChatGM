@@ -6,7 +6,7 @@ function SavedMessages({ starredMessages, setStarredMessages, role }) {
     const scrollContainer = useRef(null);
 
     return (
-        <div className="container mx-auto max-w-[760px] mt-6" id="saved">
+        <div className="container mx-auto max-w-[760px] mt-3 md:mt-8" id="saved">
             <h1 class="hidden text-title font-medium uppercase mb-10 text-white tracking-wide md:block">Saved</h1>
             <div className="overflow-y-auto" id="messages-box" ref={scrollContainer}>
                 {starredMessages.filter((message) => {
