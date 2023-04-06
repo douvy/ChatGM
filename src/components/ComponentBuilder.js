@@ -47,7 +47,7 @@ function ComponentBuilder() {
 
     return (
         <>
-            <div className="flex flex-wrap w-full h-screen p-4">
+            <div className="flex flex-wrap w-full h-screen p-5">
                 <div className="relative w-full lg:w-1/2 h-[570px] pr-2" id="code-editor-wrapper">
                     <CodeEditor
                         value={code}
@@ -71,7 +71,7 @@ function ComponentBuilder() {
                 </div>
             </div>
 
-            <div className="flex w-full justify-center">
+            <div className="flex w-full justify-center" id="component-form">
                 <form className="absolute bottom-0 flex items-end w-[730px] p-4 md:p-4">
                     <AutoExpandTextarea
                         value={codeRequestMessage}

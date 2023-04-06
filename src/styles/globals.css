@@ -352,7 +352,9 @@ textarea::placeholder {
 input, textarea {
   border: 1px solid #1F2025;
 }
-
+.border-top-none {
+  border-top: none;
+}
 .auto-expand-textarea {
   resize: none;
   max-height: 190px;
