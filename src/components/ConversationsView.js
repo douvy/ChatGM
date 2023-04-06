@@ -91,7 +91,7 @@ function ConversationsView({ conversations, setConversations }) {
                 <div className="w-full overflow-x-auto ">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="text-md font-semibold tracking-wide text-left uppercase border-b border-gray">
+                            <tr className="text-md font-semibold tracking-wide text-left uppercase border-b border-gra text-offwhite">
                                 <th className="px-4 py-3">Name</th>
                                 <th className="px-4 py-3">Edit</th>
                                 <th className="px-4 py-3">Delete</th>

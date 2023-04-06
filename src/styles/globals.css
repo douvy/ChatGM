@@ -8,9 +8,8 @@
 red: #e85a40;
 green:  #79E9B3;
 yellow: #FEE77E;
-dark-1: ##1B1D1F;
-dark-2: #232426;
-gray: #3E4043;
+gray: #7d8590;
+offwhite: e6edf3;
 blue: #5497FF;
 */
 
@@ -51,7 +50,7 @@ html {
   color: #AA6EFE;
 }
 .text-offwhite {
-  color: blue !important;
+  color: #e6edf3 !important;
 }
 .fa-stars.fa-solid {
   color: #FEE77E !important;
@@ -110,7 +109,9 @@ h3 {
   font-size: 30px !important;
   line-height: 48px;
 }
-
+.border-gray {
+  border-color: #2F363C !important;
+}
 form {
   margin-top: 15px;
 }
@@ -403,11 +404,11 @@ input, textarea {
 }
 table td, table tr {
   background: transparent !important;
-  color: #f6f6f9;
-  border-color: #4D4D4D;
+  color: #7d8590;
+  border-color: #2F363C;
 }
 table {
-  border: 1px solid #4D4D4D;
+  border: 1px solid #2F363C;
 }
 
 @media (min-width: 710px) {
