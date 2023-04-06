@@ -115,7 +115,7 @@ function ChatWindow({ conversationId, conversation, setConversation, newMessage,
                 })}
                 <div ref={(element) => { messageEnd = element; }}></div>
             </div>
-            <form className="flex items-end max-w-[760px] p-4 md:p-4" id="chat-form">
+            <form className="flex items-end max-w-[760px] mb-3" id="chat-form">
                 <AutoExpandTextarea
                     value={newMessage.content}
                     onChange={(updateMessageValue)}
