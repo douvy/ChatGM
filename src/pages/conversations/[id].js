@@ -6,6 +6,11 @@ import ChatMessage from '../../components/ChatMessage';
 function ConversationView({ conversation }) {
   const router = useRouter()
   const { id } = router.query
+  console.log("CONVERSATION:", conversation);
+
+  if (!conversation) {
+    return <></>;
+  }
 
   return (
     <div className="mx-auto max-w-[760px]">
@@ -30,10 +35,6 @@ function ConversationView({ conversation }) {
 
 export const getServerSideProps = async ({ req, params }) => {
   const { id } = params;
-  console.log(id);
-
-  // const router = useRouter()
-  // const { id } = router.query;
 
   const baseUrl = req ? `${req.headers.host}` : '';
 
