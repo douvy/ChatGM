@@ -4,11 +4,19 @@ import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import { trpc } from '../utils/trpc';
 import copy from 'clipboard-copy';
+import { format, utcToZonedTime } from 'date-fns-tz';
 
 function ChatMessage({ index, message, avatarSource, sender, updateState }) {
   const [localMessage, setLocalMessage] = useState(message);
   const [copied, setCopied] = useState(false);
   const updateMessageMutation = trpc.messages.update.useMutation();
+
+  function formatTimestamp(timestamp) {
+    const date = timestamp ? new Date(timestamp) : new Date();
+    const zonedDate = utcToZonedTime(date, 'America/New_York');
+    const formattedDate = format(zonedDate, 'h:mm a');
+    return formattedDate;
+  }
 
   const currentTimestamp = new Date().toLocaleString('en-US', {
     timeZone: 'America/New_York',
@@ -70,8 +78,7 @@ function ChatMessage({ index, message, avatarSource, sender, updateState }) {
                   } fa-lg ml-1 mr-3 mt-2`}
               ></i>
             </span>{' '}
-            {currentTimestamp}
-            {localMessage.id}
+            {formatTimestamp(message.createdAt)}
             <i className={`fa-stars ${localMessage.starred ? 'fa-solid' : 'fa-regular'} ml-2 cursor-pointer`} onClick={starMessage}></i>
             {copied ? (
               <i className="fa-solid fa-check text-green w-5 h-5 ml-3"></i>
