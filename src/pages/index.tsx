@@ -83,48 +83,6 @@ const Home: NextPage<PageProps> = (props) => {
 
   const [conversationId, setConversationId] = useState<number | undefined>();
 
-  // trpc.conversations.get.useQuery({ id: conversationId }, {
-  //   enabled: Boolean(conversationId),
-  //   onSuccess(data) {
-  //     console.log("updating conversation");
-  //     setConversation(data as Conversation);
-  //   }
-  // });
-
-  useEffect(() => {
-    if (conversationId != conversation.id) {
-      client.conversations.get.query({ id: conversationId }).then((data) => {
-        setConversation(data as Conversation);
-      })
-    }
-  }, [conversationId]);
-
-  // const { isSuccess } = trpc.conversations.create.useQuery((conversation), {
-  //   enabled: (!conversation.id && conversation.messages.length == 1),
-  //   onSuccess(data: React.SetStateAction<Conversation>) {
-  //     setConversation(data);
-  //     console.log(data);
-  //   }
-  // });
-
-
-  // const { isFetching } = trpc.openai.query.useQuery((conversation), {
-  //   enabled: (!!conversation.id && conversation.messages.length == 1),
-  //   onSuccess(data: React.SetStateAction<Conversation>) {
-  //     setConversation(data);
-  //     console.log(data);
-  //   }
-  // });
-
-  // trpc.openai.generateName.useQuery((conversation), {
-  //   enabled: (!!conversation.id && conversation.messages.length == 1),
-  //   onSuccess(data: any) {
-  //     setConversation(data);
-  //     setConversations([...conversations, data]);
-  //     console.log("Named conversation", data);
-  //   }
-  // });
-
   const [messageContent, setMessageContent] = useState('');
 
   const user = session?.user as User;
@@ -156,7 +114,29 @@ const Home: NextPage<PageProps> = (props) => {
   }
 
   useEffect(() => {
-    setCurrentRoute('/');
+    if (currentRoute != '/') {
+      setConversationId(null);
+      // setConversation({});
+    }
+  }, [currentRoute])
+
+  useEffect(() => {
+    if (conversationId) {
+      if (conversationId != conversation.id) {
+        client.conversations.get.query({ id: conversationId }).then((data) => {
+          setConversation(data as Conversation);
+        })
+      } else {
+        setCurrentRoute('/');
+      }
+
+    }
+  }, [conversationId]);
+
+  useEffect(() => {
+    if (conversation != null) {
+      setCurrentRoute('/');
+    }
   }, [conversation]);
 
   useEffect(() => {
@@ -281,9 +261,9 @@ const Home: NextPage<PageProps> = (props) => {
       </Head>
       <div className="flex" id="main-container">
         <nav className="fixed h-full w-[228px] shadow-md hidden lg:block">
-          <ConversationLinkList conversations={conversations} activeConversation={conversation} selectConversation={selectConversation} session={props.session} newConversation={newConversation}></ConversationLinkList>
+          <ConversationLinkList conversations={conversations} activeConversation={conversation} activeConversationId={conversationId} selectConversation={selectConversation} session={props.session} newConversation={newConversation}></ConversationLinkList>
           <hr className="my-4 border-t" />
-          <Sidebar setConversations={setConversations} setConversation={setConversation} setActiveComponent={setActiveComponent} features={props.features} setCurrentRoute={setCurrentRoute} session={props.session} />
+          <Sidebar setConversations={setConversations} setConversation={setConversation} setActiveComponent={setActiveComponent} features={props.features} currentRoute={currentRoute} setCurrentRoute={setCurrentRoute} session={props.session} />
         </nav>
         <div className="fixed top-0 left-0 z-50 flex items-center justify-end w-full p-2 pr-3 lg:hidden">
           <button className="text-red-400 hover:text-red-500">
