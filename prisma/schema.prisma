@@ -1,63 +1,59 @@
-datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
-}
-
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
-// generator typegraphql {
-//     provider = "typegraphql-prisma"
-// }
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
 
 model Message {
-    id             Int           @id @default(autoincrement())
-    content        String
-    role           String
-    sender         String
-    avatarSource   String
-    conversation   Conversation? @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-    conversationId Int?
-    starred        Boolean?      @default(false)
-    createdAt      DateTime?     @default(now())
+  id             Int           @id @default(autoincrement())
+  content        String
+  role           String
+  sender         String
+  avatarSource   String
+  conversationId Int?
+  starred        Boolean?      @default(false)
+  createdAt      DateTime?     @default(now())
+  conversation   Conversation? @relation(fields: [conversationId], references: [id], onDelete: Cascade)
 }
 
 model Conversation {
-    id       Int       @id @default(autoincrement())
-    name     String?
-    messages Message[]
-    isPublic Boolean   @default(false)
+  id       Int       @id @default(autoincrement())
+  name     String?
+  isPublic Boolean   @default(false)
+  messages Message[]
 }
 
 model Feature {
-    id          Int     @id @default(autoincrement())
-    name        String
-    description String
-    starred     Boolean @default(false)
+  id          Int     @id @default(autoincrement())
+  name        String
+  description String
+  starred     Boolean @default(false)
 }
 
 model Task {
-    id       Int     @id @default(autoincrement())
-    name     String
-    complete Boolean @default(false)
+  id       Int     @id @default(autoincrement())
+  name     String
+  complete Boolean @default(false)
 }
 
 model User {
-    id       Int       @id @default(autoincrement())
-    username String    @unique
-    password String
-    sessions Session[]
-    avatarSource String?
-    includeTaskFeature Boolean @default(false)
-    todoistApiKey String?
+  id                 Int       @id @default(autoincrement())
+  username           String    @unique
+  password           String
+  avatarSource       String?
+  includeTaskFeature Boolean   @default(false)
+  todoistApiKey      String?
+  sessions           Session[]
 }
 
 model Session {
-    id           Int      @id @default(autoincrement())
-    sessionToken String   @unique
-    accessToken  String?
-    expiresAt    DateTime
-    user         User     @relation(fields: [userId], references: [id])
-    userId       Int
+  id           Int      @id @default(autoincrement())
+  sessionToken String   @unique
+  accessToken  String?
+  expiresAt    DateTime
+  userId       Int
+  user         User     @relation(fields: [userId], references: [id])
 }
