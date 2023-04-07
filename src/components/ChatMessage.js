@@ -9,6 +9,9 @@ import { format, utcToZonedTime } from 'date-fns-tz';
 function ChatMessage({ index, message, avatarSource, sender, updateState }) {
   const [localMessage, setLocalMessage] = useState(message);
   const [copied, setCopied] = useState(false);
+  const [showEditIcon, setShowEditIcon] = useState(false);
+  const [editingMessage, setEditingMessage] = useState(false);
+
   const updateMessageMutation = trpc.messages.update.useMutation();
 
   function formatTimestamp(timestamp) {
@@ -24,6 +27,10 @@ function ChatMessage({ index, message, avatarSource, sender, updateState }) {
     minute: '2-digit',
     hour12: true,
   });
+
+  const setMessageContent = (e) => {
+
+  }
 
   const customRenderer = {
     p: ({ children }) => (
@@ -65,7 +72,9 @@ function ChatMessage({ index, message, avatarSource, sender, updateState }) {
   }
 
   return (
-    <div className="w-full box">
+    <div className="w-full box"
+      onMouseEnter={() => setShowEditIcon(message.role == 'user' && true)}
+      onMouseLeave={() => setShowEditIcon(message.role == 'user' && false)}>
       <div className="message p-4 pt-4 relative">
         <img src={avatarSource} alt="Avatar" className="w-9 h-9 rounded-full absolute left-4 top-2" />
         <div className="pl-16 pt-0">
@@ -90,13 +99,49 @@ function ChatMessage({ index, message, avatarSource, sender, updateState }) {
                 }}
               ></i>
             )}
+            {showEditIcon && (
+              <i
+                className="fas fa-pencil-alt w-5 h-5 ml-3 cursor-pointer"
+                onClick={() => {
+                  setEditingMessage(true);
+                }}
+              ></i>
+            )}
           </p>
-                    <ReactMarkdown
+          {!editingMessage ? <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             rehypePlugins={[rehypeRaw]}
             children={message.content}
             components={customRenderer}
-          />
+          /> :
+            <form>
+              <div contentEditable onInput={() => {
+
+              }}>
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  rehypePlugins={[rehypeRaw]}
+                  children={message.content}
+                  components={customRenderer}
+                />
+              </div>
+              <div className="py-5 flex justify-center">
+                <div className="flex items-center">
+                  <span className=" p-0 !important">
+                    <button type="button" onClick={() => { }} className="font-semibold uppercase editing-message-save">
+                      Save & Submit
+                    </button>
+                  </span>
+                  <div className="h-4 w-px mx-3"></div>
+                  <span className="button-container ml-auto">
+                    <button type="button" onClick={() => { }} className="font-semibold uppercase p-1 editing-message-cancel">
+                      Cancel
+                    </button>
+                  </span>
+                </div>
+              </div>
+            </form>
+          }
         </div>
       </div>
     </div>

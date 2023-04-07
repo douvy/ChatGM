@@ -211,6 +211,19 @@ form button.saved:hover {
   border: green !important;
 }
 
+form button.editing-message-save,
+form button.editing-message-save:hover {
+  background: green !important;
+  border: green !important;
+}
+
+form button.editing-message-cancel,
+form button.editing-message-cancel:hover {
+  background: white !important;
+  border: white !important;
+  color: black;
+}
+
 .toggle-switch {
   position: relative;
   display: inline-block;

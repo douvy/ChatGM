@@ -52,11 +52,12 @@ interface Feature {
 }
 
 interface PageProps {
-  session: any;
+  session: any,
   conversations: Conversation[],
   starredMessages: Message[],
   features: Feature[],
-  tasks: any[]
+  tasks: any[],
+  userInfo: any,
 }
 
 const Home: NextPage<PageProps> = (props) => {
@@ -117,7 +118,7 @@ const Home: NextPage<PageProps> = (props) => {
 
   useEffect(() => {
     if (currentRoute != '/') {
-      setConversationId(null);
+      setConversationId(undefined);
       // setConversation({});
     }
   }, [currentRoute])
