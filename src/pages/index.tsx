@@ -106,6 +106,8 @@ const Home: NextPage<PageProps> = (props) => {
     response: "",
   })
 
+  const [userInfo, setUserInfo] = useState<Conversation[]>(props.userInfo || []);
+
   const [conversations, setConversations] = useState<Conversation[]>(props.conversations || []);
 
   const selectConversation = (conversation: Conversation) => {
@@ -261,7 +263,7 @@ const Home: NextPage<PageProps> = (props) => {
       </Head>
       <div className="flex" id="main-container">
         <nav className="fixed h-full w-[228px] shadow-md hidden lg:block">
-          <ConversationLinkList conversations={conversations} activeConversation={conversation} activeConversationId={conversationId} selectConversation={selectConversation} session={props.session} newConversation={newConversation}></ConversationLinkList>
+          <ConversationLinkList conversations={conversations} activeConversation={conversation} activeConversationId={conversationId} selectConversation={selectConversation} userInfo={userInfo} newConversation={newConversation}></ConversationLinkList>
           <hr className="my-4 border-t" />
           <Sidebar setConversations={setConversations} setConversation={setConversation} setActiveComponent={setActiveComponent} features={props.features} currentRoute={currentRoute} setCurrentRoute={setCurrentRoute} session={props.session} />
         </nav>
@@ -285,7 +287,7 @@ const Home: NextPage<PageProps> = (props) => {
             {currentRoute == '/features' ? <FeaturesView passedFeatures={props.features}></FeaturesView> : null}
             {currentRoute == '/tasks' ? <Tasks></Tasks> : null}
             {currentRoute == '/features' ? <FeaturesView passedFeatures={props.features}></FeaturesView> : null}
-            {currentRoute == '/myAccount' ? <MyAccount></MyAccount> : null}
+            {currentRoute == '/myAccount' ? <MyAccount userInfo={userInfo} setUserInfo={setUserInfo}></MyAccount> : null}
             {currentRoute == '/conversations' ? <ConversationsView conversations={conversations} setConversations={setConversations}></ConversationsView> : null}
             {currentRoute == '/builder' ? <ComponentBuilder></ComponentBuilder> : null}
             {currentRoute == '/savedPrompts' ? <SavedMessages starredMessages={starredMessages} setStarredMessages={setStarredMessages} role='user'></SavedMessages> : null}
@@ -326,6 +328,7 @@ export const getServerSideProps: GetServerSideProps<any> = async (context) => {
     props: {
       session,
       conversations: (await client.conversations.withPartialMessages.query()),
+      userInfo: (await client.users.get.query({ id: session.user.id })),
       starredMessages: (await client.messages.query.query(
         {
           where: { starred: true }

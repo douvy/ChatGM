@@ -2,7 +2,7 @@ import { signOut } from 'next-auth/react';
 
 function SidebarItem({ itemText, iconName, onClick, link = '#', isActive }) {
     return (
-        <a href={link} class={isActive ? 'active' : ''}>
+        <a href={link} className={isActive ? 'active' : ''}>
             <li className="p-2 pl-3" onClick={onClick}>
                 <i className={`far fa-${iconName} mr-4 w-4`}></i> {itemText}
             </li>

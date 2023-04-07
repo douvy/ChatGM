@@ -13,12 +13,12 @@ export default async function handler(req, res) {
         const features = await prisma.feature.findMany();
         const tasks = await prisma.task.findMany();
 
-        console.log({
-            conversations: conversations,
-            starredMessages: starredMessages,
-            features: features,
-            tasks: tasks,
-        });
+        // console.log({
+        //     conversations: conversations,
+        //     starredMessages: starredMessages,
+        //     features: features,
+        //     tasks: tasks,
+        // });
         res.status(200).json({ conversations, starredMessages, features, tasks });
     } catch (error) {
         console.error(error);

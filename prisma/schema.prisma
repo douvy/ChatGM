@@ -48,6 +48,9 @@ model User {
     username String    @unique
     password String
     sessions Session[]
+    avatarSource String?
+    includeTaskFeature Boolean @default(false)
+    todoistApiKey String?
 }
 
 model Session {

@@ -30,62 +30,81 @@ html {
   padding: 0;
   height: 100%;
 }
+
 .text-red {
   color: #e85a40
 }
+
 .text-yellow {
   color: #DEF241;
 }
+
 .text-gray {
   color: #313336;
 }
+
 .text-green {
-  color:  #79E8B3 !important;
+  color: #79E8B3 !important;
 }
+
 .text-blue {
   color: #5497FF;
 }
+
 .text-purple {
   color: #AA6EFE;
 }
+
 .text-offwhite {
   color: #e6edf3 !important;
 }
+
 .text-gray {
   color: #7E8490;
 }
+
 .fa-stars.fa-solid {
   color: #FEE77E !important;
 }
+
 .border-red {
   border-color: #e85a40;
 }
+
 .border-yellow {
   border-color: #DEF241;
 }
+
 .border-gray {
   border-color: #313336;
 }
+
 .btn-yellow:hover {
   background: #DEF241;
 }
+
 .btn-gray {
   background: #21262D;
   border: 2px solid #363B42;
 }
+
 .btn-gray:hover {
   background: #30363C;
   border-color: #8B949D;
 }
-.btn-red:hover  {
+
+.btn-red:hover {
   background: #e85a40;
 }
+
 .text-2xs {
   font-size: 10px;
 }
+
 section a {
   color: #1eed88;
 }
+
 form input {
   border-color: #000;
 }
@@ -113,9 +132,11 @@ h3 {
   font-size: 30px !important;
   line-height: 48px;
 }
+
 .border-gray {
   border-color: #2F363C !important;
 }
+
 form {
   margin-top: 15px;
 }
@@ -123,6 +144,7 @@ form {
 form input {
   border-radius: 4px;
 }
+
 .message {
   background-color: #161B22;
   border-bottom: 1px solid #2F363C;
@@ -131,9 +153,11 @@ form input {
   color: #e1e1e1;
   font-size: 14px;
 }
+
 .message i {
-  color:  #ffffff;
+  color: #ffffff;
 }
+
 .message img {
   margin-top: 7px;
 }
@@ -175,6 +199,90 @@ form button {
   border-radius: 4px;
 }
 
+form button.saving,
+form button.saving:hover {
+  background: yellow !important;
+  border: yellow !important;
+}
+
+form button.saved,
+form button.saved:hover {
+  background: green !important;
+  border: green !important;
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+
+.toggle-switch-checkbox {
+  display: none;
+}
+
+.toggle-switch-label {
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  cursor: pointer;
+  background-color: #ccc;
+  border-radius: 34px;
+  transition: background-color 0.3s;
+}
+
+.toggle-switch-inner {
+  display: block;
+  height: 16px;
+  width: 16px;
+  margin: 4px;
+  background-color: #fff;
+  border-radius: 50%;
+  transition: margin 0.3s, background-color 0.3s;
+}
+
+.toggle-switch-checkbox:checked+.toggle-switch-label .toggle-switch-inner {
+  margin-left: 26px;
+  background-color: #26ca99;
+}
+
+.toggle-switch-switch {
+  display: block;
+  height: 18px;
+  width: 18px;
+  margin-top: 2px;
+  margin-left: 2px;
+  background-color: #fff;
+  border-radius: 50%;
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.3);
+  transition: margin-left 0.3s;
+}
+
+.toggle-switch-checkbox:checked+.toggle-switch-label .toggle-switch-switch {
+  margin-left: 24px;
+}
+
+
+.spinner {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-top-color: white;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 ol li {
   margin-bottom: 7px;
   color: #C4C5C8;
@@ -197,9 +305,11 @@ ul i {
 hr {
   border-color: #2F363C;
 }
+
 .tracking-wide {
-    letter-spacing: .08em;
+  letter-spacing: .08em;
 }
+
 ::-webkit-scrollbar {
   width: 4px;
   height: 4px;
@@ -221,52 +331,63 @@ hr {
   background-color: transparent;
   border-radius: 1px;
 }
+
 #top-nav {
   background: #161B22;
   border: 1px solid #2F363C;
   border-left: none;
 }
+
 .fa-message-middle {
   color: #7E8490;
 }
+
 /* For Firefox */
 * {
   scrollbar-width: thin;
   scrollbar-color: #232426 transparent;
 }
+
 #saved #messages-box {
   border-top: 1px solid #2F363C;
 }
-#messages-box, #component-box {
+
+#messages-box,
+#component-box {
   max-height: 590px;
 }
 
-#messages-box, #component-box ul li,
+#messages-box,
+#component-box ul li,
 ol li {
   margin-bottom: 8px;
 }
 
-#messages-box, #component-box ul {
+#messages-box,
+#component-box ul {
   list-style-type: disc;
   /* bullet style */
   padding-left: 1.5em;
   /* indentation */
 }
 
-#messages-box, #component-box li {
+#messages-box,
+#component-box li {
   padding-left: 6px;
   /* Adjust the padding amount as needed */
 }
 
 /* Style for ordered lists */
-#messages-box, #component-box ol {
+#messages-box,
+#component-box ol {
   list-style-type: decimal;
   /* numbering style */
   padding-left: 0em;
   /* indentation */
 }
 
-#messages-box, #component-box .last {
+#messages-box,
+#component-box .last {
   /*border-bottom: 1px solid #2F363C;*/
 }
 
@@ -312,6 +433,7 @@ form input {
   height: 45px;
   background: transparent;
 }
+
 .border-gray {
   border-color: #4D4D4D;
 }
@@ -324,20 +446,25 @@ form textarea {
   background: transparent;
   resize: none;
 }
+
 h1 {
   font-size: 1.6rem;
   line-height: 150%;
   color: #ffffff;
 }
+
 .red-checkbox {
   accent-color: #e85a40;
 }
+
 .mb-30 {
   margin-bottom: 30px;
 }
+
 .mt-50 {
   margin-top: 50px;
 }
+
 #chat-form {
   color: #1C1D20 !important;
   font-weight: 500 !important;
@@ -355,12 +482,16 @@ textarea::placeholder {
   outline: none;
   border: 2px solid #79E9B3;
 }
-input, textarea {
+
+input,
+textarea {
   border: 1px solid #1F2025;
 }
+
 .border-top-none {
   border-top: none;
 }
+
 .auto-expand-textarea {
   resize: none;
   max-height: 190px;
@@ -371,24 +502,30 @@ input, textarea {
   overflow-y: auto;
   max-height: 100%;
 }
+
 #chat-form {
   position: absolute;
   bottom: 0;
   width: 100%;
   box-sizing: border-box;
 }
+
 #code-editor {
   border: 1px solid #313234 !important;
   color: #c4c5c8;
 }
+
 .uiw-react-textarea-code-editor .uiw-react-textarea-code-editor-placeholder {
-    color: #c4c5c8 !important;
+  color: #c4c5c8 !important;
 }
 
 /*my account*/
-#my-account input, #my-account button{
+#my-account input,
+#my-account button,
+#my-account .form-field {
   max-width: 600px;
 }
+
 #chat-participants {
   max-width: 200px;
 }
@@ -401,21 +538,27 @@ input, textarea {
   html {
     overflow: hidden;
   }
+
   #chat-participants {
     display: none;
   }
+
   #chat-form {
     margin-left: 0em;
   }
 }
-table td, table tr {
+
+table td,
+table tr {
   background: transparent !important;
   color: #7d8590;
   border-color: #2F363C;
 }
+
 table {
   border: 1px solid #2F363C;
 }
+
 table th {
   background: #161B21;
 }
@@ -424,13 +567,16 @@ table th {
   #add-task {
     min-height: 250px;
   }
+
   .form-container {
     padding-left: 100px;
     margin-top: 100px;
   }
+
   .auth-container {
     margin-top: 100px !important;
   }
+
   #chat-form {
     margin-left: 0em;
   }
