@@ -4,18 +4,19 @@ import { subscribeToChannel } from "../lib/ably";
 import pusher from '../lib/pusher';
 import Pusher from 'pusher-js';
 import { client } from '../trpc/client';
+import TaskItem from './TaskItem';
 import { TodoistApi } from '@doist/todoist-api-typescript';
 
-const api = new TodoistApi('')
-
-function Tasks({ }) {
+function Tasks({ userInfo }) {
+    console.log("API KEY:", userInfo.todoistApiKey);
+    const api = new TodoistApi(userInfo.todoistApiKey)
     const scrollContainer = useRef(null);
     const channelRef = useRef(null);
     const [socketId, setSocketId] = useState(null);
     const [submitLocket, setSubmitLock] = useState(false);
     const [tasks, setTasks] = useState([]);
     api.getTasks()
-        .then((tasks) => setTasks(tasks))
+        .then((tasks) => setTasks(tasks)).catch((err) => console.log(err))
 
     function handleKeyDown(event) {
         if (event.key === 'Enter' && !event.shiftKey) {
@@ -36,7 +37,7 @@ function Tasks({ }) {
                 {tasks.map((task, index) => {
                     return (
                         <TaskItem
-                            key={conversation.id + index}
+                            key={task.id + index}
                             index={index}
                             task={task}
                         />
@@ -44,18 +45,6 @@ function Tasks({ }) {
                 })}
                 {/* <div ref={(element) => { messageEnd = element; }}></div> */}
             </div>
-            {/* <form className="flex items-end max-w-[760px] p-4 md:p-4" id="chat-form">
-                <AutoExpandTextarea
-                    value={newMessage.content}
-                    onChange={(updateMessageValue)}
-                    onKeyDown={handleKeyDown}
-                    placeholder="Type your message here..."
-                    className="w-full p-2 mr-2 bg-white"
-                />
-                <span className="button-container">
-                    <button type="button" onClick={sendMessage} className="font-semibold uppercase p-2">Send</button>
-                </span>
-            </form> */}
         </div>
     );
 }

@@ -5,7 +5,7 @@ import rehypeRaw from 'rehype-raw';
 import { trpc } from '../utils/trpc';
 import copy from 'clipboard-copy';
 
-function ChatMessage({ index, task }) {
+function TaskItem({ index, task }) {
 
   const currentTimestamp = new Date().toLocaleString('en-US', {
     timeZone: 'America/New_York',
@@ -71,4 +71,4 @@ function ChatMessage({ index, task }) {
   );
 }
 
-export default ChatMessage;
+export default TaskItem;

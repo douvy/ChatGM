@@ -67,6 +67,7 @@ const Home: NextPage<PageProps> = (props) => {
   const router = useRouter();
   const { route } = router;
   const { slug } = router.query;
+  const trpcCtx = trpc.useContext();
 
   const { data: session, status } = useSession()
   if (status === "authenticated") {
@@ -198,6 +199,15 @@ const Home: NextPage<PageProps> = (props) => {
   }
 
   const sendMessage = async () => {
+    if (newMessage.content.startsWith("@") && conversation.id) {
+      const updatedConversation = await client.conversations.addParticipant.mutate(
+        {
+          conversationId: conversation.id,
+          participantUsername: newMessage.content.split(" ")[0].substring(1),
+        }
+      )
+      return updateConversations;
+    }
     appendMessage(newMessage);
     setMessage({
       role: "user",
@@ -276,7 +286,7 @@ const Home: NextPage<PageProps> = (props) => {
         <nav className="fixed h-full w-[228px] shadow-md hidden lg:block">
           <ConversationLinkList conversations={conversations} activeConversation={conversation} activeConversationId={conversationId} selectConversation={selectConversation} userInfo={userInfo} newConversation={newConversation}></ConversationLinkList>
           <hr className="my-4 border-t" />
-          <Sidebar setConversations={setConversations} setConversation={setConversation} setActiveComponent={setActiveComponent} features={props.features} currentRoute={currentRoute} setCurrentRoute={setCurrentRoute} session={props.session} />
+          <Sidebar setConversations={setConversations} setConversation={setConversation} setActiveComponent={setActiveComponent} features={props.features} currentRoute={currentRoute} setCurrentRoute={setCurrentRoute} session={props.session} userInfo={userInfo} />
         </nav>
         <div className="fixed top-0 left-0 z-50 flex items-center justify-end w-full p-2 pr-3 lg:hidden">
           <button className="text-red-400 hover:text-red-500">
@@ -296,7 +306,7 @@ const Home: NextPage<PageProps> = (props) => {
           <main className="container mx-auto flex-1 mt-0">
             {currentRoute == '/' ? <ChatWindow conversationId={conversationId} conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} starredMessages={starredMessages} setStarredMessages={setStarredMessages} /> : null}
             {currentRoute == '/features' ? <FeaturesView passedFeatures={props.features}></FeaturesView> : null}
-            {currentRoute == '/tasks' ? <Tasks></Tasks> : null}
+            {currentRoute == '/tasks' ? <Tasks userInfo={userInfo}></Tasks> : null}
             {currentRoute == '/features' ? <FeaturesView passedFeatures={props.features}></FeaturesView> : null}
             {currentRoute == '/myAccount' ? <MyAccount userInfo={userInfo} setUserInfo={setUserInfo}></MyAccount> : null}
             {currentRoute == '/conversations' ? <ConversationsView conversations={conversations} setConversations={setConversations}></ConversationsView> : null}

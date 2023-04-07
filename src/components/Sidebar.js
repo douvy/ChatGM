@@ -10,7 +10,7 @@ function SidebarItem({ itemText, iconName, onClick, link = '#', isActive }) {
     );
 }
 
-export default function Sidebar({ setConversations, setConversation, setActiveComponent, features, currentRoute, setCurrentRoute, session }) {
+export default function Sidebar({ setConversations, setConversation, setActiveComponent, features, currentRoute, setCurrentRoute, session, userInfo }) {
     return (
         <div>
             <ul className="pl-3">
@@ -22,12 +22,12 @@ export default function Sidebar({ setConversations, setConversation, setActiveCo
                     setCurrentRoute('/myAccount');
                 }} />
 
-                {/*<SidebarItem iconName="check-square" itemText="Todos" onClick={() => {
+                {userInfo.includeTaskFeature ? <SidebarItem iconName="check-square" itemText="Todos" onClick={() => {
                     setCurrentRoute('/tasks');
-                }} />
-                {/*<SidebarItem iconName="check-square" itemText="Features" onClick={() => {
+                }} /> : <></>}
+                {/* <SidebarItem iconName="check-square" itemText="Features" onClick={() => {
                     setCurrentRoute('/features');
-                }} />*/}
+                }} /> */}
                 <SidebarItem iconName="fa-solid fa-messages text-gray" isActive={currentRoute == "/conversations" ? true : false} itemText="Conversations" onClick={() => {
                     setCurrentRoute('/conversations');
                 }} />
