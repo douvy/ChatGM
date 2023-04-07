@@ -1,6 +1,5 @@
 import { useRef, useEffect, useState } from 'react';
 import AutoExpandTextarea from './AutoExpandTextarea';
-import TaskItem from './TaskItem';
 import { subscribeToChannel } from "../lib/ably";
 import pusher from '../lib/pusher';
 import Pusher from 'pusher-js';
