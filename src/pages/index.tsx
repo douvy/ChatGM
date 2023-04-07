@@ -16,7 +16,7 @@ import Router from 'next/router';
 import { getSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
-import { User } from "@prisma/client";
+import { User, Conversation as PrismaConversation } from "@prisma/client";
 import { client } from '../trpc/client';
 import { trpc } from '../utils/trpc';
 
@@ -32,6 +32,9 @@ interface Conversation {
   messages: Message[],
   id?: number,
   isActive?: boolean,
+  isPublic: boolean,
+  ownerId: number,
+  creatorId: number,
 }
 
 interface InitialProps {
@@ -76,12 +79,6 @@ const Home: NextPage<PageProps> = (props) => {
 
   const [starredMessages, setStarredMessages] = useState<Message[]>(props.starredMessages || []);
 
-  const [conversation, setConversation] = useState<Conversation>({
-    name: "",
-    messages: messages,
-    isActive: false,
-  });
-
   const [conversationId, setConversationId] = useState<number | undefined>();
 
   const [messageContent, setMessageContent] = useState('');
@@ -107,7 +104,17 @@ const Home: NextPage<PageProps> = (props) => {
     response: "",
   })
 
-  const [userInfo, setUserInfo] = useState<Conversation[]>(props.userInfo || []);
+  const [userInfo, setUserInfo] = useState<any>(props.userInfo || []);
+
+  const [conversation, setConversation] = useState<Conversation>({
+    name: "",
+    messages: messages,
+    isActive: false,
+    ownerId: userInfo.id,
+    creatorId: userInfo.id,
+    isPublic: false,
+  });
+  console.log("conversation:", conversation);
 
   const [conversations, setConversations] = useState<Conversation[]>(props.conversations || []);
 
@@ -176,6 +183,9 @@ const Home: NextPage<PageProps> = (props) => {
     setConversation({
       messages: [],
       isActive: true,
+      ownerId: userInfo.id,
+      creatorId: userInfo.id,
+      isPublic: false,
     })
     setCurrentRoute('/');
   }
@@ -195,21 +205,21 @@ const Home: NextPage<PageProps> = (props) => {
       avatarSource: "avatar.png",
       sender: user.username || "anonymous",
     })
-    var updatedConversation = conversation;
+    var updatedConversation = conversation as PrismaConversation;
     if (!conversation.id) {
-      updatedConversation = await client.conversations.create.query(conversation) as Conversation;
-      setConversations([...conversations, updatedConversation]);
-      updatedConversation = await client.openai.generateName.query((updatedConversation)) as Conversation;
-      setConversations([...conversations, updatedConversation]);
+      updatedConversation = await client.conversations.create.query(conversation);
+      setConversations([...conversations, updatedConversation as Conversation]);
+      updatedConversation = await client.openai.generateName.query((updatedConversation)) || updatedConversation;
+      setConversations([...conversations, updatedConversation as Conversation]);
       setConversation({
         ...conversation,
-        name: updatedConversation.name
+        name: updatedConversation.name || conversation.name
       });
     } else {
       updatedConversation = await client.messages.create.query(({
         ...newMessage,
         conversationId: conversation.id,
-      })) as Conversation;
+      })) as PrismaConversation;
     }
 
     // const placeholderResponse = {
@@ -230,11 +240,11 @@ const Home: NextPage<PageProps> = (props) => {
     //   });
     // }, 100);
 
-    updatedConversation = await client.openai.query.query((updatedConversation)) as Conversation;
+    updatedConversation = await client.openai.query.query((updatedConversation)) as PrismaConversation;
     // clearInterval(interval);
     setConversation({
-      ...updatedConversation,
-      messages: updatedConversation.messages,
+      ...updatedConversation as Conversation,
+      messages: (updatedConversation as Conversation).messages,
     });
   };
 
@@ -293,6 +303,9 @@ const Home: NextPage<PageProps> = (props) => {
             {currentRoute == '/builder' ? <ComponentBuilder></ComponentBuilder> : null}
             {currentRoute == '/savedPrompts' ? <SavedMessages starredMessages={starredMessages} setStarredMessages={setStarredMessages} role='user'></SavedMessages> : null}
             {currentRoute == '/savedResponses' ? <SavedMessages starredMessages={starredMessages} setStarredMessages={setStarredMessages} role='assistant'></SavedMessages> : null}
+            <div className="mx-auto max-w-[760px] mt-3 md:mt-5">
+              <textarea className="hidden w-full text-black" rows="10" value={JSON.stringify(conversation, null, 2)}></textarea>
+            </div>
           </main>
         </div>
       </div>
@@ -328,7 +341,9 @@ export const getServerSideProps: GetServerSideProps<any> = async (context) => {
   return {
     props: {
       session,
-      conversations: (await client.conversations.withPartialMessages.query()),
+      conversations: (await client.conversations.withPartialMessages.query({
+        creatorId: session.user.id,
+      })),
       userInfo: (await client.users.get.query({ id: session.user.id })),
       starredMessages: (await client.messages.query.query(
         {
