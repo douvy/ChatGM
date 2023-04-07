@@ -283,7 +283,7 @@ const Home: NextPage<PageProps> = (props) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="flex" id="main-container">
-        <nav className="fixed h-full w-[225px] text-white shadow-md hidden lg:block">
+        <nav className="fixed h-full w-[228px] shadow-md hidden lg:block">
           <ConversationLinkList conversations={conversations} activeConversation={conversation} selectConversation={selectConversation} session={props.session} newConversation={newConversation}></ConversationLinkList>
           <hr className="my-4 border-t" />
           <Sidebar setConversations={setConversations} setConversation={setConversation} setActiveComponent={setActiveComponent} features={props.features} setCurrentRoute={setCurrentRoute} session={props.session} />
@@ -296,7 +296,14 @@ const Home: NextPage<PageProps> = (props) => {
           </button>
         </div>
         <div className="flex flex-col h-full w-full lg:ml-[225px]">
-          <main className="container mx-auto p-4 flex-1 mt-6 md:mt-2">
+          <header className="flex items-center justify-between px-4 py-2" id="top-nav">
+            <h1 className="text-xl font-semibold">&nbsp;</h1>
+            <nav className="space-x-4">
+              <a href="#" className="hover:text-blue-300"></a>
+            </nav>
+          </header>
+
+          <main className="container mx-auto flex-1 mt-0">
             {currentRoute == '/' ? <ChatWindow conversationId={conversationId} conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} starredMessages={starredMessages} setStarredMessages={setStarredMessages} /> : null}
             {currentRoute == '/features' ? <FeaturesView passedFeatures={props.features}></FeaturesView> : null}
             {currentRoute == '/tasks' ? <Tasks></Tasks> : null}
@@ -308,7 +315,6 @@ const Home: NextPage<PageProps> = (props) => {
             {currentRoute == '/savedResponses' ? <SavedMessages starredMessages={starredMessages} setStarredMessages={setStarredMessages} role='assistant'></SavedMessages> : null}
           </main>
         </div>
-
       </div>
     </>
   )

@@ -99,7 +99,7 @@ function ChatWindow({ conversationId, conversation, setConversation, newMessage,
     }
     return (
         <div className="mx-auto max-w-[760px]">
-            <div className="p-4 overflow-y-auto" id="messages-box" ref={scrollContainer}>
+            <div className="p-1.5 pt-0 pb-0 mt-0 overflow-y-auto" id="messages-box" ref={scrollContainer}>
                 {conversation.messages.map((message, index) => {
                     return (
                         <ChatMessage
@@ -115,7 +115,7 @@ function ChatWindow({ conversationId, conversation, setConversation, newMessage,
                 })}
                 <div ref={(element) => { messageEnd = element; }}></div>
             </div>
-            <form className="flex items-end max-w-[760px] p-4 md:p-4" id="chat-form">
+            <form className="flex items-end max-w-[760px] mb-3" id="chat-form">
                 <AutoExpandTextarea
                     value={newMessage.content}
                     onChange={(updateMessageValue)}

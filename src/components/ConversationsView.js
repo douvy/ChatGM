@@ -85,22 +85,23 @@ function ConversationsView({ conversations, setConversations }) {
     };
 
     return (
-        <div className="container flex justify-center mx-auto mt-8">
-            <div className="w-full md:w-8/12 mb-8 overflow-hidden-lg" id="conversation-table">
+        <div className="container mx-auto max-w-[760px] mt-3 md:mt-5">
+        <h1 class="hidden text-title font-medium uppercase mb-5 text-white tracking-wide md:block">Conversations</h1>
+            <div className="w-full mb-8 overflow-hidden-lg" id="conversation-table">
                 <div className="w-full overflow-x-auto">
-                    <table className="w-full max-w-[760px]">
+                    <table className="w-full text-sm rounded">
                         <thead>
-                            <tr className="text-md font-semibold tracking-wide text-left uppercase border-b border-gray">
-                                <th className="px-4 py-3">Name</th>
-                                <th className="px-4 py-3">Edit</th>
-                                <th className="px-4 py-3">Delete</th>
-                                <th className="px-4 py-3">Public</th>
+                            <tr className="text-md font-semibold tracking-wide text-left uppercase border-b border-gra text-offwhite">
+                                <th className="px-4 py-2">Name</th>
+                                <th className="px-4 py-2">Edit</th>
+                                <th className="px-4 py-2">Delete</th>
+                                <th className="px-4 py-2">Public</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray">
                             {conversations.map((conversation, index) => (
                                 <tr key={index} className="border-gray">
-                                    <td className="px-4 py-3 whitespace-no-wrap">
+                                    <td className="px-4 py-2 whitespace-no-wrap">
                                         {editingIndex === index ? (
                                             <input
                                                 type="text"
@@ -110,13 +111,13 @@ function ConversationsView({ conversations, setConversations }) {
                                                     handleNameChange(index, e.target.value, conversation)
                                                 }
                                                 onKeyDown={(e) => handleNameSave(index, e)}
-                                                className="shadow appearance-none border w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                                                className="shadow appearance-none border w-full py-2 px-2 leading-tight focus:outline-none focus:shadow-outline"
                                             />
                                         ) : (
                                             conversation.name
                                         )}
                                     </td>
-                                    <td className="px-4 py-3 whitespace-no-wrap">
+                                    <td className="px-4 py-2 whitespace-no-wrap">
                                         {editingIndex !== index && (
                                             <i
                                                 className="fas fa-edit cursor-pointer"
@@ -124,13 +125,13 @@ function ConversationsView({ conversations, setConversations }) {
                                             ></i>
                                         )}
                                     </td>
-                                    <td className="px-4 py-3 whitespace-no-wrap">
+                                    <td className="px-4 py-2 whitespace-no-wrap">
                                         <i
                                             className="fas fa-trash cursor-pointer"
                                             onClick={() => handleDelete(conversation)}
                                         ></i>
                                     </td>
-                                    <td className="px-4 py-3 whitespace-no-wrap">
+                                    <td className="px-4 py-2 whitespace-no-wrap">
                                         <input
                                             type="checkbox"
                                             checked={conversation.isPublic}
