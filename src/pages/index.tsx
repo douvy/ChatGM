@@ -304,7 +304,7 @@ const Home: NextPage<PageProps> = (props) => {
             {currentRoute == '/savedPrompts' ? <SavedMessages starredMessages={starredMessages} setStarredMessages={setStarredMessages} role='user'></SavedMessages> : null}
             {currentRoute == '/savedResponses' ? <SavedMessages starredMessages={starredMessages} setStarredMessages={setStarredMessages} role='assistant'></SavedMessages> : null}
             <div className="mx-auto max-w-[760px] mt-3 md:mt-5">
-              <textarea className="hidden w-full text-black" rows="10" value={JSON.stringify(conversation, null, 2)}></textarea>
+              <textarea className="hidden w-full text-black" rows={10} value={JSON.stringify(conversation, null, 2)}></textarea>
             </div>
           </main>
         </div>
