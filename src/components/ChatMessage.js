@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
@@ -6,11 +6,29 @@ import { trpc } from '../utils/trpc';
 import copy from 'clipboard-copy';
 import { format, utcToZonedTime } from 'date-fns-tz';
 
-function ChatMessage({ index, message, avatarSource, sender, updateState }) {
+function ChatMessage({ index, message, avatarSource, sender, updateState, setConversation }) {
   const [localMessage, setLocalMessage] = useState(message);
   const [copied, setCopied] = useState(false);
   const [showEditIcon, setShowEditIcon] = useState(false);
   const [editingMessage, setEditingMessage] = useState(false);
+  const cursorPositionRef = useRef(null);
+  const textareaRef = useRef(null);
+
+  useEffect(() => {
+    setLocalMessage(message);
+  }, [message]);
+
+  useEffect(() => {
+    if (!editingMessage) {
+      return;
+    }
+    // Set the focus on the textarea element
+    // textareaRef?.current?.focus();
+
+    // Set the cursor position to the end of the input value
+    const textarea = textareaRef.current;
+    textarea.selectionStart = textarea.selectionEnd = textarea.value.length;
+  }, [editingMessage]);
 
   const updateMessageMutation = trpc.messages.update.useMutation();
 
@@ -29,7 +47,6 @@ function ChatMessage({ index, message, avatarSource, sender, updateState }) {
   });
 
   const setMessageContent = (e) => {
-
   }
 
   const customRenderer = {
@@ -70,6 +87,10 @@ function ChatMessage({ index, message, avatarSource, sender, updateState }) {
       })
       .catch((err) => console.error('Failed to copy:', err));
   }
+
+  const handleContentInput = (event) => {
+    cursorPositionRef.current = window.getSelection().getRangeAt(0).startOffset;
+  };
 
   return (
     <div className="w-full box"
@@ -115,26 +136,56 @@ function ChatMessage({ index, message, avatarSource, sender, updateState }) {
             components={customRenderer}
           /> :
             <form>
-              <div contentEditable onInput={() => {
+              {/* <div className="focus:outline-none focus:border-none" contentEditable onInput={(e) => {
+                // if (cursorPositionRef.current !== null) {
+                //   const range = document.createRange();
+                //   const selection = window.getSelection();
+                //   range.setStart(event.target.childNodes[0], cursorPositionRef.current);
+                //   range.collapse(true);
+                //   selection.removeAllRanges();
+                //   selection.addRange(range);
+                // }
 
-              }}>
+                setLocalMessage({
+                  ...localMessage,
+                  content: e.target.textContent,
+                })
+              }} onBlur={handleContentInput}>
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   rehypePlugins={[rehypeRaw]}
-                  children={message.content}
+                  children={localMessage.content}
                   components={customRenderer}
                 />
-              </div>
+              </div> */}
+              <textarea value={localMessage.content} ref={textareaRef} className="p-0 m-0 h-auto w-full border-none focus:outline-none" rows="1" autoFocus={true} spellCheck="false" onInput={(e) => {
+                setLocalMessage({
+                  ...localMessage,
+                  content: e.target.value,
+                })
+              }} onBlur={handleContentInput}>
+              </textarea>
               <div className="py-5 flex justify-center">
                 <div className="flex items-center">
                   <span className=" p-0 !important">
-                    <button type="button" onClick={() => { }} className="font-semibold uppercase editing-message-save">
+                    <button type="button" onClick={() => {
+                      console.log("localMessage", localMessage)
+                      updateMessageMutation.mutate(localMessage);
+                      setEditingMessage(false);
+                      updateState(index, localMessage, true);
+                    }} className="font-semibold uppercase editing-message-save">
                       Save & Submit
                     </button>
                   </span>
                   <div className="h-4 w-px mx-3"></div>
                   <span className="button-container ml-auto">
-                    <button type="button" onClick={() => { }} className="font-semibold uppercase p-1 editing-message-cancel">
+                    <button type="button" onClick={() => {
+                      setEditingMessage(false);
+                      setLocalMessage({
+                        ...localMessage,
+                        content: message.content,
+                      })
+                    }} className="font-semibold uppercase p-1 editing-message-cancel">
                       Cancel
                     </button>
                   </span>

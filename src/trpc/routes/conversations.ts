@@ -85,6 +85,37 @@ export const update = trpc.procedure.input((req: any) => {
   });
 })
 
+export const updateMessages = trpc.procedure.input((req: any) => {
+  console.log('\x1b[31m%s\x1b[0m', "inserting....", req);
+  if (!req.id) {
+    throw new Error(`Conversations without an id property can't be updated"`);
+  }
+  return req;
+}).mutation(async ({ input }) => {
+  const conversation = input;
+  const updatedConversation = await prisma.conversation.update({
+    where: {
+      id: conversation.id,
+    },
+    data: {
+      messages: {
+        deleteMany: {
+          NOT: {
+            id: {
+              in: conversation.messages.map((message: any) => message.id),
+            },
+          },
+        },
+      },
+    },
+    include: {
+      messages: true,
+    },
+  });
+  console.log("updatedConversation:", updatedConversation);
+  return updatedConversation;
+})
+
 export const deleteConversation = trpc.procedure.input((req) => {
   return req;
 }).mutation(async ({ input }) => {
@@ -100,5 +131,6 @@ export const conversationsRouter = router({
   create: createConversation,
   get: get,
   update: update,
+  updateMessages: updateMessages,
   delete: deleteConversation,
 });

@@ -38,14 +38,15 @@ export const update = trpc.procedure.input(
     z.object({
         id: z.number() || undefined,
         starred: z.boolean(),
+        content: z.string() || undefined,
     }),
 ).mutation(async ({ input }) => {
-    const { id, starred } = input;
+    const { id, ...params } = input;
     // Here some login stuff would happen
-    console.log("mutating:", id, starred);
+    // console.log("mutating:", id, starred);
     const message = await prisma.message.update({
         where: { id: Number(id) },
-        data: { starred },
+        data: { ...params },
     });
     console.log("updatedMessage", message);
     return {

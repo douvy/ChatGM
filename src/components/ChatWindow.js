@@ -5,12 +5,14 @@ import { subscribeToChannel } from "../lib/ably";
 import pusher from '../lib/pusher';
 import Pusher from 'pusher-js';
 import { client } from '../trpc/client';
+import { trpc } from '../utils/trpc';
 
 function ChatWindow({ conversationId, conversation, setConversation, newMessage, sendMessage, updateMessageValue, starredMessages, setStarredMessages }) {
     const scrollContainer = useRef(null);
     const channelRef = useRef(null);
     const [socketId, setSocketId] = useState(null);
     const [submitLocket, setSubmitLock] = useState(false);
+    const updateConversationMutation = trpc.conversations.updateMessages.useMutation();
 
     pusher.connection.bind('connected', async () => {
         setSocketId(pusher.connection.socket_id);
@@ -64,7 +66,7 @@ function ChatWindow({ conversationId, conversation, setConversation, newMessage,
             sendMessage();
         } else {
             if (channelRef) {
-                console.log("client is typing", channelRef.current);
+                // console.log("client is typing", channelRef.current);
                 // channelRef.current.trigger('client-is-typing', {
                 //     message: conversation.message,
                 // });
@@ -76,7 +78,7 @@ function ChatWindow({ conversationId, conversation, setConversation, newMessage,
         }
     }
 
-    function updateConversation(messageIndex, updatedMessage) {
+    async function updateConversation(messageIndex, updatedMessage, isEdit = false) {
         if (conversation.messages[messageIndex].starred != updatedMessage.starred) {
             if (updatedMessage.starred) {
                 setStarredMessages([...starredMessages, updatedMessage]);
@@ -85,9 +87,24 @@ function ChatWindow({ conversationId, conversation, setConversation, newMessage,
             }
         }
         conversation.messages[messageIndex] = updatedMessage
-        const updatedMessages = [...conversation.messages];
-        conversation.messages = updatedMessages;
-        setConversation(conversation);
+        const updatedMessages = isEdit ? conversation.messages.filter((message, index) => {
+            return index <= messageIndex;
+        }) : [...conversation.messages];
+        console.log(updatedMessages, updatedMessages.length);
+        let updatedConversation = {
+            ...conversation,
+            messages: updatedMessages,
+        }
+        setConversation(updatedConversation)
+        if (isEdit) {
+            const updated = updateConversationMutation.mutate(updatedConversation);
+            console.log(updated)
+            updatedConversation = await client.openai.query.query((updatedConversation));
+            setConversation({
+                ...updatedConversation,
+                messages: updatedConversation.messages,
+            });
+        }
     }
 
     let messageEnd = null;
@@ -110,6 +127,7 @@ function ChatWindow({ conversationId, conversation, setConversation, newMessage,
                             sender={message.role == "user" ? message.sender : "ChatGPT-3.5"}
                             received={true}
                             updateState={updateConversation}
+                            setConversation={setConversation}
                         />
                     );
                 })}
