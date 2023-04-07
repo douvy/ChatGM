@@ -60,11 +60,9 @@ interface PageProps {
 }
 
 const Home: NextPage<PageProps> = (props) => {
-  // console.log("PROPS:", props);
   const router = useRouter();
   const { route } = router;
   const { slug } = router.query;
-  // console.log("SLUG", slug);
 
   const { data: session, status } = useSession()
   if (status === "authenticated") {
@@ -96,7 +94,6 @@ const Home: NextPage<PageProps> = (props) => {
   useEffect(() => {
     if (conversationId != conversation.id) {
       client.conversations.get.query({ id: conversationId }).then((data) => {
-        console.log("updating conversation");
         setConversation(data as Conversation);
       })
     }
@@ -333,7 +330,6 @@ export const getServerSideProps: GetServerSideProps<any> = async (context) => {
   const baseUrl = req ? `${req.headers.host}` : '';
 
   const session = await getSession(context);
-  console.log(session);
   if (!session) {
     return {
       redirect: {
@@ -344,10 +340,8 @@ export const getServerSideProps: GetServerSideProps<any> = async (context) => {
   }
 
   const response = await fetch(`http://${baseUrl}/api/initialPageData`);
-  console.log("response:", response);
   const { conversations, starredMessages, features, tasks } = await response.json();
 
-  console.log("CONVERSATIONS", conversations);
   return {
     props: {
       session,
