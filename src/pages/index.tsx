@@ -6,7 +6,7 @@ import Sidebar from '../components/Sidebar';
 import ChatWindow from '../components/ChatWindow';
 import SavedMessages from '../components/SavedMessages';
 import FeaturesView from '../components/FeaturesView';
-import TasksView from '../components/TasksView';
+import Tasks from '../components/Tasks';
 import ConversationsView from '../components/ConversationsView';
 import ComponentBuilder from '../components/ComponentBuilder';
 import MyAccount from '../components/MyAccount';
@@ -19,7 +19,6 @@ import { useSession } from 'next-auth/react';
 import { User } from "@prisma/client";
 import { client } from '../trpc/client';
 import { trpc } from '../utils/trpc';
-
 
 interface Message {
   role: string,
@@ -300,7 +299,8 @@ const Home: NextPage<PageProps> = (props) => {
           <main className="container mx-auto p-4 flex-1 mt-6 md:mt-2">
             {currentRoute == '/' ? <ChatWindow conversationId={conversationId} conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} starredMessages={starredMessages} setStarredMessages={setStarredMessages} /> : null}
             {currentRoute == '/features' ? <FeaturesView passedFeatures={props.features}></FeaturesView> : null}
-            {currentRoute == '/tasks' ? <TasksView passedTasks={props.tasks}></TasksView> : null}{currentRoute == '/features' ? <FeaturesView passedFeatures={props.features}></FeaturesView> : null}
+            {currentRoute == '/tasks' ? <Tasks></Tasks> : null}
+            {currentRoute == '/features' ? <FeaturesView passedFeatures={props.features}></FeaturesView> : null}
             {currentRoute == '/myAccount' ? <MyAccount></MyAccount> : null}
             {currentRoute == '/conversations' ? <ConversationsView conversations={conversations} setConversations={setConversations}></ConversationsView> : null}
             {currentRoute == '/builder' ? <ComponentBuilder></ComponentBuilder> : null}
