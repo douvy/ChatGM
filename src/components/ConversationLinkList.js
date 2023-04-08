@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import ConversationLinkListItem from './ConversationLinkListItem';
 
 function ConversationLinkList({ conversations, setConversation, activeConversation, activeConversationId, selectConversation, userInfo, newConversation, setConversations, currentRoute }) {
-  const [isPersonalExpanded, setIsPersonalExpanded] = useState(true);
-  const [isGroupExpanded, setIsGroupExpanded] = useState(false); // Group is collapsed by default
+  const [isPersonalExpanded, setIsPersonalExpanded] = useState(conversations.filter((c) => c.participants?.length <= 1).length > 0);
+  const [isGroupExpanded, setIsGroupExpanded] = useState(conversations.filter((c) => c.participants?.length > 1).length > 0);
 
   return (
     <div id="sidebar-top">
@@ -26,7 +26,7 @@ function ConversationLinkList({ conversations, setConversation, activeConversati
         {isPersonalExpanded && (
           <div className="max-h-[315px] overflow-y-auto">
             <ul className="pl-0">
-              {conversations.map((conversation, index) => {
+              {conversations.filter((conversation) => conversation.participants?.length <= 1).map((conversation, index) => {
                 return <ConversationLinkListItem key={index} index={index} selectConversation={selectConversation} conversation={conversation} isActive={activeConversationId == conversation.id} setConversation={setConversation} />
               })}
             </ul>
@@ -38,10 +38,9 @@ function ConversationLinkList({ conversations, setConversation, activeConversati
         {isGroupExpanded && (
           <div className="max-h-[315px] overflow-y-auto">
             <ul className="pl-3">
-              {/* Dummy link for the "Group" section */}
-              <li className="p-2 pl-4">
-                <a href="#">Dummy Group Link</a>
-              </li>
+              {conversations.filter((conversation) => conversation.participants?.length > 1).map((conversation, index) => {
+                return <ConversationLinkListItem key={index} index={index} selectConversation={selectConversation} conversation={conversation} isActive={activeConversationId == conversation.id} setConversation={setConversation} />
+              })}
             </ul>
           </div>
         )}

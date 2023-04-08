@@ -10,6 +10,7 @@ import Tasks from '../components/Tasks';
 import ConversationsView from '../components/ConversationsView';
 import ComponentBuilder from '../components/ComponentBuilder';
 import MyAccount from '../components/MyAccount';
+import ConversationMembers from '../components/ConversationMembers';
 import { addInfiniteScroll } from '../utils/infiniteScroll';
 import { GetServerSideProps, NextPage } from 'next';
 import Router from 'next/router';
@@ -19,22 +20,13 @@ import { useSession } from 'next-auth/react';
 import { User, Conversation as PrismaConversation } from "@prisma/client";
 import { client } from '../trpc/client';
 import { trpc } from '../utils/trpc';
+import { Conversation } from '../interfaces';
 
 interface Message {
   role: string,
   content: string;
   avatarSource: string,
   sender: String,
-}
-
-interface Conversation {
-  name?: string,
-  messages: Message[],
-  id?: number,
-  isActive?: boolean,
-  isPublic: boolean,
-  ownerId: number,
-  creatorId: number,
 }
 
 interface InitialProps {
@@ -135,7 +127,7 @@ const Home: NextPage<PageProps> = (props) => {
 
   useEffect(() => {
     if (conversationId) {
-      if (conversationId != conversation.id) {
+      if (conversationId != conversation.id || !conversation.participants) {
         client.conversations.get.query({ id: conversationId }).then((data) => {
           setConversation(data as Conversation);
         })
@@ -279,7 +271,6 @@ const Home: NextPage<PageProps> = (props) => {
   const [activeComponent, setActiveComponent] = useState<any>(
   );
 
-  const [isMembersExpanded, setIsMembersExpanded] = useState(true); // Default state is expanded
   return (
     <>
       <Head>
@@ -302,48 +293,7 @@ const Home: NextPage<PageProps> = (props) => {
           </button>
         </div>
         <div className="flex flex-col h-full w-full lg:ml-[225px]">
-          <header className="flex items-center justify-between px-4 py-2 relative" id="top-nav">
-            {/* Members dropdown title */}
-            <div className="flex items-center space-x-2">
-              <div className="flex items-center cursor-pointer w-190" onClick={() => setIsMembersExpanded(!isMembersExpanded)}>
-                <i className={`fa-solid mr-2 w-3 ${isMembersExpanded ? 'fa-arrow-down' : 'fa-arrow-right'} ml-2`}></i>
-                <span>5 Members</span>
-              </div>
-            </div>
-            <h1 className="text-xl font-semibold">&nbsp;</h1>
-            <nav className="space-x-4">
-              <a href="#" className="hover:text-blue-300"></a>
-            </nav>
-          </header>
-          {/* Members dropdown content */}
-          {isMembersExpanded && (
-            <div className="absolute mt-14 pl-4" id="members">
-              <ul className="pl-0">
-                <li className="flex items-center space-x-2 p-1">
-                  <div className="h-4 w-4 rounded-full bg-green-bright mr-1"></div>
-                  <span className="text-offwhite">Eloise Chambers</span>
-                </li>
-                <li className="flex items-center space-x-2 p-1">
-                  <div className="h-4 w-4 rounded-full bg-green-bright mr-1"></div>
-                  <span className="text-offwhite">Belle James</span>
-                </li>
-                <li className="flex items-center space-x-2 p-1">
-                  <div className="h-4 w-4 rounded-full bg-green-bright mr-1"></div>
-                  <span className="text-offwhite">Zhou Lin</span>
-                </li>
-                <li className="flex items-center space-x-2 p-1">
-                  <div className="h-4 w-4 rounded-full bg-green-bright mr-1"></div>
-                  <span className="text-offwhite">Deb Vora</span>
-                </li>
-                <li className="flex items-center space-x-2 p-1">
-                  <div className="h-4 w-4 rounded-full bg-green-bright mr-1"></div>
-                  <span className="text-offwhite">Ethan James</span>
-                </li>
-                {/* More members can be added here */}
-              </ul>
-            </div>
-          )}
-
+          <ConversationMembers conversation={conversation} userInfo={userInfo} />
           <main className="container mx-auto flex-1 mt-0">
             {currentRoute == '/' ? <ChatWindow conversationId={conversationId} conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} starredMessages={starredMessages} setStarredMessages={setStarredMessages} /> : null}
             {currentRoute == '/features' ? <FeaturesView passedFeatures={props.features}></FeaturesView> : null}

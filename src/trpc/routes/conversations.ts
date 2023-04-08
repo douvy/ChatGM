@@ -25,6 +25,7 @@ export const withPartialMessages = trpc.procedure.input((req: any) => {
         orderBy: { id: 'desc' }, // Order messages by id in ascending order
         take: 10 // Fetch only the last 10 messages for each conversation
       },
+      participants: true,
     },
   });
   return conversations.map((conversation: any) => {
@@ -53,12 +54,18 @@ export const createConversation = trpc.procedure.input((req: any) => {
           data: messages,
         },
       },
+      participants: {
+        connect: {
+          id: creatorId
+        }
+      },
       name: name,
       ownerId: ownerId,
       creatorId: creatorId,
     },
     include: {
       messages: { orderBy: { id: 'asc' } },
+      participants: true,
     },
   });
   console.log('\x1b[31m%s\x1b[0m', "inserted", conversation);
@@ -73,7 +80,13 @@ export const get = trpc.procedure.input(
     id: z.union([z.number(), z.undefined()]),
   }),
 ).query(async ({ input }) => {
-  const conversation = await prisma.conversation.findUnique({ where: { id: Number(input.id) }, include: { messages: { orderBy: { id: 'asc' } } } });
+  const conversation = await prisma.conversation.findUnique({
+    where: { id: Number(input.id) }, include: {
+      messages: { orderBy: { id: 'asc' } },
+      participants: true,
+    }
+  });
+  console.log("conversation with participants:", conversation)
   return conversation;
 })
 
