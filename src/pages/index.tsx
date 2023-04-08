@@ -317,7 +317,7 @@ const Home: NextPage<PageProps> = (props) => {
           </header>
           {/* Members dropdown content */}
           {isMembersExpanded && (
-            <div className="absolute mt-14 pl-4">
+            <div className="absolute mt-14 pl-4" id="members">
               <ul className="pl-0">
                 <li className="flex items-center space-x-2 p-1">
                   <div className="h-4 w-4 rounded-full bg-green-bright mr-1"></div>
