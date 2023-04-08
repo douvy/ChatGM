@@ -21,6 +21,13 @@ function MyAccount({ userInfo, setUserInfo }) {
     });
   }
 
+  const updateGPT4APIKeyValue = (event) => {
+    setLocalUserInfo({
+      ...localUserInfo,
+      gpt4ApiKey: event.target.value
+    });
+  }
+
   const saveUserUpdates = (e) => {
     e.preventDefault();
     setSaveState('saving');
@@ -108,6 +115,46 @@ function MyAccount({ userInfo, setUserInfo }) {
                 </div>
                 <div className="relative">
                   <input type="text" value={localUserInfo.todoistApiKey} onChange={updateTodoistApiKeyValue} className="h-10 w-full border-2 bg-dark-gray py-2 px-4 text-sm outline-none bg-transparent text-white" name="todoist-api" id="todoist-api" />
+                </div>
+              </label>
+            </div>
+          </div>
+          <div className="flex flex-col gap-2 border-1">
+            <div className="gap-2 mt-5 text-sm text-white font-semibold capitalize flex w-full flex-col items-stretch justify-center form-field border-1">
+              <label className="flex cursor-pointer flex-col gap-2" htmlFor="use-gpt4">
+                <div className="flex items-center justify-between border-1">
+                  <p className="flex items-center justify-start gap-2 px-0.5 tracking-wide border-1">Use GPT4</p>
+                  <div className="toggle-switch">
+                    <input
+                      type="checkbox"
+                      checked={localUserInfo.useGPT4}
+                      onChange={(() => {
+                        setLocalUserInfo({
+                          ...localUserInfo,
+                          useGPT4: !localUserInfo.useGPT4
+                        });
+                      })}
+                      className="toggle-switch-checkbox"
+                      name="use-gpt4"
+                      id="use-gpt4"
+                    />
+                    <label className="toggle-switch-label" htmlFor="use-gpt4">
+                      <span className="toggle-switch-inner"></span>
+                      {/* <span className="toggle-switch-switch"></span> */}
+                    </label>
+                  </div>
+                </div>
+              </label>
+            </div>
+          </div>
+          <div className={`${!localUserInfo.useGPT4 ? 'hidden' : ''} flex flex-col gap-2`}>
+            <div className="gap-2 mt-5 text-sm text-white font-semibold capitalize flex w-full flex-col items-stretch justify-center">
+              <label className="flex cursor-pointer flex-col gap-2" htmlFor="email">
+                <div className="flex items-center justify-between">
+                  <p className="flex items-center justify-start gap-2 px-0.5 tracking-wide">GPT4 API key</p>
+                </div>
+                <div className="relative">
+                  <input type="text" value={localUserInfo.gpt4ApiKey} onChange={updateGPT4APIKeyValue} className="h-10 w-full border-2 bg-dark-gray py-2 px-4 text-sm outline-none bg-transparent text-white" name="todoist-api" id="todoist-api" />
                 </div>
               </label>
             </div>

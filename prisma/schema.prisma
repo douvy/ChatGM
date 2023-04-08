@@ -53,6 +53,8 @@ model User {
   avatarSource         String?
   includeTaskFeature   Boolean        @default(false)
   todoistApiKey        String?
+  useGPT4              Boolean        @default(false)
+  gpt4ApiKey           String?
   sessions             Session[]
   conversations        Conversation[] @relation("ConversationParticipants")
   ownedConversations   Conversation[] @relation("conversation_owner")

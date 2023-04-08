@@ -19,6 +19,8 @@ export const get = trpc.procedure.input(
       avatarSource: true,
       includeTaskFeature: true,
       todoistApiKey: true,
+      useGPT4: true,
+      gpt4ApiKey: true,
     },
   });
   return user;
