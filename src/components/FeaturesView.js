@@ -87,7 +87,7 @@ function FeatureView({ passedFeatures = [] }) {
                                     <td className="px-4 py-3 whitespace-no-wrap">{feature.name}</td>
                                     <td className="px-4 py-3 whitespace-pre-wrap">{feature.description}</td>
                                     <td className="px-4 py-3 whitespace-no-wrap">
-                                        <i className={`fa-stars text-yellow-400 cursor-pointer ${feature.starred ? 'fa-solid' : 'fa-thin'}`} onClick={() => toggleStar(index)}></i>
+                                        <i className={`fa-stars text-yellow cursor-pointer ${feature.starred ? 'fa-solid' : 'fa-thin'}`} onClick={() => toggleStar(index)}></i>
                                     </td>
                                     <td className="px-4 py-3 whitespace-no-wrap">
                                         <i

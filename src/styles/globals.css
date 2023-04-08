@@ -38,6 +38,9 @@ html {
 .text-yellow {
   color: #DEF241;
 }
+.bg-yellow {
+  background: #DEF241;
+}
 
 .text-green {
   color: #79E8B3 !important;
