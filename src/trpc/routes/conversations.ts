@@ -133,11 +133,11 @@ export const addParticipant = trpc.procedure.use(({ next, ctx }) => {
   }),
 ).mutation(async (everything) => {
   const { ctx, input } = everything;
-  console.log("session:", ctx.session);
+  const session = getSession(ctx);
+  console.log("session:", session);
   return null;
   const { conversationId, participantUsername } = input;
   console.log(ctx);
-  const session = await getSession(ctx);
   console.log(session);
   if (!session) throw new Error("Not authenticated");
 
