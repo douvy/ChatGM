@@ -58,8 +58,8 @@ interface PageProps {
   session: any,
   conversations: Conversation[],
   starredMessages: Message[],
-  features: Feature[],
-  tasks: any[],
+  features?: Feature[],
+  tasks?: any[],
   userInfo: any,
 }
 
@@ -188,6 +188,7 @@ const Home: NextPage<PageProps> = (props) => {
       creatorId: userInfo.id,
       isPublic: false,
     })
+    setConversationId(undefined);
     setCurrentRoute('/');
   }
 
@@ -200,6 +201,7 @@ const Home: NextPage<PageProps> = (props) => {
 
   const sendMessage = async () => {
     if (newMessage.content.startsWith("@") && conversation.id) {
+      console.log("@");
       const updatedConversation = await client.conversations.addParticipant.mutate(
         {
           conversationId: conversation.id,
@@ -218,13 +220,14 @@ const Home: NextPage<PageProps> = (props) => {
     var updatedConversation = conversation as PrismaConversation;
     if (!conversation.id) {
       updatedConversation = await client.conversations.create.query(conversation);
-      setConversations([...conversations, updatedConversation as Conversation]);
+      setConversations([updatedConversation as Conversation, ...conversations]);
       updatedConversation = await client.openai.generateName.query((updatedConversation)) || updatedConversation;
-      setConversations([...conversations, updatedConversation as Conversation]);
+      setConversations([updatedConversation as Conversation, ...conversations]);
       setConversation({
         ...conversation,
         name: updatedConversation.name || conversation.name
       });
+      setConversationId(updatedConversation.id);
     } else {
       updatedConversation = await client.messages.create.query(({
         ...newMessage,
@@ -314,7 +317,7 @@ const Home: NextPage<PageProps> = (props) => {
             {currentRoute == '/savedPrompts' ? <SavedMessages starredMessages={starredMessages} setStarredMessages={setStarredMessages} role='user'></SavedMessages> : null}
             {currentRoute == '/savedResponses' ? <SavedMessages starredMessages={starredMessages} setStarredMessages={setStarredMessages} role='assistant'></SavedMessages> : null}
             <div className="mx-auto max-w-[760px] mt-3 md:mt-5">
-              <textarea className="hidden w-full text-black" rows={10} value={JSON.stringify(conversation, null, 2)}></textarea>
+              <textarea className="hidden w-full text-black" rows={10} defaultValue={JSON.stringify(conversation, null, 2)}></textarea>
             </div>
           </main>
         </div>
@@ -336,6 +339,13 @@ export const getServerSideProps: GetServerSideProps<any> = async (context) => {
   const baseUrl = req ? `${req.headers.host}` : '';
 
   const session = await getSession(context);
+  console.log(req.headers);
+  console.log("FUCKING SESSION:", session);
+  console.log("session:", session);
+  console.log("session:", session);
+  console.log("session:", session);
+  console.log("session:", session);
+  console.log("session:", session);
   if (!session) {
     return {
       redirect: {
@@ -345,14 +355,17 @@ export const getServerSideProps: GetServerSideProps<any> = async (context) => {
     }
   }
 
-  const response = await fetch(`http://${baseUrl}/api/initialPageData`);
-  const { conversations, starredMessages, features, tasks } = await response.json();
+  // const response = await fetch(`http://${baseUrl}/api/initialPageData`);
+  // const { conversations, starredMessages, features, tasks } = await response.json();
 
   return {
     props: {
-      session,
+      session: {},
       conversations: (await client.conversations.withPartialMessages.query({
-        creatorId: session.user.id,
+        where: {
+          creatorId: session.user.id,
+        },
+        orderBy: { id: 'desc' },
       })),
       userInfo: (await client.users.get.query({ id: session.user.id })),
       starredMessages: (await client.messages.query.query(
@@ -360,8 +373,6 @@ export const getServerSideProps: GetServerSideProps<any> = async (context) => {
           where: { starred: true }
         }
       )) || [],
-      features,
-      tasks,
     },
   };
 };

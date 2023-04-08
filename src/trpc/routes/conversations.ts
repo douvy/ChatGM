@@ -18,7 +18,7 @@ export const withPartialMessages = trpc.procedure.input((req: any) => {
   return req;
 }).query(async ({ input }) => {
   const conversations = await prisma.conversation.findMany({
-    where: input,
+    ...input,
     include: {
       messages: {
         orderBy: { id: 'desc' }, // Order messages by id in ascending order
@@ -133,7 +133,8 @@ export const addParticipant = trpc.procedure.use(({ next, ctx }) => {
   }),
 ).mutation(async (everything) => {
   const { ctx, input } = everything;
-  console.log("everything:", everything);
+  console.log("session:", ctx.session);
+  return null;
   const { conversationId, participantUsername } = input;
   console.log(ctx);
   const session = await getSession(ctx);

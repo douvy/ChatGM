@@ -8,6 +8,7 @@ function ConversationLinkListItem({ conversation, isActive, selectConversation }
     // router.push(`/chats/${conversation.id}`);
     selectConversation(conversation);
   }
+
   return (
     <a onClick={handleClick} href="#" className={isActive ? "active" : ""}>
       <li className="p-2 pl-4 whitespace-nowrap overflow-x-auto">
