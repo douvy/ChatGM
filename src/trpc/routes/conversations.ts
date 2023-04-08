@@ -91,6 +91,26 @@ export const update = trpc.procedure.input((req: any) => {
   });
 })
 
+export const updateName = trpc.procedure.input((req: any) => {
+  console.log('\x1b[31m%s\x1b[0m', "inserting....", req);
+  if (!req.id) {
+    throw new Error(`Conversations without an id property can't be updated"`);
+  }
+  return req;
+}).mutation(async ({ input }) => {
+  const conversation = input;
+  console.log("updatedConversation:", conversation);
+  const updatedConversation = await prisma.conversation.update({
+    where: { id: conversation.id },
+    data: {
+      name: conversation.name,
+    },
+    include: { messages: { orderBy: { id: 'asc' } } },
+  });
+  console.log(updatedConversation)
+  return updatedConversation;
+})
+
 export const updateMessages = trpc.procedure.input((req: any) => {
   console.log('\x1b[31m%s\x1b[0m', "inserting....", req);
   if (!req.id) {
@@ -133,7 +153,9 @@ export const addParticipant = trpc.procedure.use(({ next, ctx }) => {
   }),
 ).mutation(async (everything) => {
   const { ctx, input } = everything;
-  const session = getSession(ctx);
+  console.log("headers:", ctx.req.headers);
+  const session = await getSession({ req: ctx.req });
+  console.log(process.env.NEXTAUTH_URL);
   console.log("session:", session);
   return null;
   const { conversationId, participantUsername } = input;
@@ -175,6 +197,7 @@ export const conversationsRouter = router({
   create: createConversation,
   get: get,
   update: update,
+  updateName: updateName,
   updateMessages: updateMessages,
   addParticipant: addParticipant,
   delete: deleteConversation,
