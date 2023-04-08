@@ -5,6 +5,16 @@ function ConversationLinkList({ conversations, setConversation, activeConversati
   const [isPersonalExpanded, setIsPersonalExpanded] = useState(conversations.filter((c) => c.participants?.length <= 1).length > 0);
   const [isGroupExpanded, setIsGroupExpanded] = useState(conversations.filter((c) => c.participants?.length > 1).length > 0);
 
+  function removeConversation(conversation) {
+    setConversations(conversations.filter((t) => t.id !== conversation.id));
+  }
+
+  function updateConversations(updatedConversation) {
+    setConversations([
+      ...conversations.map((conversation) => { return conversation.id === updatedConversation.id ? updatedConversation : conversation })
+    ])
+  }
+
   return (
     <div id="sidebar-top">
       <ul className="pl-3">
@@ -27,7 +37,7 @@ function ConversationLinkList({ conversations, setConversation, activeConversati
           <div className="max-h-[315px] overflow-y-auto">
             <ul className="pl-0">
               {conversations.filter((conversation) => conversation.participants?.length <= 1).map((conversation, index) => {
-                return <ConversationLinkListItem key={index} index={index} selectConversation={selectConversation} conversation={conversation} isActive={activeConversationId == conversation.id} setConversation={setConversation} />
+                return <ConversationLinkListItem key={index} index={index} selectConversation={selectConversation} conversation={conversation} isActive={activeConversationId == conversation.id} removeConversation={removeConversation} setConversation={setConversation} updateConversations={updateConversations} />
               })}
             </ul>
           </div>
@@ -37,9 +47,9 @@ function ConversationLinkList({ conversations, setConversation, activeConversati
         </li>
         {isGroupExpanded && (
           <div className="max-h-[315px] overflow-y-auto">
-            <ul className="pl-3">
+            <ul className="pl-0">
               {conversations.filter((conversation) => conversation.participants?.length > 1).map((conversation, index) => {
-                return <ConversationLinkListItem key={index} index={index} selectConversation={selectConversation} conversation={conversation} isActive={activeConversationId == conversation.id} setConversation={setConversation} />
+                return <ConversationLinkListItem key={index} index={index} selectConversation={selectConversation} conversation={conversation} isActive={activeConversationId == conversation.id} removeConversation={removeConversation} setConversation={setConversation} updateConversations={updateConversations} />
               })}
             </ul>
           </div>

@@ -352,7 +352,11 @@ export const getServerSideProps: GetServerSideProps<any> = async (context) => {
       session: {},
       conversations: (await client.conversations.withPartialMessages.query({
         where: {
-          creatorId: session.user.id,
+          participants: {
+            some: {
+              id: session.user.id,
+            },
+          },
         },
         orderBy: { id: 'desc' },
       })),

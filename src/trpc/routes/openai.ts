@@ -46,7 +46,10 @@ export const query = trpc.procedure.input((req: any) => {
                     create: responseMessage,
                 },
             },
-            include: { messages: { orderBy: { id: 'asc' } } },
+            include: {
+                messages: { orderBy: { id: 'asc' }, },
+                participants: true,
+            },
         });
         console.log("updatedConversation", updatedConversation);
         pusher.trigger(`conversation-${updatedConversation.id}`, "new-message", {
@@ -83,7 +86,10 @@ export const generateName = trpc.procedure.input((req: any) => {
             data: {
                 name: name,
             },
-            include: { messages: { orderBy: { id: 'asc' } } },
+            include: {
+                messages: { orderBy: { id: 'asc' }, },
+                participants: true,
+            },
         });
         return updatedConversation;
     } catch (e) {
