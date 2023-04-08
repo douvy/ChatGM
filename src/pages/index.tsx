@@ -26,7 +26,7 @@ interface Message {
   role: string,
   content: string;
   avatarSource: string,
-  sender: String,
+  sender: string,
 }
 
 interface InitialProps {
