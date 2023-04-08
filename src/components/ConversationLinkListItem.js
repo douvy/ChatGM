@@ -11,7 +11,11 @@ function ConversationLinkListItem({ conversation, isActive, selectConversation }
   }
 
   return (
-    <a onClick={handleClick} href="#" className={isActive ? "active" : ""}>
+
+    <a onClick={handleClick}
+      onMouseEnter={() => setShowIcons(true)}
+      onMouseLeave={() => setShowIcons(false)}
+      href="#" className={isActive ? "active" : ""}>
       <li className="p-2 pl-3 whitespace-nowrap overflow-hidden flex items-center justify-between relative">
         <div className="flex items-center space-x-4">
           <i className="far fa-message-middle text-gray"></i>
@@ -27,7 +31,7 @@ function ConversationLinkListItem({ conversation, isActive, selectConversation }
             {conversation.name}
           </span>
         </div>
-        {isActive && showIcons && (
+        {(isActive || showIcons) && (
           <span
             className="inline-block ml-2 z-10 absolute right-0 top-1/2 transform -translate-y-1/2"
             style={{
