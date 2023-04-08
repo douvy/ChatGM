@@ -5,6 +5,7 @@ import { router } from '../../server/trpc';
 // import { trpc } from '../../utils/trpc'
 import { z } from 'zod';
 import pusher from '../../server/lib/pusher';
+import { getSession } from 'next-auth/react';
 
 export const query = trpc.procedure.query(async () => {
   const conversations =
@@ -121,6 +122,43 @@ export const updateMessages = trpc.procedure.input((req: any) => {
   return updatedConversation;
 })
 
+export const addParticipant = trpc.procedure.use(({ next, ctx }) => {
+  return next({
+    ctx: ctx
+  });
+}).input(
+  z.object({
+    conversationId: z.number(),
+    participantUsername: z.string(),
+  }),
+).mutation(async (everything) => {
+  const { ctx, input } = everything;
+  console.log("everything:", everything);
+  const { conversationId, participantUsername } = input;
+  console.log(ctx);
+  const session = await getSession(ctx);
+  console.log(session);
+  if (!session) throw new Error("Not authenticated");
+
+  const conversation = await prisma.conversation.update({
+    where: {
+      ownedConversation: {
+        id: conversationId,
+        ownerId: session.user.id,
+      }
+    },
+    data: {
+      participants: {
+        connect: {
+          username: participantUsername
+        }
+      }
+    }
+  });
+
+  return conversation;
+})
+
 export const deleteConversation = trpc.procedure.input((req) => {
   return req;
 }).mutation(async ({ input }) => {
@@ -137,5 +175,6 @@ export const conversationsRouter = router({
   get: get,
   update: update,
   updateMessages: updateMessages,
+  addParticipant: addParticipant,
   delete: deleteConversation,
 });

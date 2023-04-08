@@ -74,6 +74,7 @@ export const generateName = trpc.procedure.input((req: any) => {
             model: "gpt-3.5-turbo",
             messages: [...messages, nameRequestMessage],
         });
+        console.log("ccompletion:", completion.data);
         let name = completion?.data?.choices[0]?.message?.content || undefined;
         name = name?.trim().replace(/^"(.*)"$/, '$1');
         console.log("New name:", name);

@@ -29,6 +29,8 @@ model Conversation {
   owner        User      @relation("conversation_owner", fields: [ownerId], references: [id])
   ownerId      Int
   participants User[]    @relation("ConversationParticipants")
+
+  @@unique(fields: [id, ownerId], name: "ownedConversation")
 }
 
 model Feature {

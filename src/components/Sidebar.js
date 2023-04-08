@@ -22,7 +22,7 @@ export default function Sidebar({ setConversations, setConversation, setActiveCo
                     setCurrentRoute('/myAccount');
                 }} />
 
-                {userInfo.includeTaskFeature ? <SidebarItem iconName="check-square" itemText="Todos" onClick={() => {
+                {userInfo.includeTaskFeature ? <SidebarItem iconName="check-square" isActive={currentRoute == "/tasks" ? true : false} itemText="Todos" onClick={() => {
                     setCurrentRoute('/tasks');
                 }} /> : <></>}
                 {/* <SidebarItem iconName="check-square" itemText="Features" onClick={() => {
