@@ -32,7 +32,7 @@ function ConversationLinkList({ conversations, setConversation, activeConversati
             </ul>
           </div>
         )}
-        <li className="p-2 pl-4 text-offwhite cursor-pointer" onClick={() => setIsGroupExpanded(!isGroupExpanded)}>
+        <li className="p-2 pl-4 mt-1 text-offwhite cursor-pointer" onClick={() => setIsGroupExpanded(!isGroupExpanded)}>
           <i className={`fa-solid text-offwhite ${isGroupExpanded ? 'fa-arrow-down pr-2' : 'fa-arrow-right pr-2'}`}></i> Group
         </li>
         {isGroupExpanded && (
