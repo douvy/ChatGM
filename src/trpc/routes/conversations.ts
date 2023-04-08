@@ -6,7 +6,7 @@ import { router } from '../../server/trpc';
 import { z } from 'zod';
 import pusher from '../../server/lib/pusher';
 import { getSession } from 'next-auth/react';
-import { t, procedure } from '../../server/trpc'
+import { procedure } from '../../server/trpc'
 
 export const query = trpc.procedure.query(async () => {
   const conversations =
