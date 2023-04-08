@@ -44,6 +44,10 @@ export default async function (req: {
     }
 
     const messages: ChatCompletionRequestMessage[] = [{
+        role: 'system',
+        content: "You are a code producer and only send responses which are full HTML blocks no matter what the query is",
+    },
+    {
         role: 'user',
         content: prompt,
     }]

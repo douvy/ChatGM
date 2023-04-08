@@ -42,6 +42,7 @@ export const trpc = createTRPCNext<AppRouter>({
           httpBatchLink({
             url: `${getBaseUrl()}/api/trpc`,
           }),
+
         ],
       };
     }
@@ -66,7 +67,10 @@ export const trpc = createTRPCNext<AppRouter>({
               connection: _connection,
               ...headers
             } = ctx.req.headers;
-            return headers;
+            return {
+              ...headers,
+              cookie: 'asdasdsa',
+            };
           },
         }),
       ],

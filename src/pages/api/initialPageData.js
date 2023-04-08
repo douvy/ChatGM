@@ -1,10 +1,12 @@
 import { PrismaClient } from '@prisma/client';
 import { prisma } from '@utils/prismaSingleton';
-
+import { getServerSession } from 'next-auth/next';
 // const prisma = new PrismaClient();
 // console.log(prisma);
 
 export default async function handler(req, res) {
+    const session = await getServerSession(req, res, authOptions);
+
     try {
         const conversations = await prisma.conversation.findMany({
             // include: { messages: { orderBy: { id: 'asc' } } }

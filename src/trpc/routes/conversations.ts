@@ -6,6 +6,7 @@ import { router } from '../../server/trpc';
 import { z } from 'zod';
 import pusher from '../../server/lib/pusher';
 import { getSession } from 'next-auth/react';
+import { t, procedure } from '../../server/trpc'
 
 export const query = trpc.procedure.query(async () => {
   const conversations =
@@ -142,7 +143,7 @@ export const updateMessages = trpc.procedure.input((req: any) => {
   return updatedConversation;
 })
 
-export const addParticipant = trpc.procedure.use(({ next, ctx }) => {
+export const addParticipant = procedure.use(({ next, ctx }) => {
   return next({
     ctx: ctx
   });
@@ -151,18 +152,15 @@ export const addParticipant = trpc.procedure.use(({ next, ctx }) => {
     conversationId: z.number(),
     participantUsername: z.string(),
   }),
-).mutation(async (everything) => {
-  const { ctx, input } = everything;
-  console.log("headers:", ctx.req.headers);
-  const session = await getSession({ req: ctx.req });
-  console.log(process.env.NEXTAUTH_URL);
-  console.log("session:", session);
-  return null;
+).mutation(async ({ ctx, input }) => {
+  // console.log("headers:", ctx.req.headers);
+  // const session = await getSession({ req: ctx.req });
   const { conversationId, participantUsername } = input;
-  console.log(ctx);
+  const { session } = ctx;
+  console.log(ctx.session);
   console.log(session);
   if (!session) throw new Error("Not authenticated");
-
+  if (!session.user) throw new Error("No user on session");
   const conversation = await prisma.conversation.update({
     where: {
       ownedConversation: {

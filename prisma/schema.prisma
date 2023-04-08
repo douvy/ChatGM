@@ -64,8 +64,10 @@ model User {
 model Session {
   id           Int      @id @default(autoincrement())
   sessionToken String   @unique
-  accessToken  String?
-  expiresAt    DateTime
+  // accessToken  String?
+  expires      DateTime
+  createdAt    DateTime
+  updatedAt    DateTime
   userId       Int
   user         User     @relation(fields: [userId], references: [id])
 }

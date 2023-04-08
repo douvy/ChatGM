@@ -39,11 +39,12 @@ export const client = createTRPCProxyClient<AppRouter>({
     httpBatchLink({
       url: `${getBaseUrl()}/api/trpc`,
       // You can pass any HTTP headers you wish here
-      // async headers() {
-      //   return {
-      //     // authorization: getAuthCookie(),
-      //   };
-      // },
+      async headers() {
+        return {
+          arg: 'arg',
+          // authorization: getAuthCookie(),
+        };
+      },
     }),
   ],
 });

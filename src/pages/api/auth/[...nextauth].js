@@ -4,10 +4,11 @@ import { compare } from 'bcrypt';
 import { PrismaClient } from '@prisma/client';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { useRouter } from 'next/router';
+import log from "logging-service"
 
 const prisma = new PrismaClient();
 
-export default NextAuth({
+export const authOptions = {
     providers: [
         CredentialsProvider({
             type: 'credentials',
@@ -42,7 +43,7 @@ export default NextAuth({
     jwt: {
         secret: process.env.JWT_SECRET,
     },
-
+    secret: process.env.JWT_SECRET,
     // Specify the URL to redirect to when authentication is successful
     // If this property is not set, the user will be redirected to the home page
     callbacks: {
@@ -66,7 +67,7 @@ export default NextAuth({
         },
 
         async session({ session, token, user }) {
-            console.log("session callback");
+            console.log("session callback", token);
             return token;
         },
     },
@@ -77,5 +78,18 @@ export default NextAuth({
         verifyRequest: '/auth/verify-request', // (used for check email message)
         newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
     },
-    adapter: PrismaAdapter(prisma),
-});
+    adapter: PrismaAdapter({ prisma }),
+    logger: {
+        error(code, metadata) {
+            console.error(code, metadata)
+        },
+        warn(code) {
+            console.warn(code)
+        },
+        debug(code, metadata) {
+            console.debug(code, metadata)
+        }
+    }
+}
+
+export default NextAuth(authOptions);
