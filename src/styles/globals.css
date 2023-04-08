@@ -344,6 +344,9 @@ hr {
   background-color: transparent;
   border-radius: 1px;
 }
+#sidebar-top {
+  height: 400px;
+}
 
 #top-nav {
   background: #161B22;
