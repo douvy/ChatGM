@@ -320,23 +320,23 @@ const Home: NextPage<PageProps> = (props) => {
             <div className="absolute mt-14 pl-4">
               <ul className="pl-0">
                 <li className="flex items-center space-x-2 p-1">
-                  <div className="h-5 w-5 rounded-full bg-green-bright"></div>
+                  <div className="h-4 w-4 rounded-full bg-green-bright mr-1"></div>
                   <span className="text-offwhite">Eloise Chambers</span>
                 </li>
                 <li className="flex items-center space-x-2 p-1">
-                  <div className="h-5 w-5 rounded-full bg-green-bright"></div>
+                  <div className="h-4 w-4 rounded-full bg-green-bright mr-1"></div>
                   <span className="text-offwhite">Belle James</span>
                 </li>
                 <li className="flex items-center space-x-2 p-1">
-                  <div className="h-5 w-5 rounded-full bg-green-bright"></div>
+                  <div className="h-4 w-4 rounded-full bg-green-bright mr-1"></div>
                   <span className="text-offwhite">Zhou Lin</span>
                 </li>
                 <li className="flex items-center space-x-2 p-1">
-                  <div className="h-5 w-5 rounded-full bg-green-bright"></div>
+                  <div className="h-4 w-4 rounded-full bg-green-bright mr-1"></div>
                   <span className="text-offwhite">Deb Vora</span>
                 </li>
                 <li className="flex items-center space-x-2 p-1">
-                  <div className="h-5 w-5 rounded-full bg-green-bright"></div>
+                  <div className="h-4 w-4 rounded-full bg-green-bright mr-1"></div>
                   <span className="text-offwhite">Ethan James</span>
                 </li>
                 {/* More members can be added here */}
