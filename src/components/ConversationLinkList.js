@@ -1,6 +1,6 @@
 import ConversationLinkListItem from './ConversationLinkListItem';
 
-function ConversationLinkList({ conversations, setConversation, activeConversation, activeConversationId, selectConversation, userInfo, newConversation, setConversations }) {
+function ConversationLinkList({ conversations, setConversation, activeConversation, activeConversationId, selectConversation, userInfo, newConversation, setConversations, currentRoute }) {
 
   function removeConversation(conversation) {
     setConversations(conversations.filter((t) => t.id !== conversation.id));
@@ -15,7 +15,7 @@ function ConversationLinkList({ conversations, setConversation, activeConversati
   return (
     <div id="sidebar-top">
       <ul className="pl-3">
-        <a href="#" onClick={newConversation} id="new-chat" className={!activeConversationId
+        <a href="#" onClick={newConversation} id="new-chat" className={!activeConversationId && currentRoute == '/'
           ? "active" : ""}><li className="p-2 mt-2 pl-4"><i className="far fa-arrow-up-right fa-lg"></i> New Chat</li></a>
         <a href="#"><li className="p-2  pl-4 mb-3 mt-1"><img src="/avatar.png" className="w-7 h-7 rounded-full" /><span className="ml-3">{userInfo?.username}</span></li></a>
       </ul>

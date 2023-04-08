@@ -28,9 +28,9 @@ export default function Sidebar({ setConversations, setConversation, setActiveCo
                 {/* <SidebarItem iconName="check-square" itemText="Features" onClick={() => {
                     setCurrentRoute('/features');
                 }} /> */}
-                <SidebarItem iconName="fa-solid fa-messages text-gray" isActive={currentRoute == "/conversations" ? true : false} itemText="Conversations" onClick={() => {
+                {/* <SidebarItem iconName="fa-solid fa-messages text-gray" isActive={currentRoute == "/conversations" ? true : false} itemText="Conversations" onClick={() => {
                     setCurrentRoute('/conversations');
-                }} />
+                }} /> */}
                 <SidebarItem iconName="fa-solid fa-stars text-yellow" isActive={currentRoute == "/savedPrompts" ? true : false} itemText="Saved prompts" onClick={() => {
                     setCurrentRoute('/savedPrompts');
                 }} />
