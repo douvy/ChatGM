@@ -124,6 +124,8 @@ const Home: NextPage<PageProps> = (props) => {
     setConversationId(conversation.id);
   }
 
+  
+
   useEffect(() => {
     if (currentRoute != '/') {
       setConversationId(undefined);
