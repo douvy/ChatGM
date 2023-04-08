@@ -13,6 +13,7 @@ function ChatWindow({ conversationId, conversation, setConversation, newMessage,
     const [socketId, setSocketId] = useState(null);
     const [submitLocket, setSubmitLock] = useState(false);
     const updateConversationMutation = trpc.conversations.updateMessages.useMutation();
+    const messageCount = useRef(conversation.messages.length);
 
     pusher.connection.bind('connected', async () => {
         setSocketId(pusher.connection.socket_id);
@@ -109,7 +110,10 @@ function ChatWindow({ conversationId, conversation, setConversation, newMessage,
 
     let messageEnd = null;
     useEffect(() => {
-        messageEnd?.scrollIntoView({ behaviour: "smooth" });
+        if (messageCount.current < conversation.messages.length) {
+            messageEnd?.scrollIntoView({ behaviour: "smooth" });
+        }
+        messageCount.current = conversation.messages.length;
     }, [conversation]);
     if (!conversation.messages) {
         return <></>
