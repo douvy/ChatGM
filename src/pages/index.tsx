@@ -124,7 +124,7 @@ const Home: NextPage<PageProps> = (props) => {
     setConversationId(conversation.id);
   }
 
-  
+
 
   useEffect(() => {
     if (currentRoute != '/') {
@@ -279,6 +279,7 @@ const Home: NextPage<PageProps> = (props) => {
   const [activeComponent, setActiveComponent] = useState<any>(
   );
 
+  const [isMembersExpanded, setIsMembersExpanded] = useState(true); // Default state is expanded
   return (
     <>
       <Head>
@@ -301,12 +302,47 @@ const Home: NextPage<PageProps> = (props) => {
           </button>
         </div>
         <div className="flex flex-col h-full w-full lg:ml-[225px]">
-          <header className="flex items-center justify-between px-4 py-2" id="top-nav">
+          <header className="flex items-center justify-between px-4 py-2 relative" id="top-nav">
+            {/* Members dropdown title */}
+            <div className="flex items-center space-x-2">
+              <div className="flex items-center cursor-pointer w-190" onClick={() => setIsMembersExpanded(!isMembersExpanded)}>
+                <i className={`fa-solid mr-2 w-3 ${isMembersExpanded ? 'fa-arrow-down' : 'fa-arrow-right'} ml-2`}></i>
+                <span>5 Members</span>
+              </div>
+            </div>
             <h1 className="text-xl font-semibold">&nbsp;</h1>
             <nav className="space-x-4">
               <a href="#" className="hover:text-blue-300"></a>
             </nav>
           </header>
+          {/* Members dropdown content */}
+          {isMembersExpanded && (
+            <div className="absolute mt-14 pl-4">
+              <ul className="pl-0">
+                <li className="flex items-center space-x-2 p-1">
+                  <div className="h-5 w-5 rounded-full bg-green-bright"></div>
+                  <span className="text-offwhite">Eloise Chambers</span>
+                </li>
+                <li className="flex items-center space-x-2 p-1">
+                  <div className="h-5 w-5 rounded-full bg-green-bright"></div>
+                  <span className="text-offwhite">Belle James</span>
+                </li>
+                <li className="flex items-center space-x-2 p-1">
+                  <div className="h-5 w-5 rounded-full bg-green-bright"></div>
+                  <span className="text-offwhite">Zhou Lin</span>
+                </li>
+                <li className="flex items-center space-x-2 p-1">
+                  <div className="h-5 w-5 rounded-full bg-green-bright"></div>
+                  <span className="text-offwhite">Deb Vora</span>
+                </li>
+                <li className="flex items-center space-x-2 p-1">
+                  <div className="h-5 w-5 rounded-full bg-green-bright"></div>
+                  <span className="text-offwhite">Ethan James</span>
+                </li>
+                {/* More members can be added here */}
+              </ul>
+            </div>
+          )}
 
           <main className="container mx-auto flex-1 mt-0">
             {currentRoute == '/' ? <ChatWindow conversationId={conversationId} conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} starredMessages={starredMessages} setStarredMessages={setStarredMessages} /> : null}
