@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import AutoExpandTextarea from './AutoExpandTextarea';
 import ChatMessage from './ChatMessage';
 
-function SavedMessages({ starredMessages, setStarredMessages, role }) {
+function SavedMessages({ starredMessages, setStarredMessages, role, setReferencedMessage, setConversationId }) {
     const scrollContainer = useRef(null);
 
     return (
@@ -15,6 +15,10 @@ function SavedMessages({ starredMessages, setStarredMessages, role }) {
                 }).map((message, index) => {
                     return (
                         <ChatMessage
+                            onClick={() => {
+                                setReferencedMessage(message);
+                                setConversationId(message.conversationId);
+                            }}
                             key={message.id}
                             index={index}
                             message={message}

@@ -84,6 +84,8 @@ const Home: NextPage<PageProps> = (props) => {
     sender: session?.user?.username || "anonymous"
   });
 
+  const [referencedMessage, setReferencedMessage] = useState<Message | undefined>(undefined);
+
   const updateMessageValue = (event: any) => {
     setMessageContent(event.target.value);
     setMessage({ ...newMessage, content: event.target.value });
@@ -131,10 +133,10 @@ const Home: NextPage<PageProps> = (props) => {
         client.conversations.get.query({ id: conversationId }).then((data) => {
           setConversation(data as Conversation);
         })
-      } else {
+      }
+      if (currentRoute != '/') {
         setCurrentRoute('/');
       }
-
     }
   }, [conversationId]);
 
@@ -296,15 +298,15 @@ const Home: NextPage<PageProps> = (props) => {
         <div className="flex flex-col h-full w-full lg:ml-[225px]">
           <ConversationMembers conversation={conversation} userInfo={userInfo} />
           <main className="container mx-auto flex-1 mt-0">
-            {currentRoute == '/' ? <ChatWindow conversationId={conversationId} conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} starredMessages={starredMessages} setStarredMessages={setStarredMessages} /> : null}
+            {currentRoute == '/' ? <ChatWindow conversationId={conversationId} conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} starredMessages={starredMessages} setStarredMessages={setStarredMessages} referencedMessage={referencedMessage} setReferencedMessage={setReferencedMessage} /> : null}
             {currentRoute == '/features' ? <FeaturesView passedFeatures={props.features}></FeaturesView> : null}
             {currentRoute == '/tasks' ? <Tasks userInfo={userInfo}></Tasks> : null}
             {currentRoute == '/features' ? <FeaturesView passedFeatures={props.features}></FeaturesView> : null}
             {currentRoute == '/myAccount' ? <MyAccount userInfo={userInfo} setUserInfo={setUserInfo}></MyAccount> : null}
             {currentRoute == '/conversations' ? <ConversationsView conversations={conversations} setConversations={setConversations}></ConversationsView> : null}
             {currentRoute == '/builder' ? <ComponentBuilder></ComponentBuilder> : null}
-            {currentRoute == '/savedPrompts' ? <SavedMessages starredMessages={starredMessages} setStarredMessages={setStarredMessages} role='user'></SavedMessages> : null}
-            {currentRoute == '/savedResponses' ? <SavedMessages starredMessages={starredMessages} setStarredMessages={setStarredMessages} role='assistant'></SavedMessages> : null}
+            {currentRoute == '/savedPrompts' ? <SavedMessages starredMessages={starredMessages} setStarredMessages={setStarredMessages} setReferencedMessage={setReferencedMessage} setConversationId={setConversationId} role='user'></SavedMessages> : null}
+            {currentRoute == '/savedResponses' ? <SavedMessages starredMessages={starredMessages} setStarredMessages={setStarredMessages} setReferencedMessage={setReferencedMessage} setConversationId={setConversationId} role='assistant'></SavedMessages> : null}
             <div className="mx-auto max-w-[760px] mt-3 md:mt-5">
               <textarea className="hidden w-full text-black" rows={10} defaultValue={JSON.stringify(conversation, null, 2)}></textarea>
             </div>

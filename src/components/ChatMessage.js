@@ -6,7 +6,7 @@ import { trpc } from '../utils/trpc';
 import copy from 'clipboard-copy';
 import { format, utcToZonedTime } from 'date-fns-tz';
 
-function ChatMessage({ index, message, avatarSource, sender, updateState, setConversation }) {
+function ChatMessage({ index, message, avatarSource, sender, updateState, setConversation, referencedMessage, onClick }) {
   const [localMessage, setLocalMessage] = useState(message);
   const [copied, setCopied] = useState(false);
   const [showEditIcon, setShowEditIcon] = useState(false);
@@ -93,10 +93,12 @@ function ChatMessage({ index, message, avatarSource, sender, updateState, setCon
   };
 
   return (
-    <div className="w-full box"
+    <div className="w-full box cursor-pointer"
       onMouseEnter={() => setShowEditIcon(message.role == 'user' && true)}
-      onMouseLeave={() => setShowEditIcon(message.role == 'user' && false)}>
-      <div className="message p-4 pt-4 relative">
+      onMouseLeave={() => setShowEditIcon(message.role == 'user' && false)}
+      onClick={onClick}
+    >
+      <div className={`message p-4 pt-4 relative ${message.id == referencedMessage?.id ? 'active' : ''}`}>
         <img src={avatarSource} alt="Avatar" className="w-9 h-9 rounded-full absolute left-4 top-2" />
         <div className="pl-16 pt-0">
           <span className="text-sm mb-1 inline-block name">{sender}</span> <br />
