@@ -253,6 +253,7 @@ const Home: NextPage<PageProps> = (props) => {
       ...updatedConversation as Conversation,
       messages: (updatedConversation as Conversation).messages,
     });
+    setConversations(conversations.map((c) => c.id == updatedConversation.id ? updatedConversation as Conversation : c));
   };
 
   const updateConversations = (updatedConversation: Conversation, index: number) => {
