@@ -432,6 +432,9 @@ ol li {
 .message-direction {
   color: #d0d1d6;
 }
+#members {
+  font-size: 14px;
+}
 
 form button {
   color: #fff;
