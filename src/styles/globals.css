@@ -100,6 +100,9 @@ html {
 .text-2xs {
   font-size: 10px;
 }
+.hover-offwhite:hover {
+  color: #e6edf3;
+}
 
 section a {
   color: #1eed88;
