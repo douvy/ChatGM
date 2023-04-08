@@ -77,7 +77,7 @@ function ConversationLinkListItem({ conversation, setConversation, isActive, sel
             className="inline-block ml-2 z-10 absolute right-0 top-1/2 transform -translate-y-1/2"
             style={{
               boxShadow: '0 0 0px rgba(0, 0, 0, 0.3)',
-              background: 'linear-gradient(90deg, #2E3034 60%, transparent)',
+              background: 'linear-gradient(90deg, #2E3034 100%, transparent)',
             }}
           >
             {!editingMessage ? <i className="far fa-pen-to-square mr-2 ml-5 text-gray hover-offwhite" onClick={() => {
