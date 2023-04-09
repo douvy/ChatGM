@@ -37,6 +37,9 @@ export const authOptions = {
     // Use JWTs instead of sessions to store token data
     session: {
         strategy: 'jwt',
+        cookie: {
+            secure: false,
+        },
     },
 
     // Encrypt JWTs using a secret
