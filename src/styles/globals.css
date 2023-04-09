@@ -65,7 +65,9 @@ html {
 .text-gray {
   color: #7E8490;
 }
-
+.text-orange {
+  color: #FF9A13;
+}
 .bg-gray {
   background: #7E8490;
 }
