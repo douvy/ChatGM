@@ -11,6 +11,7 @@ import ConversationsView from '../components/ConversationsView';
 import ComponentBuilder from '../components/ComponentBuilder';
 import MyAccount from '../components/MyAccount';
 import ConversationMembers from '../components/ConversationMembers';
+import ActiveTask from '../components/ActiveTask';
 import { addInfiniteScroll } from '../utils/infiniteScroll';
 import { GetServerSideProps, NextPage } from 'next';
 import Router from 'next/router';
@@ -21,6 +22,7 @@ import { User, Conversation as PrismaConversation } from "@prisma/client";
 import { client } from '../trpc/client';
 import { trpc } from '../utils/trpc';
 import { Conversation } from '../interfaces';
+import { TodoistApi } from '@doist/todoist-api-typescript';
 
 interface Message {
   role: string,
@@ -53,6 +55,7 @@ interface PageProps {
   features?: Feature[],
   tasks?: any[],
   userInfo: any,
+  activeTask: any,
 }
 
 const Home: NextPage<PageProps> = (props) => {
@@ -118,7 +121,16 @@ const Home: NextPage<PageProps> = (props) => {
     setConversationId(conversation.id);
   }
 
+  const [activeTask, setActiveTask] = useState<any>(props.activeTask);
 
+  useEffect(() => {
+    if (userInfo.activeTaskId && userInfo.activeTaskId != activeTask.id) {
+      const api = new TodoistApi(userInfo.todoistApiKey)
+      api.getTask(userInfo.activeTaskId).then((task) => {
+        setActiveTask(task);
+      });
+    }
+  }, [userInfo]);
 
   useEffect(() => {
     if (currentRoute != '/') {
@@ -296,11 +308,13 @@ const Home: NextPage<PageProps> = (props) => {
           </button>
         </div>
         <div className="flex flex-col h-full w-full lg:ml-[225px]">
+          {userInfo.activeTaskId && <ActiveTask activeTask={activeTask} />}
+
           <ConversationMembers conversation={conversation} userInfo={userInfo} />
           <main className="container mx-auto flex-1 mt-0">
             {currentRoute == '/' ? <ChatWindow conversationId={conversationId} conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} starredMessages={starredMessages} setStarredMessages={setStarredMessages} referencedMessage={referencedMessage} setReferencedMessage={setReferencedMessage} /> : null}
             {currentRoute == '/features' ? <FeaturesView passedFeatures={props.features}></FeaturesView> : null}
-            {currentRoute == '/tasks' ? <Tasks userInfo={userInfo}></Tasks> : null}
+            {currentRoute == '/tasks' ? <Tasks userInfo={userInfo} setUserInfo={setUserInfo}></Tasks> : null}
             {currentRoute == '/features' ? <FeaturesView passedFeatures={props.features}></FeaturesView> : null}
             {currentRoute == '/myAccount' ? <MyAccount userInfo={userInfo} setUserInfo={setUserInfo}></MyAccount> : null}
             {currentRoute == '/conversations' ? <ConversationsView conversations={conversations} setConversations={setConversations}></ConversationsView> : null}
@@ -350,6 +364,15 @@ export const getServerSideProps: GetServerSideProps<any> = async (context) => {
   // const response = await fetch(`http://${baseUrl}/api/initialPageData`);
   // const { conversations, starredMessages, features, tasks } = await response.json();
 
+  const userInfo = (await client.users.get.query({ id: session.user.id }))
+  const activeTask = userInfo?.activeTaskId && userInfo?.todoistApiKey ? await (async () => {
+    if (userInfo.todoistApiKey == null) return;
+    if (userInfo.activeTaskId == null) return;
+    const api = new TodoistApi(userInfo.todoistApiKey)
+    return await api.getTask(userInfo.activeTaskId);
+  })() : {}
+  console.log("activeTask:", activeTask);
+
   return {
     props: {
       session: {},
@@ -363,12 +386,13 @@ export const getServerSideProps: GetServerSideProps<any> = async (context) => {
         },
         orderBy: { id: 'desc' },
       })),
-      userInfo: (await client.users.get.query({ id: session.user.id })),
+      userInfo: userInfo,
       starredMessages: (await client.messages.query.query(
         {
           where: { starred: true }
         }
       )) || [],
+      activeTask: activeTask
     },
   };
 };

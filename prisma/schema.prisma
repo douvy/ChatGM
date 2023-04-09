@@ -15,6 +15,7 @@ model Message {
   avatarSource   String
   conversationId Int?
   starred        Boolean?      @default(false)
+  fans           User[]        @relation("MessageFans")
   createdAt      DateTime?     @default(now())
   conversation   Conversation? @relation(fields: [conversationId], references: [id], onDelete: Cascade)
 }
@@ -53,12 +54,14 @@ model User {
   avatarSource         String?
   includeTaskFeature   Boolean        @default(false)
   todoistApiKey        String?
+  activeTaskId         String?
   useGPT4              Boolean        @default(false)
   gpt4ApiKey           String?
   sessions             Session[]
   conversations        Conversation[] @relation("ConversationParticipants")
   ownedConversations   Conversation[] @relation("conversation_owner")
   createdConversations Conversation[] @relation("conversation_creator")
+  starredMessages      Message[]      @relation("MessageFans")
 }
 
 model Session {

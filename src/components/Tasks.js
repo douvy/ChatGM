@@ -8,7 +8,7 @@ import TaskItem from './TaskItem';
 import ProjectListItem from './ProjectListItem';
 import { TodoistApi } from '@doist/todoist-api-typescript';
 
-function Tasks({ userInfo }) {
+function Tasks({ userInfo, setUserInfo }) {
     console.log("API KEY:", userInfo.todoistApiKey);
     const api = new TodoistApi(userInfo.todoistApiKey)
     const scrollContainer = useRef(null);
@@ -56,6 +56,7 @@ function Tasks({ userInfo }) {
                             index={index}
                             project={project}
                             setActiveProject={setActiveProject}
+                            userInfo={userInfo}
                         />
                     );
                 })}
@@ -65,6 +66,8 @@ function Tasks({ userInfo }) {
                             key={task.id + index}
                             index={index}
                             task={task}
+                            userInfo={userInfo}
+                            setUserInfo={setUserInfo}
                         />
                     );
                 })}

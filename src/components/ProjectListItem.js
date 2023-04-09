@@ -5,7 +5,7 @@ import rehypeRaw from 'rehype-raw';
 import { trpc } from '../utils/trpc';
 import copy from 'clipboard-copy';
 
-function ProjectListItem({ index, project, setActiveProject }) {
+function ProjectListItem({ index, project, setActiveProject, unserInfo }) {
 
   return (
     <div className="w-full box cursor-pointer">

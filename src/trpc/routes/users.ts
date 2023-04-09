@@ -5,6 +5,7 @@ import { router } from '../../server/trpc';
 // import { trpc } from '../../utils/trpc'
 import { z } from 'zod';
 import pusher from '../../server/lib/pusher';
+import { procedure } from '../../server/trpc'
 
 export const get = trpc.procedure.input(
   z.object({
@@ -21,6 +22,7 @@ export const get = trpc.procedure.input(
       todoistApiKey: true,
       useGPT4: true,
       gpt4ApiKey: true,
+      activeTaskId: true,
     },
   });
   return user;
@@ -39,7 +41,32 @@ export const update = trpc.procedure.input((req: any) => {
   });
 })
 
+export const setActiveTask = procedure.use(({ next, ctx }) => {
+  return next({
+    ctx: ctx
+  });
+}).input((req: any) => {
+  return req;
+}).mutation(async ({ ctx, input }) => {
+  const { session } = ctx;
+  const activeTaskId = input;
+  const user = ctx.session.user;
+  console.log("user:", user);
+  const updatedUser = await prisma.user.update({
+    where: { id: user.id },
+    data: {
+      activeTaskId: activeTaskId
+    },
+    select: {
+      activeTaskId: true,
+    }
+  });
+  console.log("updatedUser:", updatedUser);
+  return updatedUser;
+})
+
 export const usersRouter = router({
   get: get,
   update: update,
+  setActiveTask: setActiveTask,
 });
