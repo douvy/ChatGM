@@ -48,16 +48,16 @@ export default async function handler(req, res) {
             const response = completion?.data?.choices[0]?.message?.content || undefined;
 
             await pusher.trigger('chatgoodmorning-bot', 'message', {
-                message: response + new Date().toLocaleTimeString(),
+                message: response,
                 userId: user.telegramUserId,
             });
         }
     }
 
-    pusher.trigger('chatgoodmorning-bot', 'message', {
-        message: 'Testing runPrompts endpoint finish' + new Date().toLocaleTimeString(),
-        userId: '515763629',
-    });
+    // pusher.trigger('chatgoodmorning-bot', 'message', {
+    //     message: 'Testing runPrompts endpoint finish' + new Date().toLocaleTimeString(),
+    //     userId: '515763629',
+    // });
 
     res.status(200).json({ message: 'All messages processed successfully, ' + new Date().toLocaleTimeString() });
 }
