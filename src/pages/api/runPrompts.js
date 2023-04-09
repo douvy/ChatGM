@@ -10,10 +10,6 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 export default async function handler(req, res) {
-    pusher.trigger('chatgoodmorning-bot', 'message', {
-        message: 'Testing runPrompts endpoint start',
-        userId: '515763629',
-    });
     const users = await prisma.user.findMany({
         where: {
             enableChatGMBot: true,
@@ -30,8 +26,8 @@ export default async function handler(req, res) {
         },
     });
 
-    users.forEach((user) => {
-        user.starredMessages.forEach(async ({ role, content }) => {
+    const responses = users.map(async (user) => {
+        return user.starredMessages.map(async ({ role, content }) => {
             const completion = await openai.createChatCompletion({
                 model: "gpt-3.5-turbo",
                 messages: [
@@ -51,8 +47,20 @@ export default async function handler(req, res) {
                 message: response,
                 userId: user.telegramUserId,
             });
+            return response
         })
     });
+
+    Promise.all(responses)
+        .then((results) => {
+            pusher.trigger('chatgoodmorning-bot', 'message', {
+                message: 'Testing runPrompts endpoint finish',
+                userId: '515763629',
+            });
+        })
+        .catch((error) => {
+            // Handle any errors here
+        });
 
     res.status(200).end('Hello Cron!!');
 }
