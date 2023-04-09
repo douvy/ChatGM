@@ -23,6 +23,8 @@ export const get = trpc.procedure.input(
       useGPT4: true,
       gpt4ApiKey: true,
       activeTaskId: true,
+      enableChatGMBot: true,
+      telegramUserId: true,
     },
   });
   return user;

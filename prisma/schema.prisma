@@ -58,6 +58,8 @@ model User {
   activeTaskId         String?
   useGPT4              Boolean        @default(false)
   gpt4ApiKey           String?
+  enableChatGMBot      Boolean        @default(false)
+  telegramUserId       String?
   sessions             Session[]
   conversations        Conversation[] @relation("ConversationParticipants")
   ownedConversations   Conversation[] @relation("conversation_owner")

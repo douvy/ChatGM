@@ -27,6 +27,13 @@ function MyAccount({ userInfo, setUserInfo }) {
     });
   }
 
+  const updateTelegramUserId = (event) => {
+    setLocalUserInfo({
+      ...localUserInfo,
+      telegramUserId: event.target.value
+    });
+  }
+
   const updateGPT4APIKeyValue = (event) => {
     setLocalUserInfo({
       ...localUserInfo,
@@ -198,6 +205,52 @@ function MyAccount({ userInfo, setUserInfo }) {
           </div>
           <div className="flex flex-col gap-2 border-1">
             <div className="gap-2 mt-5 text-sm text-white font-semibold capitalize flex w-full flex-col items-stretch justify-center form-field border-1">
+              <label className="flex cursor-pointer flex-col gap-2" htmlFor="use-tasks">
+                <div className="flex items-center justify-between border-1">
+                  <p className="flex items-center justify-start gap-2 px-0.5 tracking-wide border-1">Enable ChatGM Telegram bot</p>
+                  <div className="toggle-switch">
+                    <input
+                      type="checkbox"
+                      checked={localUserInfo.enableChatGMBot}
+                      onChange={(() => {
+                        setLocalUserInfo({
+                          ...localUserInfo,
+                          enableChatGMBot: !localUserInfo.enableChatGMBot
+                        });
+                      })}
+                      className="toggle-switch-checkbox"
+                      name="use-bot"
+                      id="use-bot"
+                    />
+                    <label className="toggle-switch-label" htmlFor="use-bot">
+                      <span className="toggle-switch-inner"></span>
+                      {/* <span className="toggle-switch-switch"></span> */}
+                    </label>
+                  </div>
+                </div>
+              </label>
+            </div>
+          </div>
+          {!localUserInfo.telegramUserId &&
+            <div className={`${!localUserInfo.enableChatGMBot ? 'hidden' : ''} flex flex-col gap-2`}>
+              <a href="https://t.me/ChatGoodMorningBot" target="_blank" className="text-sm flex flex-col gap-2 border-1">
+                Get your Telegram User ID here
+              </a>
+            </div>}
+          <div className={`${!localUserInfo.enableChatGMBot ? 'hidden' : ''} flex flex-col gap-2`}>
+            <div className="gap-2 mt-5 text-sm text-white font-semibold capitalize flex w-full flex-col items-stretch justify-center">
+              <label className="flex cursor-pointer flex-col gap-2" htmlFor="email">
+                <div className="flex items-center justify-between">
+                  <p className="flex items-center justify-start gap-2 px-0.5 tracking-wide">Telegram User ID</p>
+                </div>
+                <div className="relative">
+                  <input type="text" value={localUserInfo.telegramUserId} onChange={updateTelegramUserId} className="h-10 w-full border-2 bg-dark-gray py-2 px-4 text-sm outline-none bg-transparent text-white" name="todoist-api" id="todoist-api" />
+                </div>
+              </label>
+            </div>
+          </div>
+          <div className="flex flex-col gap-2 border-1">
+            <div className="gap-2 mt-5 text-sm text-white font-semibold capitalize flex w-full flex-col items-stretch justify-center form-field border-1">
               <label className="flex cursor-pointer flex-col gap-2" htmlFor="use-gpt4">
                 <div className="flex items-center justify-between border-1">
                   <p className="flex items-center justify-start gap-2 px-0.5 tracking-wide border-1">Use GPT4</p>
@@ -224,6 +277,7 @@ function MyAccount({ userInfo, setUserInfo }) {
               </label>
             </div>
           </div>
+
           <div className={`${!localUserInfo.useGPT4 ? 'hidden' : ''} flex flex-col gap-2`}>
             <div className="gap-2 mt-5 text-sm text-white font-semibold capitalize flex w-full flex-col items-stretch justify-center">
               <label className="flex cursor-pointer flex-col gap-2" htmlFor="email">

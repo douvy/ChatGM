@@ -3,7 +3,6 @@ import AutoExpandTextarea from './AutoExpandTextarea';
 import ChatMessage from './ChatMessage';
 import { subscribeToChannel } from "../lib/ably";
 import pusher from '../lib/pusher';
-import Pusher from 'pusher-js';
 import { client } from '../trpc/client';
 import { trpc } from '../utils/trpc';
 
@@ -20,6 +19,10 @@ function ChatWindow({ conversationId, conversation, setConversation, newMessage,
         subscribeToChannel();
     });
 
+    pusher.connection.bind('error', (error) => {
+        console.log('Pusher subscription failed:', error);
+    });
+
     const subscribeToChannel = async () => {
         if (typeof conversationId === 'undefined') {
             return;
@@ -34,10 +37,10 @@ function ChatWindow({ conversationId, conversation, setConversation, newMessage,
             channelName: channelName,
         })
         channelRef.current = pusher.subscribe(channelName, auth);
-        console.log("current channel:", channelRef.current);
         channelRef.current.bind('new-message', function (data) {
             setConversation(data.conversation);
         });
+
         channelRef.current.bind('client-is-typing', function (newMessage) {
             console.log("someone is typing!", newMessage);
             if (!submitLocket) {
@@ -67,10 +70,7 @@ function ChatWindow({ conversationId, conversation, setConversation, newMessage,
             sendMessage();
         } else {
             if (channelRef) {
-                // console.log("client is typing", channelRef.current);
-                // channelRef.current.trigger('client-is-typing', {
-                //     message: conversation.message,
-                // });
+                console.log("client is typing", channelRef.current);
                 channelRef.current?.trigger('client-is-typing', {
                     ...newMessage,
                     inProgress: true,
@@ -136,6 +136,7 @@ function ChatWindow({ conversationId, conversation, setConversation, newMessage,
                             onClick={() => {
                                 setReferencedMessage(message.id == referencedMessage?.id ? null : message);
                             }}
+                            userInfo={userInfo}
                         />
                     );
                 })}

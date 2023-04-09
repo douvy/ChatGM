@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import AutoExpandTextarea from './AutoExpandTextarea';
 import ChatMessage from './ChatMessage';
 
-function SavedMessages({ starredMessages, setStarredMessages, role, setReferencedMessage, setConversationId }) {
+function SavedMessages({ starredMessages, setStarredMessages, role, setReferencedMessage, setConversationId, userInfo }) {
     const scrollContainer = useRef(null);
     const messagesToShow = starredMessages.filter((message) => {
         console.log(message);
@@ -32,6 +32,7 @@ function SavedMessages({ starredMessages, setStarredMessages, role, setReference
                                 // setStarredMessages(updatedMessages)
                                 setStarredMessages(starredMessages.filter((t) => t.id !== updatedMessage.id));
                             }}
+                            userInfo={userInfo}
                         />
                     );
                 })}

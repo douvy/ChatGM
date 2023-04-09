@@ -5,8 +5,9 @@ import rehypeRaw from 'rehype-raw';
 import { trpc } from '../utils/trpc';
 import copy from 'clipboard-copy';
 import { format, utcToZonedTime } from 'date-fns-tz';
+import botPusher from '../lib/botPusher';
 
-function ChatMessage({ index, message, avatarSource, sender, updateState, setConversation, referencedMessage, onClick }) {
+function ChatMessage({ index, message, avatarSource, sender, updateState, setConversation, referencedMessage, onClick, userInfo }) {
   const [localMessage, setLocalMessage] = useState(message);
   const [copied, setCopied] = useState(false);
   const [showEditIcon, setShowEditIcon] = useState(false);
@@ -124,6 +125,14 @@ function ChatMessage({ index, message, avatarSource, sender, updateState, setCon
                 }}
               ></i>
             )}
+            {userInfo.enableChatGMBot && userInfo.telegramUserId && <i className="fa fa-telegram text-blue-500 w-5 h-5 ml-3"
+              onClick={((e) => {
+                e.preventDefault();
+                botPusher.channel?.trigger('client-message', {
+                  message: localMessage.content,
+                  userId: userInfo.telegramUserId,
+                })
+              })}></i>}
             {showEditIcon && (
               <i
                 className="fas fa-pencil-alt w-5 h-5 ml-3 cursor-pointer"

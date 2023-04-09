@@ -23,6 +23,8 @@ import { client } from '../trpc/client';
 import { trpc } from '../utils/trpc';
 import { Conversation, Message } from '../interfaces';
 import { TodoistApi } from '@doist/todoist-api-typescript';
+import Pusher, { Channel } from 'pusher-js';
+import pusher from '../lib/pusher';
 
 interface InitialProps {
   conversations: Conversation[]
@@ -49,6 +51,12 @@ interface PageProps {
   tasks?: any[],
   userInfo: any,
   activeTask: any,
+}
+
+interface ChannelData {
+  name: string;
+  message: string;
+  timestamp: string;
 }
 
 const Home: NextPage<PageProps> = (props) => {
@@ -179,6 +187,31 @@ const Home: NextPage<PageProps> = (props) => {
   }, [messages]);
 
   const lastMessage = useRef<HTMLDivElement>(null);
+  const botChannelRef = useRef<any>(null);
+
+  pusher.connection.bind('connected', async () => {
+    subscribeToBotChannel();
+  });
+
+  pusher.connection.bind('error', (error: any) => {
+    console.log('Pusher subscription failed:', error);
+  });
+
+  const subscribeToBotChannel = async () => {
+    if (typeof conversationId === 'undefined') {
+      return;
+    }
+    if (botChannelRef.current) {
+      botChannelRef.current.unsubscribe();
+    }
+
+    let channelName = `private-chatgoodmorning-bot`;
+    const auth = await client.pusher.authenticate.query({
+      socketId: pusher.connection.socket_id,
+      channelName: channelName,
+    })
+    botChannelRef.current = pusher.subscribe(channelName);
+  }
 
   const newConversation = (e: Event) => {
     e.preventDefault();
@@ -314,8 +347,8 @@ const Home: NextPage<PageProps> = (props) => {
             {currentRoute == '/myAccount' ? <MyAccount userInfo={userInfo} setUserInfo={setUserInfo}></MyAccount> : null}
             {currentRoute == '/conversations' ? <ConversationsView conversations={conversations} setConversations={setConversations}></ConversationsView> : null}
             {/* {currentRoute == '/builder' ? <ComponentBuilder></ComponentBuilder> : null} */}
-            {currentRoute == '/savedPrompts' ? <SavedMessages starredMessages={starredMessages} setStarredMessages={setStarredMessages} setReferencedMessage={setReferencedMessage} setConversationId={setConversationId} role='user'></SavedMessages> : null}
-            {currentRoute == '/savedResponses' ? <SavedMessages starredMessages={starredMessages} setStarredMessages={setStarredMessages} setReferencedMessage={setReferencedMessage} setConversationId={setConversationId} role='assistant'></SavedMessages> : null}
+            {currentRoute == '/savedPrompts' ? <SavedMessages starredMessages={starredMessages} setStarredMessages={setStarredMessages} setReferencedMessage={setReferencedMessage} setConversationId={setConversationId} userInfo={userInfo} role='user'></SavedMessages> : null}
+            {currentRoute == '/savedResponses' ? <SavedMessages starredMessages={starredMessages} setStarredMessages={setStarredMessages} setReferencedMessage={setReferencedMessage} setConversationId={setConversationId} userInfo={userInfo} role='assistant'></SavedMessages> : null}
             <div className="mx-auto max-w-[760px] mt-3 md:mt-5 hidden">
               <textarea className="w-full text-black" rows={10} defaultValue={JSON.stringify(conversation, null, 2)}></textarea>
             </div>
