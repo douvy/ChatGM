@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 
 interface ActiveTaskProps {
     activeTask: any,
@@ -23,7 +24,9 @@ const ActiveTask: React.FC<ActiveTaskProps> = ({ activeTask }) => {
                     // onClick={() => setIsMembersExpanded(!isMembersExpanded)}
                     >
                         <h1>{activeTask.content}</h1>
-                        <h2>{activeTask.description}</h2>
+                        <h2>
+                            <ReactMarkdown
+                                children={activeTask.description} /></h2>
 
                     </div>
                 </div>

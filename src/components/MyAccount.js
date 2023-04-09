@@ -7,7 +7,7 @@ import { trpc } from '../utils/trpc';
 function MyAccount({ userInfo, setUserInfo }) {
   const scrollContainer = useRef(null);
   const [localUserInfo, setLocalUserInfo] = useState(userInfo);
-  const [avatarUrl, setAvatarUrl] = useState(userInfo.avatarSource);
+  const [avatarUrl, setAvatarUrl] = useState(userInfo.avatarSource || '/avatar.png');
   const [saveState, setSaveState] = useState('unsaved');
   const fileInputRef = useRef();
   const updateAvatarMutation = trpc.users.updateAvatar.useMutation();

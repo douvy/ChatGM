@@ -31,6 +31,7 @@ function ChatMessage({ index, message, avatarSource, sender, updateState, setCon
   }, [editingMessage]);
 
   const updateMessageMutation = trpc.messages.update.useMutation();
+  const addStarredMessageMutation = trpc.users.addStarredMessage.useMutation();
 
   function formatTimestamp(timestamp) {
     const date = timestamp ? new Date(timestamp) : new Date();
@@ -74,6 +75,7 @@ function ChatMessage({ index, message, avatarSource, sender, updateState, setCon
       starred: !localMessage.starred,
     };
     updateMessageMutation.mutate(updatedMessage);
+    addStarredMessageMutation.mutate({ messageId: updatedMessage.id });
     setLocalMessage(updatedMessage);
     updateState(index, updatedMessage);
   };

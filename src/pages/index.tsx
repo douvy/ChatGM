@@ -77,7 +77,7 @@ const Home: NextPage<PageProps> = (props) => {
     role: "user",
     content: messageContent,
     avatarSource: "avatar.png",
-    senderId: session?.user?.id || 0
+    senderId: session?.user?.id || 0,
   });
 
   const [referencedMessage, setReferencedMessage] = useState<Message | undefined>(undefined);
@@ -316,7 +316,9 @@ const Home: NextPage<PageProps> = (props) => {
             {/* {currentRoute == '/builder' ? <ComponentBuilder></ComponentBuilder> : null} */}
             {currentRoute == '/savedPrompts' ? <SavedMessages starredMessages={starredMessages} setStarredMessages={setStarredMessages} setReferencedMessage={setReferencedMessage} setConversationId={setConversationId} role='user'></SavedMessages> : null}
             {currentRoute == '/savedResponses' ? <SavedMessages starredMessages={starredMessages} setStarredMessages={setStarredMessages} setReferencedMessage={setReferencedMessage} setConversationId={setConversationId} role='assistant'></SavedMessages> : null}
-
+            <div className="mx-auto max-w-[760px] mt-3 md:mt-5 hidden">
+              <textarea className="w-full text-black" rows={10} defaultValue={JSON.stringify(conversation, null, 2)}></textarea>
+            </div>
           </main>
         </div>
       </div>
@@ -337,14 +339,7 @@ export const getServerSideProps: GetServerSideProps<any> = async (context) => {
   const baseUrl = req ? `${req.headers.host}` : '';
 
   const session = await getSession(context);
-  console.log(req.headers.cookie);
-  console.log(process.env.NEXTAUTH_URL);
-  console.log("FUCKING SESSION:", session);
-  console.log("session:", session);
-  console.log("session:", session);
-  console.log("session:", session);
-  console.log("session:", session);
-  console.log("session:", session);
+
   if (!session) {
     return {
       redirect: {
@@ -380,11 +375,9 @@ export const getServerSideProps: GetServerSideProps<any> = async (context) => {
         orderBy: { id: 'desc' },
       })),
       userInfo: userInfo,
-      starredMessages: (await client.messages.query.query(
-        {
-          where: { starred: true }
-        }
-      )) || [],
+      starredMessages: await client.messages.starred.query({
+        userId: session.user.id,
+      }) || [],
       activeTask: activeTask
     },
   };

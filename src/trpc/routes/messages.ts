@@ -3,6 +3,7 @@ import { trpc } from '../instance'
 import { router } from '../../server/trpc';
 import { z } from 'zod';
 import pusher from '../../server/lib/pusher';
+import { procedure } from '../../server/trpc'
 
 export const query = trpc.procedure.input((req: any) => {
     return req;
@@ -12,6 +13,32 @@ export const query = trpc.procedure.input((req: any) => {
     console.log("fetched trpc messages");
     return messages;
 })
+
+export const starred = procedure.use(({ next, ctx }) => {
+    return next({
+        ctx: ctx
+    });
+}).input((req: any) => {
+    return req;
+}).query(async ({ ctx, input }) => {
+    const { session } = ctx;
+    // if (!session) throw new Error("Not authenticated");
+    // if (!session.user) throw new Error("No user on session");
+    const starredMessages = await prisma.message.findMany({
+        where: {
+            fans: {
+                some: { id: input.userId }
+            }
+        },
+        include: {
+            sender: true
+        }
+    });
+    console.log("starredMessages:", starredMessages);
+    return starredMessages;
+})
+
+
 
 export const createMessage = trpc.procedure.input((req: any) => {
     return req;
@@ -56,6 +83,7 @@ export const update = trpc.procedure.input(
 
 export const messagesRouter = router({
     query: query,
+    starred: starred,
     create: createMessage,
     // get: get,
     update: update,

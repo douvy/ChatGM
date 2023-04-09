@@ -88,9 +88,41 @@ export const setActiveTask = procedure.use(({ next, ctx }) => {
   return updatedUser;
 })
 
+export const addStarredMessage = procedure.use(({ next, ctx }) => {
+  return next({
+    ctx: ctx
+  });
+}).input(
+  z.object({
+    messageId: z.number(),
+  }),
+).mutation(async ({ ctx, input }) => {
+  // console.log("headers:", ctx.req.headers);
+  // const session = await getSession({ req: ctx.req });
+  const { messageId } = input;
+  const { session } = ctx;
+  if (!session) throw new Error("Not authenticated");
+  if (!session.user) throw new Error("No user on session");
+  const user = await prisma.user.update({
+    where: {
+      id: session.user.id
+    },
+    data: {
+      starredMessages: {
+        connect: {
+          id: messageId
+        }
+      }
+    }
+  });
+
+  return user;
+})
+
 export const usersRouter = router({
   get: get,
   update: update,
   updateAvatar: updateAvatar,
   setActiveTask: setActiveTask,
+  addStarredMessage: addStarredMessage,
 });
