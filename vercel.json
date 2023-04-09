@@ -1,6 +1,0 @@
-{
-  "crons": [{
-    "path": "/api/runPrompts",
-    "schedule": "0 * * * *"
-  }]
-}
