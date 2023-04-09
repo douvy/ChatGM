@@ -45,7 +45,7 @@ export default async function handler(req, res) {
             // });
             console.log(response);
             await pusher.trigger('chatgoodmorning-bot', 'message', {
-                message: response,
+                message: response + new Date().toLocaleTimeString(),
                 userId: user.telegramUserId,
             });
             console.log("pusher triggered");
@@ -60,7 +60,7 @@ export default async function handler(req, res) {
         .then((results) => {
             console.log('finished');
             pusher.trigger('chatgoodmorning-bot', 'message', {
-                message: 'Testing runPrompts endpoint finish',
+                message: 'Testing runPrompts endpoint finish' + new Date().toLocaleTimeString(),
                 userId: '515763629',
             });
             res.status(200).end('Hello Cron!!');
