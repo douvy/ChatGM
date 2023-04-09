@@ -41,6 +41,29 @@ export const update = trpc.procedure.input((req: any) => {
   });
 })
 
+export const updateAvatar = procedure.use(({ next, ctx }) => {
+  return next({
+    ctx: ctx
+  });
+}).input((req: any) => {
+  return req;
+}).mutation(async ({ ctx, input }) => {
+  const { session } = ctx;
+  const avatarSource = input;
+  const user = session.user;
+  const updatedUser = await prisma.user.update({
+    where: { id: user.id },
+    data: {
+      avatarSource: avatarSource
+    },
+    select: {
+      avatarSource: true,
+    }
+  });
+  console.log("updatedUser:", updatedUser);
+  return updatedUser;
+})
+
 export const setActiveTask = procedure.use(({ next, ctx }) => {
   return next({
     ctx: ctx
@@ -68,5 +91,6 @@ export const setActiveTask = procedure.use(({ next, ctx }) => {
 export const usersRouter = router({
   get: get,
   update: update,
+  updateAvatar: updateAvatar,
   setActiveTask: setActiveTask,
 });

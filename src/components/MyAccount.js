@@ -1,11 +1,17 @@
 import { useState, useRef } from 'react';
 import Image from 'next/image';
 import { client } from '../trpc/client';
+import cloudinaryUpload from '../utils/cloudinaryUpload';
+import { trpc } from '../utils/trpc';
 
 function MyAccount({ userInfo, setUserInfo }) {
   const scrollContainer = useRef(null);
   const [localUserInfo, setLocalUserInfo] = useState(userInfo);
+  const [avatarUrl, setAvatarUrl] = useState(userInfo.avatarSource);
   const [saveState, setSaveState] = useState('unsaved');
+  const fileInputRef = useRef();
+  const updateAvatarMutation = trpc.users.updateAvatar.useMutation();
+
 
   const updateUsernameValue = (event) => {
     setLocalUserInfo({
@@ -39,25 +45,96 @@ function MyAccount({ userInfo, setUserInfo }) {
     })
   }
 
+  const changeAvatar = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleAvatarSelection = (event) => {
+    const file = event.target.files[0];
+
+
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        setAvatarUrl(reader.result);
+      };
+      reader.readAsDataURL(file);
+
+      handleAvatarChange(file);
+    }
+
+  }
+
+  const handleAvatarChange = async (file) => {
+    const imageUrl = await cloudinaryUpload(file);
+    const result = await updateAvatarMutation.mutate(imageUrl);
+    console.log(result);
+    // Save the new avatar URL to your back-end or update your state as needed
+  };
+
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+
+    const file = event.target.files[0];
+
+    if (!file) {
+      alert('Please select a file to upload.');
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      setAvatarUrl(reader.result);
+    };
+    reader.readAsDataURL(file);
+
+    const formData = new FormData();
+    formData.append('upload_preset', 'bssaeyfu');
+    formData.append('file', file);
+
+    try {
+      const response = await fetch('https://api.cloudinary.com/v1_1/dnzmuwzf4/image/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('Upload response:', data);
+      const result = await updateAvatarMutation.mutate(data.secure_url);
+
+      // Process the response data as needed
+    } catch (error) {
+      console.error('Error uploading file:', error);
+    }
+  };
+
   return (
     <div className="mx-auto max-w-[760px] mt-3 md:mt-5" id="my-account">
       <h1 className="hidden text-title font-medium uppercase mb-5 text-white tracking-wide md:block">Account Information</h1>
       <div className="flex w-full flex-row gap-x-6">
-        <div className="relative h-[20px] w-[80px] cursor-pointer gap-10 border border-white/20 hover:border-white/40 lg:h-[104px] lg:w-[104px]">
+        <div className="relative h-[20px] w-[80px] cursor-pointer gap-10 border border-white/20 hover:border-white/40 lg:h-[104px] lg:w-[104px]" onClick={changeAvatar}>
           <Image
-            src="/avatar.png"
+            src={avatarUrl}
             alt="profile picture"
             layout="fill"
             objectFit="cover"
           />
-          <input className="hidden" type="file" accept="image/*" />
+          <form>
+            <input ref={fileInputRef} onChange={handleFormSubmit} className="hidden" type="file" accept="image/*" />
+          </form>
         </div>
         <div className="flex flex-col gap-2">
           <span className="text-lg uppercase leading-4 text-white tracking-wide">{localUserInfo.username}</span>
           <span className="text-2xs uppercase tracking-wide text-white/60"></span>
           <div className="mt-auto">
             <div className="flex flex-row gap-4">
-              <button className="relative whitespace-nowrap px-6 py-2 text-xs font-semibold uppercase tracking-wide transition-colors duration-200 border rounded border-transparent text-white btn-gray bg-transparent">Change</button>
+              <button className="relative whitespace-nowrap px-6 py-2 text-xs font-semibold uppercase tracking-wide transition-colors duration-200 border rounded border-transparent text-white btn-gray bg-transparent" onClick={changeAvatar}>Change</button>
               <button className="relative whitespace-nowrap px-6 py-2 text-xs font-semibold uppercase tracking-wide transition-colors duration-200 border rounded border-red text-red btn-red bg-transparent hover:text-black">Remove</button>
             </div>
           </div>

@@ -8,7 +8,7 @@ import SavedMessages from '../components/SavedMessages';
 import FeaturesView from '../components/FeaturesView';
 import Tasks from '../components/Tasks';
 import ConversationsView from '../components/ConversationsView';
-import ComponentBuilder from '../components/ComponentBuilder';
+// import ComponentBuilder from '../components/ComponentBuilder';
 import MyAccount from '../components/MyAccount';
 import ConversationMembers from '../components/ConversationMembers';
 import ActiveTask from '../components/ActiveTask';
@@ -262,6 +262,7 @@ const Home: NextPage<PageProps> = (props) => {
     // }, 100);
 
     updatedConversation = await client.openai.query.query((updatedConversation)) as PrismaConversation;
+    console.log("updatedConversation:", updatedConversation);
     // clearInterval(interval);
     setConversation({
       ...updatedConversation as Conversation,
@@ -318,7 +319,7 @@ const Home: NextPage<PageProps> = (props) => {
             {currentRoute == '/features' ? <FeaturesView passedFeatures={props.features}></FeaturesView> : null}
             {currentRoute == '/myAccount' ? <MyAccount userInfo={userInfo} setUserInfo={setUserInfo}></MyAccount> : null}
             {currentRoute == '/conversations' ? <ConversationsView conversations={conversations} setConversations={setConversations}></ConversationsView> : null}
-            {currentRoute == '/builder' ? <ComponentBuilder></ComponentBuilder> : null}
+            {/* {currentRoute == '/builder' ? <ComponentBuilder></ComponentBuilder> : null} */}
             {currentRoute == '/savedPrompts' ? <SavedMessages starredMessages={starredMessages} setStarredMessages={setStarredMessages} setReferencedMessage={setReferencedMessage} setConversationId={setConversationId} role='user'></SavedMessages> : null}
             {currentRoute == '/savedResponses' ? <SavedMessages starredMessages={starredMessages} setStarredMessages={setStarredMessages} setReferencedMessage={setReferencedMessage} setConversationId={setConversationId} role='assistant'></SavedMessages> : null}
             <div className="mx-auto max-w-[760px] mt-3 md:mt-5">

@@ -7,20 +7,33 @@ const removeImports = require("next-remove-imports")();
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-}
-
-module.exports = removeImports(withPlugins(
-  [
-    [
-      withTM,
+  images: {
+    domains: ['res.cloudinary.com'],
+    remotePatterns: [
       {
-        transpileModules: ['react-syntax-highlighter'],
+        protocol: 'https',
+        hostname: 'example.com',
+        port: '',
+        pathname: '/account123/**',
       },
     ],
-    // [css],
-    // [sass, {
-    //   cssModules: true
-    // }]
-  ],
-  nextConfig
-));
+  },
+}
+
+// module.exports = removeImports(withPlugins(
+//   [
+//     [
+//       withTM,
+//       {
+//         transpileModules: ['react-syntax-highlighter'],
+//       },
+//     ],
+//     // [css],
+//     // [sass, {
+//     //   cssModules: true
+//     // }]
+//   ],
+//   nextConfig
+// ));
+
+module.exports = nextConfig;

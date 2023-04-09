@@ -15,7 +15,12 @@ export const query = trpc.procedure.query(async () => {
   return conversations
 })
 
-export const withPartialMessages = trpc.procedure.input((req: any) => {
+export const withPartialMessages = trpc.procedure.use(({ next, ctx }) => {
+  console.log('fucking context', ctx);
+  return next({
+    ctx: ctx
+  });
+}).input((req: any) => {
   return req;
 }).query(async ({ input }) => {
   const conversations = await prisma.conversation.findMany({
