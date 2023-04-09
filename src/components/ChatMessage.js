@@ -135,7 +135,7 @@ function ChatMessage({ index, message, avatarSource, sender, updateState, setCon
               })}></i>}
             {showEditIcon && (
               <i
-                className="fas fa-pencil-alt w-5 h-5 ml-3 cursor-pointer"
+                className="fa-sharp fa-regular fa-pen-to-square w-5 h-5 ml-3 cursor-pointer"
                 onClick={() => {
                   setEditingMessage(true);
                 }}
