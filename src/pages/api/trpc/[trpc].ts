@@ -21,8 +21,7 @@ export async function createContext(opts: CreateNextContextOptions) {
   const { secret } = authOptions.jwt;
   let session;;
   if (cookie) {
-    const secureCookie = true;
-    session = await getToken({ req, secret, secureCookie });
+    session = await getToken({ req, secret });
     console.log("session in context", session);
   }
   return {
