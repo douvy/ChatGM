@@ -1,25 +1,30 @@
 import Pusher, { Channel } from 'pusher-js';
-import pusher from '../lib/pusher';
+import pusher from './pusher';
 
 const botPusher = {
     channel: null,
 }
 
-pusher.connection.bind('connected', async () => {
-    subscribeToBotChannel();
-});
+export const botSubscription = new Promise((resolve, reject) => {
+    // Do some asynchronous work
+    pusher.connection.bind('connected', async () => {
+        subscribeToBotChannel();
+    });
 
-pusher.connection.bind('error', (error) => {
-    console.log('Pusher subscription failed:', error);
-});
+    pusher.connection.bind('error', (error) => {
+        console.log('Pusher subscription failed:', error);
+    });
 
-const subscribeToBotChannel = async () => {
-    if (botPusher.channel) {
-        botPusher.channel.unsubscribe();
+    const subscribeToBotChannel = async () => {
+        if (botPusher.channel) {
+            botPusher.channel.unsubscribe();
+        }
+
+        let channelName = `private-chatgoodmorning-bot`;
+        botPusher.channel = pusher.subscribe(channelName);
+        resolve(botPusher);
     }
+});
 
-    let channelName = `private-chatgoodmorning-bot`;
-    botPusher.channel = pusher.subscribe(channelName);
-}
 
 export default botPusher;

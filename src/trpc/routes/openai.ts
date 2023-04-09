@@ -61,6 +61,35 @@ export const query = trpc.procedure.input((req: any) => {
     }
 });
 
+export const queryPrompt = trpc.procedure.input((req: any) => {
+    console.log(req);
+    return req;
+}).query(async ({ input }) => {
+    let { prompt } = input;
+    console.log(input);
+
+    console.log(input);
+    console.log(input);
+
+
+    try {
+        const completion = await openai.createChatCompletion({
+            model: "gpt-3.5-turbo",
+            messages: [
+                {
+                    role: prompt.role,
+                    content: prompt.content,
+                }
+            ],
+        });
+
+        const response = completion?.data?.choices[0]?.message?.content || undefined;
+        return response;
+    } catch (e) {
+        console.log("openai error:", e);
+    }
+});
+
 export const generateName = trpc.procedure.input((req: any) => {
     console.log("attempting to name");
     return req;
@@ -99,5 +128,6 @@ export const generateName = trpc.procedure.input((req: any) => {
 
 export const openaiRouter = router({
     query: query,
+    queryPrompt: queryPrompt,
     generateName: generateName,
 });

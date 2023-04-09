@@ -1,9 +1,54 @@
-import botPusher from '../../lib/botPusher';
+import pusher from '../../server/lib/pusher';
+import { client } from '../../trpc/client';
+import { prisma } from '@utils/prismaSingleton';
+import { Configuration, OpenAIApi } from "openai";
 
-export default function handler(req, res) {
-    botPusher.channel?.trigger('client-message', {
-        message: 'Good morning!',
-        userId: '515763629',
+const configuration = new Configuration({
+    apiKey: process.env.OPENAI_API_KEY,
+});
+
+const openai = new OpenAIApi(configuration);
+
+export default async function handler(req, res) {
+    const users = await prisma.user.findMany({
+        where: {
+            enableChatGMBot: true,
+            telegramUserId: {
+                not: null,
+            },
+        },
+        include: {
+            starredMessages: {
+                where: {
+                    role: 'user',
+                },
+            },
+        },
     });
-    res.status(200).end('Hello Cron!');
+
+    users.forEach((user) => {
+        user.starredMessages.forEach(async ({ role, content }) => {
+            const completion = await openai.createChatCompletion({
+                model: "gpt-3.5-turbo",
+                messages: [
+                    {
+                        role,
+                        content,
+                    }
+                ],
+            });
+
+            const response = completion?.data?.choices[0]?.message?.content || undefined;
+            // const response = await client.openai.queryPrompt.query({
+            //     prompt: message,
+            // });
+            console.log(response);
+            pusher.trigger('chatgoodmorning-bot', 'message', {
+                message: response,
+                userId: user.telegramUserId,
+            });
+        })
+    });
+
+    res.status(200).end('Hello Cron!!');
 }
