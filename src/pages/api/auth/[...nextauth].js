@@ -39,6 +39,7 @@ export const authOptions = {
         strategy: 'jwt',
         cookie: {
             secure: false,
+            sameSite: "lax",
         },
     },
 
