@@ -35,7 +35,7 @@ export const query = trpc.procedure.input((req: any) => {
             role: "assistant",
             content: response || "",
             avatarSource: "avatar-chat.png",
-            sender: "ChatGPT-3.5",
+            // sender: "ChatGPT-3.5",
             // conversationId: conversation.id,
         };
         // const inserted = await prisma.message.create({ data: responseMessage });

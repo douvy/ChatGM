@@ -11,7 +11,8 @@ model Message {
   id             Int           @id @default(autoincrement())
   content        String
   role           String
-  sender         String
+  sender         User?         @relation("message_sender", fields: [senderId], references: [id])
+  senderId       Int?
   avatarSource   String
   conversationId Int?
   starred        Boolean?      @default(false)
@@ -62,6 +63,7 @@ model User {
   ownedConversations   Conversation[] @relation("conversation_owner")
   createdConversations Conversation[] @relation("conversation_creator")
   starredMessages      Message[]      @relation("MessageFans")
+  sentMessages         Message[]      @relation("message_sender")
 }
 
 model Session {

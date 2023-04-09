@@ -1,10 +1,12 @@
 import { ObjectId } from 'mongodb';
+import { User, Conversation as PrismaConversation } from "@prisma/client";
 
 export interface Message {
-  role: string;
+  role: string,
   content: string;
-  avatarSource: string;
-  sender: string;
+  avatarSource: string,
+  sender?: User,
+  senderId: number
 }
 
 export interface Conversation {
@@ -16,4 +18,8 @@ export interface Conversation {
   isPublic: boolean,
   ownerId: number,
   creatorId: number,
+}
+
+export interface UserInfo {
+
 }

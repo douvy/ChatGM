@@ -37,7 +37,9 @@ const ConversationMembers: React.FC<ConversationMembersProps> = ({ conversation,
                     <ul className="pl-0">
                         {conversation.participants?.map((participant) => (
                             <li className="flex items-center space-x-2 p-1" key={participant.id}>
-                                <div className={`h-4 w-4 rounded-full ${participant.id == conversation.creatorId ? 'bg-yellow' : 'bg-green-bright'} mr-1`}></div>
+                                {participant.avatarSource ? <img src={participant.avatarSource} className="rounded-full h-4 w-4 mr-1" /> :
+                                    <div className={`h-4 w-4 rounded-full ${participant.id == conversation.creatorId ? 'bg-yellow' : 'bg-green-bright'} mr-1`}>
+                                    </div>}
                                 <span className="text-offwhite">{participant.username} {participant.id == conversation.creatorId ? '(creator)' : ''}</span>
                             </li>
                         ))}

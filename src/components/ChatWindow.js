@@ -7,7 +7,7 @@ import Pusher from 'pusher-js';
 import { client } from '../trpc/client';
 import { trpc } from '../utils/trpc';
 
-function ChatWindow({ conversationId, conversation, setConversation, newMessage, sendMessage, updateMessageValue, starredMessages, setStarredMessages, referencedMessage, setReferencedMessage }) {
+function ChatWindow({ conversationId, conversation, setConversation, newMessage, sendMessage, updateMessageValue, starredMessages, setStarredMessages, referencedMessage, setReferencedMessage, userInfo }) {
     const scrollContainer = useRef(null);
     const channelRef = useRef(null);
     const [socketId, setSocketId] = useState(null);

@@ -21,15 +21,8 @@ import { useSession } from 'next-auth/react';
 import { User, Conversation as PrismaConversation } from "@prisma/client";
 import { client } from '../trpc/client';
 import { trpc } from '../utils/trpc';
-import { Conversation } from '../interfaces';
+import { Conversation, Message } from '../interfaces';
 import { TodoistApi } from '@doist/todoist-api-typescript';
-
-interface Message {
-  role: string,
-  content: string;
-  avatarSource: string,
-  sender: string,
-}
 
 interface InitialProps {
   conversations: Conversation[]
@@ -84,7 +77,7 @@ const Home: NextPage<PageProps> = (props) => {
     role: "user",
     content: messageContent,
     avatarSource: "avatar.png",
-    sender: session?.user?.username || "anonymous"
+    senderId: session?.user?.id || 0
   });
 
   const [referencedMessage, setReferencedMessage] = useState<Message | undefined>(undefined);
@@ -161,7 +154,7 @@ const Home: NextPage<PageProps> = (props) => {
   useEffect(() => {
     setMessage({
       ...newMessage,
-      sender: session?.user?.username || "anonymous"
+      senderId: session?.user?.id || 0
     })
   }, [session])
   // useEffect(() => {
@@ -223,7 +216,7 @@ const Home: NextPage<PageProps> = (props) => {
       role: "user",
       content: "",
       avatarSource: "avatar.png",
-      sender: user.username || "anonymous",
+      senderId: user.id || 0,
     })
     var updatedConversation = conversation as PrismaConversation;
     if (!conversation.id) {
@@ -311,9 +304,9 @@ const Home: NextPage<PageProps> = (props) => {
         <div className="flex flex-col h-full w-full lg:ml-[225px]">
           {userInfo.activeTaskId && <ActiveTask activeTask={activeTask} />}
 
-          <ConversationMembers conversation={conversation} userInfo={userInfo} />
+          {currentRoute == '/' && <ConversationMembers conversation={conversation} userInfo={userInfo} />}
           <main className="container mx-auto flex-1 mt-0">
-            {currentRoute == '/' ? <ChatWindow conversationId={conversationId} conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} starredMessages={starredMessages} setStarredMessages={setStarredMessages} referencedMessage={referencedMessage} setReferencedMessage={setReferencedMessage} /> : null}
+            {currentRoute == '/' ? <ChatWindow conversationId={conversationId} conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} starredMessages={starredMessages} setStarredMessages={setStarredMessages} referencedMessage={referencedMessage} setReferencedMessage={setReferencedMessage} userInfo={userInfo} /> : null}
             {currentRoute == '/features' ? <FeaturesView passedFeatures={props.features}></FeaturesView> : null}
             {currentRoute == '/tasks' ? <Tasks userInfo={userInfo} setUserInfo={setUserInfo}></Tasks> : null}
             {currentRoute == '/features' ? <FeaturesView passedFeatures={props.features}></FeaturesView> : null}

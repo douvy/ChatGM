@@ -27,10 +27,23 @@ export const withPartialMessages = trpc.procedure.use(({ next, ctx }) => {
     ...input,
     include: {
       messages: {
+        include: {
+          sender: {
+            select: {
+              username: true,
+              avatarSource: true
+            }
+          },
+        },
         orderBy: { id: 'desc' }, // Order messages by id in ascending order
         take: 10 // Fetch only the last 10 messages for each conversation
       },
-      participants: true,
+      participants: {
+        select: {
+          username: true,
+          avatarSource: true
+        }
+      },
     },
   });
   return conversations.map((conversation: any) => {
