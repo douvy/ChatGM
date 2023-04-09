@@ -10,6 +10,10 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 export default async function handler(req, res) {
+    pusher.trigger('chatgoodmorning-bot', 'message', {
+        message: 'Testing runPrompts endpoint start',
+        userId: '515763629',
+    });
     const users = await prisma.user.findMany({
         where: {
             enableChatGMBot: true,
