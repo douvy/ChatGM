@@ -40,6 +40,7 @@ export const withPartialMessages = trpc.procedure.use(({ next, ctx }) => {
       },
       participants: {
         select: {
+          id: true,
           username: true,
           avatarSource: true
         }

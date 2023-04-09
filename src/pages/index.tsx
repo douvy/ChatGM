@@ -105,7 +105,7 @@ const Home: NextPage<PageProps> = (props) => {
     creatorId: userInfo.id,
     isPublic: false,
   });
-  console.log("conversation:", conversation);
+  // console.log("conversation:", conversation);
 
   const [conversations, setConversations] = useState<Conversation[]>(props.conversations || []);
 
@@ -316,9 +316,7 @@ const Home: NextPage<PageProps> = (props) => {
             {/* {currentRoute == '/builder' ? <ComponentBuilder></ComponentBuilder> : null} */}
             {currentRoute == '/savedPrompts' ? <SavedMessages starredMessages={starredMessages} setStarredMessages={setStarredMessages} setReferencedMessage={setReferencedMessage} setConversationId={setConversationId} role='user'></SavedMessages> : null}
             {currentRoute == '/savedResponses' ? <SavedMessages starredMessages={starredMessages} setStarredMessages={setStarredMessages} setReferencedMessage={setReferencedMessage} setConversationId={setConversationId} role='assistant'></SavedMessages> : null}
-            <div className="mx-auto max-w-[760px] mt-3 md:mt-5">
-              <textarea className="hidden w-full text-black" rows={10} defaultValue={JSON.stringify(conversation, null, 2)}></textarea>
-            </div>
+
           </main>
         </div>
       </div>
