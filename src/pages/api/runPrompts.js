@@ -26,8 +26,9 @@ export default async function handler(req, res) {
         },
     });
 
-    const responses = users.map(async (user) => {
-        return user.starredMessages.map(async ({ role, content }) => {
+    const responses = [];
+    users.map((user) => {
+        const response = user.starredMessages.map(async ({ role, content }) => {
             const completion = await openai.createChatCompletion({
                 model: "gpt-3.5-turbo",
                 messages: [
@@ -43,24 +44,28 @@ export default async function handler(req, res) {
             //     prompt: message,
             // });
             console.log(response);
-            pusher.trigger('chatgoodmorning-bot', 'message', {
+            await pusher.trigger('chatgoodmorning-bot', 'message', {
                 message: response,
                 userId: user.telegramUserId,
             });
-            return response
-        })
+            console.log("pusher triggered");
+            return response;
+        });
+        console.log("pushing", response);
+        responses.push(...response);
     });
+    console.log(responses);
 
-    Promise.all(responses)
+    await Promise.all(responses)
         .then((results) => {
+            console.log('finished');
             pusher.trigger('chatgoodmorning-bot', 'message', {
                 message: 'Testing runPrompts endpoint finish',
                 userId: '515763629',
             });
+            res.status(200).end('Hello Cron!!');
         })
         .catch((error) => {
             // Handle any errors here
         });
-
-    res.status(200).end('Hello Cron!!');
 }
