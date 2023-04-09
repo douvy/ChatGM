@@ -26,9 +26,15 @@ export default async function handler(req, res) {
         },
     });
 
-    const responses = [];
-    users.map((user) => {
-        const response = user.starredMessages.map(async ({ role, content }) => {
+    for (let i = 0; i < users.length; i++) {
+        const user = users[i];
+
+        // Loop through the user's messages
+        const messages = user.starredMessages;
+        for (let j = 0; j < messages.length; j++) {
+            const { role, content } = messages[j];
+
+            // Make the API request
             const completion = await openai.createChatCompletion({
                 model: "gpt-3.5-turbo",
                 messages: [
@@ -40,32 +46,18 @@ export default async function handler(req, res) {
             });
 
             const response = completion?.data?.choices[0]?.message?.content || undefined;
-            // const response = await client.openai.queryPrompt.query({
-            //     prompt: message,
-            // });
-            console.log(response);
+
             await pusher.trigger('chatgoodmorning-bot', 'message', {
                 message: response + new Date().toLocaleTimeString(),
                 userId: user.telegramUserId,
             });
-            console.log("pusher triggered");
-            return response;
-        });
-        console.log("pushing", response);
-        responses.push(...response);
-    });
-    console.log(responses);
+        }
+    }
 
-    await Promise.all(responses)
-        .then((results) => {
-            console.log('finished');
-            pusher.trigger('chatgoodmorning-bot', 'message', {
-                message: 'Testing runPrompts endpoint finish' + new Date().toLocaleTimeString(),
-                userId: '515763629',
-            });
-            res.status(200).end('Hello Cron!!');
-        })
-        .catch((error) => {
-            // Handle any errors here
-        });
+    pusher.trigger('chatgoodmorning-bot', 'message', {
+        message: 'Testing runPrompts endpoint finish' + new Date().toLocaleTimeString(),
+        userId: '515763629',
+    });
+
+    res.status(200).json({ message: 'All messages processed successfully, ' + new Date().toLocaleTimeString() });
 }
