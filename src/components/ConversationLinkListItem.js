@@ -51,11 +51,11 @@ function ConversationLinkListItem({ conversation, setConversation, isActive, sel
       href="#" className={isActive ? "active" : ""}>
       <li className="p-2 pl-3 whitespace-nowrap overflow-hidden flex items-center justify-between relative">
         <div className="flex items-center space-x-4">
-          <i className="far fa-message-middle text-gray"></i>
+          <i className="fa-solid fa-message-middle text-gray"></i>
           <span
             className="inline-block"
             style={{
-              maxWidth: '',
+              // maxWidth: '',
               whiteSpace: 'nowrap',
               textOverflow: 'clip',
               overflow: 'hidden',
@@ -80,10 +80,10 @@ function ConversationLinkListItem({ conversation, setConversation, isActive, sel
               background: 'linear-gradient(90deg, #2E3034 100%, transparent)',
             }}
           >
-            {!editingMessage ? <i className="far fa-pen-to-square mr-2 ml-5 text-gray hover-offwhite" onClick={() => {
+            {!editingMessage ? <i className="fa-solid fa-pen-to-square mr-2 ml-5 text-gray hover-offwhite" onClick={() => {
               setEditingMessage(true);
             }}></i> : <i className="fa-solid fa-check mr-2 ml-5 text-gray hover-offwhite" onClick={updateConversation}></i>}
-            <i className="fas fa-trash text-gray hover-offwhite mr-2" onClick={handleDelete}></i>
+            <i className="fa-solid fa-trash text-gray hover-offwhite mr-2" onClick={handleDelete}></i>
           </span>
         )}
       </li>

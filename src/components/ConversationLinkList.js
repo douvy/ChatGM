@@ -21,7 +21,7 @@ function ConversationLinkList({ conversations, setConversation, activeConversati
         <a href="#" onClick={newConversation} id="new-chat" className={!activeConversationId && currentRoute == '/'
           ? "active" : ""}>
           <li className="p-2 mt-2 pl-4">
-            <i className="far fa-arrow-up-right fa-lg"></i> New Chat
+            <i className="fa-solid fa-arrow-up-right fa-lg"></i> New Chat
           </li>
         </a>
         <a href="#">

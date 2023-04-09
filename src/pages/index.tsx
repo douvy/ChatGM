@@ -287,6 +287,7 @@ const Home: NextPage<PageProps> = (props) => {
         <meta name="description" content="a clean, visually appealing interface for ChatGPT" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <link rel="icon" href="/favicon.ico" />
+        {/* <link rel="stylesheet" href="/fontawesome.min.css" /> */}
       </Head>
       <div className="flex" id="main-container">
         <nav className="fixed h-full w-[228px] shadow-md hidden lg:block">

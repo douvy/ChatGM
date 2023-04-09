@@ -11,7 +11,6 @@ const App: AppType = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <Head>
-        <link rel="stylesheet" href="/fontawesome.min.css" />
       </Head>
       {/* <Layout> */}
       <SessionProvider>
