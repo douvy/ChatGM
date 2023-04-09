@@ -38,6 +38,9 @@ html {
 .text-yellow {
   color: #DEF241;
 }
+.bg-yellow {
+  background: #DEF241;
+}
 
 .text-green {
   color: #79E8B3 !important;
@@ -171,11 +174,11 @@ form input {
 }
 
 .message.active {
-  background-color: #484e53;
+  background-color: #0C1117;
 }
 
 .message:hover {
-  background-color: #2E3034;
+  background-color: #0C1117;
 }
 
 nav {
