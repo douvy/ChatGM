@@ -388,6 +388,20 @@ hr {
     border-radius: 1px; /* Rounded corners */
   }
 
+#sidebar-top::-webkit-scrollbar {
+          width: 4px;
+        }
+#sidebar-top::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border: none;
+  border-radius: 4px;
+}
+#sidebar-top:hover::-webkit-scrollbar-thumb {
+  background-color: #0C1117;
+  border-left: 1px solid #2F363C;
+  border-bottom: 1px solid #2F363C;
+  border-top: 1px solid #2F363C;
+}
 #top-nav {
   background: #161B22;
   border: 1px solid #2F363C;
