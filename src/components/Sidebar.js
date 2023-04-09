@@ -18,7 +18,7 @@ export default function Sidebar({ setConversations, setConversation, setActiveCo
                 {/*<SidebarItem iconName="brightness" itemText="Light Mode" />*/}
 
                 {currentRoute == '/conversations'}
-                <SidebarItem iconName="user-hair-mullet text-blue" itemText="My Account" onClick={() => {
+                <SidebarItem iconName="user-hair-mullet text-blue" isActive={currentRoute == "/myAccount" ? true : false} itemText="My Account" onClick={() => {
                     setCurrentRoute('/myAccount');
                 }} />
 
