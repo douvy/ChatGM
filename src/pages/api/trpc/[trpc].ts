@@ -84,6 +84,7 @@ export async function createContext(opts: CreateNextContextOptions) {
   const cookie = opts.req.headers.cookie;
   const { req } = opts;
   const { secret } = authOptions.jwt;
+  console.log("secret", secret);
   let session;;
   if (cookie) {
     session = await getToken({ req, secret });
