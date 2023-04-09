@@ -357,17 +357,24 @@ hr {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #2a2a2d;
+  background-color: #0C1117;
+  border-left: 1px solid #2F363C;
+  border-bottom: 1px solid #2F363C;
+  border-top: 1px solid #2F363C;
+  border-right: 1px solid #2F363C;
   border-radius: 1px;
 }
-
+#sidebar-top::-webkit-scrollbar-thumb  {
+  border-right: none;
+}
 #sidebar-top ::-webkit-scrollbar-thumb {
   background-color: transparent;
   border-radius: 1px;
 }
 
 #sidebar-top {
-  height: 400px;
+  height: 425px;
+  overflow-y:;
 }
 
 #top-nav {
