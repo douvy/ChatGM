@@ -377,6 +377,17 @@ hr {
   overflow-y:;
 }
 
+#sidebar-top::-webkit-scrollbar {
+    width: 0; /* Hide scrollbar by default */
+  }
+#sidebar-top:hover::-webkit-scrollbar {
+    width: 4px; /* Show scrollbar on hover */
+  }
+#sidebar-top::-webkit-scrollbar-thumb {
+    background-color: #0C1117; /* Color of the scrollbar */
+    border-radius: 1px; /* Rounded corners */
+  }
+
 #top-nav {
   background: #161B22;
   border: 1px solid #2F363C;
