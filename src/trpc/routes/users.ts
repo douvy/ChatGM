@@ -88,6 +88,7 @@ export const setActiveTask = procedure.use(({ next, ctx }) => {
     },
     select: {
       activeTaskId: true,
+      activeTaskSetAt: true,
     }
   });
   console.log("updatedUser:", updatedUser);

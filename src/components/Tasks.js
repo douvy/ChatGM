@@ -8,7 +8,7 @@ import TaskItem from './TaskItem';
 import ProjectListItem from './ProjectListItem';
 import { TodoistApi } from '@doist/todoist-api-typescript';
 
-function Tasks({ userInfo, setUserInfo }) {
+function Tasks({ userInfo, setUserInfo, c }) {
     const api = new TodoistApi(userInfo.todoistApiKey)
     const scrollContainer = useRef(null);
     const channelRef = useRef(null);
@@ -17,12 +17,27 @@ function Tasks({ userInfo, setUserInfo }) {
     const [tasks, setTasks] = useState([]);
     const [projects, setProjects] = useState([]);
     const [activeProject, setActiveProject] = useState(null);
+    // const setActiveTaskMutation = trpc.users.setActiveTask.useMutation();
 
-
+    useEffect(() => {
+        switch (props.c) {
+            case '1':
+                setCurrentRoute('/tasks');
+                break;
+        }
+    }, [props.c]);
 
     if (projects.length == 0) {
-        api.getProjects()
-            .then((projects) => setProjects(projects)).catch((err) => console.log(err))
+        if (!userInfo.activeProjectId) {
+            api.getProjects()
+                .then((projects) => setProjects(projects)).catch((err) => console.log(err))
+        } else {
+            api.getProject(userInfo.activeProjectId).then((project) => {
+                setProjects([project]);
+                setActiveProject(project);
+            });
+        }
+
     }
 
     function handleKeyDown(event) {
@@ -42,6 +57,16 @@ function Tasks({ userInfo, setUserInfo }) {
         }).then((tasks) => setTasks(tasks)).catch((err) => console.log(err))
     }, [activeProject])
 
+    const setActiveTask = async () => {
+        // const activeTaskId = task.id == userInfo.activeTaskId ? null : task.id;
+        // const updatedUser = await setActiveTaskMutation.mutateAsync(activeTaskId);
+        // setUserInfo({
+        //     ...userInfo,
+        //     activeTaskId: activeTaskId,
+        //     activeTaskSetAt: updatedUser.activeTaskSetAt
+        // })
+    }
+
     // let messageEnd = null;
     // useEffect(() => {
     //     messageEnd?.scrollIntoView({ behaviour: "smooth" });
@@ -50,10 +75,10 @@ function Tasks({ userInfo, setUserInfo }) {
     //     return <></>
     // }
     return (
-        <div className="mx-auto max-w-[760px]">
-            <div className="overflow-y-auto" id="messages-box" ref={scrollContainer}>
+        <div className="mx-auto h-full">
+            <div className="overflow-y-auto" ref={scrollContainer}>
                 {projects.filter((project) => {
-                    return activeProject ? project.id == activeProject : true;
+                    return activeProject ? project.id == activeProject.id : true;
                 }).map((project, index) => {
                     return (
                         <ProjectListItem
@@ -63,6 +88,7 @@ function Tasks({ userInfo, setUserInfo }) {
                             setActiveProject={setActiveProject}
                             userInfo={userInfo}
                             setUserInfo={setUserInfo}
+                            setActiveTask={setActiveTask}
                         />
                     );
                 })}

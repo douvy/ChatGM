@@ -8,7 +8,7 @@ interface ActiveTaskProps {
 
 const ActiveTask: React.FC<ActiveTaskProps> = ({ activeTask, userInfo }) => {
     const [isMembersExpanded, setIsMembersExpanded] = useState(true);
-    const [startTime, setStartTime] = useState(new Date(userInfo.activeTaskSetAt));
+    // const [startTime, setStartTime] = useState(new Date(userInfo.activeTaskSetAt));
     const [countdown, setCountdown] = useState('');
     // if (!conversation.participants || conversation.participants?.length <= 1) {
     //     return <></>;
@@ -17,6 +17,7 @@ const ActiveTask: React.FC<ActiveTaskProps> = ({ activeTask, userInfo }) => {
     useEffect(() => {
         const intervalId = setInterval(() => {
             const now = new Date();
+            const startTime = new Date(userInfo.activeTaskSetAt);
             const diff = Math.max(0, startTime.getTime() + 900000 - now.getTime());
             const minutes = Math.floor((diff / (1000 * 60)) % 60);
             const seconds = Math.floor((diff / 1000) % 60);
@@ -24,7 +25,7 @@ const ActiveTask: React.FC<ActiveTaskProps> = ({ activeTask, userInfo }) => {
         }, 1000);
 
         return () => clearInterval(intervalId);
-    }, [startTime]);
+    }, [userInfo]);
 
     return (
         <>
@@ -34,7 +35,7 @@ const ActiveTask: React.FC<ActiveTaskProps> = ({ activeTask, userInfo }) => {
                 })}>
                 {/* Members dropdown title */}
                 <div className="w-full items-center space-x-2">
-                    <div w-full
+                    <div
                     // onClick={() => setIsMembersExpanded(!isMembersExpanded)}
                     >
                         <h1 className="text-sm flex justify-between">
