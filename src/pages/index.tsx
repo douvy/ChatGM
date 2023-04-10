@@ -23,8 +23,7 @@ import { client } from '../trpc/client';
 import { trpc } from '../utils/trpc';
 import { Conversation, Message } from '../interfaces';
 import { TodoistApi } from '@doist/todoist-api-typescript';
-import Pusher, { Channel } from 'pusher-js';
-import pusher from '../lib/pusher';
+
 
 interface InitialProps {
   conversations: Conversation[]
@@ -187,31 +186,6 @@ const Home: NextPage<PageProps> = (props) => {
   }, [messages]);
 
   const lastMessage = useRef<HTMLDivElement>(null);
-  const botChannelRef = useRef<any>(null);
-
-  pusher.connection.bind('connected', async () => {
-    subscribeToBotChannel();
-  });
-
-  pusher.connection.bind('error', (error: any) => {
-    console.log('Pusher subscription failed:', error);
-  });
-
-  const subscribeToBotChannel = async () => {
-    if (typeof conversationId === 'undefined') {
-      return;
-    }
-    if (botChannelRef.current) {
-      botChannelRef.current.unsubscribe();
-    }
-
-    let channelName = `private-chatgoodmorning-bot`;
-    const auth = await client.pusher.authenticate.query({
-      socketId: pusher.connection.socket_id,
-      channelName: channelName,
-    })
-    botChannelRef.current = pusher.subscribe(channelName);
-  }
 
   const newConversation = (e: Event) => {
     e.preventDefault();
@@ -336,7 +310,7 @@ const Home: NextPage<PageProps> = (props) => {
           </button>
         </div>
         <div className="flex flex-col h-full w-full lg:ml-[225px]">
-          {userInfo.activeTaskId && <ActiveTask activeTask={activeTask} />}
+          {userInfo.activeTaskId && <ActiveTask activeTask={activeTask} userInfo={userInfo} />}
 
           {currentRoute == '/' && <ConversationMembers conversation={conversation} userInfo={userInfo} />}
           <main className="container mx-auto flex-1 mt-0">

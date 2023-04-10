@@ -23,6 +23,7 @@ export const get = trpc.procedure.input(
       useGPT4: true,
       gpt4ApiKey: true,
       activeTaskId: true,
+      activeTaskSetAt: true,
       enableChatGMBot: true,
       telegramUserId: true,
     },
@@ -80,7 +81,8 @@ export const setActiveTask = procedure.use(({ next, ctx }) => {
   const updatedUser = await prisma.user.update({
     where: { id: user.id },
     data: {
-      activeTaskId: activeTaskId
+      activeTaskId: activeTaskId,
+      activeTaskSetAt: new Date(),
     },
     select: {
       activeTaskId: true,

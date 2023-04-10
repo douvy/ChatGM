@@ -35,7 +35,8 @@ function Tasks({ userInfo, setUserInfo }) {
             return;
         }
         api.getTasks({
-            projectId: activeProject.id
+            projectId: activeProject.id,
+            priority: 1,
         }).then((tasks) => setTasks(tasks)).catch((err) => console.log(err))
     }, [activeProject])
 
