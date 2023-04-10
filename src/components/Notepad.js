@@ -109,6 +109,7 @@ export default function TextEditor({ content, setContent, userInfo, setUserInfo,
     }
 
     function handleKeyDown(e) {
+        e.stopPropagation();
         const ignoredKeys = ["Shift", "Meta", "Tab"];
         if (ignoredKeys.includes(event.key)) {
             return;
