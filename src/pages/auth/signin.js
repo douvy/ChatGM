@@ -65,11 +65,11 @@ function SignInForm() {
                     <h1 className="heading font-display text-title font-medium  uppercase mt-50 mb-30">Sign In</h1>
                     <div className="formGroup mb-5">
                         <label htmlFor="username" className="label block font-bold mb-2 font-semibold text-white">Username:</label>
-                        <input type="text" id="username" value={username} onChange={(event) => setUsername(event.target.value)} className="input w-full border-2" />
+                        <input type="text" id="username" value={username} onChange={(event) => setUsername(event.target.value)} className="input w-full border-1 bg-dark px-3 py-2" />
                     </div>
                     <div className="formGroup">
                         <label htmlFor="password" className="label block font-bold mb-2 text-white">Password:</label>
-                        <input type="password" id="password" value={password} onChange={(event) => setPassword(event.target.value)} className="input w-full border-2" />
+                        <input type="password" id="password" value={password} onChange={(event) => setPassword(event.target.value)} className="input w-full border-1 bg-dark px-3 py-2" />
                     </div>
                     <button type="submit" className="submitButton font-semibold w-full mt-5 mb-8 h-11">Sign In</button>
                     <div className="linksContainer italic">

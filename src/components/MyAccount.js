@@ -142,8 +142,8 @@ function MyAccount({ userInfo, setUserInfo }) {
           <span className="text-2xs uppercase tracking-wide text-white/60"></span>
           <div className="mt-auto">
             <div className="flex flex-row gap-4">
-              <button className="relative whitespace-nowrap px-6 py-2 text-xs font-semibold uppercase tracking-wide transition-colors duration-200 border rounded border-transparent text-white btn-gray bg-transparent" onClick={changeAvatar}>Change</button>
-              <button className="relative whitespace-nowrap px-6 py-2 text-xs font-semibold uppercase tracking-wide transition-colors duration-200 border rounded border-red text-red btn-red bg-transparent hover:text-black">Remove</button>
+              <button className="relative whitespace-nowrap px-6 py-2 text-xs font-semibold uppercase tracking-wide transition-colors duration-200 border rounded border-transparent text-white btn-gray bg-dark" onClick={changeAvatar}>Change</button>
+              <button className="relative whitespace-nowrap px-6 py-2 text-xs font-semibold uppercase tracking-wide transition-colors duration-200 border rounded border-red text-red btn-red bg-dark hover:text-black">Remove</button>
             </div>
           </div>
         </div>
@@ -159,7 +159,7 @@ function MyAccount({ userInfo, setUserInfo }) {
                   <p className="flex items-center justify-start gap-2 px-0.5">Username*</p>
                 </div>
                 <div className="relative">
-                  <input type="text" value={localUserInfo.username} onChange={updateUsernameValue} className="h-10 w-full border-2 bg-dark-gray py-2 px-4 text-sm outline-none bg-transparent text-white" name="username" id="username" />
+                  <input type="text" value={localUserInfo.username} onChange={updateUsernameValue} className="h-10 w-full border-1 bg-dark-gray py-2 px-4 text-sm outline-none bg-dark text-white" name="username" id="username" />
                 </div>
               </label>
             </div>
@@ -199,7 +199,7 @@ function MyAccount({ userInfo, setUserInfo }) {
                   <p className="flex items-center justify-start gap-2 px-0.5 tracking-wide">Todoist API key</p>
                 </div>
                 <div className="relative">
-                  <input type="text" value={localUserInfo.todoistApiKey} onChange={updateTodoistApiKeyValue} className="h-10 w-full border-2 bg-dark-gray py-2 px-4 text-sm outline-none bg-transparent text-white" name="todoist-api" id="todoist-api" />
+                  <input type="text" value={localUserInfo.todoistApiKey} onChange={updateTodoistApiKeyValue} className="h-10 w-full border-1 bg-dark-gray py-2 px-4 text-sm outline-none bg-dark text-white" name="todoist-api" id="todoist-api" />
                 </div>
               </label>
             </div>
@@ -245,7 +245,7 @@ function MyAccount({ userInfo, setUserInfo }) {
                   <p className="flex items-center justify-start gap-2 px-0.5 tracking-wide">Telegram User ID</p>
                 </div>
                 <div className="relative">
-                  <input type="text" value={localUserInfo.telegramUserId} onChange={updateTelegramUserId} className="h-10 w-full border-2 bg-dark-gray py-2 px-4 text-sm outline-none bg-transparent text-white" name="todoist-api" id="todoist-api" />
+                  <input type="text" value={localUserInfo.telegramUserId} onChange={updateTelegramUserId} className="h-10 w-full border-1 bg-dark-gray py-2 px-4 text-sm outline-none bg-dark text-white" name="todoist-api" id="todoist-api" />
                 </div>
               </label>
             </div>
@@ -286,7 +286,7 @@ function MyAccount({ userInfo, setUserInfo }) {
                   <p className="flex items-center justify-start gap-2 px-0.5 tracking-wide">GPT4 API key</p>
                 </div>
                 <div className="relative">
-                  <input type="text" value={localUserInfo.gpt4ApiKey} onChange={updateGPT4APIKeyValue} className="h-10 w-full border-2 bg-dark-gray py-2 px-4 text-sm outline-none bg-transparent text-white" name="todoist-api" id="todoist-api" />
+                  <input type="text" value={localUserInfo.gpt4ApiKey} onChange={updateGPT4APIKeyValue} className="h-10 w-full border-2 bg-dark-gray py-2 px-4 text-sm outline-none bg-dark text-white" name="todoist-api" id="todoist-api" />
                 </div>
               </label>
             </div>
@@ -299,7 +299,7 @@ function MyAccount({ userInfo, setUserInfo }) {
           })}></FeatureToggle>
           <button
             onClick={saveUserUpdates}
-            className={`${saveState == 'saved' ? 'saved' : (saveState == 'saving' ? 'saving' : '')} relative mt-6 px-6 py-2 text-xs font-semibold uppercase tracking-wide transition-colors duration-200 bg-transparent hover:text-black px-6 py-2 mb-8`}
+            className={`${saveState == 'saved' ? 'saved' : (saveState == 'saving' ? 'saving' : '')} relative mt-6 px-6 py-2 text-xs font-semibold uppercase tracking-wide transition-colors duration-200 bg-dark hover:text-black px-6 py-2 mb-8`}
           >                    {saveState == 'saved' ? 'Saved' : (saveState == 'saving' ? (<span className="spinner"></span>) : 'Save changes')}
           </button>
         </form>
