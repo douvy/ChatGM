@@ -19,6 +19,7 @@ function ConversationLinkList({ conversations, setConversation, activeConversati
   return (
     <div className="overflow-y-auto" id="sidebar-top">
       <ul className="pl-3">
+      <div className="sticky-section">
         <a href="#" onClick={newConversation} id="new-chat" className={!activeConversationId && currentRoute == '/'
           ? "active" : ""}>
           <li className="p-2 mt-2 pl-4">
@@ -55,6 +56,7 @@ function ConversationLinkList({ conversations, setConversation, activeConversati
             </ul>
           </div>
         )}
+      </div>
       </ul>
     </div>
   )
