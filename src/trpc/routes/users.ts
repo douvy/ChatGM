@@ -24,8 +24,10 @@ export const get = trpc.procedure.input(
       gpt4ApiKey: true,
       activeTaskId: true,
       activeTaskSetAt: true,
+      activeProjectId: true,
       enableChatGMBot: true,
       telegramUserId: true,
+      includeNotepad: true,
     },
   });
   return user;
@@ -92,6 +94,29 @@ export const setActiveTask = procedure.use(({ next, ctx }) => {
   return updatedUser;
 })
 
+export const setActiveProject = procedure.use(({ next, ctx }) => {
+  return next({
+    ctx: ctx
+  });
+}).input((req: any) => {
+  return req;
+}).mutation(async ({ ctx, input }) => {
+  const { session } = ctx;
+  const activeProjectId = input;
+  const user = ctx.session.user;
+  const updatedUser = await prisma.user.update({
+    where: { id: user.id },
+    data: {
+      activeProjectId: activeProjectId,
+    },
+    select: {
+      activeProjectId: true,
+    }
+  });
+  console.log("updatedUser:", updatedUser);
+  return updatedUser;
+})
+
 export const addStarredMessage = procedure.use(({ next, ctx }) => {
   return next({
     ctx: ctx
@@ -123,10 +148,67 @@ export const addStarredMessage = procedure.use(({ next, ctx }) => {
   return user;
 })
 
+export const saveNote = procedure.use(({ next, ctx }) => {
+  return next({
+    ctx: ctx
+  });
+}).input((req: any) => {
+  return req;
+}).mutation(async ({ ctx, input }) => {
+  const { session } = ctx;
+  const note = input;
+  const user = ctx.session.user;
+  if (!note.id) {
+    const newNote = await prisma.note.create({
+      data: {
+        content: note.content,
+        userId: user.id
+      }
+    });
+    return newNote;
+  } else {
+    const updatedNote = await prisma.note.update({
+      where: { id: note.id },
+      data: {
+        content: note.content,
+      },
+      select: {
+        id: true,
+        content: true,
+      }
+    });
+    return updatedNote;
+  }
+})
+
+export const getNote = procedure.use(({ next, ctx }) => {
+  return next({
+    ctx: ctx
+  });
+}).input((req: any) => {
+  return req;
+}).query(async ({ ctx, input }) => {
+  const { session } = ctx;
+  const user = ctx.session.user;
+  const note = await prisma.note.findUnique({
+    where: {
+      userId: user.id
+    },
+    select: {
+      id: true,
+      content: true,
+    }
+  });
+  return note;
+})
+
 export const usersRouter = router({
   get: get,
   update: update,
   updateAvatar: updateAvatar,
   setActiveTask: setActiveTask,
+  setActiveProject: setActiveProject,
   addStarredMessage: addStarredMessage,
+  saveNote: saveNote,
+  getNote: getNote,
 });

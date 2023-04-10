@@ -9,7 +9,6 @@ import ProjectListItem from './ProjectListItem';
 import { TodoistApi } from '@doist/todoist-api-typescript';
 
 function Tasks({ userInfo, setUserInfo }) {
-    console.log("API KEY:", userInfo.todoistApiKey);
     const api = new TodoistApi(userInfo.todoistApiKey)
     const scrollContainer = useRef(null);
     const channelRef = useRef(null);
@@ -18,6 +17,8 @@ function Tasks({ userInfo, setUserInfo }) {
     const [tasks, setTasks] = useState([]);
     const [projects, setProjects] = useState([]);
     const [activeProject, setActiveProject] = useState(null);
+
+
 
     if (projects.length == 0) {
         api.getProjects()
@@ -31,6 +32,7 @@ function Tasks({ userInfo, setUserInfo }) {
     }
 
     useEffect(() => {
+        console.log(activeProject);
         if (!activeProject) {
             return;
         }
@@ -50,7 +52,9 @@ function Tasks({ userInfo, setUserInfo }) {
     return (
         <div className="mx-auto max-w-[760px]">
             <div className="overflow-y-auto" id="messages-box" ref={scrollContainer}>
-                {tasks.length == 0 && projects.map((project, index) => {
+                {projects.filter((project) => {
+                    return activeProject ? project.id == activeProject : true;
+                }).map((project, index) => {
                     return (
                         <ProjectListItem
                             key={project.id + index}
@@ -58,6 +62,7 @@ function Tasks({ userInfo, setUserInfo }) {
                             project={project}
                             setActiveProject={setActiveProject}
                             userInfo={userInfo}
+                            setUserInfo={setUserInfo}
                         />
                     );
                 })}

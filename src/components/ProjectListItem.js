@@ -5,7 +5,8 @@ import rehypeRaw from 'rehype-raw';
 import { trpc } from '../utils/trpc';
 import copy from 'clipboard-copy';
 
-function ProjectListItem({ index, project, setActiveProject, unserInfo }) {
+function ProjectListItem({ index, project, setActiveProject, userInfo, setUserInfo }) {
+  const setActiveProjectMutation = trpc.users.setActiveProject.useMutation();
 
   return (
     <div className="w-full box cursor-pointer">
@@ -22,17 +23,21 @@ function ProjectListItem({ index, project, setActiveProject, unserInfo }) {
                 className={`fa-regular fa-arrow-down-left fa-lg ml-1 mr-3 mt-2`}
               ></i>
             </span>{' '}
-            <i className={`fa-star ${false ? 'fa-solid' : 'fa-regular'} ml-2 cursor-pointer`} onClick={() => { }}></i>
-            {true ? (
-              <i className="fa-solid fa-check w-5 h-5 ml-2"></i>
-            ) : (
-              <i
-                className={`fa-light fa-copy w-5 h-5 ml-2 cursor-pointer`}
-                onClick={() => {
-                  // copyToClipboard(task.content);
-                }}
-              ></i>
-            )}
+            {/* <i className={`fa-star ${false ? 'fa-solid' : 'fa-regular'} ml-2 cursor-pointer`} onClick={() => { }}></i> */}
+
+            <i
+              className={`fa-light ${userInfo.activeProjectId == project.id ? 'fa-toggle-on' : 'fa-toggle-off'} hover:font-bold w-5 h-5 ml-2 cursor-pointer`}
+              onClick={async (e) => {
+                e.stopPropagation();
+                const activeProjectId = project.id == userInfo.activeProjectId ? null : project.id;
+                await setActiveProjectMutation.mutate(activeProjectId);
+                setUserInfo({
+                  ...userInfo,
+                  activeProjectId: activeProjectId,
+                })
+              }}
+            ></i>
+
           </p>
           {project.name}
           {/* <ReactMarkdown

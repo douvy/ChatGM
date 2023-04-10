@@ -4,6 +4,7 @@ import { router } from '../../server/trpc';
 // import { z } from 'zod';
 import { Configuration, OpenAIApi, ChatCompletionRequestMessage } from "openai";
 import pusher from '../../server/lib/pusher';
+import { Message } from '../../interfaces';
 
 const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
@@ -62,23 +63,16 @@ export const query = trpc.procedure.input((req: any) => {
 });
 
 export const queryPrompt = trpc.procedure.input((req: any) => {
-    console.log(req);
     return req;
 }).query(async ({ input }) => {
-    let { prompt } = input;
-    console.log(input);
-
-    console.log(input);
-    console.log(input);
-
-
+    let { role, content } = input;
     try {
         const completion = await openai.createChatCompletion({
             model: "gpt-3.5-turbo",
             messages: [
                 {
-                    role: prompt.role,
-                    content: prompt.content,
+                    role: role,
+                    content: content,
                 }
             ],
         });
@@ -95,7 +89,7 @@ export const generateName = trpc.procedure.input((req: any) => {
     return req;
 }).query(async ({ input }) => {
     try {
-        const conversation = input as Conversation;
+        const prompt = input as Message;
         const messages: ChatCompletionRequestMessage[] = conversation.messages.map(({ role, content }) => ({ role, content }));
         const nameRequestMessage: ChatCompletionRequestMessage = {
             role: "user",

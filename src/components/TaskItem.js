@@ -49,7 +49,7 @@ function TaskItem({ index, task, userInfo, setUserInfo }) {
           <span className="text-sm mb-1 inline-block name">{'sender'}</span> <br />
           <p className="text-xs inline-block absolute top-3 right-4 timestamp">
             <span className="message-direction">
-              {'Pending'}
+              {''}
               <i
                 className={`fa-regular fa-arrow-down-left fa-lg ml-1 mr-3 mt-2`}
               ></i>
@@ -57,7 +57,7 @@ function TaskItem({ index, task, userInfo, setUserInfo }) {
             {currentTimestamp}
             <i className={`fa-star ${false ? 'fa-solid' : 'fa-regular'} ml-2 cursor-pointer`} onClick={() => { }}></i>
             {true ? (
-              <i className="fa-solid fa-check w-5 h-5 ml-2"></i>
+              <i className="fa-solid  w-5 h-5 ml-2"></i>
             ) : (
               <i
                 className={`fa-light fa-copy w-5 h-5 ml-2 cursor-pointer`}

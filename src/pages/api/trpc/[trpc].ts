@@ -14,8 +14,8 @@ import { getToken } from "next-auth/jwt"
 // import { Session } from '../../../types/next-auth'
 
 export async function createContext(opts: CreateNextContextOptions) {
-  console.log("opts.request.headers", opts.req.headers);
-  console.log('cookie:', opts.req.headers.cookie);
+  // console.log("opts.request.headers", opts.req.headers);
+  // console.log('cookie:', opts.req.headers.cookie);
   const cookie = opts.req.headers.cookie;
   const { req } = opts;
   const { secret } = authOptions.jwt;

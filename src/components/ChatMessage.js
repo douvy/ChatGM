@@ -6,6 +6,7 @@ import { trpc } from '../utils/trpc';
 import copy from 'clipboard-copy';
 import { format, utcToZonedTime } from 'date-fns-tz';
 import botPusher from '../lib/botPusher';
+import { client } from '../trpc/client';
 
 function ChatMessage({ index, message, avatarSource, sender, updateState, setConversation, referencedMessage, onClick, userInfo }) {
   const [localMessage, setLocalMessage] = useState(message);
@@ -128,10 +129,11 @@ function ChatMessage({ index, message, avatarSource, sender, updateState, setCon
               ></i>
             )}
             {userInfo.enableChatGMBot && userInfo.telegramUserId && <i className="fa fa-telegram text-blue-500 w-5 h-5 ml-3"
-              onClick={((e) => {
-                e.preventDefault();
+              onClick={(async (e) => {
+                e.stopPropagation();
+                const response = await client.openai.queryPrompt.query(localMessage);
                 botPusher.channel?.trigger('client-message', {
-                  message: localMessage.content,
+                  message: response,
                   userId: userInfo.telegramUserId,
                 })
               })}></i>}

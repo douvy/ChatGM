@@ -7,11 +7,13 @@ import ChatWindow from '../components/ChatWindow';
 import SavedMessages from '../components/SavedMessages';
 import FeaturesView from '../components/FeaturesView';
 import Tasks from '../components/Tasks';
+import Notepad from '../components/Notepad';
 import ConversationsView from '../components/ConversationsView';
 // import ComponentBuilder from '../components/ComponentBuilder';
 import MyAccount from '../components/MyAccount';
 import ConversationMembers from '../components/ConversationMembers';
 import Topbar from '../components/Topbar';
+import Modal from '../components/Modal';
 import ActiveTask from '../components/ActiveTask';
 import { addInfiniteScroll } from '../utils/infiniteScroll';
 import { GetServerSideProps, NextPage } from 'next';
@@ -69,6 +71,10 @@ const Home: NextPage<PageProps> = (props) => {
   if (status === "authenticated") {
 
   }
+
+  const [content, setContent] = useState<any>(null);
+
+  const [modalOpen, setModalOpen] = useState(false);
 
   const [currentRoute, setCurrentRoute] = useState('/');
 
@@ -373,10 +379,12 @@ const Home: NextPage<PageProps> = (props) => {
           {userInfo.activeTaskId && <ActiveTask activeTask={activeTask} userInfo={userInfo} />}
 
           <Topbar conversation={conversation} userInfo={userInfo} addSystemMessage={addSystemMessage} />
+          {modalOpen && <Modal modalOpen={modalOpen} setModalOpen={setModalOpen} children={<></>} />}
           <main className="container mx-auto flex-1 mt-0">
             {currentRoute == '/' ? <ChatWindow conversationId={conversationId} conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} starredMessages={starredMessages} setStarredMessages={setStarredMessages} referencedMessage={referencedMessage} setReferencedMessage={setReferencedMessage} userInfo={userInfo} /> : null}
             {currentRoute == '/features' ? <FeaturesView passedFeatures={props.features}></FeaturesView> : null}
             {currentRoute == '/tasks' ? <Tasks userInfo={userInfo} setUserInfo={setUserInfo}></Tasks> : null}
+            {currentRoute == '/notepad' ? <Notepad content={content} setContent={setContent} userInfo={userInfo} setUserInfo={setUserInfo}></Notepad> : null}
             {currentRoute == '/features' ? <FeaturesView passedFeatures={props.features}></FeaturesView> : null}
             {currentRoute == '/myAccount' ? <MyAccount userInfo={userInfo} setUserInfo={setUserInfo}></MyAccount> : null}
             {currentRoute == '/conversations' ? <ConversationsView conversations={conversations} setConversations={setConversations}></ConversationsView> : null}
@@ -420,6 +428,7 @@ export const getServerSideProps: GetServerSideProps<any> = async (context) => {
   // const { conversations, starredMessages, features, tasks } = await response.json();
 
   const userInfo = (await client.users.get.query({ id: session.user.id }))
+  console.log("userInfo:", userInfo);
   const activeTask = userInfo?.activeTaskId && userInfo?.todoistApiKey ? await (async () => {
     if (userInfo.todoistApiKey == null) return;
     if (userInfo.activeTaskId == null) return;
