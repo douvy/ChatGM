@@ -1,9 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import ConversationLinkListItem from './ConversationLinkListItem';
+
+export function usePrevious(value) {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
+}
 
 function ConversationLinkList({ conversations, setConversation, activeConversation, activeConversationId, selectConversation, userInfo, newConversation, setConversations, currentRoute }) {
   const [isPersonalExpanded, setIsPersonalExpanded] = useState(conversations.filter((c) => c.participants?.length <= 1).length > 0);
   const [isGroupExpanded, setIsGroupExpanded] = useState(conversations.filter((c) => c.participants?.length > 1).length > 0);
+  const prevConversations = usePrevious(conversations);
 
   function removeConversation(conversation) {
     const updatedConversations = conversations.filter((t) => t.id !== conversation.id);
@@ -17,10 +26,10 @@ function ConversationLinkList({ conversations, setConversation, activeConversati
   }
 
   useEffect(() => {
-    if (!isPersonalExpanded && prevState.length < conversations.length) {
+    if (!isPersonalExpanded && prevConversations.length < conversations.length) {
       setIsPersonalExpanded(conversations.filter((c) => c.participants?.length <= 1).length > 0);
     }
-    if (!isGroupExpanded && prevState.length < conversations.length) {
+    if (!isGroupExpanded && prevConversations.length < conversations.length) {
       setIsGroupExpanded(conversations.filter((c) => c.participants?.length > 1).length > 0);
     }
   }, [conversations])
@@ -28,44 +37,44 @@ function ConversationLinkList({ conversations, setConversation, activeConversati
   return (
     <div className="overflow-y-auto" id="sidebar-top">
       <ul className="pl-3">
-      <div className="sticky-section">
-        <a href="#" onClick={newConversation} id="new-chat" className={!activeConversationId && currentRoute == '/'
-          ? "active" : ""}>
-          <li className="p-2 mt-2 pl-4">
-            <i className="fa-solid fa-arrow-up-right fa-lg"></i> New Chat
+        <div className="sticky-section">
+          <a href="#" onClick={newConversation} id="new-chat" className={!activeConversationId && currentRoute == '/'
+            ? "active" : ""}>
+            <li className="p-2 mt-2 pl-4">
+              <i className="fa-solid fa-arrow-up-right fa-lg"></i> New Chat
+            </li>
+          </a>
+          <a href="#">
+            <li className="p-2 pl-4 mb-3 mt-1">
+              <img src={userInfo.avatarSource || "/avatar.png"} className="w-7 h-7 rounded-full" />
+              <span className="ml-3">{userInfo?.username}</span>
+            </li>
+          </a>
+          <li className="p-2 pl-4 text-offwhite cursor-pointer" onClick={() => setIsPersonalExpanded(!isPersonalExpanded)}>
+            <i className={`fa-solid text-offwhite ${isPersonalExpanded ? 'fa-arrow-down pr-2' : 'fa-arrow-right pr-2'}`}></i> Personal
           </li>
-        </a>
-        <a href="#">
-          <li className="p-2 pl-4 mb-3 mt-1">
-            <img src={userInfo.avatarSource || "/avatar.png"} className="w-7 h-7 rounded-full" />
-            <span className="ml-3">{userInfo?.username}</span>
+          {isPersonalExpanded && (
+            <div className="max-h-[315px] overflow-y-auto">
+              <ul className="pl-0">
+                {conversations.filter((conversation) => conversation.participants?.length <= 1).map((conversation, index) => {
+                  return <ConversationLinkListItem key={index} index={index} selectConversation={selectConversation} conversation={conversation} isActive={activeConversationId == conversation.id} removeConversation={removeConversation} setConversation={setConversation} updateConversations={updateConversations} />
+                })}
+              </ul>
+            </div>
+          )}
+          <li className="p-2 pl-4 mt-1 text-offwhite cursor-pointer" onClick={() => setIsGroupExpanded(!isGroupExpanded)}>
+            <i className={`fa-solid text-offwhite ${isGroupExpanded ? 'fa-arrow-down pr-2' : 'fa-arrow-right pr-2'}`}></i> Group
           </li>
-        </a>
-        <li className="p-2 pl-4 text-offwhite cursor-pointer" onClick={() => setIsPersonalExpanded(!isPersonalExpanded)}>
-          <i className={`fa-solid text-offwhite ${isPersonalExpanded ? 'fa-arrow-down pr-2' : 'fa-arrow-right pr-2'}`}></i> Personal
-        </li>
-        {isPersonalExpanded && (
-          <div className="max-h-[315px] overflow-y-auto">
-            <ul className="pl-0">
-              {conversations.filter((conversation) => conversation.participants?.length <= 1).map((conversation, index) => {
-                return <ConversationLinkListItem key={index} index={index} selectConversation={selectConversation} conversation={conversation} isActive={activeConversationId == conversation.id} removeConversation={removeConversation} setConversation={setConversation} updateConversations={updateConversations} />
-              })}
-            </ul>
-          </div>
-        )}
-        <li className="p-2 pl-4 mt-1 text-offwhite cursor-pointer" onClick={() => setIsGroupExpanded(!isGroupExpanded)}>
-          <i className={`fa-solid text-offwhite ${isGroupExpanded ? 'fa-arrow-down pr-2' : 'fa-arrow-right pr-2'}`}></i> Group
-        </li>
-        {isGroupExpanded && (
-          <div className="max-h-[315px] overflow-y-auto">
-            <ul className="pl-0">
-              {conversations.filter((conversation) => conversation.participants?.length > 1).map((conversation, index) => {
-                return <ConversationLinkListItem key={index} index={index} selectConversation={selectConversation} conversation={conversation} isActive={activeConversationId == conversation.id} removeConversation={removeConversation} setConversation={setConversation} updateConversations={updateConversations} />
-              })}
-            </ul>
-          </div>
-        )}
-      </div>
+          {isGroupExpanded && (
+            <div className="max-h-[315px] overflow-y-auto">
+              <ul className="pl-0">
+                {conversations.filter((conversation) => conversation.participants?.length > 1).map((conversation, index) => {
+                  return <ConversationLinkListItem key={index} index={index} selectConversation={selectConversation} conversation={conversation} isActive={activeConversationId == conversation.id} removeConversation={removeConversation} setConversation={setConversation} updateConversations={updateConversations} />
+                })}
+              </ul>
+            </div>
+          )}
+        </div>
       </ul>
     </div>
   )
