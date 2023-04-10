@@ -4,6 +4,7 @@ import { subscribeToChannel } from "../lib/ably";
 import pusher from '../lib/pusher';
 import Pusher from 'pusher-js';
 import { client } from '../trpc/client';
+import { trpc } from '../utils/trpc';
 import TaskItem from './TaskItem';
 import ProjectListItem from './ProjectListItem';
 import { TodoistApi } from '@doist/todoist-api-typescript';
@@ -17,12 +18,20 @@ function Tasks({ userInfo, setUserInfo, c }) {
     const [tasks, setTasks] = useState([]);
     const [projects, setProjects] = useState([]);
     const [activeProject, setActiveProject] = useState(null);
-    // const setActiveTaskMutation = trpc.users.setActiveTask.useMutation();
-
+    const [activeTaskIndex, setActiveTaskIndex] = useState(null);
+    const setActiveTaskMutation = trpc.users.setActiveTask.useMutation();
     useEffect(() => {
-        switch (c) {
-            case '1':
-                setCurrentRoute('/tasks');
+        console.log("c.key", c.key);
+        switch (c.key) {
+            case 'ArrowUp':
+                if (activeTaskIndex > 0) {
+                    setActiveTask(tasks[activeTaskIndex - 1], activeTaskIndex - 1);
+                }
+                break;
+            case 'ArrowDown':
+                if (activeTaskIndex < tasks.length - 1) {
+                    setActiveTask(tasks[activeTaskIndex + 1], activeTaskIndex + 1);
+                }
                 break;
         }
     }, [c]);
@@ -57,7 +66,16 @@ function Tasks({ userInfo, setUserInfo, c }) {
         }).then((tasks) => setTasks(tasks)).catch((err) => console.log(err))
     }, [activeProject])
 
-
+    const setActiveTask = async (task, index) => {
+        const activeTaskId = task.id == userInfo.activeTaskId ? null : task.id;
+        setUserInfo({
+            ...userInfo,
+            activeTaskId: activeTaskId,
+            activeTaskSetAt: new Date(),
+        })
+        setActiveTaskIndex(index);
+        const updatedUser = await setActiveTaskMutation.mutateAsync(activeTaskId);
+    }
 
     // let messageEnd = null;
     // useEffect(() => {
@@ -91,6 +109,8 @@ function Tasks({ userInfo, setUserInfo, c }) {
                             task={task}
                             userInfo={userInfo}
                             setUserInfo={setUserInfo}
+                            setActiveTask={setActiveTask}
+                            setActiveTaskIndex={setActiveTaskIndex}
                         />
                     );
                 })}

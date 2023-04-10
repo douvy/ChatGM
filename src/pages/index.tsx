@@ -199,7 +199,7 @@ const Home: NextPage<PageProps> = (props) => {
   }, [session])
 
   useEffect(() => {
-    switch (props.c) {
+    switch (props.c?.key) {
       case 't':
         setCurrentRoute('/tasks');
         break;
@@ -389,7 +389,7 @@ const Home: NextPage<PageProps> = (props) => {
           <main className="container mx-auto flex-1 mt-0">
             {currentRoute == '/' ? <ChatWindow conversationId={conversationId} conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} starredMessages={starredMessages} setStarredMessages={setStarredMessages} referencedMessage={referencedMessage} setReferencedMessage={setReferencedMessage} userInfo={userInfo} /> : null}
             {currentRoute == '/features' ? <FeaturesView passedFeatures={props.features}></FeaturesView> : null}
-            {currentRoute == '/tasks' ? <Tasks userInfo={userInfo} setUserInfo={setUserInfo}></Tasks> : null}
+            {currentRoute == '/tasks' ? <Tasks userInfo={userInfo} setUserInfo={setUserInfo} c={props.c}></Tasks> : null}
             {currentRoute == '/notepad' ? <Notepad content={content} setContent={setContent} userInfo={userInfo} setUserInfo={setUserInfo} setDebuggerObject={setDebuggerObject}></Notepad> : null}
             {currentRoute == '/features' ? <FeaturesView passedFeatures={props.features}></FeaturesView> : null}
             {currentRoute == '/myAccount' ? <MyAccount userInfo={userInfo} setUserInfo={setUserInfo}></MyAccount> : null}

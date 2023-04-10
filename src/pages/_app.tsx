@@ -13,9 +13,11 @@ const App: AppType = ({ Component, pageProps }: AppProps) => {
 
   useEffect(() => {
     const handleKeyDown = (event: any) => {
-      console.log("Key pressed:", event.key);
+      console.log("Key pressed:", event.key, typeof event.key);
       if (typeof event.key == "string") {
-        setC(event.key);
+        setC({
+          key: event.key
+        });
       }
     };
 

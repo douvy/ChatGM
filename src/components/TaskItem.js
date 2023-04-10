@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
-import { trpc } from '../utils/trpc';
 import copy from 'clipboard-copy';
 
-function TaskItem({ index, task, userInfo, setUserInfo }) {
-  const setActiveTaskMutation = trpc.users.setActiveTask.useMutation();
+function TaskItem({ index, task, userInfo, setUserInfo, setActiveTask, setActiveTaskIndex }) {
 
+  if (task.id == userInfo.activeTaskId) {
+    setActiveTaskIndex(index);
+  }
   const currentTimestamp = new Date().toLocaleString('en-US', {
     timeZone: 'America/New_York',
     hour: 'numeric',
@@ -34,21 +35,11 @@ function TaskItem({ index, task, userInfo, setUserInfo }) {
     ),
   };
 
-  const setActiveTask = async () => {
-    const activeTaskId = task.id == userInfo.activeTaskId ? null : task.id;
-    const updatedUser = await setActiveTaskMutation.mutateAsync(activeTaskId);
-    setUserInfo({
-      ...userInfo,
-      activeTaskId: activeTaskId,
-      activeTaskSetAt: updatedUser.activeTaskSetAt
-    })
-  }
-
   return (
     <div className="w-full box cursor-pointer" onClick={() => {
-      setActiveTask(task.id);
+      setActiveTask(task, index);
     }}>
-      <div className={`message p-4 pt-4 relative ${task.id == userInfo.activeTaskId ? 'active' : ''}`}>
+      <div className={`message p-4 pt-4 relative ${task.id == userInfo.activeTaskId ? '!bg-blue-900' : ''}`}>
         <img src={'avatar.png'} alt="Avatar" className="w-9 h-9 rounded-full absolute left-4 top-2" />
         <div className="pl-16 pt-0">
           <span className="text-sm mb-1 inline-block name">{'Task'}</span> <br />
