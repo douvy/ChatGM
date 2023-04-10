@@ -186,7 +186,7 @@ function ChatMessage({ index, message, avatarSource, sender, updateState, setCon
                       updateMessageMutation.mutate(localMessage);
                       setEditingMessage(false);
                       updateState(index, localMessage, true);
-                    }} className="font-semibold uppercase editing-message-save">
+                    }} className="editing-message-save px-6 py-2 text-xs font-semibold uppercase tracking-wide transition-colors duration-200 border rounded border-transparent text-white btn-gray bg-transparent">
                       Save & Submit
                     </button>
                   </span>
@@ -198,7 +198,7 @@ function ChatMessage({ index, message, avatarSource, sender, updateState, setCon
                         ...localMessage,
                         content: message.content,
                       })
-                    }} className="font-semibold uppercase p-1 editing-message-cancel">
+                    }} className="font-semibold text-xs uppercase p-1 editing-message-cancel bg-transparent">
                       Cancel
                     </button>
                   </span>

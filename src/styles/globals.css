@@ -244,15 +244,17 @@ form button.saved:hover {
 
 form button.editing-message-save,
 form button.editing-message-save:hover {
-  background: green !important;
-  border: green !important;
+  background: #21262D !important;
+  height: 35px;
+  border: 2px solid #363B42 !important;
 }
 
 form button.editing-message-cancel,
 form button.editing-message-cancel:hover {
-  background: white !important;
-  border: white !important;
-  color: black;
+  background: transparent !important;
+  height: 35px;
+  border: #e85a40 1px solid !important;
+  color: #e85a40;
 }
 
 .toggle-switch {
