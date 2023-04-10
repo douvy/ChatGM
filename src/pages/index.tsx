@@ -26,7 +26,7 @@ import { client } from '../trpc/client';
 import { trpc } from '../utils/trpc';
 import { Conversation, Message } from '../interfaces';
 import { TodoistApi } from '@doist/todoist-api-typescript';
-
+import { Card } from "flowbite-react";
 
 interface InitialProps {
   conversations: Conversation[]
@@ -53,6 +53,7 @@ interface PageProps {
   tasks?: any[],
   userInfo: any,
   activeTask: any,
+  c: any,
 }
 
 interface ChannelData {
@@ -196,21 +197,26 @@ const Home: NextPage<PageProps> = (props) => {
       senderId: session?.user?.id || 0
     })
   }, [session])
-  // useEffect(() => {
-  //   if (conversation.messages.length == 1) {
-  //     alert("one message");
-  //   }
-  //   alert(Boolean(!conversation.id && conversation.messages.length == 1));
-  //   // alert(JSON.stringify(conversation));
-  // }, [conversation]);
 
-  // useEffect(() => {
-  //   // Fetch the conversations data from an API
-  //   fetch('/api/getConversations')
-  //     .then(response => response.json())
-  //     .then(data => setConversations(data))
-  //     .catch(error => console.error(error));
-  // }, []);
+  useEffect(() => {
+    switch (props.c) {
+      case 't':
+        setCurrentRoute('/tasks');
+        break;
+      case 'n':
+        setCurrentRoute('/notepad');
+        break;
+      case 'p':
+        setCurrentRoute('/savedPrompts');
+        break;
+      case 'r':
+        setCurrentRoute('/savedResponses');
+        break;
+      case 'c':
+        newConversation();
+        break;
+    }
+  }, [props.c]);
 
   const scrollContainer = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -219,8 +225,8 @@ const Home: NextPage<PageProps> = (props) => {
 
   const lastMessage = useRef<HTMLDivElement>(null);
 
-  const newConversation = (e: Event) => {
-    e.preventDefault();
+  const newConversation = (e?: Event) => {
+    e?.preventDefault();
     setConversation({
       messages: [],
       isActive: true,
