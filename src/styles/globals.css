@@ -70,6 +70,9 @@ html {
 .text-gray {
   color: #7E8490;
 }
+.text-yellow, .message .text-yellow {
+  color: #FEE77E;
+}
 .text-orange {
   color: #FF9A13;
 }
