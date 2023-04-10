@@ -55,6 +55,9 @@ html {
 .text-blue {
   color: #5497FF;
 }
+.text-lightblue {
+  color: #a0c5fe !important;
+}
 
 .text-purple {
   color: #AA6EFE;
@@ -537,7 +540,7 @@ form input {
 }
 
 form textarea {
-  border-radius: 2px;
+  border-radius: 3px;
   border-color: #4D4D4D;
   border: 1px solid #30363D;
   height: 45px;

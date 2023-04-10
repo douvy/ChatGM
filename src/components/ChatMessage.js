@@ -128,7 +128,7 @@ function ChatMessage({ index, message, avatarSource, sender, updateState, setCon
                 }}
               ></i>
             )}
-            {userInfo.enableChatGMBot && userInfo.telegramUserId && <i className="fa fa-telegram text-blue-500 w-5 h-5 ml-3"
+            {userInfo.enableChatGMBot && userInfo.telegramUserId && <i className="fa fa-telegram text-lightblue w-5 h-5 ml-3"
               onClick={(async (e) => {
                 e.stopPropagation();
                 const response = await client.openai.queryPrompt.query(localMessage);
