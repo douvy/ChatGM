@@ -7,6 +7,7 @@ import { z } from 'zod';
 import pusher from '../../server/lib/pusher';
 import { getSession } from 'next-auth/react';
 import { procedure } from '../../server/trpc'
+import { Message } from '../../interfaces';
 
 export const query = trpc.procedure.query(async () => {
   const conversations =
@@ -70,7 +71,7 @@ export const createConversation = trpc.procedure.input((req: any) => {
     data: {
       messages: {
         createMany: {
-          data: messages,
+          data: messages.map(({ sender, ...rest }: Message) => rest),
         },
       },
       participants: {

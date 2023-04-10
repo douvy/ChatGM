@@ -95,7 +95,7 @@ function ChatMessage({ index, message, avatarSource, sender, updateState, setCon
     cursorPositionRef.current = window.getSelection().getRangeAt(0).startOffset;
   };
 
-  const sentFrom = sender.username ? sender.username : sender.role;
+  const sentFrom = sender.username ? sender.username : message.role;
 
   return (
     <div className="w-full box cursor-pointer"

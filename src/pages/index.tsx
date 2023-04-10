@@ -161,6 +161,26 @@ const Home: NextPage<PageProps> = (props) => {
     if (conversation != null) {
       setCurrentRoute('/');
     }
+
+    if (!conversation.id) {
+      // don't add conversations without ids
+      return;
+    }
+
+    // update conversations for sidebar
+    let found = false;
+    const updatedConversations = conversations.map((conv) => {
+      if (conv.id == conversation.id) {
+        found = true;
+        return conversation;
+      }
+      return conv;
+    });
+    if (!found) {
+      setConversations([conversation, ...conversations]);
+    } else {
+      setConversations(updatedConversations);
+    }
   }, [conversation]);
 
   useEffect(() => {
@@ -213,7 +233,6 @@ const Home: NextPage<PageProps> = (props) => {
   }
 
   const addSystemMessage = async (message: string) => {
-    setDebuggerObject("addSystemMessage");
     conversation.messages.push({
       role: "system",
       content: message,
@@ -223,42 +242,60 @@ const Home: NextPage<PageProps> = (props) => {
       ...conversation,
     }));
     const updatedConversation = await updateConversationMessagesMutation.mutateAsync(conversation);
-    setDebuggerObject(updatedConversation);
     return updatedConversation;
+  }
+
+  const resetMessage = () => {
+    setMessage({
+      role: "user",
+      content: "",
+      avatarSource: "avatar.png",
+      sender: session?.user as User,
+      senderId: session?.user.id || 0,
+    })
+  }
+
+  const setPlaceholderMessage = (message: Message, conversation: Conversation) => {
+    setConversation({
+      ...conversation,
+      messages: [...conversation.messages, message]
+    });
   }
 
   const sendMessage = async () => {
     if (newMessage.content.startsWith("@") && conversation.id) {
       console.log("@");
+      let handle = newMessage.content.split(" ")[0].substring(1);
+      resetMessage();
       let updatedConversation = await client.conversations.addParticipant.mutate(
         {
           conversationId: conversation.id,
-          participantUsername: newMessage.content.split(" ")[0].substring(1),
+          participantUsername: handle
         }
       )
 
       updatedConversation = await addSystemMessage(`Added ${newMessage.content.split(" ")[0].substring(1)} to the conversation.`);
-      setDebuggerObject(updatedConversation);
+      // setDebuggerObject(updatedConversation);
       return updateConversations;
     }
     appendMessage(newMessage);
-    setMessage({
-      role: "user",
-      content: "",
-      avatarSource: "avatar.png",
-      senderId: user.id || 0,
-    })
+    resetMessage();
     var updatedConversation = conversation as PrismaConversation;
+    var updatedConversations;
     if (!conversation.id) {
       updatedConversation = await client.conversations.create.query(conversation);
-      setConversations([updatedConversation as Conversation, ...conversations]);
+      setPlaceholderMessage({
+        role: "systen",
+        content: "Generating name...",
+        avatarSource: "avatar-chat.png",
+      }, updatedConversation as Conversation);
+      // setConversations([updatedConversation as Conversation, ...conversations]);
       updatedConversation = await client.openai.generateName.query((updatedConversation)) || updatedConversation;
-      setConversations([updatedConversation as Conversation, ...conversations]);
+      // setConversations([updatedConversation as Conversation, ...conversations]);
       setConversation({
         ...conversation,
         name: updatedConversation.name || conversation.name
       });
-      setConversationId(updatedConversation.id);
     } else {
       updatedConversation = await client.messages.create.query(({
         ...newMessage,
@@ -266,21 +303,17 @@ const Home: NextPage<PageProps> = (props) => {
       })) as PrismaConversation;
     }
 
-    // const placeholderResponse = {
-    //   role: "assistant",
-    //   content: ".",
-    //   avatarSource: "avatar-chat.png",
-    //   sender: "ChatGPT-3.5",
-    // };
-    // setConversation({
-    //   ...updatedConversation,
-    //   messages: [...updatedConversation.messages, placeholderResponse]
-    // });
+    setPlaceholderMessage({
+      role: "assistant",
+      content: "<span className='spinner'></span>",
+      avatarSource: "avatar-chat.png",
+    }, updatedConversation as Conversation);
+
     // const interval = setInterval(() => {
     //   placeholderResponse.content += '.';
     //   setConversation({
-    //     ...updatedConversation,
-    //     messages: [...updatedConversation.messages, placeholderResponse]
+    //     ...settableUpdatedConversation,
+    //     messages: [...settableUpdatedConversation.messages, placeholderResponse]
     //   });
     // }, 100);
 
@@ -291,7 +324,10 @@ const Home: NextPage<PageProps> = (props) => {
       ...updatedConversation as Conversation,
       messages: (updatedConversation as Conversation).messages,
     });
-    setConversations(conversations.map((c) => c.id == updatedConversation.id ? updatedConversation as Conversation : c));
+    // setConversations(conversations.map((c) => c.id == updatedConversation.id ? updatedConversation as Conversation : c));
+    if (!conversationId) {
+      setConversationId(updatedConversation.id);
+    }
   };
 
   const updateConversations = (updatedConversation: Conversation, index: number) => {

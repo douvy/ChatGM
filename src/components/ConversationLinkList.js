@@ -6,7 +6,8 @@ function ConversationLinkList({ conversations, setConversation, activeConversati
   const [isGroupExpanded, setIsGroupExpanded] = useState(conversations.filter((c) => c.participants?.length > 1).length > 0);
 
   function removeConversation(conversation) {
-    setConversations(conversations.filter((t) => t.id !== conversation.id));
+    const updatedConversations = conversations.filter((t) => t.id !== conversation.id);
+    setConversations(updatedConversations);
   }
 
   function updateConversations(updatedConversation) {
@@ -26,7 +27,7 @@ function ConversationLinkList({ conversations, setConversation, activeConversati
         </a>
         <a href="#">
           <li className="p-2 pl-4 mb-3 mt-1">
-             <img src={userInfo.avatarSource || "/avatar.png"} className="w-7 h-7 rounded-full" />
+            <img src={userInfo.avatarSource || "/avatar.png"} className="w-7 h-7 rounded-full" />
             <span className="ml-3">{userInfo?.username}</span>
           </li>
         </a>

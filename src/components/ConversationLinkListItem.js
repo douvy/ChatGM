@@ -15,7 +15,8 @@ function ConversationLinkListItem({ conversation, setConversation, isActive, sel
     selectConversation(conversation);
   }
 
-  const handleDelete = async () => {
+  const handleDelete = async (e) => {
+    e.stopPropagation();
     try {
       const response = await deleteConversationMutation.mutate(conversation.id);
       console.log("delete response:", response);
