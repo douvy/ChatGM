@@ -12,17 +12,17 @@ const App: AppType = ({ Component, pageProps }: AppProps) => {
   const [c, setC] = React.useState<string | null>(null);
 
   useEffect(() => {
-    const handleKeyPress = (event: any) => {
+    const handleKeyDown = (event: any) => {
       console.log("Key pressed:", event.key);
       if (typeof event.key == "string") {
         setC(event.key);
       }
     };
 
-    document.addEventListener("keydown", handleKeyPress);
+    document.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      document.removeEventListener("keydown", handleKeyPress);
+      document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
 

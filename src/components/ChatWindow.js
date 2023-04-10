@@ -65,6 +65,7 @@ function ChatWindow({ conversationId, conversation, setConversation, newMessage,
     }, [conversationId]);
 
     function handleKeyDown(event) {
+        event.stopPropagation();
         if (event.key === 'Enter' && !event.shiftKey) {
             event.preventDefault();
             sendMessage();
