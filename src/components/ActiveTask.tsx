@@ -23,7 +23,7 @@ const ActiveTask: React.FC<ActiveTaskProps> = ({ activeTask }) => {
                     <div
                     // onClick={() => setIsMembersExpanded(!isMembersExpanded)}
                     >
-                        <h1>{activeTask.content}</h1>
+                        <h1 className="text-sm">{activeTask.content}</h1>
                         <h2>
                             <ReactMarkdown
                                 children={activeTask.description} /></h2>
