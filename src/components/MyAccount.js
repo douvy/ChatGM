@@ -159,7 +159,7 @@ function MyAccount({ userInfo, setUserInfo }) {
                   <p className="flex items-center justify-start gap-2 px-0.5">Username*</p>
                 </div>
                 <div className="relative">
-                  <input type="text" value={localUserInfo.username} onChange={updateUsernameValue} className="h-10 w-full border-2 bg-dark-gray py-2 px-4 text-sm outline-none bg-transparent text-white" name="username" id="username" />
+                  <input type="text" value={localUserInfo.username} onChange={updateUsernameValue} className="h-10 w-full border-1 bg-dark-gray py-2 px-4 text-sm outline-none bg-transparent text-white" name="username" id="username" />
                 </div>
               </label>
             </div>
@@ -199,7 +199,7 @@ function MyAccount({ userInfo, setUserInfo }) {
                   <p className="flex items-center justify-start gap-2 px-0.5 tracking-wide">Todoist API key</p>
                 </div>
                 <div className="relative">
-                  <input type="text" value={localUserInfo.todoistApiKey} onChange={updateTodoistApiKeyValue} className="h-10 w-full border-2 bg-dark-gray py-2 px-4 text-sm outline-none bg-transparent text-white" name="todoist-api" id="todoist-api" />
+                  <input type="text" value={localUserInfo.todoistApiKey} onChange={updateTodoistApiKeyValue} className="h-10 w-full border-1 bg-dark-gray py-2 px-4 text-sm outline-none bg-transparent text-white" name="todoist-api" id="todoist-api" />
                 </div>
               </label>
             </div>
