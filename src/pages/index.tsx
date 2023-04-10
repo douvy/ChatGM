@@ -11,6 +11,7 @@ import ConversationsView from '../components/ConversationsView';
 // import ComponentBuilder from '../components/ComponentBuilder';
 import MyAccount from '../components/MyAccount';
 import ConversationMembers from '../components/ConversationMembers';
+import Topbar from '../components/Topbar';
 import ActiveTask from '../components/ActiveTask';
 import { addInfiniteScroll } from '../utils/infiniteScroll';
 import { GetServerSideProps, NextPage } from 'next';
@@ -371,7 +372,7 @@ const Home: NextPage<PageProps> = (props) => {
         <div className="flex flex-col h-full w-full lg:ml-[225px]">
           {userInfo.activeTaskId && <ActiveTask activeTask={activeTask} userInfo={userInfo} />}
 
-          {currentRoute == '/' && <ConversationMembers conversation={conversation} userInfo={userInfo} />}
+          <Topbar conversation={conversation} userInfo={userInfo} />
           <main className="container mx-auto flex-1 mt-0">
             {currentRoute == '/' ? <ChatWindow conversationId={conversationId} conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} starredMessages={starredMessages} setStarredMessages={setStarredMessages} referencedMessage={referencedMessage} setReferencedMessage={setReferencedMessage} userInfo={userInfo} /> : null}
             {currentRoute == '/features' ? <FeaturesView passedFeatures={props.features}></FeaturesView> : null}
