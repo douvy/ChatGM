@@ -26,7 +26,7 @@ function ConversationLinkList({ conversations, setConversation, activeConversati
         </a>
         <a href="#">
           <li className="p-2 pl-4 mb-3 mt-1">
-            <img src="/avatar.png" className="w-7 h-7 rounded-full" />
+             <img src={userInfo.avatarSource || "/avatar.png"} className="w-7 h-7 rounded-full" />
             <span className="ml-3">{userInfo?.username}</span>
           </li>
         </a>
