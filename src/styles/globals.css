@@ -168,7 +168,7 @@ form input {
   margin-top: 3px !important;
 }
 .message {
-  background-color: #161B22;
+  background-color: #0C1117;
   border-bottom: 1px solid #2F363C;
   border-left: 1px solid #2F363C;
   border-right: 1px solid #2F363C;
@@ -194,7 +194,7 @@ form input {
 }*/
 
 nav {
-  background-color: #161B22;
+  background-color: #0D1116;
   border-right: 1px solid #2F363C;
 }
 
@@ -211,7 +211,7 @@ nav li {
 
 a:hover li,
 .active li {
-  background: #2E3034 !important;
+  background: #21262D !important;
 }
 
 .last {
@@ -356,7 +356,9 @@ hr {
 .tracking-wide {
   letter-spacing: .12em;
 }
-
+.hover-dark:hover {
+  background: #21262D;
+}
 ::-webkit-scrollbar {
   width: 4px;
   height: 4px;
@@ -387,6 +389,7 @@ hr {
 
 #sidebar-top {
   height: 425px;
+  background: #0D1116;
 }
 
 #sidebar-top::-webkit-scrollbar {
@@ -415,7 +418,7 @@ hr {
   border-top: 1px solid #2F363C;
 }
 #top-nav {
-  background: #161B22;
+  background: #0D1116;
   border: 1px solid #2F363C;
   font-size: 14px;
   margin-left: 3px;

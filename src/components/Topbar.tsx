@@ -37,7 +37,7 @@ const Topbar: React.FC<TopbarProps> = ({ conversation, userInfo, addSystemMessag
                 <div className="absolute mt-14 pl-4" id="members">
                     <ul className="pl-0">
                         {conversation.participants?.map((participant) => (
-                            <li className="group cursor-pointer hover:bg-gray-700 items-center space-x-2 p-2 pl-1" key={`${conversation.id}/${participant.id}`}>
+                            <li className="group cursor-pointer hover-dark rounded items-center space-x-2 p-2 pl-1" key={`${conversation.id}/${participant.id}`}>
                                 {participant.avatarSource ? <img src={participant.avatarSource} className="rounded-full h-6 w-6 mr-1" /> :
                                     <div className={`h-4 w-4 rounded-full ${participant.id == conversation.creatorId ? 'bg-yellow' : 'bg-green-bright'} mr-1`}>
                                     </div>}
