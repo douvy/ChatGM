@@ -225,6 +225,40 @@ export const addParticipant = procedure.use(({ next, ctx }) => {
   return conversation;
 })
 
+export const removeParticipant = procedure.use(({ next, ctx }) => {
+  return next({
+    ctx: ctx
+  });
+}).input(
+  z.object({
+    conversationId: z.number(),
+    participantUsername: z.string(),
+  }),
+).mutation(async ({ ctx, input }) => {
+  const { conversationId, participantUsername } = input;
+  const { session } = ctx;
+
+  if (!session) throw new Error("Not authenticated");
+  if (!session.user) throw new Error("No user on session");
+  const conversation = await prisma.conversation.update({
+    where: {
+      ownedConversation: {
+        id: conversationId,
+        ownerId: session.user.id,
+      }
+    },
+    data: {
+      participants: {
+        disconnect: {
+          username: participantUsername
+        }
+      }
+    }
+  });
+
+  return conversation;
+})
+
 export const deleteConversation = trpc.procedure.input((req) => {
   return req;
 }).mutation(async ({ input }) => {
@@ -243,5 +277,6 @@ export const conversationsRouter = router({
   updateName: updateName,
   updateMessages: updateMessages,
   addParticipant: addParticipant,
+  removeParticipant: removeParticipant,
   delete: deleteConversation,
 });

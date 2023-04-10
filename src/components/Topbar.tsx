@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { Conversation } from '../interfaces';
+import { trpc } from '../utils/trpc';
 
-interface ConversationMembersProps {
+interface TopbarProps {
     conversation: Conversation,
     userInfo: any,
+    addSystemMessage: (...args: any) => Promise<any>
 }
 
-const ConversationMembers: React.FC<ConversationMembersProps> = ({ conversation, userInfo }) => {
+const Topbar: React.FC<TopbarProps> = ({ conversation, userInfo, addSystemMessage }) => {
     const [isMembersExpanded, setIsMembersExpanded] = useState(true);
-
+    const removeParticipantMutation = trpc.conversations.removeParticipant.useMutation();
 
     return (
         <>
@@ -35,11 +37,21 @@ const ConversationMembers: React.FC<ConversationMembersProps> = ({ conversation,
                 <div className="absolute mt-14 pl-4" id="members">
                     <ul className="pl-0">
                         {conversation.participants?.map((participant) => (
-                            <li className="flex items-center space-x-2 p-2 pl-1" key={`${conversation.id}/${participant.id}`}>
+                            <li className="group cursor-pointer hover:bg-gray-700 items-center space-x-2 p-2 pl-1" key={`${conversation.id}/${participant.id}`}>
                                 {participant.avatarSource ? <img src={participant.avatarSource} className="rounded-full h-6 w-6 mr-1" /> :
                                     <div className={`h-4 w-4 rounded-full ${participant.id == conversation.creatorId ? 'bg-yellow' : 'bg-green-bright'} mr-1`}>
                                     </div>}
                                 <span className="text-offwhite">{participant.username} {participant.id == conversation.creatorId ? '(creator)' : ''}</span>
+                                {participant.id != userInfo.id && <div className="pl-4 pt-1 group-hover:block hidden flex items-center float-right background-orange-300">
+                                    <i className="fa-light fa-close float-right hover:font-bold" onClick={async () => {
+                                        let updatedConversation = await removeParticipantMutation.mutateAsync({
+                                            conversationId: conversation.id as number,
+                                            participantUsername: participant.username,
+                                        });
+                                        updatedConversation = await addSystemMessage(`${userInfo.username} removed ${participant.username} from the conversation.`);
+                                        console.log(updatedConversation);
+                                    }} />
+                                </div>}
                             </li>
                         ))}
                     </ul>
@@ -49,4 +61,4 @@ const ConversationMembers: React.FC<ConversationMembersProps> = ({ conversation,
     );
 };
 
-export default ConversationMembers;
+export default Topbar;

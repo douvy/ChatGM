@@ -276,7 +276,7 @@ const Home: NextPage<PageProps> = (props) => {
         }
       )
 
-      updatedConversation = await addSystemMessage(`Added ${newMessage.content.split(" ")[0].substring(1)} to the conversation.`);
+      updatedConversation = await addSystemMessage(`${userInfo.username} added ${newMessage.content.split(" ")[0].substring(1)} to the conversation.`);
       return updatedConversation;
     }
     appendMessage(newMessage);
@@ -372,7 +372,7 @@ const Home: NextPage<PageProps> = (props) => {
         <div className="flex flex-col h-full w-full lg:ml-[225px]">
           {userInfo.activeTaskId && <ActiveTask activeTask={activeTask} userInfo={userInfo} />}
 
-          <Topbar conversation={conversation} userInfo={userInfo} />
+          <Topbar conversation={conversation} userInfo={userInfo} addSystemMessage={addSystemMessage} />
           <main className="container mx-auto flex-1 mt-0">
             {currentRoute == '/' ? <ChatWindow conversationId={conversationId} conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} starredMessages={starredMessages} setStarredMessages={setStarredMessages} referencedMessage={referencedMessage} setReferencedMessage={setReferencedMessage} userInfo={userInfo} /> : null}
             {currentRoute == '/features' ? <FeaturesView passedFeatures={props.features}></FeaturesView> : null}
