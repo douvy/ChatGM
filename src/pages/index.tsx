@@ -84,6 +84,7 @@ const Home: NextPage<PageProps> = (props) => {
     role: "user",
     content: messageContent,
     avatarSource: "avatar.png",
+    sender: session?.user as User,
     senderId: session?.user?.id || 0,
   });
 
@@ -122,6 +123,10 @@ const Home: NextPage<PageProps> = (props) => {
   }
 
   const [activeTask, setActiveTask] = useState<any>(props.activeTask);
+
+  const [debuggerObject, setDebuggerObject] = useState<any>(null);
+
+  const updateConversationMessagesMutation = trpc.conversations.updateMessages.useMutation();
 
   useEffect(() => {
     if (userInfo.activeTaskId && userInfo.activeTaskId != activeTask.id) {
@@ -207,15 +212,33 @@ const Home: NextPage<PageProps> = (props) => {
     }));
   }
 
+  const addSystemMessage = async (message: string) => {
+    setDebuggerObject("addSystemMessage");
+    conversation.messages.push({
+      role: "system",
+      content: message,
+      avatarSource: "avatar.png",
+    });
+    setConversation((conversation) => ({
+      ...conversation,
+    }));
+    const updatedConversation = await updateConversationMessagesMutation.mutateAsync(conversation);
+    setDebuggerObject(updatedConversation);
+    return updatedConversation;
+  }
+
   const sendMessage = async () => {
     if (newMessage.content.startsWith("@") && conversation.id) {
       console.log("@");
-      const updatedConversation = await client.conversations.addParticipant.mutate(
+      let updatedConversation = await client.conversations.addParticipant.mutate(
         {
           conversationId: conversation.id,
           participantUsername: newMessage.content.split(" ")[0].substring(1),
         }
       )
+
+      updatedConversation = await addSystemMessage(`Added ${newMessage.content.split(" ")[0].substring(1)} to the conversation.`);
+      setDebuggerObject(updatedConversation);
       return updateConversations;
     }
     appendMessage(newMessage);
@@ -323,9 +346,9 @@ const Home: NextPage<PageProps> = (props) => {
             {/* {currentRoute == '/builder' ? <ComponentBuilder></ComponentBuilder> : null} */}
             {currentRoute == '/savedPrompts' ? <SavedMessages starredMessages={starredMessages} setStarredMessages={setStarredMessages} setReferencedMessage={setReferencedMessage} setConversationId={setConversationId} userInfo={userInfo} role='user'></SavedMessages> : null}
             {currentRoute == '/savedResponses' ? <SavedMessages starredMessages={starredMessages} setStarredMessages={setStarredMessages} setReferencedMessage={setReferencedMessage} setConversationId={setConversationId} userInfo={userInfo} role='assistant'></SavedMessages> : null}
-            <div className="mx-auto max-w-[760px] mt-3 md:mt-5 hidden">
-              <textarea className="w-full text-black" rows={10} defaultValue={JSON.stringify(conversation, null, 2)}></textarea>
-            </div>
+            {debuggerObject && <div className="mx-auto max-w-[760px] mt-3 md:mt-5">
+              <textarea className="w-full text-black" rows={10} defaultValue={JSON.stringify(debuggerObject, null, 2)}></textarea>
+            </div>}
           </main>
         </div>
       </div>

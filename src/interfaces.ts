@@ -6,7 +6,7 @@ export interface Message {
   content: string;
   avatarSource: string,
   sender?: User,
-  senderId: number
+  senderId?: number
 }
 
 export interface Conversation {

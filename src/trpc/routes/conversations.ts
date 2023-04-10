@@ -161,10 +161,15 @@ export const updateMessages = trpc.procedure.input((req: any) => {
         deleteMany: {
           NOT: {
             id: {
-              in: conversation.messages.map((message: any) => message.id),
+              in: conversation.messages
+                .filter((message: any) => message.id)
+                .map((message: any) => message.id),
             },
           },
         },
+        createMany: {
+          data: conversation.messages.filter((message: any) => !message.id),
+        }
       },
     },
     include: {

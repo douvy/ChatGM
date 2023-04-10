@@ -95,6 +95,8 @@ function ChatMessage({ index, message, avatarSource, sender, updateState, setCon
     cursorPositionRef.current = window.getSelection().getRangeAt(0).startOffset;
   };
 
+  const sentFrom = sender.username ? sender.username : sender.role;
+
   return (
     <div className="w-full box cursor-pointer"
       onMouseEnter={() => setShowEditIcon(message.role == 'user' && true)}
@@ -104,7 +106,7 @@ function ChatMessage({ index, message, avatarSource, sender, updateState, setCon
       <div className={`message p-4 pt-4 relative ${message.id == referencedMessage?.id ? 'active' : ''}`}>
         <img src={sender.avatarSource || 'avatar-chat.png'} alt="Avatar" className="w-9 h-9 rounded-full absolute left-4 top-2" />
         <div className="pl-16 pt-0">
-          <span className="text-sm mb-1 inline-block name">{sender.username}</span> <br />
+          <span className="text-sm mb-1 inline-block name">{sentFrom}</span> <br />
           <p className="text-xs inline-block absolute top-3 right-4 timestamp">
             <span className="message-direction">
               {sender == 'ChatGPT-3.5' ? 'Received' : (message.inProgress ? 'Typing...' : 'Sent')}
