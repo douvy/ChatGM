@@ -175,6 +175,13 @@ export const updateMessages = trpc.procedure.input((req: any) => {
     },
     include: {
       messages: true,
+      participants: {
+        select: {
+          id: true,
+          username: true,
+          avatarSource: true
+        }
+      },
     },
   });
   console.log("updatedConversation:", updatedConversation);

@@ -236,12 +236,13 @@ const Home: NextPage<PageProps> = (props) => {
     conversation.messages.push({
       role: "system",
       content: message,
-      avatarSource: "avatar.png",
+      avatarSource: "avatar-chat-gray.png",
     });
     setConversation((conversation) => ({
       ...conversation,
     }));
     const updatedConversation = await updateConversationMessagesMutation.mutateAsync(conversation);
+    setConversation(updatedConversation as Conversation);
     return updatedConversation;
   }
 
@@ -275,8 +276,7 @@ const Home: NextPage<PageProps> = (props) => {
       )
 
       updatedConversation = await addSystemMessage(`Added ${newMessage.content.split(" ")[0].substring(1)} to the conversation.`);
-      // setDebuggerObject(updatedConversation);
-      return updateConversations;
+      return updatedConversation;
     }
     appendMessage(newMessage);
     resetMessage();
@@ -287,7 +287,7 @@ const Home: NextPage<PageProps> = (props) => {
       setPlaceholderMessage({
         role: "systen",
         content: "Generating name...",
-        avatarSource: "avatar-chat.png",
+        avatarSource: "avatar-chat-gray.png",
       }, updatedConversation as Conversation);
       // setConversations([updatedConversation as Conversation, ...conversations]);
       updatedConversation = await client.openai.generateName.query((updatedConversation)) || updatedConversation;

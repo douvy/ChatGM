@@ -127,7 +127,7 @@ function ChatWindow({ conversationId, conversation, setConversation, newMessage,
                             key={conversation.id + index}
                             index={index}
                             message={message}
-                            avatarSource={message.role == "user" ? message.avatarSource : "avatar-chat.png"}
+                            avatarSource={message.avatarSource}
                             sender={message.role == "user" ? (message.sender || userInfo) : "ChatGPT-3.5"}
                             received={true}
                             updateState={updateConversation}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ConversationLinkListItem from './ConversationLinkListItem';
 
 function ConversationLinkList({ conversations, setConversation, activeConversation, activeConversationId, selectConversation, userInfo, newConversation, setConversations, currentRoute }) {
@@ -15,6 +15,15 @@ function ConversationLinkList({ conversations, setConversation, activeConversati
       ...conversations.map((conversation) => { return conversation.id === updatedConversation.id ? updatedConversation : conversation })
     ])
   }
+
+  useEffect(() => {
+    if (!isPersonalExpanded && prevState.length < conversations.length) {
+      setIsPersonalExpanded(conversations.filter((c) => c.participants?.length <= 1).length > 0);
+    }
+    if (!isGroupExpanded && prevState.length < conversations.length) {
+      setIsGroupExpanded(conversations.filter((c) => c.participants?.length > 1).length > 0);
+    }
+  }, [conversations])
 
   return (
     <div className="overflow-y-auto" id="sidebar-top">
