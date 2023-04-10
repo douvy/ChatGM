@@ -41,7 +41,7 @@ const Topbar: React.FC<TopbarProps> = ({ conversation, userInfo, addSystemMessag
                 setIsAvatarDropdownOpen(false); // Close avatar dropdown
               }}
             >
-              <i className="fa-regular fa-bell fa-lg mr-2 "></i>
+              <i className="fa-regular fa-bell fa-xl mr-2 pt-3"></i>
             </button>
             {isBellDropdownOpen && (
               <div className="absolute right-0 mt-8 w-48 bg-dark border-gray-light rounded-md shadow-lg z-100 dropdown-container bell">
@@ -96,7 +96,7 @@ const Topbar: React.FC<TopbarProps> = ({ conversation, userInfo, addSystemMessag
                 setIsBellDropdownOpen(false); // Close bell dropdown
               }}
             >
-              <img src={userInfo.avatarSource || "/avatar.png"} className="rounded-full w-6 h-6" />
+              <img src={userInfo.avatarSource || "/avatar.png"} className="rounded-full w-7 h-7 mr-2.5" />
             </button>
             {isAvatarDropdownOpen && (
               <div className="absolute right-0 mt-8 w-48 bg-dark border-gray-light rounded-md shadow-lg z-100 dropdown-container">
@@ -126,7 +126,7 @@ const Topbar: React.FC<TopbarProps> = ({ conversation, userInfo, addSystemMessag
                     <ul className="pl-0">
                         {conversation.participants?.map((participant) => (
                             <li className="group cursor-pointer hover-dark rounded items-center space-x-2 p-2 pl-1" key={`${conversation.id}/${participant.id}`}>
-                                {participant.avatarSource ? <img src={participant.avatarSource} className="rounded-full h-6 w-6 mr-1" /> :
+                                {participant.avatarSource ? <img src={participant.avatarSource} className="rounded-full h-7 w-7 mr-1" /> :
                                     <div className={`h-4 w-4 rounded-full ${participant.id == conversation.creatorId ? 'bg-yellow' : 'bg-green-bright'} mr-1`}>
                                     </div>}
                                 <span className="text-offwhite">{participant.username} {participant.id == conversation.creatorId ? '(creator)' : ''}</span>
