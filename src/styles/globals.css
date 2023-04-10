@@ -157,6 +157,9 @@ h3 {
 .border-gray {
   border-color: #2F363C !important;
 }
+.border-gray-light {
+  border: 1px solid #30363D;
+}
 
 form {
   margin-top: 15px;
@@ -202,8 +205,10 @@ form input {
   background-color: #0C1117;
 }*/
 
-nav {
+#sidebar-top {
   background-color: #0D1116;
+}
+.br-1-gray {
   border-right: 1px solid #2F363C;
 }
 
@@ -366,7 +371,7 @@ hr {
   letter-spacing: .12em;
 }
 .hover-dark:hover {
-  background: #21262D;
+  background: #151e27;
 }
 ::-webkit-scrollbar {
   width: 4px;
@@ -432,6 +437,16 @@ hr {
   font-size: 14px;
   margin-left: 3px;
   border-left: none;
+}
+#top-nav .bell li:after {
+  display: block;
+  top: 0;
+  left: 0;
+  bottom: -1px;
+  width: 4px;
+  position: absolute;
+  content: "";
+  background-color: #7E8490;
 }
 
 .w-190 {
@@ -540,6 +555,9 @@ form input {
 
 .border-gray {
   border-color: #4D4D4D;
+}
+.border-gray-light {
+  border: 1px solid #30363D;
 }
 
 form textarea {
@@ -690,5 +708,11 @@ table th {
 
   #chat-form {
     margin-left: 0em;
+  }
+  #top-nav .dropdown-container {
+    width: 275px;
+  }
+  #top-nav .dropdown-container.bell {
+    width: 440px;
   }
 }
