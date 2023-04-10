@@ -106,7 +106,7 @@ export const generateName = trpc.procedure.input((req: any) => {
     return req;
 }).query(async ({ input }) => {
     try {
-        const prompt = input as Message;
+        const conversation = input as Conversation;
         const messages: ChatCompletionRequestMessage[] = conversation.messages.map(({ role, content }) => ({ role, content }));
         const nameRequestMessage: ChatCompletionRequestMessage = {
             role: "user",
