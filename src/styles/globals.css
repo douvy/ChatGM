@@ -45,7 +45,6 @@ html {
 .text-green {
   color: #79E8B3 !important;
 }
-
 .bg-green-bright {
   background: #25B84C;
 }
@@ -157,7 +156,17 @@ form {
 form input {
   border-radius: 4px;
 }
-
+.toggle-switch-checkbox:checked+.toggle-switch-label .toggle-switch-inner {
+  background: #299438 !important;
+}
+.toggle-switch-label {
+  background: #21262D !important;
+  border: 1px solid #363B42;
+}
+.toggle-switch-inner {
+  background: #7E8490 !important;
+  margin-top: 3px !important;
+}
 .message {
   background-color: #161B22;
   border-bottom: 1px solid #2F363C;
