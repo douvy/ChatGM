@@ -33,7 +33,7 @@ const Topbar: React.FC<TopbarProps> = ({ conversation, userInfo, addSystemMessag
                 </nav>
             </header>
             {/* Members dropdown content */}
-            {isMembersExpanded && (
+            {(conversation?.participants?.length || 0) > 1 && isMembersExpanded && (
                 <div className="absolute mt-14 pl-4" id="members">
                     <ul className="pl-0">
                         {conversation.participants?.map((participant) => (
