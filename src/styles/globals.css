@@ -237,8 +237,9 @@ form button.saving:hover {
 
 form button.saved,
 form button.saved:hover {
-  background: green !important;
-  border: green !important;
+  background: #40ca53 !important;
+  border: #40ca53 !important;
+  color: #0C1117;
 }
 
 form button.editing-message-save,
@@ -350,7 +351,7 @@ hr {
 }
 
 .tracking-wide {
-  letter-spacing: .08em;
+  letter-spacing: .12em;
 }
 
 ::-webkit-scrollbar {

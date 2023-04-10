@@ -31,7 +31,7 @@ function SignUpForm() {
             <h1 className="heading font-display text-title font-medium  uppercase mt-50 mb-30">Sign up for an account</h1>
                 {error && <div className="auth-error">{error}</div>}
                 <div className="auth-input-group mb-5">
-                    <label htmlFor="username" className="auth-input-label block font-bold mb-2 text-xs font-semibold uppercase italic text-white">
+                    <label htmlFor="username" className="auth-input-label block font-bold mb-2 font-semibold text-white">
                         Username:
                     </label>
                     <input
@@ -43,7 +43,7 @@ function SignUpForm() {
                     />
                 </div>
                 <div className="auth-input-group">
-                    <label htmlFor="password" className="auth-input-label block font-bold mb-2 text-xs font-semibold uppercase italic text-white">
+                    <label htmlFor="password" className="auth-input-label block font-bold mb-2 font-semibold text-white">
                         Password:
                     </label>
                     <input
@@ -51,7 +51,7 @@ function SignUpForm() {
                         id="password"
                         value={password}
                         onChange={(event) => setPassword(event.target.value)}
-                        className="auth-input-field w-full"
+                        className="auth-input-field w-full border-2"
                     />
                 </div>
                 <button type="submit" className="auth-button font-semibold w-full mt-5 mb-8 h-11">
