@@ -20,12 +20,12 @@ function Tasks({ userInfo, setUserInfo, c }) {
     // const setActiveTaskMutation = trpc.users.setActiveTask.useMutation();
 
     useEffect(() => {
-        switch (props.c) {
+        switch (c) {
             case '1':
                 setCurrentRoute('/tasks');
                 break;
         }
-    }, [props.c]);
+    }, [c]);
 
     if (projects.length == 0) {
         if (!userInfo.activeProjectId) {
@@ -57,15 +57,7 @@ function Tasks({ userInfo, setUserInfo, c }) {
         }).then((tasks) => setTasks(tasks)).catch((err) => console.log(err))
     }, [activeProject])
 
-    const setActiveTask = async () => {
-        // const activeTaskId = task.id == userInfo.activeTaskId ? null : task.id;
-        // const updatedUser = await setActiveTaskMutation.mutateAsync(activeTaskId);
-        // setUserInfo({
-        //     ...userInfo,
-        //     activeTaskId: activeTaskId,
-        //     activeTaskSetAt: updatedUser.activeTaskSetAt
-        // })
-    }
+
 
     // let messageEnd = null;
     // useEffect(() => {
@@ -88,7 +80,6 @@ function Tasks({ userInfo, setUserInfo, c }) {
                             setActiveProject={setActiveProject}
                             userInfo={userInfo}
                             setUserInfo={setUserInfo}
-                            setActiveTask={setActiveTask}
                         />
                     );
                 })}

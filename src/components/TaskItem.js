@@ -4,7 +4,6 @@ import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import { trpc } from '../utils/trpc';
 import copy from 'clipboard-copy';
-import { setActiveTask } from '@/trpc/routes/users';
 
 function TaskItem({ index, task, userInfo, setUserInfo }) {
   const setActiveTaskMutation = trpc.users.setActiveTask.useMutation();
