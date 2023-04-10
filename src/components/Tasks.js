@@ -48,7 +48,7 @@ function Tasks({ userInfo, setUserInfo }) {
     // }
     return (
         <div className="mx-auto max-w-[760px]">
-            <div className="p-4 overflow-y-auto" id="messages-box" ref={scrollContainer}>
+            <div className="overflow-y-auto" id="messages-box" ref={scrollContainer}>
                 {tasks.length == 0 && projects.map((project, index) => {
                     return (
                         <ProjectListItem

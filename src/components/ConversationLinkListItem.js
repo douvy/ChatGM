@@ -80,7 +80,7 @@ function ConversationLinkListItem({ conversation, setConversation, isActive, sel
               background: 'linear-gradient(90deg, #2E3034 100%, transparent)',
             }}
           >
-            {!editingMessage ? <i className="fa-solid fa-pen-to-square mr-2 ml-5 text-gray hover-offwhite" onClick={() => {
+            {!editingMessage ? <i className="fa-sharp fa-solid fa-pen-to-square mr-2 ml-5 text-gray hover-offwhite" onClick={() => {
               setEditingMessage(true);
             }}></i> : <i className="fa-solid fa-check mr-2 ml-5 text-gray hover-offwhite" onClick={updateConversation}></i>}
             <i className="fa-solid fa-trash text-gray hover-offwhite mr-2" onClick={handleDelete}></i>

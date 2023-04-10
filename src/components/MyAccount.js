@@ -292,7 +292,7 @@ function MyAccount({ userInfo, setUserInfo }) {
           </div>
           <button
             onClick={saveUserUpdates}
-            className={`${saveState == 'saved' ? 'saved' : (saveState == 'saving' ? 'saving' : '')} relative mt-6 px-6 py-2 text-xs font-semibold uppercase tracking-wide transition-colors duration-200 bg-transparent hover:text-black px-6 py-2`}
+            className={`${saveState == 'saved' ? 'saved' : (saveState == 'saving' ? 'saving' : '')} relative mt-6 px-6 py-2 text-xs font-semibold uppercase tracking-wide transition-colors duration-200 bg-transparent hover:text-black px-6 py-2 mb-8`}
           >                    {saveState == 'saved' ? 'Saved' : (saveState == 'saving' ? (<span className="spinner"></span>) : 'Save changes')}
           </button>
         </form>
