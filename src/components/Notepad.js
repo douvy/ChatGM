@@ -3,18 +3,23 @@ import 'react-quill/dist/quill.snow.css';
 import dynamic from 'next/dynamic';
 import { client } from '../trpc/client';
 import { trpc } from '../utils/trpc';
+import { marked } from 'marked';
 
 const ReactQuill = dynamic(() => import('react-quill'), {
     ssr: false
 });
 
-export default function TextEditor({ content, setContent, userInfo, setUserInfo }) {
+export default function TextEditor({ content, setContent, userInfo, setUserInfo, setDebuggerObject }) {
     const [editorHtml, setEditorHtml] = useState(content);
     const [note, setNote] = useState({
         content: '',
     });
+    const [queryString, setQueryString] = useState('');
+    const [runningQuery, setRunningQuery] = useState(false);
+    const [placeholderText, setPlaceholderText] = useState("Running query to GPT...");
     const timerRef = useRef(null);
     const updateNote = trpc.users.saveNote.useMutation();
+    const spinnerIcon = "<span className='spinner'></span>"
 
     if (!note.id) {
         client.users.getNote.query().then((note) => {
@@ -32,7 +37,6 @@ export default function TextEditor({ content, setContent, userInfo, setUserInfo 
     }, [note]);
 
     useEffect(() => {
-        console.log("note updated");
         clearTimeout(timerRef.current);
         timerRef.current = setTimeout(save, 1000);
 
@@ -42,6 +46,40 @@ export default function TextEditor({ content, setContent, userInfo, setUserInfo 
 
     }, [note]);
 
+    useEffect(() => {
+        console.log(queryString, note.content);
+        if (queryString.startsWith('{') &&
+            queryString.endsWith('}') &&
+            note.content.includes(queryString) &&
+            !runningQuery) {
+            const query = queryString.replace(/\{(.+?)\}/g, "$1");
+            const updatedContent = note.content.replace(query, placeholderText);
+            note.content = updatedContent;
+            setNote({
+                ...note,
+                content: updatedContent
+            })
+            runQuery(query).then((response) => {
+                const markedResponse = marked(response);
+                const updatedContent = note.content.replace(`{${placeholderText}}`, markedResponse);
+                setNote({
+                    ...note,
+                    content: updatedContent
+                })
+                setQueryString('');
+                setRunningQuery(false);
+            });
+            // setInterval(() => {
+            //     const updatedPlaceholderText = placeholderText + '.';
+            //     setNote({
+            //         ...note,
+            //         content: note.content.replace(placeholderText, updatedPlaceholderText)
+            //     });
+            //     setPlaceholderText(updatedPlaceholderText);
+            // }, 1000);
+        }
+    }, [queryString, note])
+
     function handleChange(html) {
         setEditorHtml(html);
         setNote({
@@ -50,13 +88,63 @@ export default function TextEditor({ content, setContent, userInfo, setUserInfo 
         });
     }
 
+    async function runQuery(query) {
+        setRunningQuery(true);
+        // const placeholderText = "Running query to GPT...";
+        // editorHtml.replace(queryString, placeholderText);
+        // setEditorHtml(editorHtml);
+
+        console.log("runQuery", query);
+        const response = await client.openai.queryPromptedPrompt.query([{
+            role: 'system',
+            content: "You are a data retriever. For any prompt you should only return data. Do not respond as if you were an entity, just return the data you found when processing the query."
+        },
+        {
+            role: 'user',
+            content: query,
+        }])
+        console.log("response", response);
+        return response;
+        // setQueryString('');
+    }
+
+    function handleKeyDown(e) {
+        const ignoredKeys = ["Shift", "Meta", "Tab"];
+        if (ignoredKeys.includes(event.key)) {
+            return;
+        }
+        const charRegex = /[a-zA-Z0-9!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~ ]/;
+        if (!charRegex.test(e.key)) {
+            return;
+        }
+        if (e.key == '{') {
+            setQueryString('{');
+            // } else if (e.key == '}' && queryString != '') {
+            //     console.log(editorHtml);
+            //     runQuery();
+        } else if (queryString != '') {
+            if (e.key == 'Backspace') {
+                setQueryString(queryString.slice(0, -1));
+            } else {
+                setQueryString(queryString + e.key);
+            }
+        }
+    }
+
     return (
         <div className="w-full">
+            {queryString}
+
             <ReactQuill
                 theme="snow"
-                value={editorHtml}
+                value={note.content}
                 onChange={handleChange}
+                onKeyDown={handleKeyDown}
+            // dangerouslySetInnerHTML={{ __html: note.content }}
             />
+            {/* {JSON.stringify({
+                note, queryString, runningQuery,
+            }, null, 2)} */}
         </div>
     );
 }

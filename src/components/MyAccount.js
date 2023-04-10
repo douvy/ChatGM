@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { client } from '../trpc/client';
 import cloudinaryUpload from '../utils/cloudinaryUpload';
 import { trpc } from '../utils/trpc';
+import FeatureToggle from './FeatureToggle';
 
 function MyAccount({ userInfo, setUserInfo }) {
   const scrollContainer = useRef(null);
@@ -290,6 +291,12 @@ function MyAccount({ userInfo, setUserInfo }) {
               </label>
             </div>
           </div>
+          <FeatureToggle label="Enable notepad" slug="use-notepad" checked={localUserInfo.includeNotepad} onChange={(() => {
+            setLocalUserInfo({
+              ...localUserInfo,
+              includeNotepad: !localUserInfo.includeNotepad
+            });
+          })}></FeatureToggle>
           <button
             onClick={saveUserUpdates}
             className={`${saveState == 'saved' ? 'saved' : (saveState == 'saving' ? 'saving' : '')} relative mt-6 px-6 py-2 text-xs font-semibold uppercase tracking-wide transition-colors duration-200 bg-transparent hover:text-black px-6 py-2 mb-8`}

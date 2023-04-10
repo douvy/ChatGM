@@ -384,7 +384,7 @@ const Home: NextPage<PageProps> = (props) => {
             {currentRoute == '/' ? <ChatWindow conversationId={conversationId} conversation={conversation} setConversation={setConversation} sendMessage={sendMessage} newMessage={newMessage} updateMessageValue={updateMessageValue} starredMessages={starredMessages} setStarredMessages={setStarredMessages} referencedMessage={referencedMessage} setReferencedMessage={setReferencedMessage} userInfo={userInfo} /> : null}
             {currentRoute == '/features' ? <FeaturesView passedFeatures={props.features}></FeaturesView> : null}
             {currentRoute == '/tasks' ? <Tasks userInfo={userInfo} setUserInfo={setUserInfo}></Tasks> : null}
-            {currentRoute == '/notepad' ? <Notepad content={content} setContent={setContent} userInfo={userInfo} setUserInfo={setUserInfo}></Notepad> : null}
+            {currentRoute == '/notepad' ? <Notepad content={content} setContent={setContent} userInfo={userInfo} setUserInfo={setUserInfo} setDebuggerObject={setDebuggerObject}></Notepad> : null}
             {currentRoute == '/features' ? <FeaturesView passedFeatures={props.features}></FeaturesView> : null}
             {currentRoute == '/myAccount' ? <MyAccount userInfo={userInfo} setUserInfo={setUserInfo}></MyAccount> : null}
             {currentRoute == '/conversations' ? <ConversationsView conversations={conversations} setConversations={setConversations}></ConversationsView> : null}
@@ -396,7 +396,7 @@ const Home: NextPage<PageProps> = (props) => {
             </div>}
           </main>
         </div>
-      </div>
+      </div >
     </>
   )
 }
