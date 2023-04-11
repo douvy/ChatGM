@@ -46,6 +46,9 @@ html {
 .text-green {
   color: #79E8B3 !important;
 }
+.text-pink {
+  color: #E05194;
+}
 
 .bg-green-bright {
   background: #25B84C;
@@ -743,7 +746,7 @@ code {
 
 /* CSS for the sidebar top */
 #sidebar-top {
-  max-height: 400px;
+  max-height: 390px;
   overflow-y: auto;
   scrollbar-width: none; /* Hide scrollbar for Firefox */
 }
