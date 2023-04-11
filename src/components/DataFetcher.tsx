@@ -21,7 +21,7 @@ interface PageProps {
 const DataFetcher: NextPage<any> = ({ children, Component, ...props }) => {
   const router = useRouter();
   const currentRoute = router.asPath;
-  if (currentRoute == '/auth/signin') {
+  if (currentRoute == '/auth/signin' || currentRoute == '/auth/signup') {
     return <Component {...props} />;
   }
 
