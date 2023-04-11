@@ -22,7 +22,7 @@ interface Conversation {
 export const query = trpc.procedure.input((req: any) => {
     console.log("requesting response from assistant");
     return req;
-}).query(async ({ input }) => {
+}).mutation(async ({ input }) => {
     try {
         const conversation = input as Conversation;
         const messages: ChatCompletionRequestMessage[] = conversation.messages.map(({ role, content }) => ({ role, content }));
@@ -104,7 +104,7 @@ export const queryPromptedPrompt = trpc.procedure.input((req: any) => {
 export const generateName = trpc.procedure.input((req: any) => {
     console.log("attempting to name");
     return req;
-}).query(async ({ input }) => {
+}).mutation(async ({ input }) => {
     try {
         const conversation = input as Conversation;
         const messages: ChatCompletionRequestMessage[] = conversation.messages.map(({ role, content }) => ({ role, content }));

@@ -296,21 +296,21 @@ const Home: NextPage<PageProps> = (props) => {
     var updatedConversation = conversation as PrismaConversation;
     var updatedConversations;
     if (!conversation.id) {
-      updatedConversation = await client.conversations.create.query(conversation);
+      updatedConversation = await client.conversations.create.mutate(conversation);
       setPlaceholderMessage({
         role: "systen",
         content: "Generating name...",
         avatarSource: "avatar-chat-gray.png",
       }, updatedConversation as Conversation);
       // setConversations([updatedConversation as Conversation, ...conversations]);
-      updatedConversation = await client.openai.generateName.query((updatedConversation)) || updatedConversation;
+      updatedConversation = await client.openai.generateName.mutate((updatedConversation)) || updatedConversation;
       // setConversations([updatedConversation as Conversation, ...conversations]);
       setConversation({
         ...conversation,
         name: updatedConversation.name || conversation.name
       });
     } else {
-      updatedConversation = await client.messages.create.query(({
+      updatedConversation = await client.messages.create.mutate(({
         ...newMessage,
         conversationId: conversation.id,
       })) as PrismaConversation;
@@ -330,7 +330,7 @@ const Home: NextPage<PageProps> = (props) => {
     //   });
     // }, 100);
 
-    updatedConversation = await client.openai.query.query((updatedConversation)) as PrismaConversation;
+    updatedConversation = await client.openai.query.mutate((updatedConversation)) as PrismaConversation;
     console.log("updatedConversation:", updatedConversation);
     // clearInterval(interval);
     setConversation({

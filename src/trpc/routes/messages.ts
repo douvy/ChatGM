@@ -42,7 +42,7 @@ export const starred = procedure.use(({ next, ctx }) => {
 
 export const createMessage = trpc.procedure.input((req: any) => {
     return req;
-}).query(async ({ input }) => {
+}).mutation(async ({ input }) => {
     const message = await prisma.message.create({ data: input });
 
     const conversation = await prisma.conversation.findUnique({ where: { id: Number(message.conversationId) }, include: { messages: { orderBy: { id: 'asc' } } } });

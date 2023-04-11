@@ -101,7 +101,7 @@ function ChatWindow({ conversationId, conversation, setConversation, newMessage,
         if (isEdit) {
             const updated = updateConversationMutation.mutate(updatedConversation);
             console.log(updated)
-            updatedConversation = await client.openai.query.query((updatedConversation));
+            updatedConversation = await client.openai.query.mutate((updatedConversation));
             setConversation({
                 ...updatedConversation,
                 messages: updatedConversation.messages,
