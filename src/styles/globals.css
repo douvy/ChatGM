@@ -671,8 +671,13 @@ textarea {
   z-index: 1;
   background-color: inherit; /* Or specify the desired background color */
 }
-
-
+code, kbd, samp, pre{
+  max-width: 750px !important;
+  font-family: "Chakra Petch", sans-serif;
+  color: #c7c8cd;
+  color: #00e55e;
+  font-size: 15px;
+}
 /*responsive design*/
 
 @media (max-width: 640px) {
