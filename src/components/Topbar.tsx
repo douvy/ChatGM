@@ -47,7 +47,7 @@ const Topbar: React.FC<TopbarProps> = ({ conversation, userInfo, addSystemMessag
                         </button>
                     </div>
                     {isBellDropdownOpen && (
-                        <div className="absolute right-0 mt-8 w-48 bg-dark border-gray-light rounded-md shadow-lg z-100 dropdown-container bell">
+                        <div className="absolute right-0 mt-9 w-48 bg-dark border-gray-light rounded-md shadow-lg z-100 dropdown-container bell">
                             <ul className="py-1 text-base leading-6 text-offwhite">
                                 <li
                                     aria-label="Notification"
@@ -102,7 +102,7 @@ const Topbar: React.FC<TopbarProps> = ({ conversation, userInfo, addSystemMessag
                         <img src={userInfo.avatarSource || "/avatar.png"} className="rounded-full w-7 h-7 mr-2.5" />
                     </button>
                     {isAvatarDropdownOpen && (
-                        <div className="absolute right-0 mt-8 w-48 bg-dark border-gray-light rounded-md shadow-lg z-100 dropdown-container">
+                        <div className="absolute right-0 mt-9 w-48 bg-dark border-gray-light rounded-md shadow-lg z-100 dropdown-container">
                             <ul className="py-1 text-base leading-6 text-offwhite">
                                 <li className="flex flex-col items-start px-4 py-2 hover-dark cursor-pointer text-sm -mx-0 -mt-1 -mb-1">
                                     <div className="flex items-center w-full">
