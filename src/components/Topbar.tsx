@@ -33,6 +33,7 @@ const Topbar: React.FC<TopbarProps> = ({ conversation, userInfo, addSystemMessag
           }
           <h1 className="text-xl font-semibold">&nbsp;</h1>
           <nav className="space-x-4 relative flex z-10">
+          <div className="relative inline-block">
             <button
               className="focus:outline-none"
               aria-expanded={isBellDropdownOpen}
@@ -41,8 +42,10 @@ const Topbar: React.FC<TopbarProps> = ({ conversation, userInfo, addSystemMessag
                 setIsAvatarDropdownOpen(false); // Close avatar dropdown
               }}
             >
-              <i className="fa-regular fa-bell fa-xl mr-2 pt-3"></i>
+              <i className="fa-regular fa-bell fa-xl mr-2 pt-4"></i>
+              <span className="absolute top-[1px] right-[1px] w-4 h-4 rounded-full bg-blue unread-indicator"></span>
             </button>
+            </div>
             {isBellDropdownOpen && (
               <div className="absolute right-0 mt-8 w-48 bg-dark border-gray-light rounded-md shadow-lg z-100 dropdown-container bell">
                 <ul className="py-1 text-base leading-6 text-offwhite">
