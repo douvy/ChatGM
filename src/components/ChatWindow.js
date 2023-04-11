@@ -5,6 +5,7 @@ import { subscribeToChannel } from '../lib/ably';
 import pusher from '../lib/pusher';
 import { client } from '../trpc/client';
 import { trpc } from '../utils/trpc';
+import MentionPopover from './MentionPopover';
 
 function ChatWindow({
   conversationId,
@@ -26,6 +27,19 @@ function ChatWindow({
   const updateConversationMutation =
     trpc.conversations.updateMessages.useMutation();
   const messageCount = useRef(conversation.messages.length);
+  const [users, setUsers] = useState([]);
+  client.users.query
+    .query({
+      id: true,
+      username: true
+    })
+    .then(users => {
+      setUsers(users);
+    });
+
+  const [position, setPosition] = useState({ top: 0, left: 0 });
+  const [isMentionOpen, setIsMentionOpen] = useState(false);
+  const cursorPositionRef = useRef(null);
 
   pusher.connection.bind('connected', async () => {
     setSocketId(pusher.connection.socket_id);
@@ -87,6 +101,12 @@ function ChatWindow({
 
   function handleKeyDown(event) {
     event.stopPropagation();
+    if (event.key === '@') {
+      setIsMentionOpen(true);
+      cursorPositionRef.current = event.target.selectionStart;
+    } else {
+      setIsMentionOpen(false);
+    }
     if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault();
       sendMessage();
@@ -209,6 +229,22 @@ function ChatWindow({
           </button>
         </span>
       </form>
+      {isMentionOpen && (
+        <MentionPopover
+          users={users}
+          onSelect={username => {
+            const textBeforeCursor = newMessage.content.slice(
+              0,
+              cursorPositionRef.current
+            );
+            const textAfterCursor = newMessage.content.slice(
+              cursorPositionRef.current
+            );
+            updateMessageValue(textBeforeCursor + username + textAfterCursor);
+            setIsMentionOpen(false);
+          }}
+        />
+      )}
     </div>
   );
 }
