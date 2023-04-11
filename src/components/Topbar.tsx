@@ -114,7 +114,7 @@ const Topbar: React.FC<TopbarProps> = ({
           <ul className='pl-0 w-[190px]'>
             {conversation.participants?.map(participant => (
               <li
-                className='group cursor-pointer hover-dark rounded items-center space-x-2 p-2 pl-6'
+                className='group cursor-pointer hover-dark rounded items-center space-x-2 p-2'
                 key={`${conversation.id}/${participant.id}`}
               >
                 {participant.avatarSource ? (
