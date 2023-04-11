@@ -48,9 +48,9 @@ export default function TextEditor({ content, setContent, userInfo, setUserInfo,
         clearTimeout(timerRef.current);
         timerRef.current = setTimeout(save, 1000);
 
-        const saveInterval = setInterval(save, 10000);
+        // const saveInterval = setInterval(save, 10000);
         // Cleanup the interval on unmount
-        return () => clearInterval(saveInterval);
+        // return () => clearInterval(saveInterval);
 
     }, [note]);
 
