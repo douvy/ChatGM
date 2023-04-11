@@ -4,6 +4,8 @@ import { client } from '../trpc/client';
 import { NextPage } from 'next';
 import { Conversation, Message, Feature } from '../interfaces';
 import useSWR from 'swr';
+import { useRouter } from 'next/router';
+import MyAccount from '../components/MyAccount';
 
 interface PageProps {
   session: any;
@@ -17,41 +19,21 @@ interface PageProps {
 }
 
 const DataFetcher: NextPage<any> = ({ children, Component, ...props }) => {
+  const router = useRouter();
+  const currentRoute = router.asPath;
+  if (currentRoute == '/auth/signin') {
+    return <Component {...props} />;
+  }
+
   const getData = client.users.getInitialPageData.query;
   const { data, error } = useSWR('users.getInitialPageData', () => getData(), {
     revalidateOnFocus: false
   });
 
-  // const [isLoading, setIsLoading] = useState(true);
-  // const [data, setData] = useState<any>(null);
-
-  // const res = useSession();
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     console.log(res);
-  //     if (res.status != 'authenticated') {
-  //       return;
-  //     }
-  //     const _ = await client.users.getInitialPageData.query({
-  //       session: res.data
-  //     });
-  //     console.log(_);
-  //     setIsLoading(false);
-  //     setData(_);
-  //   };
-
-  //   fetchData();
-  // }, [res]);
-
-  // if (isLoading) {
-  //   return <div></div>;
-  // }
-
   if (error) return <div>Error: {error.message}</div>;
   if (!data) return <div></div>;
 
   const mergedProps = { ...props, ...data };
-  console.log(mergedProps);
 
   return <>{children(mergedProps)}</>;
 };
