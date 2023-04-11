@@ -743,6 +743,20 @@ code {
   overflow-x: auto;
   /* Enables horizontal scrolling for overflowing content */
 }
+.mention-popover {
+  max-width: 420px;
+  position: absolute;
+  background: #0C1117;
+  bottom: 0;
+  margin-bottom: 58px;
+  border: 1px solid #2F363C;
+}
+.mention-popover ul {
+  max-width: 420px;
+}
+.mention-popover li:hover {
+  background: #21262D;
+}
 
 /* CSS for the sidebar top */
 #sidebar-top {

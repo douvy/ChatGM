@@ -9,6 +9,19 @@ import { procedure } from '../../server/trpc';
 import { TodoistApi } from '@doist/todoist-api-typescript';
 import { getSession } from 'next-auth/react';
 
+export const query = trpc.procedure
+  .input((req: any) => {
+    return req;
+    }
+  )
+  .query(async ({ input }) => {
+    const user = await prisma.user.findMany({
+      select: input,
+    });
+    return user;
+  });
+
+
 export const get = trpc.procedure
   .input(
     z.object({
@@ -388,6 +401,7 @@ export const getNote = procedure
   });
 
 export const usersRouter = router({
+  query: query,
   get: get,
   find: find,
   getUserInfo: getUserInfo,
