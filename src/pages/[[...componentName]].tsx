@@ -265,7 +265,6 @@ const Home: NextPage<PageProps> = (props) => {
       role: "user",
       content: "",
       avatarSource: "avatar.png",
-      sender: session?.user as User,
       senderId: session?.user.id || 0,
     })
   }
