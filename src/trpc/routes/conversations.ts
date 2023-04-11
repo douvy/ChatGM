@@ -105,6 +105,7 @@ export const get = trpc.procedure.input(
         include: {
           sender: {
             select: {
+              id: true,
               username: true,
               avatarSource: true
             }
