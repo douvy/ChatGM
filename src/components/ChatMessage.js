@@ -117,7 +117,7 @@ function ChatMessage({ index, message, avatarSource, sender, updateState, setCon
               ></i>
             </span>{' '}
             {formatTimestamp(message.createdAt)}
-            <i className={`fa-stars ${localMessage.starred ? 'fa-solid' : 'fa-regular'} ml-2 cursor-pointer`} onClick={starMessage}></i>
+            <i className={`fa-stars ${localMessage.starred ? 'fa-solid' : 'fa-regular'} ml-2 text-yellow cursor-pointer`} onClick={starMessage}></i>
             {copied ? (
               <i className="fa-solid fa-check text-green w-5 h-5 ml-3"></i>
             ) : (
