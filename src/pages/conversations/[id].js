@@ -18,13 +18,17 @@ function ConversationView({ conversation }) {
         {conversation.messages.map((message, index) => {
           return (
             <ChatMessage
-              key={message.id}
+              key={conversation.id + index}
               index={index}
               message={message}
-              avatarSource={message.role == "user" ? `../${message.avatarSource}` : "../avatar-chat.png"}
-              sender={message.role == "user" ? message.sender : "ChatGPT-3.5"}
+              avatarSource={'/' + message.avatarSource}
+              sender={message.role == "user" ? (message.sender) : "ChatGPT-3.5"}
               received={true}
-              updateState={() => { }}
+              updateState={undefined}
+              setConversation={undefined}
+              referencedMessage={undefined}
+              onClick={() => { }}
+              userInfo={{}}
             />
           );
         })}
@@ -40,6 +44,7 @@ export const getServerSideProps = async ({ req, params }) => {
 
   const response = await fetch(`http://${baseUrl}/api/conversations/${id}`);
   const conversation = await response.json();
+  console.log(conversation);
 
   if (!conversation) {
     return {

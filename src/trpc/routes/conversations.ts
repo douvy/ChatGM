@@ -101,8 +101,24 @@ export const get = trpc.procedure.input(
 ).query(async ({ input }) => {
   const conversation = await prisma.conversation.findUnique({
     where: { id: Number(input.id) }, include: {
-      messages: { orderBy: { id: 'asc' } },
-      participants: true,
+      messages: {
+        include: {
+          sender: {
+            select: {
+              username: true,
+              avatarSource: true
+            }
+          },
+        },
+        orderBy: { id: 'asc' }, // Order messages by id in ascending order
+      },
+      participants: {
+        select: {
+          id: true,
+          username: true,
+          avatarSource: true
+        }
+      },
     }
   });
   console.log("conversation with participants:", conversation)

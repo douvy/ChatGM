@@ -8,7 +8,15 @@ export default async function handler(req, res) {
     switch (method) {
         case 'GET':
             try {
-                const conversation = await prisma.conversation.findUnique({ where: { id: Number(id) }, include: { messages: true } });
+                const conversation = await prisma.conversation.findUnique({
+                    where: { id: Number(id) }, include: {
+                        messages: {
+                            include: {
+                                sender: true,
+                            }
+                        }
+                    }
+                });
                 res.status(200).json(conversation);
             } catch (error) {
                 res.status(500).json({ message: error.message });

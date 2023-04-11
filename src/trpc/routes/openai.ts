@@ -25,7 +25,8 @@ export const query = trpc.procedure.input((req: any) => {
 }).mutation(async ({ input }) => {
     try {
         const conversation = input as Conversation;
-        const messages: ChatCompletionRequestMessage[] = conversation.messages.map(({ role, content }) => ({ role, content }));
+        const messages: ChatCompletionRequestMessage[] = conversation.messages.map(({ role, content }) => ({ role, content }))
+        // .filter((message, index) => index > 1);
         const completion = await openai.createChatCompletion({
             model: "gpt-3.5-turbo",
             messages: messages,
