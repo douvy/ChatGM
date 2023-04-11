@@ -155,7 +155,7 @@ const Home: NextPage<PageProps> = (props) => {
 
   useEffect(() => {
     if (conversationId) {
-      if (conversationId != conversation.id || !conversation.participants) {
+      if (conversationId != conversation.id || !conversation.participants || conversation.messages.length == 10) {
         client.conversations.get.query({ id: conversationId }).then((data) => {
           setConversation(data as Conversation);
         })
