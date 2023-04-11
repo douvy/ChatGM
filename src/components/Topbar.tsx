@@ -59,7 +59,7 @@ const Topbar: React.FC<TopbarProps> = ({ conversation, userInfo, addSystemMessag
                     </div>
                     <div className="flex flex-col">
                       <p className="text-sm text-offwhite">
-                        <span>{userInfo?.username}</span> added Josh to new <strong>group conversation</strong>
+                        <span>{userInfo?.username}</span> added Josh to a <strong>conversation</strong>
                       </p>
                       <div className="text-xs text-gray-400 mt-0.5">
                         <span>Funky Chat Frenzy</span>
