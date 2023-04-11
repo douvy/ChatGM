@@ -663,7 +663,7 @@ textarea::placeholder {
 #chat-form input:focus,
 #chat-form textarea:focus {
   outline: none;
-  border: 1px solid #464f5a;
+  border-color: 1px solid #1F6FEB;
 }
 
 input,
