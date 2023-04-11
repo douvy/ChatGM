@@ -17,7 +17,7 @@ import ActiveTask from '../components/ActiveTask';
 import { addInfiniteScroll } from '../utils/infiniteScroll';
 import { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { useSession } from 'next-auth/react';
+import { getSession, useSession } from 'next-auth/react';
 import { User, Conversation as PrismaConversation } from '@prisma/client';
 import { client } from '../trpc/client';
 import { trpc } from '../utils/trpc';

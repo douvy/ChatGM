@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useSession } from 'next-auth/react';
+import { getSession, useSession } from 'next-auth/react';
 import { client } from '../trpc/client';
-import { NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 import { Conversation, Message, Feature } from '../interfaces';
 import useSWR from 'swr';
 import { useRouter } from 'next/router';
 import MyAccount from '../components/MyAccount';
+import { procedureTypes } from '@trpc/server';
 
 interface PageProps {
   session: any;
@@ -30,12 +31,32 @@ const DataFetcher: NextPage<any> = ({ children, Component, ...props }) => {
     revalidateOnFocus: false
   });
 
-  if (error) return <div>Error: {error.message}</div>;
+  if (error) router.push('/auth/signin'); //<div>Error: {error.message}</div>;
   if (!data) return <div></div>;
-
   const mergedProps = { ...props, ...data };
 
   return <>{children(mergedProps)}</>;
 };
+
+// export const getServerSideProps: GetServerSideProps<any> = async (
+//   context: any
+// ) => {
+//   console.log('Getting server side props');
+//   const session = await getSession(context);
+
+//   if (!session) {
+//     return {
+//       redirect: {
+//         destination: '/auth/signin',
+//         permanent: false
+//       }
+//     };
+//   }
+//   const props = await client.users.getInitialPageData.query();
+//   console.log('Server side props:', props);
+//   return {
+//     props: props
+//   };
+// };
 
 export default DataFetcher;

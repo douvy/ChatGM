@@ -82,7 +82,7 @@ export const getInitialPageData = procedure
   })
   .query(async ({ ctx, input }) => {
     const session = ctx.session || input.session;
-    console.log('SESSION: ', session);
+    console.log('trpc.getInitialPageData.session.keys: ', Object.keys(session));
     const user = session.user;
     const userInfo = await prisma.user.findUnique({
       where: { id: Number(user.id) },
@@ -146,8 +146,8 @@ export const getInitialPageData = procedure
       }
     });
 
-    return {
-      session: {},
+    const props = {
+      session: session,
       conversations: conversations.map((conversation: any) => {
         return {
           ...conversation,
@@ -167,6 +167,8 @@ export const getInitialPageData = procedure
       }),
       activeTask: activeTask
     };
+    console.log('trpc.getInitialPageData.props: ', props);
+    return props;
   });
 
 export const update = trpc.procedure

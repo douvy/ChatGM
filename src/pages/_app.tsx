@@ -2,10 +2,8 @@ import '@/styles/globals.css';
 import type { AppProps, AppType } from 'next/app';
 import Head from 'next/head';
 import { SessionProvider } from 'next-auth/react';
-import React, { useEffect, useState } from 'react';
-import { useSession } from 'next-auth/react';
+import React, { useEffect } from 'react';
 import { trpc } from '../utils/trpc';
-import { client } from '../trpc/client';
 import DataFetcher from '../components/DataFetcher';
 
 interface C {
