@@ -537,7 +537,7 @@ ol li {
 
 #messages-box,
 #component-box li {
-  padding-left: 6px;
+  padding-left: 0px;
   /* Adjust the padding amount as needed */
 }
 
