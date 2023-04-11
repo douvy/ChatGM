@@ -506,12 +506,18 @@ ol li {
 }
 
 /* Style for ordered lists */
-#messages-box,
-#component-box ol {
+ol {
   list-style-type: decimal;
   /* numbering style */
-  padding-left: 0em;
+  padding-left: 1em;
+  margin-top: 23px;
+  margin-bottom: 23px;
   /* indentation */
+}
+#messages-box ul {
+  padding-left: 1em;
+  margin-top: 23px;
+  margin-bottom: 23px;
 }
 
 #messages-box,
