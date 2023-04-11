@@ -340,7 +340,7 @@ const Home: NextPage<PageProps> = props => {
     setPlaceholderMessage(
       {
         role: 'assistant',
-        content: '<i class="fa-solid fa-spinner fa-spin text-offwhite"></i>',
+        content: '<i class="fa-duotone fa-2x fa-spinner fa-spin text-offwhite"></i>',
         avatarSource: 'avatar-chat.png'
       },
       updatedConversation as Conversation
