@@ -10,7 +10,7 @@ green:  #79E9B3;
 yellow: #FEE77E;
 gray: #7d8590;
 offwhite: e6edf3;
-blue: #5497FF;
+blue: #4073FF;
 */
 
 /*global styles*/
@@ -70,7 +70,7 @@ html {
 }
 
 .text-gray {
-  color: #7E8490;
+  color: #7E8490 !important;
 }
 .text-yellow, .message .text-yellow {
   color: #FEE77E;
@@ -193,7 +193,12 @@ form input {
   font-size: 14px;
   transition: .5s;
 }
-
+.border-top {
+  border-top: 1px solid #2F363C;
+}
+.bl-0 {
+  border-left: none !important;
+}
 .message i {
   color: #ffffff;
 }
@@ -377,6 +382,9 @@ hr {
 }
 .hover-dark:hover {
   background: #151e27;
+}
+.hover-dark-blue:hover {
+  background: #1B2638;
 }
 ::-webkit-scrollbar {
   width: 4px;

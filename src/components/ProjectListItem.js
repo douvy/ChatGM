@@ -10,7 +10,7 @@ function ProjectListItem({ index, project, setActiveProject, userInfo, setUserIn
 
   return (
     <div className="w-full box cursor-pointer">
-      <div className={`message p-4 pt-4 relative hover:bg-gray-700 ${project.id == userInfo.activeProjectId ? 'bg-gray-600' : ''}`} onClick={() => {
+      <div className={`message p-4 pt-4 relative hover-dark-blue ${project.id == userInfo.activeProjectId ? 'bg-gray-600' : ''}`} onClick={() => {
         setActiveProject(project);
       }}>
         <img src={'avatar.png'} alt="Avatar" className="w-9 h-9 rounded-full absolute left-4 top-2" />
@@ -26,7 +26,7 @@ function ProjectListItem({ index, project, setActiveProject, userInfo, setUserIn
             {/* <i className={`fa-star ${false ? 'fa-solid' : 'fa-regular'} ml-2 cursor-pointer`} onClick={() => { }}></i> */}
 
             <i
-              className={`fa-light ${userInfo.activeProjectId == project.id ? 'fa-toggle-on' : 'fa-toggle-off'} hover:font-bold w-5 h-5 ml-2 cursor-pointer`}
+              className={`fa-light ${userInfo.activeProjectId == project.id ? 'fa-toggle-on' : 'fa-toggle-off'} hover:font-bold fa-lg text-gray cursor-pointer`}
               onClick={async (e) => {
                 e.stopPropagation();
                 const activeProjectId = project.id == userInfo.activeProjectId ? null : project.id;

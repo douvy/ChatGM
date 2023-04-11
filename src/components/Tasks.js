@@ -85,7 +85,7 @@ function Tasks({ userInfo, setUserInfo, c }) {
     //     return <></>
     // }
     return (
-        <div className="mx-auto h-full">
+        <div className="mx-auto h-full p-4 pt-0">
             <div className="overflow-y-auto" ref={scrollContainer}>
                 {projects.filter((project) => {
                     return activeProject ? project.id == activeProject.id : true;
