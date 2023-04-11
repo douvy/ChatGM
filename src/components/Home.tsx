@@ -336,10 +336,11 @@ const Home: NextPage<PageProps> = props => {
       })) as PrismaConversation;
     }
 
+    // Update the content value with the Font Awesome spinner icon
     setPlaceholderMessage(
       {
         role: 'assistant',
-        content: "<span className='spinner'></span>",
+        content: '<i class="fa-solid fa-spinner fa-spin text-offwhite"></i>',
         avatarSource: 'avatar-chat.png'
       },
       updatedConversation as Conversation
