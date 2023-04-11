@@ -678,6 +678,14 @@ code, kbd, samp, pre{
   color: #FF76C7;
   font-size: 15px;
 }
+code {
+    max-width: 750px;
+    white-space: pre-wrap; /* Wraps text to the next line */
+    word-break: break-all; /* Breaks long words */
+    overflow-wrap: break-word; /* Breaks long words */
+    overflow-x: auto; /* Enables horizontal scrolling for overflowing content */
+}
+
 /*responsive design*/
 
 @media (max-width: 640px) {
