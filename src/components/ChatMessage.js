@@ -53,23 +53,23 @@ function ChatMessage({ index, message, avatarSource, sender, updateState, setCon
   }
 
   const customRenderer = {
-    p: ({ children }) => (
-      <>
-        {children.map((child) => {
-          if (typeof child === 'string') {
-            const parts = child.split('\n');
-            return parts.map((part, i) => (
-              <React.Fragment key={i}>
-                {i > 0 && <br />}
-                {part}
-              </React.Fragment>
-            ));
-          }
-          return child;
-        })}
-      </>
-    ),
-  };
+  p: ({ children }) => (
+    <>
+      {children && children.map((child) => {
+        if (typeof child === 'string') {
+          const parts = child.split('\n');
+          return parts.map((part, i) => (
+            <React.Fragment key={i}>
+              {i > 0 && <br />}
+              {part}
+            </React.Fragment>
+          ));
+        }
+        return child;
+      })}
+    </>
+  ),
+};
 
   const starMessage = async () => {
     const updatedMessage = {
