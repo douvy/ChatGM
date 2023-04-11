@@ -46,10 +46,10 @@ function ConversationLinkList({ conversations, setConversation, activeConversati
 
   useEffect(() => {
     if (!isPersonalExpanded && prevConversations.length < conversations.length) {
-      setIsPersonalExpanded(conversations.filter((c) => c.participants?.length <= 1).length > 0);
+      setIsPersonalExpanded(personalConversations.length > 0);
     }
     if (!isGroupExpanded && prevConversations.length < conversations.length) {
-      setIsGroupExpanded(conversations.filter((c) => c.participants?.length > 1).length > 0);
+      setIsGroupExpanded(groupConversations.length > 0);
     }
   }, [conversations])
 
