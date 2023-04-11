@@ -726,7 +726,7 @@ pre {
   font-family: "Chakra Petch", sans-serif;
   color: #c7c8cd;
   color: #E05194;
-  font-size: 15px;
+  font-size: 14px;
 }
 
 code {
@@ -741,6 +741,12 @@ code {
   /* Enables horizontal scrolling for overflowing content */
 }
 
+/* CSS for the sidebar top */
+#sidebar-top {
+  max-height: 400px;
+  overflow-y: auto;
+  scrollbar-width: none; /* Hide scrollbar for Firefox */
+}
 /*responsive design*/
 
 @media (max-width: 640px) {

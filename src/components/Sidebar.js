@@ -25,7 +25,7 @@ export default function Sidebar({ setConversations, setConversation, setActiveCo
                 {userInfo.includeTaskFeature ? <SidebarItem iconName="fa-sharp fa-regular text-orange fa-list-check" isActive={currentRoute == "/tasks" ? true : false} itemText="Todos" onClick={() => {
                     setCurrentRoute('/tasks');
                 }} /> : <></>}
-                {userInfo.includeNotepad ? <SidebarItem iconName="fa-sharp fa-regular text-orange fa-list-check" isActive={currentRoute == "/notepad" ? true : false} itemText="Notepad" onClick={() => {
+                {userInfo.includeNotepad ? <SidebarItem iconName="fa-sharp fa-solid text-orange fa-file-pen" isActive={currentRoute == "/notepad" ? true : false} itemText="Notepad" onClick={() => {
                     setCurrentRoute('/notepad');
                 }} /> : <></>}
                 {/* <SidebarItem iconName="check-square" itemText="Features" onClick={() => {
