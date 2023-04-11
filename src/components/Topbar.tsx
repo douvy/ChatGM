@@ -60,7 +60,7 @@ const Topbar: React.FC<TopbarProps> = ({
             </button>
           </div>
 
-          {isBellDropdownOpen && <NotificationsMenu />}
+          {isBellDropdownOpen && <NotificationsMenu userInfo={userInfo} />}
 
           <button
             className='focus:outline-none'

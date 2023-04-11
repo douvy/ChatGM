@@ -7,6 +7,7 @@ import useSWR from 'swr';
 import { useRouter } from 'next/router';
 import MyAccount from '../components/MyAccount';
 import { procedureTypes } from '@trpc/server';
+import injector from '../utils/DataInjector';
 
 const DataFetcher: NextPage<any> = ({ children, Component, ...props }) => {
   const router = useRouter();
@@ -23,6 +24,7 @@ const DataFetcher: NextPage<any> = ({ children, Component, ...props }) => {
   if (error) router.push('/auth/signin'); //<div>Error: {error.message}</div>;
   if (!data) return <div></div>;
   const mergedProps = { ...props, ...data };
+  injector.inject(data);
 
   return <>{children(mergedProps)}</>;
 };

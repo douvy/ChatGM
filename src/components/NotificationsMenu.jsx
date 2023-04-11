@@ -1,4 +1,4 @@
-export default function NotificationsMenu() {
+export default function NotificationsMenu({ userInfo }) {
   return (
     <div className='absolute right-0 mt-9 w-48 bg-dark border-gray-light rounded-md shadow-lg z-100 dropdown-container bell'>
       <ul className='py-1 text-base leading-6 text-offwhite'>

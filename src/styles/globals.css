@@ -16,12 +16,12 @@ blue: #4073FF;
 /*global styles*/
 
 body {
-  font-family: "Chakra Petch", sans-serif;
+  font-family: 'Chakra Petch', sans-serif;
   color: #c7c8cd;
   color: #eeeeee;
   background-color: #020408;
   font-size: 15px;
-  letter-spacing: .02em;
+  letter-spacing: 0.02em;
 }
 
 body,
@@ -32,45 +32,45 @@ html {
 }
 
 .text-red {
-  color: #e85a40
+  color: #e85a40;
 }
 
 .text-yellow {
-  color: #DEF241;
+  color: #def241;
 }
 
 .bg-yellow {
-  background: #DEF241;
+  background: #def241;
 }
 
 .text-green {
-  color: #79E8B3 !important;
+  color: #79e8b3 !important;
 }
 .text-pink {
-  color: #E05194;
+  color: #e05194;
 }
 
 .bg-green-bright {
-  background: #25B84C;
+  background: #25b84c;
 }
 
 .bg-dark {
-  background: #0C1116;
+  background: #0c1116;
 }
 
 .bg-blue {
-  background: #4073FF;
+  background: #4073ff;
 }
 .text-blue {
-  color: #4073FF;
+  color: #4073ff;
 }
 
 .text-lightblue {
-  color: #08A4E0 !important;
+  color: #08a4e0 !important;
 }
 
 .text-purple {
-  color: #AA6EFE;
+  color: #aa6efe;
 }
 
 .text-offwhite {
@@ -78,24 +78,24 @@ html {
 }
 
 .text-gray {
-  color: #7E8490 !important;
+  color: #7e8490 !important;
 }
 
 .text-yellow,
 .message .text-yellow {
-  color: #FEE77E;
+  color: #fee77e;
 }
 
 .text-orange {
-  color: #FF9A13;
+  color: #ff9a13;
 }
 
 .bg-gray {
-  background: #7E8490;
+  background: #7e8490;
 }
 
 .fa-stars.fa-solid {
-  color: #FEE77E !important;
+  color: #fee77e !important;
 }
 
 .border-red {
@@ -103,7 +103,7 @@ html {
 }
 
 .border-yellow {
-  border-color: #DEF241;
+  border-color: #def241;
 }
 
 .border-gray {
@@ -111,17 +111,17 @@ html {
 }
 
 .btn-yellow:hover {
-  background: #DEF241;
+  background: #def241;
 }
 
 .btn-gray {
-  background: #21262D;
-  border: 2px solid #363B42;
+  background: #21262d;
+  border: 2px solid #363b42;
 }
 
 .btn-gray:hover {
-  background: #30363C;
-  border-color: #8B949D;
+  background: #30363c;
+  border-color: #8b949d;
 }
 
 .btn-red:hover {
@@ -152,15 +152,15 @@ h5,
 h6 {
   color: #7d8590;
   font-weight: 700;
-  font-family: "Chakra Petch", sans-serif;
+  font-family: 'Chakra Petch', sans-serif;
 }
 
 h3 {
   margin-top: 0px;
   font-family: 'Domine', sans-serif;
-  font-family: "VulfMono-Regular", sans-serif;
-  font-family: "VulfSans-Bold", Domine, sans-serif;
-  letter-spacing: .5px;
+  font-family: 'VulfMono-Regular', sans-serif;
+  font-family: 'VulfSans-Bold', Domine, sans-serif;
+  letter-spacing: 0.5px;
   margin-bottom: 0px;
   font-weight: 700;
   padding-bottom: 10px;
@@ -169,11 +169,11 @@ h3 {
 }
 
 .border-gray {
-  border-color: #2F363C !important;
+  border-color: #2f363c !important;
 }
 
 .border-gray-light {
-  border: 1px solid #30363D;
+  border: 1px solid #30363d;
 }
 
 form {
@@ -184,17 +184,17 @@ form input {
   border-radius: 3px;
 }
 
-.toggle-switch-checkbox:checked+.toggle-switch-label .toggle-switch-inner {
+.toggle-switch-checkbox:checked + .toggle-switch-label .toggle-switch-inner {
   background: #299438 !important;
 }
 
 .toggle-switch-label {
-  background: #21262D !important;
-  border: 1px solid #363B42;
+  background: #21262d !important;
+  border: 1px solid #363b42;
 }
 
 .toggle-switch-inner {
-  background: #7E8490 !important;
+  background: #7e8490 !important;
   margin-top: 3px !important;
 }
 
@@ -204,17 +204,17 @@ form input {
 }
 
 .message {
-  background-color: #0C1117;
-  border-bottom: 1px solid #2F363C;
-  border-left: 1px solid #2F363C;
-  border-right: 1px solid #2F363C;
+  background-color: #0c1117;
+  border-bottom: 1px solid #2f363c;
+  border-left: 1px solid #2f363c;
+  border-right: 1px solid #2f363c;
   color: #e1e1e1;
   font-size: 14px;
-  transition: .5s;
+  transition: 0.5s;
 }
 
 .border-top {
-  border-top: 1px solid #2F363C;
+  border-top: 1px solid #2f363c;
 }
 
 .bl-0 {
@@ -230,7 +230,7 @@ form input {
 }
 
 .message.active {
-  background-color: #0C1117;
+  background-color: #0c1117;
 }
 
 /*.message:hover {
@@ -238,11 +238,15 @@ form input {
 }*/
 
 #sidebar-top {
-  background-color: #0D1116;
+  background-color: #0d1116;
 }
 
 .br-1-gray {
-  border-right: 1px solid #2F363C;
+  border-right: 1px solid #2f363c;
+}
+
+.b-1-gray {
+  border: 1px solid #2f363c;
 }
 
 nav a {
@@ -258,7 +262,7 @@ nav li {
 
 a:hover li,
 .active li {
-  background: #21262D !important;
+  background: #21262d !important;
 }
 
 .last {
@@ -266,10 +270,10 @@ a:hover li,
 }
 
 form button {
-  background: #E85A40 !important;
+  background: #e85a40 !important;
   height: 45px;
-  border-top: 3px solid #C13E31;
-  border-bottom: 3px solid #C13E31;
+  border-top: 3px solid #c13e31;
+  border-bottom: 3px solid #c13e31;
   padding-left: 18px !important;
   padding-right: 18px !important;
   text-transform: uppercase;
@@ -287,14 +291,14 @@ form button.saved,
 form button.saved:hover {
   background: #40ca53 !important;
   border: #40ca53 !important;
-  color: #0C1117;
+  color: #0c1117;
 }
 
 form button.editing-message-save,
 form button.editing-message-save:hover {
-  background: #21262D !important;
+  background: #21262d !important;
   height: 35px;
-  border: 2px solid #363B42 !important;
+  border: 2px solid #363b42 !important;
 }
 
 form button.editing-message-cancel,
@@ -339,7 +343,7 @@ form button.editing-message-cancel:hover {
   transition: margin 0.3s, background-color 0.3s;
 }
 
-.toggle-switch-checkbox:checked+.toggle-switch-label .toggle-switch-inner {
+.toggle-switch-checkbox:checked + .toggle-switch-label .toggle-switch-inner {
   margin-left: 26px;
   background-color: #26ca99;
 }
@@ -356,10 +360,9 @@ form button.editing-message-cancel:hover {
   transition: margin-left 0.3s;
 }
 
-.toggle-switch-checkbox:checked+.toggle-switch-label .toggle-switch-switch {
+.toggle-switch-checkbox:checked + .toggle-switch-label .toggle-switch-switch {
   margin-left: 24px;
 }
-
 
 .spinner {
   display: inline-block;
@@ -379,7 +382,7 @@ form button.editing-message-cancel:hover {
 
 ol li {
   margin-bottom: 7px;
-  color: #C4C5C8;
+  color: #c4c5c8;
 }
 
 li img,
@@ -393,15 +396,15 @@ li span {
 
 ul i {
   margin-right: 5px;
-  color: #C4C5C8;
+  color: #c4c5c8;
 }
 
 hr {
-  border-color: #2F363C;
+  border-color: #2f363c;
 }
 
 .tracking-wide {
-  letter-spacing: .12em;
+  letter-spacing: 0.12em;
 }
 
 .hover-dark:hover {
@@ -409,7 +412,7 @@ hr {
 }
 
 .hover-dark-blue:hover {
-  background: #1B2638;
+  background: #1b2638;
 }
 
 ::-webkit-scrollbar {
@@ -425,11 +428,11 @@ hr {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #0C1117;
-  border-left: 1px solid #2F363C;
-  border-bottom: 1px solid #2F363C;
-  border-top: 1px solid #2F363C;
-  border-right: 1px solid #2F363C;
+  background-color: #0c1117;
+  border-left: 1px solid #2f363c;
+  border-bottom: 1px solid #2f363c;
+  border-top: 1px solid #2f363c;
+  border-right: 1px solid #2f363c;
   border-radius: 1px;
 }
 
@@ -444,7 +447,7 @@ hr {
 
 #sidebar-top {
   height: 425px;
-  background: #0D1116;
+  background: #0d1116;
 }
 
 #sidebar-top::-webkit-scrollbar {
@@ -458,7 +461,7 @@ hr {
 }
 
 #sidebar-top::-webkit-scrollbar-thumb {
-  background-color: #0C1117;
+  background-color: #0c1117;
   /* Color of the scrollbar */
   border-radius: 1px;
   /* Rounded corners */
@@ -475,15 +478,15 @@ hr {
 }
 
 #sidebar-top:hover::-webkit-scrollbar-thumb {
-  background-color: #0C1117;
-  border-left: 1px solid #2F363C;
-  border-bottom: 1px solid #2F363C;
-  border-top: 1px solid #2F363C;
+  background-color: #0c1117;
+  border-left: 1px solid #2f363c;
+  border-bottom: 1px solid #2f363c;
+  border-top: 1px solid #2f363c;
 }
 
 #top-nav {
-  background: #0D1116;
-  border: 1px solid #2F363C;
+  background: #0d1116;
+  border: 1px solid #2f363c;
   border-top: none;
   font-size: 14px;
   margin-left: 3px;
@@ -497,8 +500,8 @@ hr {
   bottom: -1px;
   width: 4px;
   position: absolute;
-  content: "";
-  background-color: #25B84C;
+  content: '';
+  background-color: #25b84c;
 }
 
 .w-190 {
@@ -506,7 +509,7 @@ hr {
 }
 
 .fa-message-middle {
-  color: #7E8490;
+  color: #7e8490;
 }
 
 /* For Firefox */
@@ -516,7 +519,7 @@ hr {
 }
 
 #saved #messages-box {
-  border-top: 1px solid #2F363C;
+  border-top: 1px solid #2f363c;
 }
 
 #messages-box,
@@ -589,8 +592,8 @@ ol {
 
 form button {
   color: #fff;
-  border-left: 2px solid #E85A40;
-  transition: .69s;
+  border-left: 2px solid #e85a40;
+  transition: 0.69s;
 }
 
 form button:hover {
@@ -607,26 +610,26 @@ form button:hover {
 
 form input {
   border-radius: 3px;
-  border: 1px solid #2F363C;
+  border: 1px solid #2f363c;
   height: 45px;
   background: transparent;
 }
 
 .border-gray {
-  border-color: #4D4D4D;
+  border-color: #4d4d4d;
 }
 
 .border-gray-light {
-  border: 1px solid #30363D;
+  border: 1px solid #30363d;
 }
 
 form textarea {
   border-radius: 3px;
-  border-color: #4D4D4D;
-  border: 1px solid #30363D;
+  border-color: #4d4d4d;
+  border: 1px solid #30363d;
   height: 45px;
   background: transparent;
-  color: #C2C3C4;
+  color: #c2c3c4;
   resize: none;
 }
 
@@ -649,26 +652,26 @@ h1 {
 }
 
 #chat-form {
-  color: #1C1D20 !important;
+  color: #1c1d20 !important;
   font-weight: 500 !important;
   font-size: 15px;
   margin-left: -15px;
 }
 
-input[type="text"]::placeholder,
+input[type='text']::placeholder,
 textarea::placeholder {
-  color: #6D7681 !important;
+  color: #6d7681 !important;
 }
 
 #chat-form input:focus,
 #chat-form textarea:focus {
   outline: none;
-  border-color: 1px solid #1F6FEB;
+  border-color: 1px solid #1f6feb;
 }
 
 input,
 textarea {
-  border: 1px solid #30363D;
+  border: 1px solid #30363d;
 }
 
 .border-top-none {
@@ -726,9 +729,9 @@ kbd,
 samp,
 pre {
   max-width: 750px !important;
-  font-family: "Chakra Petch", sans-serif;
+  font-family: 'Chakra Petch', sans-serif;
   color: #c7c8cd;
-  color: #E05194;
+  color: #e05194;
   font-size: 14px;
 }
 
@@ -746,16 +749,16 @@ code {
 .mention-popover {
   max-width: 420px;
   position: absolute;
-  background: #0C1117;
+  background: #0c1117;
   bottom: 0;
   margin-bottom: 58px;
-  border: 1px solid #2F363C;
+  border: 1px solid #2f363c;
 }
 .mention-popover ul {
   max-width: 420px;
 }
 .mention-popover li:hover {
-  background: #21262D;
+  background: #21262d;
 }
 
 /* CSS for the sidebar top */
@@ -767,7 +770,6 @@ code {
 /*responsive design*/
 
 @media (max-width: 640px) {
-
   body,
   html {
     overflow: hidden;
@@ -786,15 +788,15 @@ table td,
 table tr {
   background: transparent !important;
   color: #7d8590;
-  border-color: #2F363C;
+  border-color: #2f363c;
 }
 
 table {
-  border: 1px solid #2F363C;
+  border: 1px solid #2f363c;
 }
 
 table th {
-  background: #161B21;
+  background: #161b21;
 }
 
 .ql-toolbar.ql-snow {

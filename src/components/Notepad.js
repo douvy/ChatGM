@@ -5,6 +5,7 @@ import { client } from '../trpc/client';
 import { trpc } from '../utils/trpc';
 import { marked } from 'marked';
 import { TodoistApi } from '@doist/todoist-api-typescript';
+import injector from '@utils/DataInjector';
 
 const ReactQuill = dynamic(
   async () => {
@@ -52,6 +53,7 @@ export default function Notepad({
   if (!note.id) {
     client.users.getNote.query().then(note => {
       note && setNote(note);
+      injector.inject({ note });
     });
   }
 

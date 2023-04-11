@@ -23,7 +23,7 @@ import { client } from '../trpc/client';
 import { trpc } from '../utils/trpc';
 import { Conversation, Message, Session, PageProps } from '../interfaces';
 import { TodoistApi } from '@doist/todoist-api-typescript';
-// import { Card } from 'flowbite-react';
+import Block from '../components/Block';
 
 const Home: NextPage<PageProps> = props => {
   const { data: session, status } = useSession();
@@ -378,6 +378,8 @@ const Home: NextPage<PageProps> = props => {
   return (
     <>
       <div className='flex' id='main-container'>
+        {/* <Block>dkfsdkjfhskjdh</Block> */}
+
         <Sidebar
           conversations={conversations}
           setConversations={setConversations}
