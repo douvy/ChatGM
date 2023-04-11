@@ -37,8 +37,17 @@ function ChatWindow({ conversationId, conversation, setConversation, newMessage,
             channelName: channelName,
         })
         channelRef.current = pusher.subscribe(channelName, auth);
-        channelRef.current.bind('new-message', function (data) {
+        channelRef.current.bind('new-conversation', function (data) {
             setConversation(data.conversation);
+        });
+        channelRef.current.bind('new-message', function (data) {
+            if (data.conversationId != conversation.id) {
+                return;
+            }
+            setConversation({
+                ...conversation,
+                messages: [...conversation.messages, data.message]
+            });
         });
 
         channelRef.current.bind('client-is-typing', function (newMessage) {

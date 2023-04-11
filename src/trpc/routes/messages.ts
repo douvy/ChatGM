@@ -47,7 +47,8 @@ export const createMessage = trpc.procedure.input((req: any) => {
 
     const conversation = await prisma.conversation.findUnique({ where: { id: Number(message.conversationId) }, include: { messages: { orderBy: { id: 'asc' } } } });
     pusher.trigger(`conversation-${conversation?.id}`, "new-message", {
-        conversation: conversation
+        conversationId: conversation?.id,
+        message: conversation?.messages[conversation?.messages.length - 1]
     });
     return conversation;
 })

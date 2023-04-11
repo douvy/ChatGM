@@ -54,7 +54,8 @@ export const query = trpc.procedure.input((req: any) => {
         });
         console.log("updatedConversation", updatedConversation);
         pusher.trigger(`conversation-${updatedConversation.id}`, "new-message", {
-            conversation: updatedConversation
+            conversationId: updatedConversation.id,
+            message: updatedConversation.messages[updatedConversation.messages.length - 1],
         });
         return updatedConversation;
     } catch (e) {

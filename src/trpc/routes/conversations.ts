@@ -17,7 +17,6 @@ export const query = trpc.procedure.query(async () => {
 })
 
 export const withPartialMessages = trpc.procedure.use(({ next, ctx }) => {
-  console.log('fucking context', ctx);
   return next({
     ctx: ctx
   });
@@ -89,7 +88,7 @@ export const createConversation = procedure.input((req: any) => {
     },
   });
   console.log('\x1b[31m%s\x1b[0m', "inserted", conversation);
-  pusher.trigger(`conversation-${conversation?.id}`, "new-message", {
+  pusher.trigger(`conversation-${conversation?.id}`, "new-conversation", {
     conversation: conversation
   });
   return conversation;
