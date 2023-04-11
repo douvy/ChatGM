@@ -15,49 +15,15 @@ import Debugger from '../components/Debugger';
 import Modal from '../components/Modal';
 import ActiveTask from '../components/ActiveTask';
 import { addInfiniteScroll } from '../utils/infiniteScroll';
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { getSession, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { User, Conversation as PrismaConversation } from '@prisma/client';
 import { client } from '../trpc/client';
 import { trpc } from '../utils/trpc';
-import { Conversation, Message } from '../interfaces';
+import { Conversation, Message, Session, PageProps } from '../interfaces';
 import { TodoistApi } from '@doist/todoist-api-typescript';
-import { Card } from 'flowbite-react';
-
-interface InitialProps {
-  conversations: Conversation[];
-}
-
-interface Session {
-  user: {
-    username: String;
-    _id?: String;
-  };
-  _id?: String;
-}
-
-interface Feature {
-  name: string;
-  description: string;
-}
-
-interface PageProps {
-  session: any;
-  conversations: Conversation[];
-  starredMessages: Message[];
-  features?: Feature[];
-  tasks?: any[];
-  userInfo: any;
-  activeTask: any;
-  c: any;
-}
-
-interface ChannelData {
-  name: string;
-  message: string;
-  timestamp: string;
-}
+// import { Card } from 'flowbite-react';
 
 const Home: NextPage<PageProps> = props => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -139,6 +105,26 @@ const Home: NextPage<PageProps> = props => {
     trpc.conversations.updateMessages.useMutation();
 
   useEffect(() => {
+    switch (router.pathname) {
+      case '/conversations/[id]':
+        setConversationId(Number(router.query.id));
+        break;
+      case 'n':
+        setCurrentRoute('/notepad');
+        break;
+      case 'p':
+        setCurrentRoute('/savedPrompts');
+        break;
+      case 'r':
+        setCurrentRoute('/savedResponses');
+        break;
+      case 'c':
+        newConversation();
+        break;
+    }
+  }, [router.asPath]);
+
+  useEffect(() => {
     if (userInfo.activeTaskId && userInfo.activeTaskId != activeTask.id) {
       const api = new TodoistApi(userInfo.todoistApiKey);
       api.getTask(userInfo.activeTaskId).then(task => {
@@ -156,6 +142,7 @@ const Home: NextPage<PageProps> = props => {
 
   useEffect(() => {
     if (conversationId) {
+      console.log('!!!!');
       if (
         conversationId != conversation.id ||
         !conversation.participants ||
