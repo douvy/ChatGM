@@ -64,8 +64,9 @@ interface ChannelData {
 
 const Home: NextPage<PageProps> = (props) => {
   const router = useRouter();
-  const { route } = router;
-  const { slug } = router.query;
+  const [componentName, setComponentName] = useState('');
+  const { componentName: routeComponentName } = router.query;
+
   const trpcCtx = trpc.useContext();
 
   const { data: session, status } = useSession()
