@@ -32,6 +32,12 @@ const AutoExpandTextarea = ({
     }
   });
 
+  useEffect(() => {
+    if (value === '' && height !== 45) {
+      setHeight(45);
+    }
+  }, [value]);
+
   return (
     <textarea
       ref={textareaRef}
