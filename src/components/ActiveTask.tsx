@@ -38,10 +38,10 @@ const ActiveTask: React.FC<ActiveTaskProps> = ({ activeTask, userInfo }) => {
                     <div
                     // onClick={() => setIsMembersExpanded(!isMembersExpanded)}
                     >
-                        <h1 className="text-sm flex justify-between">
+                        <div className="text-sm flex justify-between">
                             <span className="font-bold">{activeTask.content}</span>
                             <span className="text-white-500">{countdown}</span>
-                        </h1>
+                        </div>
                         <h2>
                             <ReactMarkdown
                                 children={activeTask.description} /></h2>

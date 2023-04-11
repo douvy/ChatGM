@@ -9,10 +9,29 @@ export function usePrevious(value) {
   return ref.current;
 }
 
-function ConversationLinkList({ conversations, setConversation, activeConversation, activeConversationId, selectConversation, userInfo, newConversation, setConversations, currentRoute }) {
+function ConversationLinkList({ conversations, setConversation, activeConversation, activeConversationId, selectConversation, userInfo, newConversation, setConversations, currentRoute, c }) {
   const [isPersonalExpanded, setIsPersonalExpanded] = useState(conversations.filter((c) => c.participants?.length <= 1).length > 0);
   const [isGroupExpanded, setIsGroupExpanded] = useState(conversations.filter((c) => c.participants?.length > 1).length > 0);
   const prevConversations = usePrevious(conversations);
+
+  const personalConversations = conversations.filter((conversation) => conversation.participants?.length <= 1);
+  const groupConversations = conversations.filter((conversation) => conversation.participants?.length > 1);
+
+  useEffect(() => {
+    console.log("C", c)
+    switch (c?.key) {
+      case 'ArrowUp':
+        // if (activeTaskIndex > 0) {
+        //   setActiveTask(tasks[activeTaskIndex - 1], activeTaskIndex - 1);
+        // }
+        break;
+      case 'ArrowDown':
+        // if (activeTaskIndex < tasks.length - 1) {
+        //   setActiveTask(tasks[activeTaskIndex + 1], activeTaskIndex + 1);
+        // }
+        break;
+    }
+  }, [c]);
 
   function removeConversation(conversation) {
     const updatedConversations = conversations.filter((t) => t.id !== conversation.id);
@@ -56,7 +75,7 @@ function ConversationLinkList({ conversations, setConversation, activeConversati
           {isPersonalExpanded && (
             <div className="max-h-[315px] overflow-y-auto">
               <ul className="pl-0">
-                {conversations.filter((conversation) => conversation.participants?.length <= 1).map((conversation, index) => {
+                {personalConversations.map((conversation, index) => {
                   return <ConversationLinkListItem key={index} index={index} selectConversation={selectConversation} conversation={conversation} isActive={activeConversationId == conversation.id} removeConversation={removeConversation} setConversation={setConversation} updateConversations={updateConversations} />
                 })}
               </ul>
@@ -68,7 +87,7 @@ function ConversationLinkList({ conversations, setConversation, activeConversati
           {isGroupExpanded && (
             <div className="max-h-[315px] overflow-y-auto">
               <ul className="pl-0">
-                {conversations.filter((conversation) => conversation.participants?.length > 1).map((conversation, index) => {
+                {groupConversations.map((conversation, index) => {
                   return <ConversationLinkListItem key={index} index={index} selectConversation={selectConversation} conversation={conversation} isActive={activeConversationId == conversation.id} removeConversation={removeConversation} setConversation={setConversation} updateConversations={updateConversations} />
                 })}
               </ul>

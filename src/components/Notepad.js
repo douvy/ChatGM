@@ -21,6 +21,14 @@ export default function TextEditor({ content, setContent, userInfo, setUserInfo,
     const updateNote = trpc.users.saveNote.useMutation();
     const spinnerIcon = "<span className='spinner'></span>"
 
+    const editorRef = useRef(null);
+
+    useEffect(() => {
+        if (editorRef?.current) {
+            editorRef.current?.focus && editorRef.current.focus();
+        }
+    }, []);
+
     if (!note.id) {
         client.users.getNote.query().then((note) => {
             note && setNote(note);
@@ -141,6 +149,7 @@ export default function TextEditor({ content, setContent, userInfo, setUserInfo,
                 value={note.content}
                 onChange={handleChange}
                 onKeyDown={handleKeyDown}
+                ref={editorRef}
             // dangerouslySetInnerHTML={{ __html: note.content }}
             />
             {/* {JSON.stringify({

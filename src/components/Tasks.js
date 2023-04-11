@@ -20,8 +20,8 @@ function Tasks({ userInfo, setUserInfo, c }) {
     const [activeProject, setActiveProject] = useState(null);
     const [activeTaskIndex, setActiveTaskIndex] = useState(null);
     const setActiveTaskMutation = trpc.users.setActiveTask.useMutation();
+
     useEffect(() => {
-        console.log("c.key", c.key);
         switch (c.key) {
             case 'ArrowUp':
                 if (activeTaskIndex > 0) {
