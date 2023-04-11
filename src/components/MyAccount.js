@@ -132,6 +132,7 @@ function MyAccount({ userInfo, setUserInfo }) {
             alt="profile picture"
             layout="fill"
             objectFit="cover"
+            className="rounded"
           />
           <form>
             <input ref={fileInputRef} onChange={handleFormSubmit} className="hidden" type="file" accept="image/*" />
@@ -159,7 +160,7 @@ function MyAccount({ userInfo, setUserInfo }) {
                   <p className="flex items-center justify-start gap-2 px-0.5">Username*</p>
                 </div>
                 <div className="relative">
-                  <input type="text" value={localUserInfo.username} onChange={updateUsernameValue} className="h-10 w-full border-1 bg-dark-gray py-2 px-4 text-sm outline-none bg-dark text-white" name="username" id="username" />
+                  <input type="text" value={localUserInfo.username} onChange={updateUsernameValue} className="h-10 w-full border-1 rounded bg-dark-gray py-2 px-4 text-sm outline-none bg-dark text-white" name="username" id="username" />
                 </div>
               </label>
             </div>
@@ -167,7 +168,7 @@ function MyAccount({ userInfo, setUserInfo }) {
           <div className="flex flex-col gap-2 border-1">
             <div className="gap-2 mt-5 text-sm text-white font-semibold capitalize flex w-full flex-col items-stretch justify-center form-field border-1">
               <label className="flex cursor-pointer flex-col gap-2" htmlFor="use-tasks">
-                <div className="flex items-center justify-between border-1">
+                <div className="flex items-center justify-between border-1 round">
                   <p className="flex items-center justify-start gap-2 px-0.5 tracking-wide border-1">Use tasks feature</p>
                   <div className="toggle-switch">
                     <input
@@ -199,7 +200,7 @@ function MyAccount({ userInfo, setUserInfo }) {
                   <p className="flex items-center justify-start gap-2 px-0.5 tracking-wide">Todoist API key</p>
                 </div>
                 <div className="relative">
-                  <input type="text" value={localUserInfo.todoistApiKey} onChange={updateTodoistApiKeyValue} className="h-10 w-full border-1 bg-dark-gray py-2 px-4 text-sm outline-none bg-dark text-white" name="todoist-api" id="todoist-api" />
+                  <input type="text" value={localUserInfo.todoistApiKey} onChange={updateTodoistApiKeyValue} className="h-10 w-full border-1 bg-dark-gray py-2 px-4 text-sm outline-none bg-dark text-white rounded" name="todoist-api" id="todoist-api" />
                 </div>
               </label>
             </div>
@@ -245,7 +246,7 @@ function MyAccount({ userInfo, setUserInfo }) {
                   <p className="flex items-center justify-start gap-2 px-0.5 tracking-wide">Telegram User ID</p>
                 </div>
                 <div className="relative">
-                  <input type="text" value={localUserInfo.telegramUserId} onChange={updateTelegramUserId} className="h-10 w-full border-1 bg-dark-gray py-2 px-4 text-sm outline-none bg-dark text-white" name="todoist-api" id="todoist-api" />
+                  <input type="text" value={localUserInfo.telegramUserId} onChange={updateTelegramUserId} className="h-10 w-full border-1 bg-dark-gray py-2 px-4 text-sm outline-none bg-dark text-white rounded" name="todoist-api" id="todoist-api" />
                 </div>
               </label>
             </div>

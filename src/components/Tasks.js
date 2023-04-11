@@ -22,19 +22,22 @@ function Tasks({ userInfo, setUserInfo, c }) {
     const setActiveTaskMutation = trpc.users.setActiveTask.useMutation();
 
     useEffect(() => {
-        switch (c.key) {
-            case 'ArrowUp':
-                if (activeTaskIndex > 0) {
-                    setActiveTask(tasks[activeTaskIndex - 1], activeTaskIndex - 1);
-                }
-                break;
-            case 'ArrowDown':
-                if (activeTaskIndex < tasks.length - 1) {
-                    setActiveTask(tasks[activeTaskIndex + 1], activeTaskIndex + 1);
-                }
-                break;
-        }
-    }, [c]);
+    // Check if 'c' is not null before accessing its 'key' property
+    if (c) {
+      switch (c.key) {
+        case 'ArrowUp':
+          if (activeTaskIndex > 0) {
+            setActiveTask(tasks[activeTaskIndex - 1], activeTaskIndex - 1);
+          }
+          break;
+        case 'ArrowDown':
+          if (activeTaskIndex < tasks.length - 1) {
+            setActiveTask(tasks[activeTaskIndex + 1], activeTaskIndex + 1);
+          }
+          break;
+      }
+    }
+  }, [c]);
 
     if (projects.length == 0) {
         if (!userInfo.activeProjectId) {

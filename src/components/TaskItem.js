@@ -39,7 +39,7 @@ function TaskItem({ index, task, userInfo, setUserInfo, setActiveTask, setActive
     <div className="w-full box cursor-pointer" onClick={() => {
       setActiveTask(task, index);
     }}>
-      <div className={`message p-4 pt-4 relative ${task.id == userInfo.activeTaskId ? '!bg-blue-900' : ''}`}>
+      <div className={`message p-2 relative ${task.id == userInfo.activeTaskId ? '!bg-blue-950' : ''}`}>
         <img src={'avatar.png'} alt="Avatar" className="w-9 h-9 rounded-full absolute left-4 top-2" />
         <div className="pl-16 pt-0">
           <span className="text-sm mb-1 inline-block name">{'Task'}</span> <br />
