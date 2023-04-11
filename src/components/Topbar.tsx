@@ -104,21 +104,30 @@ const Topbar: React.FC<TopbarProps> = ({ conversation, userInfo, addSystemMessag
             {isAvatarDropdownOpen && (
               <div className="absolute right-0 mt-8 w-48 bg-dark border-gray-light rounded-md shadow-lg z-100 dropdown-container">
                 <ul className="py-1 text-base leading-6 text-offwhite">
-                  <li className="flex flex-col items-start px-4 py-2 hover-dark cursor-pointer text-sm -mx-0 -mt-1 -mb-1">
-                    <div className="flex items-center w-full">
-                      <div className="w-11 h-11 rounded-full overflow-hidden">
-                        <img src={userInfo.avatarSource || "/avatar.png"} className="rounded-full" />
+                    <li className="flex flex-col items-start px-4 py-2 hover-dark cursor-pointer text-sm -mx-0 -mt-1 -mb-1">
+                      <div className="flex items-center w-full">
+                        <div className="w-11 h-11 rounded-full overflow-hidden">
+                          <img src={userInfo.avatarSource || "/avatar.png"} className="rounded-full" />
+                        </div>
+                        <div className="ml-1">
+                          <span className="ml-3">{userInfo?.username}</span>
+                        </div>
                       </div>
-                      <div className="ml-1">
-                        <span className="ml-3">{userInfo?.username}</span>
+                      <div className="flex items-center w-full mt-2">
+                        <i className="fa-regular fa-gear"></i>
+                        <span className="ml-2">Settings</span>
                       </div>
-                    </div>
-                    <div className="flex items-center w-full mt-2">
-                      <i className="fa-regular fa-gear"></i>
-                      <span className="ml-2">Settings</span>
-                    </div>
-                  </li>
-                </ul>
+                    </li>
+                    <hr className="border-t border-gray w-full my-2" />
+                    <li className="flex items-center px-4 py-2 hover-dark cursor-pointer text-sm -mx-0 -mt-1 -mb-1">
+                      <i className="fa-solid fa-wave-pulse"></i>
+                      <span className="ml-2">Example 1</span>
+                    </li>
+                    <li className="flex items-center px-4 py-2 hover-dark cursor-pointer text-sm -mx-0 -mt-1 -mb-1">
+                      <i class="fa-solid fa-puzzle-piece"></i>
+                      <span className="ml-2">Example 2</span>
+                    </li>
+                  </ul>
               </div>
             )}
           </nav>
