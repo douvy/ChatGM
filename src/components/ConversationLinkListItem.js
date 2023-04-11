@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { trpc } from '../utils/trpc';
+import Link from 'next/link';
 
 function ConversationLinkListItem({ conversation, setConversation, isActive, selectConversation, removeConversation, updateConversations }) {
   const router = useRouter();
@@ -45,11 +46,11 @@ function ConversationLinkListItem({ conversation, setConversation, isActive, sel
   }
 
   return (
-
+    // <Link href="/conversations[id]" as={`/conversations${conversation.id}`}
     <a onClick={handleClick}
       onMouseEnter={() => setShowIcons(true)}
       onMouseLeave={() => setShowIcons(false)}
-      href="#" className={isActive ? "active" : ""}>
+      className={`cursor-pointer ${isActive ? "active" : ""}`}>
       <li className="p-2 pl-3 whitespace-nowrap overflow-hidden flex items-center justify-between relative">
         <div className="flex items-center space-x-4">
           <i className="fa-solid fa-message-middle text-gray"></i>
@@ -89,6 +90,7 @@ function ConversationLinkListItem({ conversation, setConversation, isActive, sel
         )}
       </li>
     </a>
+    // </Link>
   );
 }
 

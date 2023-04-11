@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import ConversationLinkListItem from './ConversationLinkListItem';
+import { useRouter } from 'next/router';
 
 export function usePrevious(value) {
   const ref = useRef();
@@ -10,6 +11,8 @@ export function usePrevious(value) {
 }
 
 function ConversationLinkList({ conversations, setConversation, activeConversation, activeConversationId, selectConversation, userInfo, newConversation, setConversations, currentRoute, c }) {
+  const router = useRouter();
+
   const [isPersonalExpanded, setIsPersonalExpanded] = useState(conversations.filter((c) => c.participants?.length <= 1).length > 0);
   const [isGroupExpanded, setIsGroupExpanded] = useState(conversations.filter((c) => c.participants?.length > 1).length > 0);
   const prevConversations = usePrevious(conversations);
@@ -76,7 +79,10 @@ function ConversationLinkList({ conversations, setConversation, activeConversati
             <div className="max-h-[315px] overflow-y-auto">
               <ul className="pl-0">
                 {personalConversations.map((conversation, index) => {
-                  return <ConversationLinkListItem key={index} index={index} selectConversation={selectConversation} conversation={conversation} isActive={activeConversationId == conversation.id} removeConversation={removeConversation} setConversation={setConversation} updateConversations={updateConversations} />
+                  return <ConversationLinkListItem key={index} index={index} selectConversation={() => {
+                    router.push('/conversation-[id]', `/conversation-${conversation.id}`);
+                    // selectConversation(conversation)
+                  }} conversation={conversation} isActive={activeConversationId == conversation.id} removeConversation={removeConversation} setConversation={setConversation} updateConversations={updateConversations} />
                 })}
               </ul>
             </div>

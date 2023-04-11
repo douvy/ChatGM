@@ -6,6 +6,8 @@ import { router } from '../../server/trpc';
 import { z } from 'zod';
 import pusher from '../../server/lib/pusher';
 import { procedure } from '../../server/trpc'
+import { TodoistApi } from '@doist/todoist-api-typescript';
+import { getSession } from 'next-auth/react';
 
 export const get = trpc.procedure.input(
   z.object({
@@ -31,6 +33,130 @@ export const get = trpc.procedure.input(
     },
   });
   return user;
+})
+
+export const getUserInfo = procedure.use(({ next, ctx }) => {
+  return next({
+    ctx: ctx
+  });
+}).input((req: any) => {
+  return req;
+}).query(async ({ ctx, input }) => {
+  const { session } = input;
+  console.log(input);
+  const user = session.user;
+  const userInfo = await prisma.user.findUnique({
+    where: { id: Number(user.id) },
+    select: {
+      id: true,
+      username: true,
+      avatarSource: true,
+      includeTaskFeature: true,
+      todoistApiKey: true,
+      useGPT4: true,
+      gpt4ApiKey: true,
+      activeTaskId: true,
+      activeTaskSetAt: true,
+      activeProjectId: true,
+      enableChatGMBot: true,
+      telegramUserId: true,
+      includeNotepad: true,
+    },
+  });
+  return userInfo;
+})
+
+export const getInitialPageData = procedure.use(({ next, ctx }) => {
+  return next({
+    ctx: ctx
+  });
+}).input((req: any) => {
+  return req;
+}).query(async ({ ctx, input }) => {
+  const session = ctx.session || input.session;
+  console.log("SESSION: ", session);
+  const user = session.user;
+  const userInfo = await prisma.user.findUnique({
+    where: { id: Number(user.id) },
+    select: {
+      id: true,
+      username: true,
+      avatarSource: true,
+      includeTaskFeature: true,
+      todoistApiKey: true,
+      useGPT4: true,
+      gpt4ApiKey: true,
+      activeTaskId: true,
+      activeTaskSetAt: true,
+      activeProjectId: true,
+      enableChatGMBot: true,
+      telegramUserId: true,
+      includeNotepad: true,
+    },
+  });
+
+  const activeTask = userInfo?.activeTaskId && userInfo?.todoistApiKey ? await (async () => {
+    if (userInfo.todoistApiKey == null) return;
+    if (userInfo.activeTaskId == null) return;
+    const api = new TodoistApi(userInfo.todoistApiKey)
+    return await api.getTask(userInfo.activeTaskId);
+  })() : {}
+
+  const conversations = await prisma.conversation.findMany({
+    where: {
+      participants: {
+        some: {
+          id: userInfo?.id,
+        },
+      },
+    },
+    orderBy: { id: 'desc' },
+
+    include: {
+      messages: {
+        include: {
+          sender: {
+            select: {
+              username: true,
+              avatarSource: true
+            }
+          },
+        },
+        orderBy: { id: 'desc' }, // Order messages by id in ascending order
+        take: 10 // Fetch only the last 10 messages for each conversation
+      },
+      participants: {
+        select: {
+          id: true,
+          username: true,
+          avatarSource: true
+        }
+      },
+    },
+  });
+
+  return {
+    session: {},
+    conversations: conversations.map((conversation: any) => {
+      return {
+        ...conversation,
+        messages: conversation.messages.reverse() // Reverse the messages so that they are in ascending order
+      }
+    }),
+    userInfo: userInfo,
+    starredMessages: await prisma.message.findMany({
+      where: {
+        fans: {
+          some: { id: input.userId }
+        }
+      },
+      include: {
+        sender: true
+      }
+    }),
+    activeTask: activeTask,
+
+  };
 })
 
 export const update = trpc.procedure.input((req: any) => {
@@ -205,6 +331,8 @@ export const getNote = procedure.use(({ next, ctx }) => {
 
 export const usersRouter = router({
   get: get,
+  getUserInfo: getUserInfo,
+  getInitialPageData: getInitialPageData,
   update: update,
   updateAvatar: updateAvatar,
   setActiveTask: setActiveTask,

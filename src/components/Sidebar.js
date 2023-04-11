@@ -1,54 +1,45 @@
-import { signOut } from 'next-auth/react';
+import ConversationLinkList from './ConversationLinkList';
+import SidebarNav from './SidebarNav';
 
-function SidebarItem({ itemText, iconName, onClick, link = '#', isActive }) {
-    return (
-        <a href={link} className={isActive ? 'active' : ''}>
-            <li className="p-2 pl-3" onClick={onClick}>
-                <i className={`fa-solid fa-${iconName} mr-4 w-4`}></i> {itemText}
-            </li>
-        </a>
-    );
-}
-
-export default function Sidebar({ setConversations, setConversation, setActiveComponent, features, currentRoute, setCurrentRoute, session, userInfo }) {
-    return (
-        <div>
-            <ul className="pl-3">
-                {/* <SidebarItem iconName="trash-can-xmark" itemText="Clear Conversations" onClick={handleClearConversations} /> */}
-                {/*<SidebarItem iconName="brightness" itemText="Light Mode" />*/}
-
-                {currentRoute == '/conversations'}
-                <SidebarItem iconName="user-hair-mullet text-blue" isActive={currentRoute == "/myAccount" ? true : false} itemText="My Account" onClick={() => {
-                    setCurrentRoute('/myAccount');
-                }} />
-
-                {userInfo.includeTaskFeature ? <SidebarItem iconName="fa-sharp fa-regular text-orange fa-list-check" isActive={currentRoute == "/tasks" ? true : false} itemText="Todos" onClick={() => {
-                    setCurrentRoute('/tasks');
-                }} /> : <></>}
-                {userInfo.includeNotepad ? <SidebarItem iconName="fa-solid fa-memo-pad text-pink" isActive={currentRoute == "/notepad" ? true : false} itemText="Notepad" onClick={() => {
-                    setCurrentRoute('/notepad');
-                }} /> : <></>}
-                {/* <SidebarItem iconName="check-square" itemText="Features" onClick={() => {
-                    setCurrentRoute('/features');
-                }} /> */}
-                {/* <SidebarItem iconName="fa-solid fa-messages text-gray" isActive={currentRoute == "/conversations" ? true : false} itemText="Conversations" onClick={() => {
-                    setCurrentRoute('/conversations');
-                }} /> */}
-                <SidebarItem iconName="fa-solid fa-stars text-yellow" isActive={currentRoute == "/savedPrompts" ? true : false} itemText="Saved prompts" onClick={() => {
-                    setCurrentRoute('/savedPrompts');
-                }} />
-                <SidebarItem iconName="fa-solid fa-stars text-yellow" isActive={currentRoute == "/savedResponses" ? true : false} itemText="Saved responses" onClick={() => {
-                    setCurrentRoute('/savedResponses');
-                }} />
-                <SidebarItem iconName="fa-solid fa-toolbox text-purple" isActive={currentRoute == "/builder" ? true : false} itemText="Component builder" onClick={() => {
-                    setCurrentRoute('/builder');
-                }} />
-                <SidebarItem iconName="arrow-right-from-bracket text-red" isActive={currentRoute == "/auth/signin" ? true : false} itemText="Log Out" onClick={() => {
-                    signOut({
-                        callbackUrl: '/auth/signin',
-                    });
-                }} />
-            </ul>
-        </div>
-    );
+export default function Sidebar({
+  conversations,
+  setConversation,
+  conversation,
+  conversationId,
+  selectConversation,
+  userInfo,
+  newConversation,
+  setConversations,
+  currentRoute,
+  setCurrentRoute,
+  setActiveComponent,
+  ...props
+}) {
+  return (
+    <nav className='fixed h-full w-[228px] shadow-md hidden lg:block br-1-gray bg-dark'>
+      <ConversationLinkList
+        conversations={conversations}
+        setConversation={setConversation}
+        activeConversation={conversation}
+        activeConversationId={conversationId}
+        selectConversation={selectConversation}
+        userInfo={userInfo}
+        newConversation={newConversation}
+        setConversations={setConversations}
+        currentRoute={currentRoute}
+        c={props.c}
+      ></ConversationLinkList>
+      <hr className='my-4 border-t' />
+      <SidebarNav
+        setConversations={setConversations}
+        setConversation={setConversation}
+        setActiveComponent={setActiveComponent}
+        features={props.features}
+        currentRoute={currentRoute}
+        setCurrentRoute={setCurrentRoute}
+        session={props.session}
+        userInfo={userInfo}
+      />
+    </nav>
+  );
 }

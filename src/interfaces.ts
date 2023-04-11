@@ -29,3 +29,8 @@ export interface Conversation {
 export interface UserInfo {
 
 }
+
+export interface Feature {
+  name: string,
+  description: string
+}
