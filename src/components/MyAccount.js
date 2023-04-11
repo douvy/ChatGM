@@ -132,6 +132,7 @@ function MyAccount({ userInfo, setUserInfo }) {
             alt="profile picture"
             layout="fill"
             objectFit="cover"
+            className="rounded"
           />
           <form>
             <input ref={fileInputRef} onChange={handleFormSubmit} className="hidden" type="file" accept="image/*" />
