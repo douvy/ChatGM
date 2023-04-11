@@ -382,7 +382,7 @@ const Home: NextPage<PageProps> = (props) => {
           </button>
         </div>
         <div className="flex flex-col h-full w-full lg:ml-[225px]">
-          {userInfo.activeTaskId && <ActiveTask activeTask={activeTask} userInfo={userInfo} />}
+          {userInfo.activeTaskId && <ActiveTask activeTask={activeTask} userInfo={userInfo} setUserInfo={setUserInfo} />}
 
           <Topbar conversation={conversation} userInfo={userInfo} addSystemMessage={addSystemMessage} />
           {modalOpen && <Modal modalOpen={modalOpen} setModalOpen={setModalOpen} children={<></>} />}

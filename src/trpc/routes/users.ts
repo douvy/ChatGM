@@ -39,10 +39,10 @@ export const update = trpc.procedure.input((req: any) => {
   }
   return req;
 }).query(async ({ input }) => {
-  const user = input;
+  const userInfo = input;
   return await prisma.user.update({
-    where: { id: user.id },
-    data: user,
+    where: { id: userInfo.id },
+    data: userInfo,
   });
 })
 
