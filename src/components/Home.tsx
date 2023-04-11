@@ -26,9 +26,8 @@ import { TodoistApi } from '@doist/todoist-api-typescript';
 // import { Card } from 'flowbite-react';
 
 const Home: NextPage<PageProps> = props => {
-  const [isLoaded, setIsLoaded] = useState(false);
-
   const { data: session, status } = useSession();
+  const user = session?.user as User;
 
   const router = useRouter();
   const [componentName, setComponentName] = useState('');
@@ -55,27 +54,17 @@ const Home: NextPage<PageProps> = props => {
 
   const [messageContent, setMessageContent] = useState('');
 
-  const user = session?.user as User;
   const [newMessage, setMessage] = useState<Message>({
     role: 'user',
     content: messageContent,
     avatarSource: 'avatar.png',
-    sender: session?.user as User,
+    // sender: session?.user as User,
     senderId: session?.user?.id || 0
   });
 
   const [referencedMessage, setReferencedMessage] = useState<
     Message | undefined
   >(undefined);
-
-  const updateMessageValue = (event: any) => {
-    setMessageContent(event.target.value);
-    setMessage({ ...newMessage, content: event.target.value });
-  };
-
-  const getMessageContent = () => {
-    return newMessage.content;
-  };
 
   const [newResponse, setResponse] = useState({
     response: ''
@@ -91,7 +80,6 @@ const Home: NextPage<PageProps> = props => {
     creatorId: userInfo.id,
     isPublic: false
   });
-  // console.log("conversation:", conversation);
 
   const [conversations, setConversations] = useState<Conversation[]>(
     props.conversations || []
@@ -225,6 +213,11 @@ const Home: NextPage<PageProps> = props => {
   }, [messages]);
 
   const lastMessage = useRef<HTMLDivElement>(null);
+
+  const updateMessageValue = (event: any) => {
+    setMessageContent(event.target.value);
+    setMessage({ ...newMessage, content: event.target.value });
+  };
 
   const newConversation = (e?: Event) => {
     e?.preventDefault();
