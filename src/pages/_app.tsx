@@ -1,15 +1,15 @@
 import '@/styles/globals.css';
 import type { AppProps, AppType } from 'next/app';
 import Head from 'next/head';
-import Layout from '../components/Layout';
-import Provider from "next-auth/react";
 import { SessionProvider } from "next-auth/react"
 import React, { useEffect } from 'react';
 import { trpc } from '../utils/trpc';
 
-
+interface C {
+  key?: string;
+}
 const App: AppType = ({ Component, pageProps }: AppProps) => {
-  const [c, setC] = React.useState<string | null>(null);
+  const [c, setC] = React.useState<C>({});
 
   useEffect(() => {
     const handleKeyDown = (event: any) => {
