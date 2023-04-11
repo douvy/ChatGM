@@ -273,23 +273,36 @@ const Home: NextPage<PageProps> = props => {
     });
   };
 
+  const addUserToConversation = async () => {
+    console.log('@');
+    let handle = newMessage.content.split(' ')[0].substring(1);
+    resetMessage();
+    let updatedConversation = await client.conversations.addParticipant.mutate({
+      conversationId: conversation.id || -1, //it will never be undefined,
+      participantUsername: handle
+    });
+
+    const userToAdd = await client.users.find.query({
+      username: handle
+    });
+
+    updatedConversation = await addSystemMessage(
+      `${userInfo.username} added ${newMessage.content
+        .split(' ')[0]
+        .substring(1)} to the conversation.`
+    );
+    const notification = await client.notifications.create.mutate({
+      senderId: userInfo.id,
+      recipientId: userToAdd?.id,
+      conversationId: conversation.id,
+      type: 'addedToConversation'
+    });
+    return updatedConversation;
+  };
+
   const sendMessage = async () => {
     if (newMessage.content.startsWith('@') && conversation.id) {
-      console.log('@');
-      let handle = newMessage.content.split(' ')[0].substring(1);
-      resetMessage();
-      let updatedConversation =
-        await client.conversations.addParticipant.mutate({
-          conversationId: conversation.id,
-          participantUsername: handle
-        });
-
-      updatedConversation = await addSystemMessage(
-        `${userInfo.username} added ${newMessage.content
-          .split(' ')[0]
-          .substring(1)} to the conversation.`
-      );
-      return updatedConversation;
+      return addUserToConversation();
     }
     appendMessage(newMessage);
     resetMessage();

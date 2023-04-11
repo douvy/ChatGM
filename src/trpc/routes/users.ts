@@ -37,6 +37,32 @@ export const get = trpc.procedure
     return user;
   });
 
+export const find = trpc.procedure
+  .input((req: any) => {
+    return req;
+  })
+  .query(async ({ input }) => {
+    const user = await prisma.user.findUnique({
+      where: input,
+      select: {
+        id: true,
+        username: true,
+        avatarSource: true,
+        includeTaskFeature: true,
+        todoistApiKey: true,
+        useGPT4: true,
+        gpt4ApiKey: true,
+        activeTaskId: true,
+        activeTaskSetAt: true,
+        activeProjectId: true,
+        enableChatGMBot: true,
+        telegramUserId: true,
+        includeNotepad: true
+      }
+    });
+    return user;
+  });
+
 export const getUserInfo = procedure
   .use(({ next, ctx }) => {
     return next({
@@ -363,6 +389,7 @@ export const getNote = procedure
 
 export const usersRouter = router({
   get: get,
+  find: find,
   getUserInfo: getUserInfo,
   getInitialPageData: getInitialPageData,
   update: update,
