@@ -151,7 +151,7 @@ const Home: NextPage<PageProps> = props => {
       setCurrentRoute('/');
     }
 
-    if (!conversation.id) {
+    if (!conversation?.id) {
       // don't add conversations without ids
       return;
     }

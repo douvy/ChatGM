@@ -59,6 +59,7 @@ const Topbar: React.FC<TopbarProps> = ({
               <span className='absolute top-[1px] right-[1px] w-4 h-4 rounded-full bg-blue unread-indicator'></span>
             </button>
           </div>
+
           {isBellDropdownOpen && <NotificationsMenu />}
 
           <button
