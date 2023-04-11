@@ -38,25 +38,4 @@ const DataFetcher: NextPage<any> = ({ children, Component, ...props }) => {
   return <>{children(mergedProps)}</>;
 };
 
-// export const getServerSideProps: GetServerSideProps<any> = async (
-//   context: any
-// ) => {
-//   console.log('Getting server side props');
-//   const session = await getSession(context);
-
-//   if (!session) {
-//     return {
-//       redirect: {
-//         destination: '/auth/signin',
-//         permanent: false
-//       }
-//     };
-//   }
-//   const props = await client.users.getInitialPageData.query();
-//   console.log('Server side props:', props);
-//   return {
-//     props: props
-//   };
-// };
-
 export default DataFetcher;
