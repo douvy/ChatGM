@@ -147,6 +147,7 @@ function ChatWindow({
     }
     messageCount.current = conversation.messages.length;
   }, [conversation]);
+
   if (!conversation.messages) {
     return <></>;
   }
@@ -195,6 +196,7 @@ function ChatWindow({
           onKeyDown={handleKeyDown}
           placeholder='Type your message here...'
           className='w-full p-2 mr-2 bg-dark'
+          autoFocus={true}
         />
         <span className='button-container'>
           <button

@@ -89,12 +89,14 @@ function ConversationLinkList({
       <ul className='pl-3'>
         <div className='sticky top-0 bg-dark z-10'>
           <a
-            href='#'
-            onClick={newConversation}
+            onClick={() => {
+              router.push('/');
+              newConversation();
+            }}
             id='new-chat'
-            className={
+            className={`cursor-pointer ${
               !activeConversationId && currentRoute == '/' ? 'active' : ''
-            }
+            }`}
           >
             <li className='p-2 mt-2 pl-4'>
               <i className='fa-solid fa-arrow-up-right fa-lg'></i> New Chat

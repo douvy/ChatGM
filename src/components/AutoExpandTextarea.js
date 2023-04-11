@@ -1,10 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-const AutoExpandTextarea = ({ value, onChange, onKeyDown, placeholder, className }) => {
+const AutoExpandTextarea = ({
+  value,
+  onChange,
+  onKeyDown,
+  placeholder,
+  className,
+  autoFocus
+}) => {
   const [height, setHeight] = useState(45);
   const textareaRef = useRef(null);
-
-  const handleChange = (event) => {
+  const handleChange = event => {
     onChange(event);
     if (event.target.value === '') {
       setHeight(45); // Set height to 45px when there's no content in the textarea
@@ -20,9 +26,16 @@ const AutoExpandTextarea = ({ value, onChange, onKeyDown, placeholder, className
     }
   }, [value]);
 
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.focus();
+    }
+  });
+
   return (
     <textarea
       ref={textareaRef}
+      autoFocus={autoFocus}
       value={value}
       onChange={handleChange}
       onKeyDown={onKeyDown}
@@ -33,7 +46,7 @@ const AutoExpandTextarea = ({ value, onChange, onKeyDown, placeholder, className
         minHeight: '45px',
         maxHeight: '120px',
         resize: 'none',
-        overflow: 'auto',
+        overflow: 'auto'
       }}
     />
   );
