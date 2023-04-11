@@ -196,7 +196,8 @@ function ChatWindow({
           onKeyDown={handleKeyDown}
           placeholder='Type your message here...'
           className='w-full p-2 mr-2 bg-dark'
-          autoFocus={true}
+          conversationId={conversationId}
+          //   autoFocus={true}
         />
         <span className='button-container'>
           <button

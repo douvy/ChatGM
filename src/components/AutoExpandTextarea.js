@@ -6,6 +6,7 @@ const AutoExpandTextarea = ({
   onKeyDown,
   placeholder,
   className,
+  conversationId,
   autoFocus
 }) => {
   const [height, setHeight] = useState(45);
@@ -30,7 +31,7 @@ const AutoExpandTextarea = ({
     if (textareaRef.current) {
       textareaRef.current.focus();
     }
-  });
+  }, [conversationId]);
 
   useEffect(() => {
     if (value === '' && height !== 45) {
@@ -41,7 +42,7 @@ const AutoExpandTextarea = ({
   return (
     <textarea
       ref={textareaRef}
-      autoFocus={autoFocus}
+      // autoFocus={autoFocus}
       value={value}
       onChange={handleChange}
       onKeyDown={onKeyDown}

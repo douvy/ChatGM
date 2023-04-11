@@ -436,6 +436,7 @@ const Home: NextPage<PageProps> = props => {
                 userInfo={userInfo}
                 setUserInfo={setUserInfo}
                 setDebuggerObject={setDebuggerObject}
+                setActiveTask={setActiveTask}
               ></Notepad>
             ) : null}
             {currentRoute == '/features' ? (
