@@ -58,13 +58,13 @@ export const withPartialMessages = trpc.procedure.use(({ next, ctx }) => {
   return conversations
 })
 
-export const createConversation = trpc.procedure.input((req: any) => {
+export const createConversation = procedure.input((req: any) => {
   console.log('\x1b[31m%s\x1b[0m', "inserting....", req);
   if (req.id) {
     throw new Error(`New conversations can't be made when an id property is passed"}`);
   }
   return req;
-}).query(async ({ input }) => {
+}).mutation(async ({ input }) => {
   console.log("INPUT:", input);
   const { messages, name, ownerId, creatorId } = input;
   const conversation = await prisma.conversation.create({
