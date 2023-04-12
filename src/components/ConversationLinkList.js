@@ -86,103 +86,118 @@ function ConversationLinkList({
 
   return (
     <div className='overflow-y-auto' id='sidebar-top'>
-      <ul className='pl-3'>
-        <div className='sticky top-0 bg-dark z-10'>
-          <a
-            onClick={() => {
-              router.push('/');
-              newConversation();
-            }}
-            id='new-chat'
-            className={`cursor-pointer ${
-              !activeConversationId && currentRoute == '/' ? 'active' : ''
-            }`}
-          >
-            <li className='p-2 mt-2 pl-4'>
-              <i className='fa-solid fa-arrow-up-right fa-lg'></i> New Chat
-            </li>
-          </a>
-          <a href='#'>
-            <li className='p-2 pl-4 mb-3 mt-1'>
-              <img
-                src={userInfo.avatarSource || '/avatar.png'}
-                className='w-7 h-7 rounded-full'
-              />
-              <span className='ml-3'>{userInfo?.username}</span>
-            </li>
-          </a>
-          <li
-            className='p-2 pl-4 text-offwhite cursor-pointer'
-            onClick={() => setIsPersonalExpanded(!isPersonalExpanded)}
-          >
-            <i
-              className={`fa-solid text-offwhite ${
-                isPersonalExpanded
-                  ? 'fa-arrow-down pr-2'
-                  : 'fa-arrow-right pr-2'
-              }`}
-            ></i>{' '}
-            Personal
-          </li>
-          {isPersonalExpanded && (
-            <div className='max-h-[315px] overflow-y-auto'>
-              <ul className='pl-0'>
-                {personalConversations.map((conversation, index) => {
-                  return (
-                    <ConversationLinkListItem
-                      key={index}
-                      index={index}
-                      selectConversation={() => {
-                        router.push(
-                          '/conversations/[id]',
-                          `/conversations/${conversation.id}`
-                        );
-                        selectConversation(conversation);
-                      }}
-                      conversation={conversation}
-                      isActive={activeConversationId == conversation.id}
-                      removeConversation={removeConversation}
-                      setConversation={setConversation}
-                      updateConversations={updateConversations}
-                    />
-                  );
-                })}
-              </ul>
+      <div className="z-0">
+        <ul className='pl-3'>
+          <div className='sticky top-0 bg-dark z-20 relative sticky-cover'>
+          <div
+          style={{
+            position: 'absolute',
+            top: '-8px',
+            left: 0,
+            right: 0,
+            height: '8px',
+            backgroundColor: '#your_background_color',
+            zIndex: 20,
+          }}
+        ></div>
+            <div className='sticky top-2 bg-dark z-20'>
+              <a
+                onClick={() => {
+                  router.push('/');
+                  newConversation();
+                }}
+                id='new-chat'
+                className={`cursor-pointer ${
+                  !activeConversationId && currentRoute == '/' ? 'active' : ''
+                }`}
+              >
+                <li className='p-3 mt-1 pl-4'>
+                  <i className='fa-solid fa-arrow-up-right fa-lg'></i> New Chat
+                </li>
+              </a>
+              <a href='#'>
+                <li className='p-2 pl-4 mb-3 mt-1'>
+                  <img
+                    src={userInfo.avatarSource || '/avatar.png'}
+                    className='w-7 h-7 rounded-full'
+                  />
+                  <span className='ml-3'>{userInfo?.username}</span>
+                  </li>
+              </a>
             </div>
-          )}
-          <li
-            className='p-2 pl-4 mt-1 text-offwhite cursor-pointer'
-            onClick={() => setIsGroupExpanded(!isGroupExpanded)}
-          >
-            <i
-              className={`fa-solid text-offwhite ${
-                isGroupExpanded ? 'fa-arrow-down pr-2' : 'fa-arrow-right pr-2'
-              }`}
-            ></i>{' '}
-            Group
-          </li>
-          {isGroupExpanded && (
-            <div className='max-h-[315px] overflow-y-auto'>
-              <ul className='pl-0'>
-                {groupConversations.map((conversation, index) => {
-                  return (
-                    <ConversationLinkListItem
-                      key={index}
-                      index={index}
-                      selectConversation={selectConversation}
-                      conversation={conversation}
-                      isActive={activeConversationId == conversation.id}
-                      removeConversation={removeConversation}
-                      setConversation={setConversation}
-                      updateConversations={updateConversations}
-                    />
-                  );
-                })}
-              </ul>
-            </div>
-          )}
-        </div>
-      </ul>
+            <li
+              className='p-2 pl-4 text-offwhite cursor-pointer'
+              onClick={() => setIsPersonalExpanded(!isPersonalExpanded)}
+            >
+              <i
+                className={`fa-solid text-offwhite ${
+                  isPersonalExpanded
+                    ? 'fa-arrow-down pr-2'
+                    : 'fa-arrow-right pr-2'
+                }`}
+              ></i>{' '}
+              Personal
+            </li>
+            {isPersonalExpanded && (
+              <div className='max-h-[315px] overflow-y-auto'>
+                <ul className='pl-0'>
+                  {personalConversations.map((conversation, index) => {
+                    return (
+                      <ConversationLinkListItem
+                        key={index}
+                        index={index}
+                        selectConversation={() => {
+                          router.push(
+                            '/conversations/[id]',
+                            `/conversations/${conversation.id}`
+                          );
+                          selectConversation(conversation);
+                        }}
+                        conversation={conversation}
+                        isActive={activeConversationId == conversation.id}
+                        removeConversation={removeConversation}
+                        setConversation={setConversation}
+                        updateConversations={updateConversations}
+                      />
+                    );
+                  })}
+                </ul>
+              </div>
+            )}
+            <li
+              className='p-2 pl-4 mt-1 text-offwhite cursor-pointer'
+              onClick={() => setIsGroupExpanded(!isGroupExpanded)}
+            >
+              <i
+                className={`fa-solid text-offwhite ${
+                  isGroupExpanded ? 'fa-arrow-down pr-2' : 'fa-arrow-right pr-2'
+                }`}
+              ></i>{' '}
+              Group
+            </li>
+            {isGroupExpanded && (
+              <div className='max-h-[315px] overflow-y-auto'>
+                <ul className='pl-0'>
+                  {groupConversations.map((conversation, index) => {
+                    return (
+                      <ConversationLinkListItem
+                        key={index}
+                        index={index}
+                        selectConversation={selectConversation}
+                        conversation={conversation}
+                        isActive={activeConversationId == conversation.id}
+                        removeConversation={removeConversation}
+                        setConversation={setConversation}
+                        updateConversations={updateConversations}
+                      />
+                    );
+                  })}
+                </ul>
+              </div>
+            )}
+          </div>
+        </ul>
+      </div>
     </div>
   );
 }

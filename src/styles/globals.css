@@ -721,13 +721,23 @@ textarea {
 #chat-participants {
   max-width: 200px;
 }
-
 .sticky-section {
   position: sticky;
   top: 0;
   z-index: 1;
   background-color: inherit;
   /* Or specify the desired background color */
+}
+.sticky-cover::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: -8px;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background-color: #0c1116;
+  z-index: 20;
 }
 
 code,
@@ -773,6 +783,7 @@ code {
 #sidebar-top {
   max-height: 390px;
   overflow-y: auto;
+  margin-top: -8px;
   scrollbar-width: none; /* Hide scrollbar for Firefox */
 }
 /*responsive design*/
