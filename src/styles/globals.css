@@ -763,8 +763,8 @@ code {
 .mention-popover ul {
   max-width: 420px;
 }
-.mention-popover li:hover {
-  background: #21262d;
+.mention-popover li:hover .unread-indicator {
+  border: 3px solid #2760ff;
 }
 
 /* CSS for the sidebar top */
