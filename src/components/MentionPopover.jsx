@@ -1,24 +1,20 @@
-import React, { useState } from 'react';
-import { client } from '../trpc/client';
+import React from 'react';
 
-const MentionPopover = ({ users, searchText = '', onSelect }) => {
+const MentionPopover = ({ users, selectedUserIndex, onSelect }) => {
   const handleSelect = (username) => {
     if (onSelect) {
       onSelect(username);
     }
   };
 
-  // Filter the users based on the searchText
-  const filteredUsers = users.filter((user) =>
-    user.username.toLowerCase().includes(searchText.toLowerCase())
-  );
-
   return (
     <div className='mention-popover p-4 rounded text-offwhite'>
       <ul>
-        {filteredUsers.map((user) => (
+        {users.map((user, index) => (
           <li
-            className='rounded flex items-center cursor-pointer hover-blue p-1'
+            className={`rounded flex items-center cursor-pointer hover-blue p-1 ${
+              index === selectedUserIndex ? 'bg-blue' : '' // Highlight the selected user
+            }`}
             key={user.username}
             onClick={() => handleSelect(user.username)}
           >

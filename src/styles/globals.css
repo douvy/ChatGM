@@ -766,7 +766,9 @@ code {
 .mention-popover li:hover .unread-indicator {
   border: 3px solid #2760ff;
 }
-
+.selected-user {
+  background-color: #f0f0f0;
+}
 /* CSS for the sidebar top */
 #sidebar-top {
   max-height: 390px;

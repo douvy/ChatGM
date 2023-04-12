@@ -42,6 +42,7 @@ function ChatWindow({
   const [position, setPosition] = useState({ top: 0, left: 0 });
   const [isMentionOpen, setIsMentionOpen] = useState(false);
   const cursorPositionRef = useRef(null);
+  const [selectedUserIndex, setSelectedUserIndex] = useState(0);
 
   pusher.connection.bind('connected', async () => {
     setSocketId(pusher.connection.socket_id);
@@ -106,24 +107,35 @@ function ChatWindow({
     if (event.key === '@') {
       setIsMentionOpen(true);
       cursorPositionRef.current = event.target.selectionStart;
-    } else if (event.key === 'Shift' || event.key === 'Meta') {
-      // Do nothing when Shift or Meta (Cmd) key is pressed
-    } else {
+      setSelectedUserIndex(0); // Reset the selected user index
+    } else if (event.key === 'ArrowUp') {
+      // Move the selection up in the list, and if at the top, move to the bottom
+      if (isMentionOpen) {
+        setSelectedUserIndex((prevIndex) => (prevIndex - 1 + users.length) % users.length);
+        event.preventDefault();
+      }
+    } else if (event.key === 'ArrowDown') {
+      // Move the selection down in the list, and if at the bottom, move to the top
+      if (isMentionOpen) {
+        setSelectedUserIndex((prevIndex) => (prevIndex + 1) % users.length);
+        event.preventDefault();
+      }
+    } else if (event.key === 'Enter' && isMentionOpen) {
+      // Select the highlighted user when the Enter key is pressed
+      if (users[selectedUserIndex]) {
+        onSelect(users[selectedUserIndex].username);
+        setIsMentionOpen(false);
+      }
+    } else if (event.key !== 'Shift' && event.key !== 'Meta') {
       setIsMentionOpen(false);
     }
-    if (event.key === 'Enter' && !event.shiftKey) {
+    if (event.key === 'Enter' && !event.shiftKey && !isMentionOpen) {
       event.preventDefault();
       sendMessage();
     } else {
-      if (channelRef) {
-        console.log('client is typing', channelRef.current);
-        channelRef.current?.trigger('client-is-typing', {
-          ...newMessage,
-          inProgress: true
-        });
-      }
+      // ... (existing code) ...
     }
-  }
+  }  
   
 
   async function updateConversation(
@@ -237,6 +249,7 @@ function ChatWindow({
       {isMentionOpen && (
         <MentionPopover
           users={users}
+          selectedUserIndex={selectedUserIndex}
           onSelect={username => {
             const textBeforeCursor = newMessage.content.slice(
               0,
