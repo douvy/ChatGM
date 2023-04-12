@@ -103,25 +103,29 @@ function ChatWindow({
 
   function handleKeyDown(event) {
     event.stopPropagation();
-    if (event.key === '@') {
-      setIsMentionOpen(true);
-      cursorPositionRef.current = event.target.selectionStart;
-    } else {
-      setIsMentionOpen(false);
-    }
+  
+    // Check if the key is "Cmd" or "Meta" (Cmd on Mac, Windows key on Windows)
+    const isCmdKey = event.key === 'Meta';
+  
     if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault();
       sendMessage();
     } else {
       if (channelRef) {
-        console.log('client is typing', channelRef.current);
         channelRef.current?.trigger('client-is-typing', {
           ...newMessage,
           inProgress: true
         });
       }
+      if (event.key === '@') {
+        setIsMentionOpen(true);
+        cursorPositionRef.current = event.target.selectionStart;
+      } else if (!isCmdKey) {
+        // Only set isMentionOpen to false if the key is not "Cmd" or "Meta"
+        setIsMentionOpen(false);
+      }
     }
-  }
+  }  
 
   async function updateConversation(
     messageIndex,
