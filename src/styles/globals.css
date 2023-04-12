@@ -202,6 +202,9 @@ form input {
   border: 3px solid #020408;
   background-image: linear-gradient(#54a3ff, #006eed);
 }
+.unread-indicator.bg-green {
+  background-image: linear-gradient(#39d763, #21a343);
+}
 
 .message {
   background-color: #0c1117;
@@ -413,6 +416,9 @@ hr {
 
 .hover-dark-blue:hover {
   background: #1b2638;
+}
+.hover-blue:hover {
+  background: #1463dd !important;
 }
 
 ::-webkit-scrollbar {
@@ -751,7 +757,7 @@ code {
   position: absolute;
   background: #0c1117;
   bottom: 0;
-  margin-bottom: 58px;
+  margin-bottom: 57px;
   border: 1px solid #2f363c;
 }
 .mention-popover ul {
