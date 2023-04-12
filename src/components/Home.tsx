@@ -95,6 +95,11 @@ const Home: NextPage<PageProps> = props => {
   useEffect(() => {
     switch (router.pathname) {
       case '/conversations/[id]':
+        const partialConversation = props.conversations.find((c: any) => {
+          return c.id == router.query.id;
+        });
+        if (partialConversation && partialConversation.id != conversation.id)
+          setConversation(partialConversation);
         setConversationId(Number(router.query.id));
         break;
       case 'n':

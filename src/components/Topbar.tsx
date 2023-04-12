@@ -21,6 +21,7 @@ const Topbar: React.FC<TopbarProps> = ({
 
   const [isBellDropdownOpen, setIsBellDropdownOpen] = useState(false);
   const [isAvatarDropdownOpen, setIsAvatarDropdownOpen] = useState(false);
+  const notificationData = trpc.notifications.get.useQuery({});
 
   return (
     <>
@@ -60,7 +61,13 @@ const Topbar: React.FC<TopbarProps> = ({
             </button>
           </div>
 
-          {isBellDropdownOpen && <NotificationsMenu userInfo={userInfo} />}
+          {isBellDropdownOpen && (
+            <NotificationsMenu
+              userInfo={userInfo}
+              notificationData={notificationData}
+              setIsBellDropdownOpen={setIsBellDropdownOpen}
+            />
+          )}
 
           <button
             className='focus:outline-none'

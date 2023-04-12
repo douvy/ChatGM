@@ -28,14 +28,16 @@ function ChatWindow({
     trpc.conversations.updateMessages.useMutation();
   const messageCount = useRef(conversation.messages.length);
   const [users, setUsers] = useState([]);
-  client.users.query
-    .query({
-      id: true,
-      username: true
-    })
-    .then(users => {
-      setUsers(users);
-    });
+  useEffect(() => {
+    client.users.query
+      .query({
+        id: true,
+        username: true
+      })
+      .then(users => {
+        setUsers(users);
+      });
+  }, []);
 
   const [position, setPosition] = useState({ top: 0, left: 0 });
   const [isMentionOpen, setIsMentionOpen] = useState(false);
