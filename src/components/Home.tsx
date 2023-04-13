@@ -398,7 +398,7 @@ const Home: NextPage<PageProps> = props => {
       <div className='flex h-full' id='main-container'>
         {/* <Block>dkfsdkjfhskjdh</Block> */}
         {/* <Table /> */}
-        {!hideSidebar && (
+        {true && (
           <Sidebar
             conversations={conversations}
             setConversations={setConversations}
@@ -416,11 +416,16 @@ const Home: NextPage<PageProps> = props => {
             setCurrentRoute={setCurrentRoute}
             setHideSidebar={setHideSidebar}
             c={props.c}
+            style={{
+              transition: 'opacity 0.3s ease-out, transform 0.3s ease-out',
+              opacity: hideSidebar ? 0.5 : 1,
+              transform: hideSidebar ? 'translateX(-100%)' : 'translateX(0)'
+            }}
           />
         )}
         <MobileNav />
         <div
-          className={`flex flex-col h-full w-full ${
+          className={`flex flex-col h-full w-full transition-all duration-300 ${
             !hideSidebar ? 'lg:ml-[225px]' : ''
           }`}
         >

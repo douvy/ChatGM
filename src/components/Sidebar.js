@@ -14,10 +14,14 @@ export default function Sidebar({
   setCurrentRoute,
   setActiveComponent,
   setHideSidebar,
+  style,
   ...props
 }) {
   return (
-    <nav className='fixed h-full w-[228px] shadow-md hidden lg:block br-1-gray bg-dark'>
+    <nav
+      className='fixed h-full w-[228px] shadow-md hidden lg:block br-1-gray bg-dark'
+      style={style}
+    >
       <ConversationLinkList
         conversations={conversations}
         setConversation={setConversation}
