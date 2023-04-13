@@ -791,7 +791,7 @@ code {
 @media (max-width: 640px) {
   body,
   html {
-    overflow: hidden;
+    /*overflow: hidden;*/
   }
 
   #chat-participants {

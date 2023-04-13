@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Conversation } from '../interfaces';
 import { trpc } from '../utils/trpc';
 import NotificationsMenu from './NotificationsMenu';
+import { useRouter } from 'next/router';
 
 interface TopbarProps {
   conversation: Conversation;
@@ -22,6 +23,8 @@ const Topbar: React.FC<TopbarProps> = ({
   const [isBellDropdownOpen, setIsBellDropdownOpen] = useState(false);
   const [isAvatarDropdownOpen, setIsAvatarDropdownOpen] = useState(false);
   const notificationData = trpc.notifications.get.useQuery({});
+
+  const router = useRouter();
 
   return (
     <>
@@ -97,7 +100,9 @@ const Topbar: React.FC<TopbarProps> = ({
                       <span className='ml-3'>{userInfo?.username}</span>
                     </div>
                   </div>
-                  <div className='flex items-center w-full mt-2'>
+                  <div className='flex items-center w-full mt-2'
+                      onClick={() => router.push('/account')}
+                  >
                     <i className='fa-regular fa-gear'></i>
                     <span className='ml-2'>Settings</span>
                   </div>

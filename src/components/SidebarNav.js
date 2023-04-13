@@ -36,7 +36,7 @@ export default function SidebarNav({
           itemText='My Account'
           onClick={() => {
             router.push('/account', '/account', { shallow: true });
-            setCurrentRoute('/myAccount');
+            // setCurrentRoute('/myAccount');
             setConversation(null);
           }}
         />
