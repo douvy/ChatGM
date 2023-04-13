@@ -15,6 +15,27 @@ export default function NotificationsMenu({
     return new Date(b.createdAt) - new Date(a.createdAt);
   });
 
+  // Helper function to format timestamp
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffInSeconds = Math.floor((now - date) / 1000);
+    const formatter = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
+    if (diffInSeconds < 60) {
+      return formatter.format(-diffInSeconds, 'second');
+    }
+    const diffInMinutes = Math.floor(diffInSeconds / 60);
+    if (diffInMinutes < 60) {
+      return formatter.format(-diffInMinutes, 'minute');
+    }
+    const diffInHours = Math.floor(diffInMinutes / 60);
+    if (diffInHours < 24) {
+      return formatter.format(-diffInHours, 'hour');
+    }
+    const diffInDays = Math.floor(diffInHours / 24);
+    return formatter.format(-diffInDays, 'day');
+  };
+
   return (
     <div className='absolute right-0 mt-9 w-48 bg-dark border-gray-light rounded-md shadow-lg z-100 dropdown-container bell'>
       <ul className='py-1 text-base leading-6 text-offwhite'>
@@ -46,7 +67,7 @@ export default function NotificationsMenu({
                 <div className='text-xs text-gray-400 mt-0.5'>
                   <span>{notification.conversation.name}</span>
                 </div>
-                <p className='text-xs text-gray-500 mt-0.5'>11 hours ago</p>
+                <p className='text-xs text-gray-500 mt-0.5'>{formatDate(notification.createdAt)}</p>
               </div>
             </div>
             <div>
