@@ -1,20 +1,20 @@
 import { useState, useRef } from 'react';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 import { GetServerSideProps, NextPage } from 'next';
-import ChatMessage from '../../components/ChatMessage';
+import ChatMessage from '../../../components/ChatMessage';
 
 function ConversationView({ conversation }) {
-  const router = useRouter()
-  const { id } = router.query
-  console.log("CONVERSATION:", conversation);
+  const router = useRouter();
+  const { id } = router.query;
+  console.log('CONVERSATION:', conversation);
 
   if (!conversation) {
     return <></>;
   }
 
   return (
-    <div className="mx-auto max-w-[760px]">
-      <div className="p-4 overflow-y-auto" id="messages-box">
+    <div className='mx-auto max-w-[760px]'>
+      <div className='p-4 overflow-y-auto' id='messages-box'>
         {conversation.messages.map((message, index) => {
           return (
             <ChatMessage
@@ -22,12 +22,12 @@ function ConversationView({ conversation }) {
               index={index}
               message={message}
               avatarSource={'/' + message.avatarSource}
-              sender={message.role == "user" ? (message.sender) : "ChatGPT-3.5"}
+              sender={message.role == 'user' ? message.sender : 'ChatGPT-3.5'}
               received={true}
               updateState={undefined}
               setConversation={undefined}
               referencedMessage={undefined}
-              onClick={() => { }}
+              onClick={() => {}}
               userInfo={{}}
             />
           );
@@ -50,15 +50,15 @@ export const getServerSideProps = async ({ req, params }) => {
     return {
       redirect: {
         destination: '/notfound',
-        permanent: false,
-      },
-    }
+        permanent: false
+      }
+    };
   }
 
   return {
     props: {
       conversation
-    },
+    }
   };
 };
 
