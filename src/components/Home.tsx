@@ -93,6 +93,8 @@ const Home: NextPage<PageProps> = props => {
 
   const [debuggerObject, setDebuggerObject] = useState<any>(null);
 
+  const [hideSidebar, setHideSidebar] = useState(false);
+
   const updateConversationMessagesMutation =
     trpc.conversations.updateMessages.useMutation();
 
@@ -396,25 +398,32 @@ const Home: NextPage<PageProps> = props => {
       <div className='flex h-full' id='main-container'>
         {/* <Block>dkfsdkjfhskjdh</Block> */}
         {/* <Table /> */}
-        <Sidebar
-          conversations={conversations}
-          setConversations={setConversations}
-          conversation={conversation}
-          conversationId={conversationId}
-          setConversation={setConversation}
-          setActiveComponent={setActiveComponent}
-          features={props.features}
-          activeConversation={conversation}
-          activeConversationId={conversationId}
-          selectConversation={selectConversation}
-          userInfo={userInfo}
-          newConversation={newConversation}
-          currentRoute={currentRoute}
-          setCurrentRoute={setCurrentRoute}
-          c={props.c}
-        />
+        {!hideSidebar && (
+          <Sidebar
+            conversations={conversations}
+            setConversations={setConversations}
+            conversation={conversation}
+            conversationId={conversationId}
+            setConversation={setConversation}
+            setActiveComponent={setActiveComponent}
+            features={props.features}
+            activeConversation={conversation}
+            activeConversationId={conversationId}
+            selectConversation={selectConversation}
+            userInfo={userInfo}
+            newConversation={newConversation}
+            currentRoute={currentRoute}
+            setCurrentRoute={setCurrentRoute}
+            setHideSidebar={setHideSidebar}
+            c={props.c}
+          />
+        )}
         <MobileNav />
-        <div className='flex flex-col h-full w-full lg:ml-[225px]'>
+        <div
+          className={`flex flex-col h-full w-full ${
+            !hideSidebar ? 'lg:ml-[225px]' : ''
+          }`}
+        >
           {userInfo.activeTaskId && (
             <ActiveTask
               activeTask={activeTask}
@@ -434,7 +443,9 @@ const Home: NextPage<PageProps> = props => {
               children={<></>}
             />
           )}
-          <main className='container mx-auto flex-1 mt-0'>
+          <main
+            className={`container ${!hideSidebar && 'mx-auto'} flex-1 mt-0`}
+          >
             {conversation &&
             (path == '/' || router.pathname == '/conversations/[id]') ? (
               <ChatWindow
@@ -510,6 +521,12 @@ const Home: NextPage<PageProps> = props => {
               ></SavedMessages>
             ) : null}
             {debuggerObject && <Debugger debuggerObject={debuggerObject} />}
+            {hideSidebar && (
+              <i
+                className={`fa-solid fa-arrow-right cursor-pointer text-gray w-5 h-5 mr-auto mb-3 ml-3 absolute bottom-0 left-0 transform transition duration-300 hover:scale-125 hover:font-bold`}
+                onClick={e => setHideSidebar(false)}
+              ></i>
+            )}
           </main>
         </div>
       </div>

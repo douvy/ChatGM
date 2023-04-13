@@ -7,10 +7,10 @@ const AutoExpandTextarea = ({
   placeholder,
   className,
   conversationId,
-  autoFocus
+  textareaRef
+  // autoFocus,
 }) => {
   const [height, setHeight] = useState(45);
-  const textareaRef = useRef(null);
   const handleChange = event => {
     onChange(event);
     if (event.target.value === '') {

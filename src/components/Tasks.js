@@ -14,6 +14,7 @@ function Tasks({ userInfo, setUserInfo, passedTasks, passedActiveProject, c }) {
   const api = new TodoistApi(userInfo.todoistApiKey);
   const scrollContainer = useRef(null);
   const channelRef = useRef(null);
+  const textareaRef = useRef(null);
   const [socketId, setSocketId] = useState(null);
   const [submitLocket, setSubmitLock] = useState(false);
   const [tasks, setTasks] = useState(passedTasks || []);
@@ -145,7 +146,7 @@ function Tasks({ userInfo, setUserInfo, passedTasks, passedActiveProject, c }) {
                         task.labels.includes('completed')
                           ? 'fa-undo'
                           : 'fa-check'
-                      } text-gray w-5 h-5 ml-auto mb-3 mr-3 absolute bottom-0 right-0 transform transition duration-300 hover:scale-125 hover:font-bold`}
+                      } cursor-pointer text-gray w-5 h-5 ml-auto mb-3 mr-3 absolute bottom-0 right-0 transform transition duration-300 hover:scale-125 hover:font-bold`}
                       onClick={e => (
                         e.stopPropagation(),
                         api
@@ -168,7 +169,7 @@ function Tasks({ userInfo, setUserInfo, passedTasks, passedActiveProject, c }) {
                       )}
                     ></i>
                     <i
-                      className={`fa-solid fa-close text-gray w-5 h-5 mr-auto mb-3 ml-3 absolute bottom-0 left-0 transform transition duration-300 hover:scale-125 hover:font-bold`}
+                      className={`fa-solid fa-close cursor-pointer text-gray w-5 h-5 mr-auto mb-3 ml-3 absolute bottom-0 left-0 transform transition duration-300 hover:scale-125 hover:font-bold`}
                       onClick={e => (
                         e.stopPropagation(),
                         api
@@ -234,6 +235,7 @@ function Tasks({ userInfo, setUserInfo, passedTasks, passedActiveProject, c }) {
                       placeholder=''
                       className='w-full p-2 mr-2 bg-dark border-gray-700 focus:border-gray-800 !important focus:ring-transparent'
                       conversationId={undefined}
+                      ref={textareaRef}
                       //   autoFocus={true}
                     />
                   )}

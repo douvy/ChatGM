@@ -41,6 +41,7 @@ function ChatWindow({
 
   const [position, setPosition] = useState({ top: 0, left: 0 });
   const [isMentionOpen, setIsMentionOpen] = useState(false);
+  const textareaRef = useRef(null);
   const cursorPositionRef = useRef(null);
   const [selectedUserIndex, setSelectedUserIndex] = useState(0);
 
@@ -104,6 +105,10 @@ function ChatWindow({
 
   function handleKeyDown(event) {
     event.stopPropagation();
+    if (event.key == 'Escape') {
+      textareaRef.current.blur();
+      return;
+    }
     if (event.key === '@') {
       setIsMentionOpen(true);
       cursorPositionRef.current = event.target.selectionStart;
@@ -235,6 +240,7 @@ function ChatWindow({
           placeholder='Type your message here...'
           className='w-full p-2 mr-2 bg-dark'
           conversationId={conversationId}
+          textareaRef={textareaRef}
           //   autoFocus={true}
         />
         <span className='button-container'>
