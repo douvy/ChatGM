@@ -77,7 +77,7 @@ const ActiveTask: React.FC<ActiveTaskProps> = ({
         <div className='w-full items-center space-x-2'>
           <div>
             <div className='text-sm font-normal flex justify-between'>
-              <span className='font-bold'>{activeTask.content}</span>
+              <span className=''>{activeTask.content}</span>
               <div className='gap-3 flex flex-row items-center'>
                 <div className='text-white-500'>{countdown}</div>
                 <i

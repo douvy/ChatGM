@@ -8,17 +8,22 @@ import DataFetcher from '../components/DataFetcher';
 
 interface C {
   key?: string;
+  e: any;
 }
 
 const App: AppType = ({ Component, pageProps }: AppProps) => {
-  const [c, setC] = React.useState<C>({});
+  const [c, setC] = React.useState<C>({
+    key: '',
+    e: null
+  });
 
   useEffect(() => {
     const handleKeyDown = (event: any) => {
       console.log('Key pressed:', event.key, typeof event.key);
       if (typeof event.key == 'string') {
         setC({
-          key: event.key
+          key: event.key,
+          e: event
         });
       }
     };
@@ -29,7 +34,7 @@ const App: AppType = ({ Component, pageProps }: AppProps) => {
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
-
+  // console.log('_app', new Date().getSeconds(), new Date().getMilliseconds());
   return (
     <>
       <Head>

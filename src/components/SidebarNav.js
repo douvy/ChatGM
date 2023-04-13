@@ -5,7 +5,8 @@ function SidebarItem({ itemText, iconName, onClick, link = '', isActive }) {
   return (
     <a className={`cursor-pointer ${isActive ? 'active' : ''}`}>
       <li className='p-2 pl-3' onClick={onClick}>
-        <i className={`fa-solid fa-${iconName} mr-4 w-4`}></i> {itemText}
+        <i className={`fa-solid fa-${iconName} mr-4 w-4`}></i>{' '}
+        <span className='first-letter:font-bold'>{itemText}</span>
       </li>
     </a>
   );
@@ -33,10 +34,10 @@ export default function SidebarNav({
         {currentRoute == '/conversations'}
         <SidebarItem
           iconName='user-hair-mullet text-blue'
-          isActive={path == '/account' ? true : false}
-          itemText='My Account'
+          isActive={path == '/settings' ? true : false}
+          itemText='Settings'
           onClick={() => {
-            router.push('/account', '/account', { shallow: true });
+            router.push('/settings', '/settings', { shallow: true });
             setConversation(null);
           }}
         />
@@ -75,8 +76,8 @@ export default function SidebarNav({
                 }} /> */}
         <SidebarItem
           iconName='fa-solid fa-stars text-yellow'
-          isActive={path == '/savedPrompts' ? true : false}
-          itemText='Saved prompts'
+          isActive={path == '/prompts' ? true : false}
+          itemText='Prompts'
           onClick={() => {
             router.push('/prompts', '/prompts', { shallow: true });
             setConversation(null);

@@ -12,15 +12,13 @@ import { getSession } from 'next-auth/react';
 export const query = trpc.procedure
   .input((req: any) => {
     return req;
-    }
-  )
+  })
   .query(async ({ input }) => {
     const user = await prisma.user.findMany({
-      select: input,
+      select: input
     });
     return user;
   });
-
 
 export const get = trpc.procedure
   .input(
@@ -44,7 +42,8 @@ export const get = trpc.procedure
         activeProjectId: true,
         enableChatGMBot: true,
         telegramUserId: true,
-        includeNotepad: true
+        includeNotepad: true,
+        defaultHomepage: true
       }
     });
     return user;
@@ -70,7 +69,8 @@ export const find = trpc.procedure
         activeProjectId: true,
         enableChatGMBot: true,
         telegramUserId: true,
-        includeNotepad: true
+        includeNotepad: true,
+        defaultHomepage: true
       }
     });
     return user;
@@ -104,7 +104,8 @@ export const getUserInfo = procedure
         activeProjectId: true,
         enableChatGMBot: true,
         telegramUserId: true,
-        includeNotepad: true
+        includeNotepad: true,
+        defaultHomepage: true
       }
     });
     return userInfo;
@@ -138,7 +139,8 @@ export const getInitialPageData = procedure
         activeProjectId: true,
         enableChatGMBot: true,
         telegramUserId: true,
-        includeNotepad: true
+        includeNotepad: true,
+        defaultHomepage: true
       }
     });
 

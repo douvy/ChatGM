@@ -40,7 +40,8 @@ model Feature {
   id          Int     @id @default(autoincrement())
   name        String
   description String
-  starred     Boolean @default(false)
+  isActive    Boolean @default(false)
+  users       User[]  @relation("FeatureUsers")
 }
 
 model Task {
@@ -64,6 +65,7 @@ model User {
   enableChatGMBot      Boolean        @default(false)
   telegramUserId       String?
   includeNotepad       Boolean        @default(false)
+  defaultHomepage      String         @default("/")
   sessions             Session[]
   conversations        Conversation[] @relation("ConversationParticipants")
   ownedConversations   Conversation[] @relation("conversation_owner")
@@ -73,7 +75,7 @@ model User {
   note                 Note?
   receivedNotifications Notification[] @relation("Recipient")
   sentNotifications     Notification[] @relation("Sender")
-
+  features             Feature[]       @relation("FeatureUsers")
 }
 
 model Session {

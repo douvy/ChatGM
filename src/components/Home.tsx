@@ -55,6 +55,9 @@ const Home: NextPage<PageProps> = props => {
 
   const [messageContent, setMessageContent] = useState('');
 
+  const [tasks, setTasks] = useState<any>(props.tasks || []);
+  const [activeProject, setActiveProject] = useState<any>(undefined);
+
   const [newMessage, setMessage] = useState<Message>({
     role: 'user',
     content: messageContent,
@@ -103,20 +106,22 @@ const Home: NextPage<PageProps> = props => {
           setConversation(partialConversation);
         setConversationId(Number(router.query.id));
         break;
-      case 'n':
-        setCurrentRoute('/notepad');
-        break;
-      case 'p':
-        setCurrentRoute('/savedPrompts');
-        break;
-      case 'r':
-        setCurrentRoute('/savedResponses');
-        break;
-      case 'c':
-        newConversation();
-        break;
     }
   }, [path]);
+
+  useEffect(() => {
+    if (props.userInfo.activeProjectId) {
+      const api = new TodoistApi(props.userInfo.todoistApiKey);
+      api.getProject(props.userInfo.activeProjectId).then(project => {
+        setActiveProject(project);
+      });
+      api
+        .getTasks({ projectId: props.userInfo.activeProjectId })
+        .then(tasks => {
+          setTasks(tasks);
+        });
+    }
+  }, []);
 
   useEffect(() => {
     if (userInfo.activeTaskId && userInfo.activeTaskId != activeTask.id) {
@@ -185,20 +190,23 @@ const Home: NextPage<PageProps> = props => {
 
   useEffect(() => {
     switch (props.c?.key) {
-      case 't':
-        setCurrentRoute('/tasks');
-        break;
-      case 'n':
-        setCurrentRoute('/notepad');
-        break;
-      case 'p':
-        setCurrentRoute('/savedPrompts');
-        break;
-      case 'r':
-        setCurrentRoute('/savedResponses');
-        break;
       case 'c':
         newConversation();
+        break;
+      case 'n':
+        router.push('/notepad');
+        break;
+      case 'p':
+        router.push('/prompts');
+        break;
+      case 'r':
+        router.push('/savedResponses');
+        break;
+      case 's':
+        router.push('/settings');
+        break;
+      case 't':
+        router.push('/tasks');
         break;
     }
   }, [props.c]);
@@ -215,6 +223,11 @@ const Home: NextPage<PageProps> = props => {
       behavior: 'smooth'
     });
   }, [messages]);
+
+  useEffect(() => {
+    if (props.userInfo?.defaultHomepage && path == '/')
+      router.push('/' + props.userInfo.defaultHomepage);
+  }, []);
 
   const lastMessage = useRef<HTMLDivElement>(null);
 
@@ -233,7 +246,7 @@ const Home: NextPage<PageProps> = props => {
       isPublic: false
     });
     setConversationId(undefined);
-    setCurrentRoute('/');
+    router.push('/');
   };
 
   const appendMessage = (message: Message) => {
@@ -377,6 +390,7 @@ const Home: NextPage<PageProps> = props => {
   };
 
   const [activeComponent, setActiveComponent] = useState<any>();
+  console.log('home');
   return (
     <>
       <div className='flex' id='main-container'>
@@ -444,6 +458,8 @@ const Home: NextPage<PageProps> = props => {
               <Tasks
                 userInfo={userInfo}
                 setUserInfo={setUserInfo}
+                passedTasks={tasks}
+                passedActiveProject={activeProject}
                 c={props.c}
               ></Tasks>
             ) : null}
@@ -460,7 +476,7 @@ const Home: NextPage<PageProps> = props => {
             {path == '/features' ? (
               <FeaturesView passedFeatures={props.features}></FeaturesView>
             ) : null}
-            {path == '/account' ? (
+            {path == '/settings' ? (
               <MyAccount
                 userInfo={userInfo}
                 setUserInfo={setUserInfo}

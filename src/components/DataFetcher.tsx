@@ -25,6 +25,7 @@ const DataFetcher: NextPage<any> = ({ children, Component, ...props }) => {
   if (!data) return <div></div>;
   const mergedProps = { ...props, ...data };
   injector.inject(data);
+  console.log('data fetcher');
 
   return <>{children(mergedProps)}</>;
 };

@@ -26,6 +26,7 @@ export default function Notepad({
   setDebuggerObject,
   setActiveTask
 }) {
+  console.log('notepad');
   const [editorHtml, setEditorHtml] = useState(content);
   const [note, setNote] = useState({
     content: ''
@@ -147,6 +148,10 @@ export default function Notepad({
 
   function handleKeyDown(e) {
     e.stopPropagation();
+    if (e.key == 'Escape') {
+      quillRef.current.blur();
+      return;
+    }
     const ignoredKeys = ['Shift', 'Meta', 'Tab'];
     if (ignoredKeys.includes(event.key)) {
       return;
@@ -185,7 +190,9 @@ export default function Notepad({
           //   setSelectedText('');
         }
       });
+      console.log('root', quill.getEditor().root);
       quill.getEditor().root.addEventListener('keydown', e => {
+        console.log('binding quill');
         if (e.key == 'ArrowUp') {
           console.log('highlightedText', highlightedText);
           console.log('selectedText', selectedText);
@@ -198,7 +205,7 @@ export default function Notepad({
           api
             .addTask({
               content: selectedText || highlightedText,
-              projectId: userInfo.todoistProjectId
+              projectId: userInfo.activeProjectId
             })
             .then(task => {
               console.log('Added task', task);
@@ -215,7 +222,6 @@ export default function Notepad({
         }
       });
     };
-
     const check = () => {
       if (quillRef.current) {
         init(quillRef.current);
@@ -224,7 +230,7 @@ export default function Notepad({
       setTimeout(check, 200);
     };
     check();
-  }, [quillRef]);
+  }, []);
 
   //   useEffect(() => {
   //     const quillInstance = quillRef.current.getEditor();

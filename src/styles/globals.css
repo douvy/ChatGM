@@ -729,7 +729,7 @@ textarea {
   /* Or specify the desired background color */
 }
 .sticky-cover::before {
-  content: "";
+  content: '';
   display: block;
   position: absolute;
   top: -8px;
@@ -824,6 +824,10 @@ table th {
 
 .ql-container.ql-snow {
   border: none !important;
+}
+
+.bg-dark-blue {
+  background: #1b2638;
 }
 
 @media (min-width: 710px) {
