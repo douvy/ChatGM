@@ -74,7 +74,12 @@ const Home: NextPage<PageProps> = props => {
     response: ''
   });
 
-  const [userInfo, setUserInfo] = useState<any>(props.userInfo || []);
+  const [userInfo, setUserInfo] = useState<any>(
+    {
+      ...props.userInfo,
+      update: (props: any) => client.users.update.mutate(props)
+    } || []
+  );
 
   const [conversation, setConversation] = useState<Conversation>({
     name: '',
@@ -93,7 +98,7 @@ const Home: NextPage<PageProps> = props => {
 
   const [debuggerObject, setDebuggerObject] = useState<any>(null);
 
-  const [hideSidebar, setHideSidebar] = useState(false);
+  const initialMount = useRef(true);
 
   const updateConversationMessagesMutation =
     trpc.conversations.updateMessages.useMutation();
@@ -237,6 +242,14 @@ const Home: NextPage<PageProps> = props => {
     setMessageContent(event.target.value);
     setMessage({ ...newMessage, content: event.target.value });
   };
+
+  useEffect(() => {
+    if (initialMount.current) {
+      initialMount.current = false;
+    } else {
+      userInfo.update({ hideSidebar: userInfo.hideSidebar });
+    }
+  }, [userInfo.hideSidebar]);
 
   const newConversation = (e?: Event) => {
     e?.preventDefault();
@@ -411,22 +424,24 @@ const Home: NextPage<PageProps> = props => {
             activeConversationId={conversationId}
             selectConversation={selectConversation}
             userInfo={userInfo}
+            setUserInfo={setUserInfo}
             newConversation={newConversation}
             currentRoute={currentRoute}
             setCurrentRoute={setCurrentRoute}
-            setHideSidebar={setHideSidebar}
             c={props.c}
             style={{
               transition: 'opacity 0.3s ease-out, transform 0.3s ease-out',
-              opacity: hideSidebar ? 0.5 : 1,
-              transform: hideSidebar ? 'translateX(-100%)' : 'translateX(0)'
+              opacity: userInfo.hideSidebar ? 0.5 : 1,
+              transform: userInfo.hideSidebar
+                ? 'translateX(-100%)'
+                : 'translateX(0)'
             }}
           />
         )}
         <MobileNav />
         <div
           className={`flex flex-col h-full w-full transition-all duration-300 ${
-            !hideSidebar ? 'lg:ml-[225px]' : ''
+            !userInfo.hideSidebar ? 'lg:ml-[225px]' : ''
           }`}
         >
           {userInfo.activeTaskId && (
@@ -449,7 +464,9 @@ const Home: NextPage<PageProps> = props => {
             />
           )}
           <main
-            className={`container ${!hideSidebar && 'mx-auto'} flex-1 mt-0`}
+            className={`container ${
+              !userInfo.hideSidebar && 'mx-auto'
+            } flex-1 mt-0`}
           >
             {conversation &&
             (path == '/' || router.pathname == '/conversations/[id]') ? (
@@ -526,10 +543,10 @@ const Home: NextPage<PageProps> = props => {
               ></SavedMessages>
             ) : null}
             {debuggerObject && <Debugger debuggerObject={debuggerObject} />}
-            {hideSidebar && (
+            {userInfo.hideSidebar && (
               <i
                 className={`fa-solid fa-arrow-right cursor-pointer text-gray w-5 h-5 mr-auto mb-3 ml-3 absolute bottom-0 left-0 transform transition duration-300 hover:scale-125 hover:font-bold`}
-                onClick={e => setHideSidebar(false)}
+                onClick={e => setUserInfo({ ...userInfo, hideSidebar: false })}
               ></i>
             )}
           </main>

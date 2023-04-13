@@ -23,6 +23,7 @@ const DataFetcher: NextPage<any> = ({ children, Component, ...props }) => {
 
   if (error) router.push('/auth/signin'); //<div>Error: {error.message}</div>;
   if (!data) return <div></div>;
+  console.log('data', data);
   const mergedProps = { ...props, ...data };
   injector.inject(data);
   console.log('data fetcher');

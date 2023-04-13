@@ -8,6 +8,7 @@ export default function Sidebar({
   conversationId,
   selectConversation,
   userInfo,
+  setUserInfo,
   newConversation,
   setConversations,
   currentRoute,
@@ -47,7 +48,7 @@ export default function Sidebar({
       />
       <i
         className={`fa-solid fa-arrow-left cursor-pointer text-gray w-5 h-5 mr-auto mb-3 ml-3 absolute bottom-0 left-0 transform transition duration-300 hover:scale-125 hover:font-bold`}
-        onClick={e => setHideSidebar(true)}
+        onClick={e => setUserInfo({ ...userInfo, hideSidebar: true })}
       ></i>
     </nav>
   );

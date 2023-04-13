@@ -66,6 +66,7 @@ model User {
   telegramUserId       String?
   includeNotepad       Boolean        @default(false)
   defaultHomepage      String         @default("/")
+  hideSidebar          Boolean        @default(false)
   sessions             Session[]
   conversations        Conversation[] @relation("ConversationParticipants")
   ownedConversations   Conversation[] @relation("conversation_owner")

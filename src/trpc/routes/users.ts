@@ -43,7 +43,8 @@ export const get = trpc.procedure
         enableChatGMBot: true,
         telegramUserId: true,
         includeNotepad: true,
-        defaultHomepage: true
+        defaultHomepage: true,
+        hideSidebar: true
       }
     });
     return user;
@@ -70,7 +71,8 @@ export const find = trpc.procedure
         enableChatGMBot: true,
         telegramUserId: true,
         includeNotepad: true,
-        defaultHomepage: true
+        defaultHomepage: true,
+        hideSidebar: true
       }
     });
     return user;
@@ -105,7 +107,8 @@ export const getUserInfo = procedure
         enableChatGMBot: true,
         telegramUserId: true,
         includeNotepad: true,
-        defaultHomepage: true
+        defaultHomepage: true,
+        hideSidebar: true
       }
     });
     return userInfo;
@@ -140,7 +143,8 @@ export const getInitialPageData = procedure
         enableChatGMBot: true,
         telegramUserId: true,
         includeNotepad: true,
-        defaultHomepage: true
+        defaultHomepage: true,
+        hideSidebar: true
       }
     });
 
@@ -212,17 +216,24 @@ export const getInitialPageData = procedure
     return props;
   });
 
-export const update = trpc.procedure
+export const update = procedure
+  .use(({ next, ctx }) => {
+    return next({
+      ctx: ctx
+    });
+  })
   .input((req: any) => {
-    if (!req.id) {
-      throw new Error(`Users without an id property can't be updated"`);
-    }
+    // if (!req.id) {
+    //   throw new Error(`Users without an id property can't be updated"`);
+    // }
     return req;
   })
-  .query(async ({ input }) => {
+  .mutation(async ({ ctx, input }) => {
+    const { session } = ctx;
+    const user = session.user;
     const userInfo = input;
     return await prisma.user.update({
-      where: { id: userInfo.id },
+      where: { id: user.id },
       data: userInfo
     });
   });

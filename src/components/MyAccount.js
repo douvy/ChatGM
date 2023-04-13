@@ -53,7 +53,7 @@ function MyAccount({ userInfo, setUserInfo }) {
   const saveUserUpdates = e => {
     e.preventDefault();
     setSaveState('saving');
-    client.users.update.query(localUserInfo).then(data => {
+    client.users.update.mutate(localUserInfo).then(data => {
       setSaveState('saved');
       setUserInfo({
         ...localUserInfo

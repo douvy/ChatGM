@@ -20,6 +20,10 @@ const App: AppType = ({ Component, pageProps }: AppProps) => {
   useEffect(() => {
     const handleKeyDown = (event: any) => {
       console.log('Key pressed:', event.key, typeof event.key);
+      if (event.metaKey) {
+        console.log('Meta is down, skipping');
+        return;
+      }
       if (typeof event.key == 'string') {
         setC({
           key: event.key,

@@ -24,7 +24,8 @@ function Tasks({ userInfo, setUserInfo, passedTasks, passedActiveProject, c }) {
   const [activeProject, setActiveProject] = useState(
     passedActiveProject || null
   );
-  const [activeTaskIndex, setActiveTaskIndex] = useState(null);
+  const [activeTask, setActiveTask] = useState();
+  const [activeTaskIndex, setActiveTaskIndex] = useState();
   const [addingTask, setAddingTask] = useState(false);
   const [newTask, setNewTask] = useState({
     content: ''
@@ -49,6 +50,8 @@ function Tasks({ userInfo, setUserInfo, passedTasks, passedActiveProject, c }) {
         case 'N':
           setAddingTask(true);
           break;
+        case 'Enter':
+          toggleCompletion(tasks.find(({ id }) => id == userInfo.activeTaskId));
         // case 'Escape':
         //   setAddingTask(false);
       }
@@ -89,7 +92,7 @@ function Tasks({ userInfo, setUserInfo, passedTasks, passedActiveProject, c }) {
       .catch(err => console.log(err));
   }, [activeProject]);
 
-  const setActiveTask = async (task, index) => {
+  const activateTask = async (task, index) => {
     const activeTaskId = task.id == userInfo.activeTaskId ? null : task.id;
     setUserInfo({
       ...userInfo,
@@ -97,8 +100,25 @@ function Tasks({ userInfo, setUserInfo, passedTasks, passedActiveProject, c }) {
       activeTaskSetAt: new Date()
     });
     setActiveTaskIndex(index);
+    setActiveTask(task);
     const updatedUser = await setActiveTaskMutation.mutateAsync(activeTaskId);
   };
+
+  const toggleCompletion = (task, e) => (
+    e && e.stopPropagation(),
+    task &&
+      api
+        .updateTask(task.id, {
+          labels: task.labels.includes('completed')
+            ? task.labels.filter(label => label != 'completed')
+            : [...task.labels, 'completed']
+        })
+        .then(updatedTask => {
+          console.log(updatedTask);
+          setTasks(tasks.map(t => (t.id != task.id ? t : updatedTask)));
+        })
+        .catch(err => console.log(err))
+  );
 
   // let messageEnd = null;
   // useEffect(() => {
@@ -107,7 +127,6 @@ function Tasks({ userInfo, setUserInfo, passedTasks, passedActiveProject, c }) {
   // if (!conversation.messages) {
   //     return <></>
   // }
-  console.log(projects);
   return (
     <div className='mx-auto h-full p-4 pt-0'>
       <div className='overflow-y-auto' ref={scrollContainer}>
@@ -137,7 +156,7 @@ function Tasks({ userInfo, setUserInfo, passedTasks, passedActiveProject, c }) {
                   ${task.id == userInfo.activeTaskId ? '!bg-blue-950' : ''}
                   ${task.labels.includes('completed') ? '!bg-green-950' : ''}
                   `}
-                  onClick={() => setActiveTask(task, index)}
+                  onClick={() => activateTask(task, index)}
                 >
                   <div className='flex h-full flex-col justify-center gap-4 p-6'>
                     {task.content}
@@ -147,26 +166,7 @@ function Tasks({ userInfo, setUserInfo, passedTasks, passedActiveProject, c }) {
                           ? 'fa-undo'
                           : 'fa-check'
                       } cursor-pointer text-gray w-5 h-5 ml-auto mb-3 mr-3 absolute bottom-0 right-0 transform transition duration-300 hover:scale-125 hover:font-bold`}
-                      onClick={e => (
-                        e.stopPropagation(),
-                        api
-                          .updateTask(task.id, {
-                            labels: task.labels.includes('completed')
-                              ? task.labels.filter(
-                                  label => label != 'completed'
-                                )
-                              : [...task.labels, 'completed']
-                          })
-                          .then(updatedTask => {
-                            console.log(updatedTask);
-                            setTasks(
-                              tasks.map(t =>
-                                t.id != task.id ? t : updatedTask
-                              )
-                            );
-                          })
-                          .catch(err => console.log(err))
-                      )}
+                      onClick={e => toggleCompletion(task, e)}
                     ></i>
                     <i
                       className={`fa-solid fa-close cursor-pointer text-gray w-5 h-5 mr-auto mb-3 ml-3 absolute bottom-0 left-0 transform transition duration-300 hover:scale-125 hover:font-bold`}
@@ -251,7 +251,7 @@ function Tasks({ userInfo, setUserInfo, passedTasks, passedActiveProject, c }) {
               task={task}
               userInfo={userInfo}
               setUserInfo={setUserInfo}
-              setActiveTask={setActiveTask}
+              setActiveTask={activateTask}
               setActiveTaskIndex={setActiveTaskIndex}
             />
           ))
