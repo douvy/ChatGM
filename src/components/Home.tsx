@@ -473,7 +473,7 @@ const Home: NextPage<PageProps> = props => {
               ></ConversationsView>
             ) : null}
             {/* {currentRoute == '/builder' ? <ComponentBuilder></ComponentBuilder> : null} */}
-            {path == '/savedPrompts' ? (
+            {path == '/prompts' ? (
               <SavedMessages
                 starredMessages={starredMessages}
                 setStarredMessages={setStarredMessages}

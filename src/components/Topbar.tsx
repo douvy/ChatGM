@@ -85,10 +85,16 @@ const Topbar: React.FC<TopbarProps> = ({
               className='rounded-full w-7 h-7 mr-2.5'
             />
           </button>
+
           {isAvatarDropdownOpen && (
             <div className='absolute right-0 mt-9 w-48 bg-dark border-gray-light rounded-md shadow-lg z-100 dropdown-container'>
               <ul className='py-1 text-base leading-6 text-offwhite'>
-                <li className='flex flex-col items-start px-4 py-2 hover-dark cursor-pointer text-sm -mx-0 -mt-1 -mb-1'>
+                <li
+                  className='flex flex-col items-start px-4 py-2 hover-dark cursor-pointer text-sm -mx-0 -mt-1 -mb-1'
+                  onClick={() => (
+                    router.push('/account'), setIsAvatarDropdownOpen(false)
+                  )}
+                >
                   <div className='flex items-center w-full'>
                     <div className='w-11 h-11 rounded-full overflow-hidden'>
                       <img
@@ -100,10 +106,7 @@ const Topbar: React.FC<TopbarProps> = ({
                       <span className='ml-3'>{userInfo?.username}</span>
                     </div>
                   </div>
-                  <div
-                    className='flex items-center w-full mt-2'
-                    onClick={() => router.push('/account')}
-                  >
+                  <div className='flex items-center w-full mt-2'>
                     <i className='fa-regular fa-gear'></i>
                     <span className='ml-2'>Settings</span>
                   </div>

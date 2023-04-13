@@ -48,7 +48,6 @@ export default function SidebarNav({
             itemText='Todos'
             onClick={() => {
               router.push('/tasks', '/tasks', { shallow: true });
-              setCurrentRoute('/tasks');
               setConversation(null);
             }}
           />
@@ -62,7 +61,6 @@ export default function SidebarNav({
             itemText='Notepad'
             onClick={() => {
               router.push('/notepad', '/notepad', { shallow: true });
-              setCurrentRoute('/notepad');
               setConversation(null);
             }}
           />
@@ -81,7 +79,6 @@ export default function SidebarNav({
           itemText='Saved prompts'
           onClick={() => {
             router.push('/prompts', '/prompts', { shallow: true });
-            setCurrentRoute('/savedPrompts');
             setConversation(null);
           }}
         />
@@ -90,10 +87,9 @@ export default function SidebarNav({
           isActive={path == '/savedResponses' ? true : false}
           itemText='Saved responses'
           onClick={() => {
-            router.push('/saved/responses', '/saved/responses', {
+            router.push('/savedResponses', '/savedResponses', {
               shallow: true
             });
-            setCurrentRoute('/savedResponses');
             setConversation(null);
           }}
         />
@@ -103,7 +99,7 @@ export default function SidebarNav({
           itemText='Component builder'
           onClick={() => {
             router.push('/builder', '/builder', { shallow: true });
-            setCurrentRoute('/builder');
+            // setCurrentRoute('/builder');
             setConversation(null);
           }}
         />
