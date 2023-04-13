@@ -8,12 +8,16 @@ interface TopbarProps {
   conversation: Conversation;
   userInfo: any;
   addSystemMessage: (...args: any) => Promise<any>;
+  settings: any;
+  setSettings: (...args: any) => any;
 }
 
 const Topbar: React.FC<TopbarProps> = ({
   conversation,
   userInfo,
-  addSystemMessage
+  addSystemMessage,
+  settings,
+  setSettings
 }) => {
   const [isMembersExpanded, setIsMembersExpanded] = useState(true);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -32,6 +36,28 @@ const Topbar: React.FC<TopbarProps> = ({
         className='flex items-center justify-between px-4 py-2 relative'
         id='top-nav'
       >
+        <div className='gap-3 flex flex-row items-center'>
+          <i
+            className='fa-light fa-minus hover:font-bold cursor-pointer transform transition duration-300 hover:scale-125 hover:font-bold'
+            onClick={async e => {
+              e.stopPropagation();
+              setSettings({
+                ...settings,
+                tasksPerRow: Math.max(settings.tasksPerRow - 1, 2)
+              });
+            }}
+          ></i>
+          <i
+            className='fa-light fa-plus hover:font-bold cursor-pointer transform transition duration-300 hover:scale-125 hover:font-bold'
+            onClick={async e => {
+              e.stopPropagation();
+              setSettings({
+                ...settings,
+                tasksPerRow: Math.min(settings.tasksPerRow + 1, 8)
+              });
+            }}
+          ></i>
+        </div>
         {/* Members dropdown title */}
         {(conversation?.participants?.length || 0) > 1 && (
           <div className='flex items-center space-x-2'>

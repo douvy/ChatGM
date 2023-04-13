@@ -14,7 +14,6 @@ export default function Sidebar({
   currentRoute,
   setCurrentRoute,
   setActiveComponent,
-  setHideSidebar,
   style,
   ...props
 }) {

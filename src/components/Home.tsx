@@ -96,7 +96,11 @@ const Home: NextPage<PageProps> = props => {
 
   const [activeTask, setActiveTask] = useState<any>(props.activeTask);
 
-  const [debuggerObject, setDebuggerObject] = useState<any>(null);
+  const [settings, setSettings] = useState<any>({
+    tasksPerRow: 6
+  });
+
+  const [debuggerObject, setDebuggerObject] = useState<any>();
 
   const initialMount = useRef(true);
 
@@ -455,6 +459,8 @@ const Home: NextPage<PageProps> = props => {
             conversation={conversation}
             userInfo={userInfo}
             addSystemMessage={addSystemMessage}
+            settings={settings}
+            setSettings={setSettings}
           />
           {modalOpen && (
             <Modal
@@ -494,6 +500,7 @@ const Home: NextPage<PageProps> = props => {
                 passedTasks={tasks}
                 passedActiveProject={activeProject}
                 c={props.c}
+                settings={settings}
               ></Tasks>
             ) : null}
             {path == '/notepad' ? (

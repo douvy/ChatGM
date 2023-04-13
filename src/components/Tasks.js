@@ -10,7 +10,14 @@ import ProjectListItem from './ProjectListItem';
 import { TodoistApi } from '@doist/todoist-api-typescript';
 import { Card, Row } from 'flowbite-react';
 
-function Tasks({ userInfo, setUserInfo, passedTasks, passedActiveProject, c }) {
+function Tasks({
+  userInfo,
+  setUserInfo,
+  passedTasks,
+  passedActiveProject,
+  c,
+  settings
+}) {
   const api = new TodoistApi(userInfo.todoistApiKey);
   const scrollContainer = useRef(null);
   const channelRef = useRef(null);
@@ -129,6 +136,7 @@ function Tasks({ userInfo, setUserInfo, passedTasks, passedActiveProject, c }) {
   // }
   return (
     <div className='mx-auto h-full p-4 pt-0'>
+      {settings.tasksPerRow}
       <div className='overflow-y-auto' ref={scrollContainer}>
         {projects.length != 1 &&
           projects
@@ -148,7 +156,7 @@ function Tasks({ userInfo, setUserInfo, passedTasks, passedActiveProject, c }) {
               );
             })}
         {true ? (
-          <div className='grid grid-cols-1 md:grid-cols-4 gap-4 pt-4 '>
+          <div className={`grid grid-cols-${settings.tasksPerRow} gap-4 pt-4`}>
             {tasks.map((task, index) => (
               <div key={task.id} className='relative'>
                 <div
@@ -235,7 +243,7 @@ function Tasks({ userInfo, setUserInfo, passedTasks, passedActiveProject, c }) {
                       placeholder=''
                       className='w-full p-2 mr-2 bg-dark border-gray-700 focus:border-gray-800 !important focus:ring-transparent'
                       conversationId={undefined}
-                      ref={textareaRef}
+                      textareaRef={textareaRef}
                       //   autoFocus={true}
                     />
                   )}
