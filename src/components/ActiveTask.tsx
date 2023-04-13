@@ -47,7 +47,7 @@ const ActiveTask: React.FC<ActiveTaskProps> = ({
       ...userInfo,
       activeTaskSetAt: newStart
     });
-    client.users.update.query({
+    client.users.update.mutate({
       id: userInfo.id,
       activeTaskSetAt: newStart
     });
@@ -58,7 +58,7 @@ const ActiveTask: React.FC<ActiveTaskProps> = ({
       ...userInfo,
       activeTaskId: null
     });
-    client.users.update.query({
+    client.users.update.mutate({
       id: userInfo.id,
       activeTaskId: null
     });
