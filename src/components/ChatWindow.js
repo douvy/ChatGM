@@ -111,13 +111,15 @@ function ChatWindow({
     } else if (event.key === 'ArrowUp') {
       // Move the selection up in the list, and if at the top, move to the bottom
       if (isMentionOpen) {
-        setSelectedUserIndex((prevIndex) => (prevIndex - 1 + users.length) % users.length);
+        setSelectedUserIndex(
+          prevIndex => (prevIndex - 1 + users.length) % users.length
+        );
         event.preventDefault();
       }
     } else if (event.key === 'ArrowDown') {
       // Move the selection down in the list, and if at the bottom, move to the top
       if (isMentionOpen) {
-        setSelectedUserIndex((prevIndex) => (prevIndex + 1) % users.length);
+        setSelectedUserIndex(prevIndex => (prevIndex + 1) % users.length);
         event.preventDefault();
       }
     } else if (event.key === 'Enter' && isMentionOpen) {
@@ -135,8 +137,7 @@ function ChatWindow({
     } else {
       // ... (existing code) ...
     }
-  }  
-  
+  }
 
   async function updateConversation(
     messageIndex,

@@ -128,7 +128,7 @@ const Home: NextPage<PageProps> = props => {
   }, [userInfo]);
 
   useEffect(() => {
-    if (path != '/') {
+    if (path != '/' && router.pathname != '/conversations/[id]') {
       setConversationId(undefined);
     }
   }, [path]);
@@ -364,7 +364,6 @@ const Home: NextPage<PageProps> = props => {
   };
 
   const selectConversation = (conversation: Conversation) => {
-    // router.push('/conversation/[id]', `/conversation/${conversation.id}`, { shallow: true });
     setConversation(conversation);
     setConversationId(conversation.id);
   };
@@ -422,7 +421,8 @@ const Home: NextPage<PageProps> = props => {
             />
           )}
           <main className='container mx-auto flex-1 mt-0'>
-            {currentRoute == '/' ? (
+            {conversation &&
+            (path == '/' || router.pathname == '/conversations/[id]') ? (
               <ChatWindow
                 conversationId={conversationId}
                 conversation={conversation}
