@@ -14,6 +14,7 @@ import Topbar from '../components/Topbar';
 import Debugger from '../components/Debugger';
 import Modal from '../components/Modal';
 import ActiveTask from '../components/ActiveTask';
+import Table from '@components/Table';
 import { addInfiniteScroll } from '../utils/infiniteScroll';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
@@ -31,7 +32,7 @@ const Home: NextPage<PageProps> = props => {
 
   const router = useRouter();
   const [componentName, setComponentName] = useState('');
-  const { componentName: routeComponentName } = router.query;
+  const path = router.asPath;
 
   const trpcCtx = trpc.useContext();
 
@@ -115,7 +116,7 @@ const Home: NextPage<PageProps> = props => {
         newConversation();
         break;
     }
-  }, [router.asPath]);
+  }, [path]);
 
   useEffect(() => {
     if (userInfo.activeTaskId && userInfo.activeTaskId != activeTask.id) {
@@ -135,7 +136,6 @@ const Home: NextPage<PageProps> = props => {
 
   useEffect(() => {
     if (conversationId) {
-      console.log('!!!!');
       if (
         conversationId != conversation.id ||
         !conversation.participants ||
@@ -279,7 +279,6 @@ const Home: NextPage<PageProps> = props => {
   };
 
   const addUserToConversation = async () => {
-    console.log('@');
     let handle = newMessage.content.split(' ')[0].substring(1);
     resetMessage();
     let updatedConversation = await client.conversations.addParticipant.mutate({
@@ -345,7 +344,8 @@ const Home: NextPage<PageProps> = props => {
     setPlaceholderMessage(
       {
         role: 'assistant',
-        content: '<i class="fa-duotone fa-2x fa-spinner fa-spin text-offwhite"></i>',
+        content:
+          '<i class="fa-duotone fa-2x fa-spinner fa-spin text-offwhite"></i>',
         avatarSource: 'avatar-chat.png'
       },
       updatedConversation as Conversation
@@ -354,7 +354,6 @@ const Home: NextPage<PageProps> = props => {
     updatedConversation = (await client.openai.query.mutate(
       updatedConversation
     )) as PrismaConversation;
-    console.log('updatedConversation:', updatedConversation);
     setConversation({
       ...(updatedConversation as Conversation),
       messages: (updatedConversation as Conversation).messages
@@ -378,14 +377,12 @@ const Home: NextPage<PageProps> = props => {
     const updatedConversations = [...conversations];
     updatedConversations[index] = updatedConversation;
   };
-
   const [activeComponent, setActiveComponent] = useState<any>();
-
   return (
     <>
       <div className='flex' id='main-container'>
         {/* <Block>dkfsdkjfhskjdh</Block> */}
-
+        {/* <Table /> */}
         <Sidebar
           conversations={conversations}
           setConversations={setConversations}
@@ -440,17 +437,17 @@ const Home: NextPage<PageProps> = props => {
                 userInfo={userInfo}
               />
             ) : null}
-            {currentRoute == '/features' ? (
+            {path == '/features' ? (
               <FeaturesView passedFeatures={props.features}></FeaturesView>
             ) : null}
-            {currentRoute == '/tasks' ? (
+            {path == '/tasks' ? (
               <Tasks
                 userInfo={userInfo}
                 setUserInfo={setUserInfo}
                 c={props.c}
               ></Tasks>
             ) : null}
-            {currentRoute == '/notepad' ? (
+            {path == '/notepad' ? (
               <Notepad
                 content={content}
                 setContent={setContent}
@@ -460,23 +457,23 @@ const Home: NextPage<PageProps> = props => {
                 setActiveTask={setActiveTask}
               ></Notepad>
             ) : null}
-            {currentRoute == '/features' ? (
+            {path == '/features' ? (
               <FeaturesView passedFeatures={props.features}></FeaturesView>
             ) : null}
-            {currentRoute == '/myAccount' ? (
+            {path == '/account' ? (
               <MyAccount
                 userInfo={userInfo}
                 setUserInfo={setUserInfo}
               ></MyAccount>
             ) : null}
-            {currentRoute == '/conversations' ? (
+            {path == '/conversations' ? (
               <ConversationsView
                 conversations={conversations}
                 setConversations={setConversations}
               ></ConversationsView>
             ) : null}
             {/* {currentRoute == '/builder' ? <ComponentBuilder></ComponentBuilder> : null} */}
-            {currentRoute == '/savedPrompts' ? (
+            {path == '/savedPrompts' ? (
               <SavedMessages
                 starredMessages={starredMessages}
                 setStarredMessages={setStarredMessages}
@@ -486,7 +483,7 @@ const Home: NextPage<PageProps> = props => {
                 role='user'
               ></SavedMessages>
             ) : null}
-            {currentRoute == '/savedResponses' ? (
+            {path == '/savedResponses' ? (
               <SavedMessages
                 starredMessages={starredMessages}
                 setStarredMessages={setStarredMessages}

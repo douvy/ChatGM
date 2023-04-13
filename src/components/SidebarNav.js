@@ -22,6 +22,7 @@ export default function SidebarNav({
   userInfo
 }) {
   const router = useRouter();
+  const path = router.asPath;
 
   return (
     <div>
@@ -32,11 +33,10 @@ export default function SidebarNav({
         {currentRoute == '/conversations'}
         <SidebarItem
           iconName='user-hair-mullet text-blue'
-          isActive={currentRoute == '/myAccount' ? true : false}
+          isActive={path == '/account' ? true : false}
           itemText='My Account'
           onClick={() => {
             router.push('/account', '/account', { shallow: true });
-            // setCurrentRoute('/myAccount');
             setConversation(null);
           }}
         />
@@ -44,7 +44,7 @@ export default function SidebarNav({
         {userInfo.includeTaskFeature ? (
           <SidebarItem
             iconName='fa-sharp fa-regular text-orange fa-list-check'
-            isActive={currentRoute == '/tasks' ? true : false}
+            isActive={path == '/tasks' ? true : false}
             itemText='Todos'
             onClick={() => {
               router.push('/tasks', '/tasks', { shallow: true });
@@ -58,7 +58,7 @@ export default function SidebarNav({
         {userInfo.includeNotepad ? (
           <SidebarItem
             iconName='fa-solid fa-memo-pad text-pink'
-            isActive={currentRoute == '/notepad' ? true : false}
+            isActive={path == '/notepad' ? true : false}
             itemText='Notepad'
             onClick={() => {
               router.push('/notepad', '/notepad', { shallow: true });
@@ -77,7 +77,7 @@ export default function SidebarNav({
                 }} /> */}
         <SidebarItem
           iconName='fa-solid fa-stars text-yellow'
-          isActive={currentRoute == '/savedPrompts' ? true : false}
+          isActive={path == '/savedPrompts' ? true : false}
           itemText='Saved prompts'
           onClick={() => {
             router.push('/prompts', '/prompts', { shallow: true });
@@ -87,7 +87,7 @@ export default function SidebarNav({
         />
         <SidebarItem
           iconName='fa-solid fa-stars text-yellow'
-          isActive={currentRoute == '/savedResponses' ? true : false}
+          isActive={path == '/savedResponses' ? true : false}
           itemText='Saved responses'
           onClick={() => {
             router.push('/saved/responses', '/saved/responses', {
@@ -99,7 +99,7 @@ export default function SidebarNav({
         />
         <SidebarItem
           iconName='fa-solid fa-toolbox text-purple'
-          isActive={currentRoute == '/builder' ? true : false}
+          isActive={path == '/builder' ? true : false}
           itemText='Component builder'
           onClick={() => {
             router.push('/builder', '/builder', { shallow: true });
@@ -109,7 +109,7 @@ export default function SidebarNav({
         />
         <SidebarItem
           iconName='arrow-right-from-bracket text-red'
-          isActive={currentRoute == '/auth/signin' ? true : false}
+          // isActive={path == '/auth/signin' ? true : false}
           itemText='Log Out'
           onClick={() => {
             signOut({
