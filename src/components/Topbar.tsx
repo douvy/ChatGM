@@ -100,8 +100,9 @@ const Topbar: React.FC<TopbarProps> = ({
                       <span className='ml-3'>{userInfo?.username}</span>
                     </div>
                   </div>
-                  <div className='flex items-center w-full mt-2'
-                      onClick={() => router.push('/account')}
+                  <div
+                    className='flex items-center w-full mt-2'
+                    onClick={() => router.push('/account')}
                   >
                     <i className='fa-regular fa-gear'></i>
                     <span className='ml-2'>Settings</span>

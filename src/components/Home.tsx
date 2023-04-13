@@ -128,11 +128,10 @@ const Home: NextPage<PageProps> = props => {
   }, [userInfo]);
 
   useEffect(() => {
-    if (currentRoute != '/') {
+    if (path != '/') {
       setConversationId(undefined);
-      // setConversation({});
     }
-  }, [currentRoute]);
+  }, [path]);
 
   useEffect(() => {
     if (conversationId) {
@@ -377,6 +376,7 @@ const Home: NextPage<PageProps> = props => {
     const updatedConversations = [...conversations];
     updatedConversations[index] = updatedConversation;
   };
+
   const [activeComponent, setActiveComponent] = useState<any>();
   return (
     <>
