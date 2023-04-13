@@ -64,7 +64,7 @@ const Topbar: React.FC<TopbarProps> = ({
             </button>
           </div>
 
-          {isBellDropdownOpen && (
+          {true && (
             <NotificationsMenu
               userInfo={userInfo}
               notificationData={notificationData}

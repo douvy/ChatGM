@@ -357,7 +357,7 @@ const Home: NextPage<PageProps> = props => {
       {
         role: 'assistant',
         content:
-          '<i class="fa-duotone fa-2x fa-spinner fa-spin text-offwhite"></i>',
+          '<i className="fa-duotone fa-2x fa-spinner fa-spin text-offwhite"></i>',
         avatarSource: 'avatar-chat.png'
       },
       updatedConversation as Conversation
@@ -393,7 +393,7 @@ const Home: NextPage<PageProps> = props => {
   console.log('home');
   return (
     <>
-      <div className='flex' id='main-container'>
+      <div className='flex h-full' id='main-container'>
         {/* <Block>dkfsdkjfhskjdh</Block> */}
         {/* <Table /> */}
         <Sidebar

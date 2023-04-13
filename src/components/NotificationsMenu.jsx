@@ -16,7 +16,7 @@ export default function NotificationsMenu({
   });
 
   // Helper function to format timestamp
-  const formatDate = (dateString) => {
+  const formatDate = dateString => {
     const date = new Date(dateString);
     const now = new Date();
     const diffInSeconds = Math.floor((now - date) / 1000);
@@ -41,6 +41,7 @@ export default function NotificationsMenu({
       <ul className='py-1 text-base leading-6 text-offwhite'>
         {sortedNotifications?.map(notification => (
           <li
+            key={notification.id}
             onClick={() => {
               router.push(
                 '/conversations/[id]',
@@ -67,7 +68,9 @@ export default function NotificationsMenu({
                 <div className='text-xs text-gray-400 mt-0.5'>
                   <span>{notification.conversation.name}</span>
                 </div>
-                <p className='text-xs text-gray-500 mt-0.5'>{formatDate(notification.createdAt)}</p>
+                <p className='text-xs text-gray-500 mt-0.5'>
+                  {formatDate(notification.createdAt)}
+                </p>
               </div>
             </div>
             <div>

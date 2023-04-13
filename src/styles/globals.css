@@ -830,6 +830,10 @@ table th {
   background: #1b2638;
 }
 
+#__next {
+  height: 100%;
+}
+
 @media (min-width: 710px) {
   #add-task {
     min-height: 250px;

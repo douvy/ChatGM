@@ -86,20 +86,20 @@ function ConversationLinkList({
 
   return (
     <div className='overflow-y-auto' id='sidebar-top'>
-      <div className="z-0">
+      <div className='z-0'>
         <ul className='pl-3'>
           <div className='sticky top-0 bg-dark z-20 relative sticky-cover'>
-          <div
-          style={{
-            position: 'absolute',
-            top: '-8px',
-            left: 0,
-            right: 0,
-            height: '8px',
-            backgroundColor: '#your_background_color',
-            zIndex: 20,
-          }}
-        ></div>
+            <div
+              style={{
+                position: 'absolute',
+                top: '-8px',
+                left: 0,
+                right: 0,
+                height: '8px',
+                backgroundColor: '#your_background_color',
+                zIndex: 20
+              }}
+            ></div>
             <div className='sticky top-2 bg-dark z-20'>
               <a
                 onClick={() => {
@@ -108,7 +108,7 @@ function ConversationLinkList({
                 }}
                 id='new-chat'
                 className={`cursor-pointer ${
-                  !activeConversationId && currentRoute == '/' ? 'active' : ''
+                  !activeConversationId && router.asPath == '/' ? 'active' : ''
                 }`}
               >
                 <li className='p-3 mt-1 pl-4'>
@@ -122,7 +122,7 @@ function ConversationLinkList({
                     className='w-7 h-7 rounded-full'
                   />
                   <span className='ml-3'>{userInfo?.username}</span>
-                  </li>
+                </li>
               </a>
             </div>
             <li

@@ -138,7 +138,7 @@ function Tasks({ userInfo, setUserInfo, passedTasks, passedActiveProject, c }) {
                   `}
                   onClick={() => setActiveTask(task, index)}
                 >
-                  <div class='flex h-full flex-col justify-center gap-4 p-6'>
+                  <div className='flex h-full flex-col justify-center gap-4 p-6'>
                     {task.content}
                     <i
                       className={`fa-solid ${
@@ -188,7 +188,7 @@ function Tasks({ userInfo, setUserInfo, passedTasks, passedActiveProject, c }) {
                 className='bg-dark-blue h-64 border border-gray-700 cursor-pointer hover:bg-gray-600'
                 onClick={() => setAddingTask(true)}
               >
-                <div class='flex h-full flex-col justify-center gap-4 p-6'>
+                <div className='flex h-full flex-col justify-center gap-4 p-6'>
                   {!addingTask ? (
                     <i className='fas fa-plus text-4xl mx-auto'></i>
                   ) : (

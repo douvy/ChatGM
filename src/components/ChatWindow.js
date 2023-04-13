@@ -186,9 +186,9 @@ function ChatWindow({
     messageCount.current = conversation.messages.length;
   }, [conversation]);
 
-  if (!conversation.messages) {
-    return <></>;
-  }
+  // if (!conversation.messages) {
+  //   return <></>;
+  // }
   return (
     <div className='mx-auto max-w-[760px]'>
       <div
