@@ -9,10 +9,16 @@ export default function NotificationsMenu({
 }) {
   const router = useRouter();
 
+  // Sort the notifications in descending order based on the 'createdAt' field
+  // (Assuming each notification object has a 'createdAt' field representing the timestamp)
+  const sortedNotifications = notificationData?.data?.sort((a, b) => {
+    return new Date(b.createdAt) - new Date(a.createdAt);
+  });
+
   return (
     <div className='absolute right-0 mt-9 w-48 bg-dark border-gray-light rounded-md shadow-lg z-100 dropdown-container bell'>
       <ul className='py-1 text-base leading-6 text-offwhite'>
-        {notificationData?.data?.map(notification => (
+        {sortedNotifications?.map(notification => (
           <li
             onClick={() => {
               router.push(
