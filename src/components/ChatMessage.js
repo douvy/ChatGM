@@ -138,12 +138,19 @@ function ChatMessage({ index, message, avatarSource, sender, updateState, setCon
                 })
               })}></i>}
             {showEditIcon && (
-              <i
-                className="fa-sharp fa-regular fa-pen-to-square w-5 h-5 ml-3 cursor-pointer"
-                onClick={() => {
-                  setEditingMessage(true);
-                }}
-              ></i>
+              <div
+              className="absolute top-9 right-0 mb-2 mr-0 cursor-pointer"
+              onClick={() => {
+                setEditingMessage(true);
+              }}
+            >
+                <i
+                  className="fa-sharp fa-regular fa-pen-to-square w-5 h-5 ml-3 cursor-pointer"
+                  onClick={() => {
+                    setEditingMessage(true);
+                  }}
+                ></i>
+              </div>
             )}
           </p>
           {!editingMessage ? <ReactMarkdown
@@ -175,7 +182,7 @@ function ChatMessage({ index, message, avatarSource, sender, updateState, setCon
                   components={customRenderer}
                 />
               </div> */}
-              <textarea value={localMessage.content} ref={textareaRef} className="p-0 m-0 h-auto w-full border-none focus:outline-none" rows="1" autoFocus={true} spellCheck="false" onInput={(e) => {
+              <textarea value={localMessage.content} ref={textareaRef} className="p-0 m-0 mt-5 h-auto w-full border-none focus:outline-none" rows="1" autoFocus={true} spellCheck="false" onInput={(e) => {
                 setLocalMessage({
                   ...localMessage,
                   content: e.target.value,
