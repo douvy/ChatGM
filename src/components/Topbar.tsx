@@ -60,7 +60,7 @@ const Topbar: React.FC<TopbarProps> = ({
         </div>
         {/* Members dropdown title */}
         {(conversation?.participants?.length || 0) > 1 && (
-          <div className='flex items-center space-x-2'>
+          <div className='flex items-center space-x-2 hidden-sm'>
             <div
               className='flex items-center cursor-pointer w-190'
               onClick={() => setIsMembersExpanded(!isMembersExpanded)}
