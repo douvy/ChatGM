@@ -14,12 +14,15 @@ export default function Sidebar({
   currentRoute,
   setCurrentRoute,
   setActiveComponent,
+  isMobile,
   style,
   ...props
 }) {
   return (
     <nav
-      className='h-full w-[228px] shadow-md lg:block br-1-gray bg-dark'
+      className={`h-full ${
+        !isMobile ? 'w-[228px]' : 'w-full absolute z-20'
+      } shadow-md lg:block br-1-gray bg-dark transition-all duration-300`}
       style={style}
     >
       <ConversationLinkList

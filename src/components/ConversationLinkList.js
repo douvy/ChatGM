@@ -92,14 +92,16 @@ function ConversationLinkList({
           <div className='sticky top-0 bg-dark z-20 relative sticky-cover'>
             <div className='sticky top-2 bg-dark z-20'>
               <div
-                onClick={() => {
-                  router.push('/');
-                  newConversation();
-                }}
                 id='new-chat'
                 className='border-1 nav-item' // Removed the conditional class assignment
               >
-                <li className='p-3 mt-1 pl-4 w-4/5 cursor-pointer'>
+                <li
+                  className='p-3 mt-1 pl-4 w-4/5 cursor-pointer'
+                  onClick={() => {
+                    router.push('/');
+                    newConversation();
+                  }}
+                >
                   <i className='fa-solid fa-arrow-up-right fa-lg'></i> New Chat
                 </li>
                 {!userInfo.hideSidebar && (

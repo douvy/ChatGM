@@ -102,6 +102,8 @@ const Home: NextPage<PageProps> = props => {
 
   const [debuggerObject, setDebuggerObject] = useState<any>();
 
+  const [isMobile, setIsMobile] = useState(false);
+
   const initialMount = useRef(true);
 
   const updateConversationMessagesMutation =
@@ -117,6 +119,13 @@ const Home: NextPage<PageProps> = props => {
           setConversation(partialConversation);
         setConversationId(Number(router.query.id));
         break;
+    }
+
+    if (isMobile) {
+      setUserInfo({
+        ...userInfo,
+        hideSidebar: true
+      });
     }
   }, [path]);
 
@@ -240,13 +249,6 @@ const Home: NextPage<PageProps> = props => {
       router.push('/' + props.userInfo.defaultHomepage);
   }, []);
 
-  const lastMessage = useRef<HTMLDivElement>(null);
-
-  const updateMessageValue = (event: any) => {
-    setMessageContent(event.target.value);
-    setMessage({ ...newMessage, content: event.target.value });
-  };
-
   useEffect(() => {
     if (initialMount.current) {
       initialMount.current = false;
@@ -254,6 +256,21 @@ const Home: NextPage<PageProps> = props => {
       userInfo.update({ hideSidebar: userInfo.hideSidebar });
     }
   }, [userInfo.hideSidebar]);
+
+  useEffect(() => {
+    const checkIsMobile = () => {
+      const mobileBreakpoint = 640;
+      setIsMobile(window.innerWidth <= mobileBreakpoint);
+    };
+
+    checkIsMobile();
+
+    window.addEventListener('resize', checkIsMobile);
+
+    return () => {
+      window.removeEventListener('resize', checkIsMobile);
+    };
+  }, []);
 
   const newConversation = (e?: Event) => {
     e?.preventDefault();
@@ -266,6 +283,13 @@ const Home: NextPage<PageProps> = props => {
     });
     setConversationId(undefined);
     router.push('/');
+  };
+
+  const lastMessage = useRef<HTMLDivElement>(null);
+
+  const updateMessageValue = (event: any) => {
+    setMessageContent(event.target.value);
+    setMessage({ ...newMessage, content: event.target.value });
   };
 
   const appendMessage = (message: Message) => {
@@ -398,6 +422,12 @@ const Home: NextPage<PageProps> = props => {
   const selectConversation = (conversation: Conversation) => {
     setConversation(conversation);
     setConversationId(conversation.id);
+    if (isMobile) {
+      setUserInfo({
+        ...userInfo,
+        hideSidebar: true
+      });
+    }
   };
 
   const updateConversations = (
@@ -433,8 +463,9 @@ const Home: NextPage<PageProps> = props => {
             currentRoute={currentRoute}
             setCurrentRoute={setCurrentRoute}
             c={props.c}
+            isMobile={isMobile}
             style={{
-              transition: 'opacity 0.3s ease-out, transform 0.3s ease-out',
+              transition: 'z-20 opacity 0.3s ease-out, transform 0.3s ease-out',
               opacity: userInfo.hideSidebar ? 0.5 : 1,
               transform: userInfo.hideSidebar
                 ? 'translateX(-100%)'
@@ -447,7 +478,7 @@ const Home: NextPage<PageProps> = props => {
         )}
         <div
           className={`flex flex-col h-full w-full transition-all duration-300 ${
-            userInfo.hideSidebar ? 'lg:ml-[-225px]' : ''
+            userInfo.hideSidebar && !isMobile ? 'ml-[-225px]' : ''
           }`}
         >
           {userInfo.activeTaskId && (
