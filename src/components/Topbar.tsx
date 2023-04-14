@@ -157,7 +157,7 @@ const Topbar: React.FC<TopbarProps> = ({
           <ul className='pl-0 w-[190px]'>
             {conversation.participants?.map(participant => (
               <li
-                className='group cursor-pointer hover-dark rounded items-center space-x-2 p-2'
+                className='group cursor-pointer hover-dark rounded items-center space-x-2 p-2 flex'
                 key={`${conversation.id}/${participant.id}`}
               >
                 {participant.avatarSource ? (
@@ -167,7 +167,7 @@ const Topbar: React.FC<TopbarProps> = ({
                   />
                 ) : (
                   <div
-                    className={`h-4 w-4 rounded-full ${
+                    className={`h-7 w-7 rounded-full ${
                       participant.id == conversation.creatorId
                         ? 'bg-yellow'
                         : 'bg-green-bright'
