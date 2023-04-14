@@ -195,84 +195,86 @@ function ChatWindow({
   //   return <></>;
   // }
   return (
-    <div className='mx-auto max-w-[760px]'>
-      <div
-        className='p-1.5 pt-0 pb-0 mt-0 overflow-y-auto'
-        id='messages-box'
-        ref={scrollContainer}
-      >
-        {conversation.messages.map((message, index) => {
-          return (
-            <ChatMessage
-              key={conversation.id + index}
-              index={index}
-              message={message}
-              avatarSource={`/${message.avatarSource}`}
-              sender={
-                message.role == 'user'
-                  ? message.sender || userInfo
-                  : 'ChatGPT-3.5'
-              }
-              received={true}
-              updateState={updateConversation}
-              setConversation={setConversation}
-              referencedMessage={referencedMessage}
-              onClick={() => {
-                setReferencedMessage(
-                  message.id == referencedMessage?.id ? null : message
-                );
-              }}
-              userInfo={userInfo}
-            />
-          );
-        })}
+    <div className='mx-auto max-w-[760px] h-full relative'>
+      <div className='mx-auto max-w-[760px]'>
         <div
-          ref={element => {
-            messageEnd = element;
-          }}
-        ></div>
+          className='p-1.5 pt-0 pb-0 mt-0 overflow-y-auto'
+          id='messages-box'
+          ref={scrollContainer}
+        >
+          {conversation.messages.map((message, index) => {
+            return (
+              <ChatMessage
+                key={conversation.id + index}
+                index={index}
+                message={message}
+                avatarSource={`/${message.avatarSource}`}
+                sender={
+                  message.role == 'user'
+                    ? message.sender || userInfo
+                    : 'ChatGPT-3.5'
+                }
+                received={true}
+                updateState={updateConversation}
+                setConversation={setConversation}
+                referencedMessage={referencedMessage}
+                onClick={() => {
+                  setReferencedMessage(
+                    message.id == referencedMessage?.id ? null : message
+                  );
+                }}
+                userInfo={userInfo}
+              />
+            );
+          })}
+          <div
+            ref={element => {
+              messageEnd = element;
+            }}
+          ></div>
+        </div>
+        <form
+          className='flex items-end max-w-[760px] mb-3 pl-2 pr-2 sm:pl-0 sm:pr-0'
+          id='chat-form'
+        >
+          <AutoExpandTextarea
+            value={newMessage.content}
+            onChange={updateMessageValue}
+            onKeyDown={handleKeyDown}
+            placeholder='Type your message here...'
+            className='w-full p-2 mr-2 bg-dark'
+            conversationId={conversationId}
+            textareaRef={textareaRef}
+            //   autoFocus={true}
+          />
+          <span className='button-container'>
+            <button
+              type='button'
+              onClick={sendMessage}
+              className='font-semibold uppercase p-2'
+            >
+              Send
+            </button>
+          </span>
+        </form>
+        {isMentionOpen && (
+          <MentionPopover
+            users={users}
+            selectedUserIndex={selectedUserIndex}
+            onSelect={username => {
+              const textBeforeCursor = newMessage.content.slice(
+                0,
+                cursorPositionRef.current
+              );
+              const textAfterCursor = newMessage.content.slice(
+                cursorPositionRef.current
+              );
+              updateMessageValue(textBeforeCursor + username + textAfterCursor);
+              setIsMentionOpen(false);
+            }}
+          />
+        )}
       </div>
-      <form
-        className='flex items-end max-w-[760px] mb-3 pl-2 pr-2 sm:pl-0 sm:pr-0'
-        id='chat-form'
-      >
-        <AutoExpandTextarea
-          value={newMessage.content}
-          onChange={updateMessageValue}
-          onKeyDown={handleKeyDown}
-          placeholder='Type your message here...'
-          className='w-full p-2 mr-2 bg-dark'
-          conversationId={conversationId}
-          textareaRef={textareaRef}
-          //   autoFocus={true}
-        />
-        <span className='button-container'>
-          <button
-            type='button'
-            onClick={sendMessage}
-            className='font-semibold uppercase p-2'
-          >
-            Send
-          </button>
-        </span>
-      </form>
-      {isMentionOpen && (
-        <MentionPopover
-          users={users}
-          selectedUserIndex={selectedUserIndex}
-          onSelect={username => {
-            const textBeforeCursor = newMessage.content.slice(
-              0,
-              cursorPositionRef.current
-            );
-            const textAfterCursor = newMessage.content.slice(
-              cursorPositionRef.current
-            );
-            updateMessageValue(textBeforeCursor + username + textAfterCursor);
-            setIsMentionOpen(false);
-          }}
-        />
-      )}
     </div>
   );
 }
