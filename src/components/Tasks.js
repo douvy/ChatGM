@@ -137,6 +137,8 @@ function Tasks({
   return (
     <div className='mx-auto h-full p-4 pt-0'>
       <div className='overflow-y-auto' ref={scrollContainer}>
+        {settings.tasksPerRow}
+
         {projects.length != 1 &&
           projects
             .filter(project => {
@@ -155,7 +157,7 @@ function Tasks({
               );
             })}
         {true ? (
-          <div className={`grid grid-cols-${settings.tasksPerRow} gap-4 pt-4`}>
+          <div className={`grid grid-cols-3 gap-4 pt-4`}>
             {tasks.map((task, index) => (
               <div key={task.id} className='relative'>
                 <div

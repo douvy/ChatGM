@@ -232,7 +232,10 @@ function ChatWindow({
           }}
         ></div>
       </div>
-      <form className='flex items-end max-w-[760px] mb-3 pl-2 pr-2 sm:pl-0 sm:pr-0' id='chat-form'>
+      <form
+        className='flex items-end max-w-[760px] mb-3 pl-2 pr-2 sm:pl-0 sm:pr-0'
+        id='chat-form'
+      >
         <AutoExpandTextarea
           value={newMessage.content}
           onChange={updateMessageValue}

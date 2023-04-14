@@ -663,22 +663,29 @@ h1 {
   margin-top: 50px;
 }
 
-#chat-form {
+/* #chat-form {
   color: #1c1d20 !important;
   font-weight: 500 !important;
   font-size: 15px;
   margin-left: -15px;
+} */
+
+#chat-form textarea:focus {
+  outline: none;
+  border-color: 1px solid #1f6feb;
+}
+#chat-form {
+  margin-left: 0em;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  box-sizing: border-box;
+  margin-left: 0em;
 }
 
 input[type='text']::placeholder,
 textarea::placeholder {
   color: #6d7681 !important;
-}
-
-#chat-form input:focus,
-#chat-form textarea:focus {
-  outline: none;
-  border-color: 1px solid #1f6feb;
 }
 
 input,
@@ -699,13 +706,6 @@ textarea {
 #main-container {
   overflow-y: auto;
   max-height: 100%;
-}
-
-#chat-form {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  box-sizing: border-box;
 }
 
 #code-editor {
@@ -804,9 +804,6 @@ code {
     display: none;
   }
 
-  #chat-form {
-    margin-left: 0em;
-  }
   #messages-box {
     padding-left: 6px;
   }
@@ -855,10 +852,6 @@ table th {
 
   .auth-container {
     margin-top: 100px !important;
-  }
-
-  #chat-form {
-    margin-left: 0em;
   }
 
   #top-nav .dropdown-container {
