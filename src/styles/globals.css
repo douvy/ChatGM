@@ -269,7 +269,8 @@ nav li {
 }
 
 a:hover li,
-.active li {
+.active li,
+.nav-item li:hover {
   background: #21262d !important;
 }
 
@@ -839,7 +840,7 @@ table th {
 }
 
 #__next {
-  height: 100%;
+  height: 100% !important;
 }
 
 @media (min-width: 710px) {

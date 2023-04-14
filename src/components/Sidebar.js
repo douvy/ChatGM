@@ -19,7 +19,7 @@ export default function Sidebar({
 }) {
   return (
     <nav
-      className='fixed h-full w-[228px] shadow-md hidden lg:block br-1-gray bg-dark'
+      className='h-full w-[228px] shadow-md lg:block br-1-gray bg-dark'
       style={style}
     >
       <ConversationLinkList
@@ -29,6 +29,7 @@ export default function Sidebar({
         activeConversationId={conversationId}
         selectConversation={selectConversation}
         userInfo={userInfo}
+        setUserInfo={setUserInfo}
         newConversation={newConversation}
         setConversations={setConversations}
         currentRoute={currentRoute}

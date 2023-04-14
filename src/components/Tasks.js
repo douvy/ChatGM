@@ -136,7 +136,6 @@ function Tasks({
   // }
   return (
     <div className='mx-auto h-full p-4 pt-0'>
-      {settings.tasksPerRow}
       <div className='overflow-y-auto' ref={scrollContainer}>
         {projects.length != 1 &&
           projects

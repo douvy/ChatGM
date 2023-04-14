@@ -17,6 +17,7 @@ function ConversationLinkList({
   activeConversationId,
   selectConversation,
   userInfo,
+  setUserInfo,
   newConversation,
   setConversations,
   currentRoute,
@@ -90,18 +91,28 @@ function ConversationLinkList({
         <ul className='pl-3'>
           <div className='sticky top-0 bg-dark z-20 relative sticky-cover'>
             <div className='sticky top-2 bg-dark z-20'>
-              <a
+              <div
                 onClick={() => {
                   router.push('/');
                   newConversation();
                 }}
                 id='new-chat'
-                className='cursor-pointer' // Removed the conditional class assignment
+                className='border-1 nav-item' // Removed the conditional class assignment
               >
-                <li className='p-3 mt-1 pl-4'>
+                <li className='p-3 mt-1 pl-4 w-4/5 cursor-pointer'>
                   <i className='fa-solid fa-arrow-up-right fa-lg'></i> New Chat
                 </li>
-              </a>
+                {!userInfo.hideSidebar && (
+                  <div className='w-1/4 cursor-default'>
+                    <i
+                      className={`fa-solid fa-arrow-left cursor-pointer text-gray w-5 h-5 mb-3 ml-3 absolute top-4 right-0 transform transition duration-300 hover:scale-125 hover:font-bold`}
+                      onClick={e =>
+                        setUserInfo({ ...userInfo, hideSidebar: true })
+                      }
+                    ></i>
+                  </div>
+                )}
+              </div>
               <a href='#'>
                 <li className='p-2 pl-4 mb-3 mt-1'>
                   <img

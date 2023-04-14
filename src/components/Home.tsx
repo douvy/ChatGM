@@ -442,10 +442,12 @@ const Home: NextPage<PageProps> = props => {
             }}
           />
         )}
-        <MobileNav />
+        {userInfo.hideSidebar && (
+          <MobileNav userInfo={userInfo} setUserInfo={setUserInfo} />
+        )}
         <div
           className={`flex flex-col h-full w-full transition-all duration-300 ${
-            !userInfo.hideSidebar ? 'lg:ml-[225px]' : ''
+            userInfo.hideSidebar ? 'lg:ml-[-225px]' : ''
           }`}
         >
           {userInfo.activeTaskId && (
