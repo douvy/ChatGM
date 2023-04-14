@@ -674,13 +674,34 @@ h1 {
   outline: none;
   border-color: 1px solid #1f6feb;
 }
-#chat-form {
+/*#chat-form {
   margin-left: 0em;
   position: absolute;
   bottom: 0;
   width: 100%;
   box-sizing: border-box;
   margin-left: 0em;
+}*/
+
+#chat-form {
+  display: flex;
+  flex-direction: row; /* Change flex direction to row */
+  align-items: center; /* Align items vertically centered */
+  justify-content: space-between; /* Distribute extra space between textarea and button */
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  box-sizing: border-box;
+  margin-left: 0;
+  padding: 0;
+}
+
+.auto-expand-textarea {
+  resize: none;
+  max-height: 190px;
+  overflow-y: auto;
+  width: calc(100% - 80px); /* Set width to 100% minus the width of the button */
+  margin-right: 10px; /* Add some margin between textarea and button */
 }
 
 input[type='text']::placeholder,
