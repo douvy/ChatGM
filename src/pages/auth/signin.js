@@ -77,11 +77,11 @@ function SignInForm() {
           </div>
           <button
             type='submit'
-            className='submitButton font-semibold w-full mt-5 mb-8 h-11'
+            className='submitButton font-semibold w-full mt-5 mb-5 h-11'
           >
             Sign In
           </button>
-          <div className='linksContainer italic'>
+          <div className='linksContainer text-gray'>
             <a href='#' onClick={handleSignUp} className='link mr-2 text-xs'>
               Sign Up
             </a>

@@ -42,7 +42,9 @@ html {
 .bg-yellow {
   background: #def241;
 }
-
+.border-1 {
+  border-radius: 0.25rem;
+}
 .text-green {
   color: #79e8b3 !important;
 }
