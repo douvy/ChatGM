@@ -36,7 +36,7 @@ const Topbar: React.FC<TopbarProps> = ({
         className='flex items-center justify-between px-4 py-2 relative'
         id='top-nav'
       >
-        <div className='gap-3 flex flex-row items-center hidden md:block'>
+        <div className='gap-3 flex flex-row items-center hidden'>
           <i
             className='fa-light fa-minus hover:font-bold mr-2 cursor-pointer transform transition duration-300 hover:scale-125 hover:font-bold'
             onClick={async e => {
@@ -60,7 +60,7 @@ const Topbar: React.FC<TopbarProps> = ({
         </div>
         {/* Members dropdown title */}
         {(conversation?.participants?.length || 0) > 1 && (
-          <div className='flex items-center space-x-2'>
+          <div className='flex items-center space-x-2 hidden-sm'>
             <div
               className='flex items-center cursor-pointer w-190'
               onClick={() => setIsMembersExpanded(!isMembersExpanded)}
@@ -157,7 +157,7 @@ const Topbar: React.FC<TopbarProps> = ({
           <ul className='pl-0 w-[190px]'>
             {conversation.participants?.map(participant => (
               <li
-                className='group cursor-pointer hover-dark rounded items-center space-x-2 p-2'
+                className='group cursor-pointer hover-dark rounded items-center space-x-2 p-2 flex'
                 key={`${conversation.id}/${participant.id}`}
               >
                 {participant.avatarSource ? (
@@ -167,7 +167,7 @@ const Topbar: React.FC<TopbarProps> = ({
                   />
                 ) : (
                   <div
-                    className={`h-4 w-4 rounded-full ${
+                    className={`h-7 w-7 rounded-full ${
                       participant.id == conversation.creatorId
                         ? 'bg-yellow'
                         : 'bg-green-bright'

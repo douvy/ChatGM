@@ -807,6 +807,9 @@ code {
   #messages-box {
     padding-left: 6px;
   }
+  .hidden-sm {
+    display: none;
+  };
 }
 
 table td,
