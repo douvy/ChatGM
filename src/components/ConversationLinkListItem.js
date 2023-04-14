@@ -123,6 +123,12 @@ function ConversationLinkListItem({
             ></i>
           </span>
         )}
+        {/* notification count */}
+        <div
+          className='absolute top-0 right-0 mt-2 mr-0 flex items-center justify-center w-5 h-5 rounded-full bg-blue text-white text-xs font-semibold'
+        >
+          2
+        </div>
       </li>
     </a>
     // </Link>
