@@ -804,6 +804,9 @@ code {
   #chat-form {
     margin-left: 0em;
   }
+  #messages-box {
+    padding-left: 6px;
+  }
 }
 
 table td,
