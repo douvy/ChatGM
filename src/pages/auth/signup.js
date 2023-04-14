@@ -39,7 +39,7 @@ function SignUpForm() {
                         id="username"
                         value={username}
                         onChange={(event) => setUsername(event.target.value)}
-                        className="auth-input-field w-full bg-dark px-3 py-2"
+                        className="auth-input-field w-full border-1 bg-dark px-3 py-2"
                     />
                 </div>
                 <div className="auth-input-group">
