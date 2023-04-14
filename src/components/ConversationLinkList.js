@@ -89,17 +89,6 @@ function ConversationLinkList({
       <div className='z-0'>
         <ul className='pl-3'>
           <div className='sticky top-0 bg-dark z-20 relative sticky-cover'>
-            <div
-              style={{
-                position: 'absolute',
-                top: '-8px',
-                left: 0,
-                right: 0,
-                height: '8px',
-                backgroundColor: '#your_background_color',
-                zIndex: 20
-              }}
-            ></div>
             <div className='sticky top-2 bg-dark z-20'>
               <a
                 onClick={() => {
@@ -107,9 +96,7 @@ function ConversationLinkList({
                   newConversation();
                 }}
                 id='new-chat'
-                className={`cursor-pointer ${
-                  !activeConversationId && router.asPath == '/' ? 'active' : ''
-                }`}
+                className='cursor-pointer' // Removed the conditional class assignment
               >
                 <li className='p-3 mt-1 pl-4'>
                   <i className='fa-solid fa-arrow-up-right fa-lg'></i> New Chat
