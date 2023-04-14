@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import client from '../trpc/client';
 import { trpc } from '../utils/trpc';
 import { useRouter } from 'next/router';
@@ -8,10 +9,19 @@ export default function NotificationsMenu({
   setIsBellDropdownOpen
 }) {
   const router = useRouter();
+  const [dismissedNotifications, setDismissedNotifications] = useState([]);
+
+  const handleDismissNotification = (notificationId) => {
+    setDismissedNotifications([...dismissedNotifications, notificationId]);
+  };
+
+  // Filter out dismissed notifications
+  const filteredNotifications = notificationData?.data?.filter(
+    (notification) => !dismissedNotifications.includes(notification.id)
+  );
 
   // Sort the notifications in descending order based on the 'createdAt' field
-  // (Assuming each notification object has a 'createdAt' field representing the timestamp)
-  const sortedNotifications = notificationData?.data?.sort((a, b) => {
+  const sortedNotifications = filteredNotifications?.sort((a, b) => {
     return new Date(b.createdAt) - new Date(a.createdAt);
   });
 
@@ -78,23 +88,17 @@ export default function NotificationsMenu({
                 type='button'
                 aria-label='Mark as read'
                 className='focus:outline-none'
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevent triggering the parent element's onClick event
+                  handleDismissNotification(notification.id);
+                }}
               >
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  width='24'
-                  height='24'
-                  className='text-gray-500'
-                >
-                  <path
-                    fill='currentColor'
-                    d='M12 6.5a5.5 5.5 0 110 11 5.5 5.5 0 010-11zm0 1a4.5 4.5 0 100 9 4.5 4.5 0 000-9zm0 2.5a2 2 0 110 4 2 2 0 010-4z'
-                  ></path>
-                </svg>
+                <i className="fa-solid fa-xmark"></i>
               </button>
             </div>
           </li>
         ))}
       </ul>
     </div>
-  );
+  );  
 }
