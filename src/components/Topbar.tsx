@@ -36,7 +36,7 @@ const Topbar: React.FC<TopbarProps> = ({
         className='flex items-center justify-between px-4 py-2 relative'
         id='top-nav'
       >
-        <div className='gap-3 flex flex-row items-center hidden md:block'>
+        <div className='gap-3 flex flex-row items-center hidden'>
           <i
             className='fa-light fa-minus hover:font-bold mr-2 cursor-pointer transform transition duration-300 hover:scale-125 hover:font-bold'
             onClick={async e => {
