@@ -35,13 +35,17 @@ function SignInForm() {
     Router.push('/forgotpassword');
   }
 
+  function dismissError() {
+    setError('');
+  }
+
   // Custom error messages based on error type
   const getErrorMessage = (error) => {
     switch (error) {
       case 'Invalid credentials':
         return 'The username or password you entered is incorrect.';
       default:
-        return 'An error occurred while signing in. Please try again.';
+        return 'An error occurred. Please try again.';
     }
   };
 
@@ -54,7 +58,14 @@ function SignInForm() {
           </h1>
           {/* Display the error message */}
           {error && (
-            <div className='alert alert-danger'>
+            <div className='flash-error text-white rounded p-4 mb-5 relative'>
+              <button
+                type='button'
+                className='absolute top-2 right-3 text-xl font-semibold bg-transparent text-red'
+                onClick={dismissError}
+              >
+                &times;
+              </button>
               <i className='fa fa-exclamation-circle' aria-hidden='true'></i> {getErrorMessage(error)}
             </div>
           )}
