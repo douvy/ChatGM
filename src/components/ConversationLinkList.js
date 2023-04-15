@@ -183,7 +183,13 @@ function ConversationLinkList({
                       <ConversationLinkListItem
                         key={index}
                         index={index}
-                        selectConversation={selectConversation}
+                        selectConversation={() => {
+                          router.push(
+                            '/conversations/[id]',
+                            `/conversations/${conversation.id}`
+                          );
+                          selectConversation(conversation);
+                        }}
                         conversation={conversation}
                         isActive={activeConversationId == conversation.id}
                         removeConversation={removeConversation}
