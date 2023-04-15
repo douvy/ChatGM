@@ -867,9 +867,20 @@ table th {
 .bg-dark-blue {
   background: #1b2638;
 }
-
+.bg-transparent {
+  background: transparent !important;
+  border: transparent !important;
+}
+.bg-transparent:hover {
+  background: transparent !important;
+  border: transparent !important;
+}
 #__next {
   height: 100% !important;
+}
+.flash-error {
+  background: #26181C;
+  border: 1px solid #7B2F30;
 }
 
 @media (min-width: 710px) {

@@ -25,11 +25,26 @@ function SignUpForm() {
         }
     }
 
+    function dismissError() {
+        setError(null);
+    }
+
     return (
         <div className="auth-container mx-auto w-[400px] flex-1 mt-5 md:mt-2">
             <form onSubmit={handleSubmit} className="auth-form ">
-            <h1 className="heading font-display text-title font-medium  uppercase mt-50 mb-30">Sign up for an account</h1>
-                {error && <div className="auth-error">{error}</div>}
+                <h1 className="heading font-display text-title font-medium uppercase mt-50 mb-30">Sign up for an account</h1>
+                {error && (
+                    <div className="flash-error text-white rounded p-4 mb-5 relative">
+                        <button
+                            type="button"
+                            className="absolute top-2 bg-transparent text-red right-3 font-semibold"
+                            onClick={dismissError}
+                        >
+                            &times;
+                        </button>
+                        {error}
+                    </div>
+                )}
                 <div className="auth-input-group mb-5">
                     <label htmlFor="username" className="auth-input-label block font-bold mb-2 font-semibold text-white">
                         Username:
