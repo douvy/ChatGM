@@ -1,8 +1,6 @@
 import { useState } from 'react';
-import axios from 'axios';
 import Router from 'next/router';
 import { useSession, signIn } from 'next-auth/react';
-import styles from './signin.module.css';
 
 function SignInForm() {
   const [username, setUsername] = useState('');
@@ -21,7 +19,6 @@ function SignInForm() {
       username,
       password,
       redirect: false
-      // callbackUrl: '/',
     });
     if (!result.error) {
       Router.push('/');
@@ -38,6 +35,16 @@ function SignInForm() {
     Router.push('/forgotpassword');
   }
 
+  // Custom error messages based on error type
+  const getErrorMessage = (error) => {
+    switch (error) {
+      case 'Invalid credentials':
+        return 'The username or password you entered is incorrect.';
+      default:
+        return 'An error occurred while signing in. Please try again.';
+    }
+  };
+
   return (
     <div className='container form-container'>
       <div className='mx-auto w-[400px] flex-1 mt-6 md:mt-2'>
@@ -45,6 +52,12 @@ function SignInForm() {
           <h1 className='heading font-display text-title font-medium  uppercase mt-50 mb-30'>
             Sign In
           </h1>
+          {/* Display the error message */}
+          {error && (
+            <div className='alert alert-danger'>
+              <i className='fa fa-exclamation-circle' aria-hidden='true'></i> {getErrorMessage(error)}
+            </div>
+          )}
           <div className='formGroup mb-5'>
             <label
               htmlFor='username'

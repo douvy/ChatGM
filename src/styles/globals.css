@@ -831,6 +831,14 @@ code {
   .hidden-sm {
     display: none;
   };
+  .auto-expand-textarea {
+    min-height: 40px; /* Set a specific height for the textarea on mobile */
+    max-height: 40px; /* Set the same value for max-height */
+  }
+  .auto-expand-textarea {
+    resize: none;
+    overflow-y: auto;
+  }
 }
 
 table td,
