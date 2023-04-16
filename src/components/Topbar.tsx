@@ -35,6 +35,7 @@ const Topbar: React.FC<TopbarProps> = ({
 
   const [isBellDropdownOpen, setIsBellDropdownOpen] = useState(false);
   const [isAvatarDropdownOpen, setIsAvatarDropdownOpen] = useState(false);
+
   const notificationData = trpc.notifications.get.useQuery({});
   const createOrFetchProjectMutation = trpc.projects.create.useMutation();
   const updateProjectMutation = trpc.projects.update.useMutation();
@@ -68,6 +69,7 @@ const Topbar: React.FC<TopbarProps> = ({
           ...projectAttributes
         });
         setActiveProject(fetchedProject);
+        setProjects([...projects, fetchedProject]);
         console.log(fetchedProject);
       });
     } else {
@@ -110,6 +112,29 @@ const Topbar: React.FC<TopbarProps> = ({
               >
                 今 日
               </div>
+              <div className='gap-5'></div>
+              <i className='fa-solid fa-pipe scale-150'></i>
+              <div className='gap-5'></div>
+              <i
+                className='fa-light fa-grid hover:font-bold mr-2 cursor-pointer transform transition duration-300 hover:scale-125 hover:font-bold'
+                onClick={async e => {
+                  e.stopPropagation();
+                  setSettings({
+                    ...settings,
+                    taskLayout: 'grid'
+                  });
+                }}
+              ></i>
+              <i
+                className='fa-light fa-list-ul hover:font-bold mr-2 cursor-pointer transform transition duration-300 hover:scale-125 hover:font-bold'
+                onClick={async e => {
+                  e.stopPropagation();
+                  setSettings({
+                    ...settings,
+                    taskLayout: 'list'
+                  });
+                }}
+              ></i>
             </div>
             <div className='gap-3 flex flex-row items-center'>
               <i

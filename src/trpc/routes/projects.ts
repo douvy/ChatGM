@@ -65,8 +65,14 @@ export const get = procedure
     return req;
   })
   .query(async ({ ctx, input }) => {
+    const { id } = input;
     const session = ctx.session;
     const user = session.user;
+    return await prisma.project.findUnique({
+      where: {
+        id: id
+      }
+    });
   });
 
 export const projectsRouter = router({

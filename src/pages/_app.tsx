@@ -9,12 +9,14 @@ import DataFetcher from '../components/DataFetcher';
 interface C {
   key?: string;
   e: any;
+  shiftKey?: boolean;
 }
 
 const App: AppType = ({ Component, pageProps }: AppProps) => {
   const [c, setC] = React.useState<C>({
     key: '',
-    e: null
+    e: null,
+    shiftKey: false
   });
 
   useEffect(() => {

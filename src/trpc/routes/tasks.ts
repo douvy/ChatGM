@@ -29,6 +29,7 @@ export const create = procedure
         data: { id: projectId, name: project.name, ownerId: session.user.id }
       });
     }
+
     const task = await prisma.task.create({
       data: {
         id: id,
@@ -53,7 +54,7 @@ export const update = procedure
     const user = session.user;
     const { id, ...data } = input;
 
-    const project = await prisma.project.update({
+    const project = await prisma.task.update({
       where: {
         id: id
       },

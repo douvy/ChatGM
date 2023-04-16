@@ -53,9 +53,14 @@ function Tasks({
           }
           break;
         case 'ArrowLeft':
-          alert(activeTask.nextTaskId);
+          if (c.e.shiftKey) {
+            alert('shift');
+          }
           break;
         case 'ArrowRight':
+          if (c.e.shiftKey) {
+            alert('shift');
+          }
           break;
         case 'N':
           setAddingTask(true);
@@ -77,7 +82,6 @@ function Tasks({
           .catch(err => console.log(err));
       } else {
         api.getProject(userInfo.activeProjectId).then(project => {
-          setProjects([project]);
           setActiveProject(project);
         });
       }
@@ -91,7 +95,6 @@ function Tasks({
   }
 
   useEffect(() => {
-    console.log(activeProject);
     if (!activeProject) {
       return;
     }
@@ -112,7 +115,58 @@ function Tasks({
         const locallyStoredTasks = await client.tasks.query.query({
           projectId: activeProject.id
         });
-        console.log('locallyStoredTasks', locallyStoredTasks);
+        const mapping = locallyStoredTasks.reduce((obj, task) => {
+          obj[task.id] = task;
+          return obj;
+        }, {});
+        // const missingLocalTasks = tasks.filter(task => !mapping[task.id]);
+        // console.log('missingLocalTasks', missingLocalTasks);
+        // missingLocalTasks.forEach(task => {
+        //   const missingTask = client.tasks.create.mutate(task);
+        //   console.log('created missing local task', missingTask);
+        // });
+        tasks.forEach(task => {
+          if (mapping[task.id]) {
+            mapping[task.id] = {
+              ...mapping[task.id],
+              ...task
+            };
+          }
+        });
+
+        // let prevTaskId = null;
+        // let updated = mergedTasks
+        //   .reverse()
+        //   .map(task => {
+        //     if (prevTaskId) task.nextTaskId = prevTaskId;
+        //     prevTaskId = task.id;
+        //     return task;
+        //   })
+        //   .reverse();
+        // console.log(
+        //   'with next:',
+        //   updated.map(task => task.nextTaskId)
+        // );
+        // updated.forEach(task => {
+        //   client.tasks.update.mutate({
+        //     id: task.id,
+        //     nextTaskId: task.nextTaskId
+        //   });
+        // });
+        let ref = activeProject.FIRST;
+        let orderedTasks = [];
+        while (ref) {
+          orderedTasks.push(mapping[ref]);
+          ref = mapping[ref].nextTaskId;
+        }
+        console.log('orderedTasks', orderedTasks);
+        setTasks(orderedTasks);
+        // let nextTaskId = mergedTasks.find(task => !task.nextTaskId)?.id;
+        // tasks.map(task => {
+        //   task = nextTaskId ? mapping[nextTaskId] : task;
+        //   nextTasjkdId = task.nextTasjkdId;
+
+        // };
       })
       .catch(err => console.log(err));
   }, [activeProject]);
@@ -139,7 +193,6 @@ function Tasks({
             : [...task.labels, 'completed']
         })
         .then(updatedTask => {
-          console.log(updatedTask);
           setTasks(tasks.map(t => (t.id != task.id ? t : updatedTask)));
         })
         .catch(err => console.log(err))
@@ -155,33 +208,36 @@ function Tasks({
   return (
     <div className='mx-auto h-full p-4 pt-0'>
       <div className='overflow-y-auto' ref={scrollContainer}>
-        {projects.length != 1 &&
-          projects
-            .filter(project => {
-              return activeProject ? project.id == activeProject.id : true;
-            })
-            .map((project, index) => {
-              return (
-                <ProjectListItem
-                  key={project.id + index}
-                  index={index}
-                  project={project}
-                  setActiveProject={setActiveProject}
-                  userInfo={userInfo}
-                  setUserInfo={setUserInfo}
-                />
-              );
-            })}
-        {true ? (
+        {projects
+          .filter(project => {
+            return activeProject ? project.id == activeProject.id : true;
+          })
+          .map((project, index) => {
+            return (
+              <ProjectListItem
+                key={project.id + index}
+                index={index}
+                project={project}
+                setActiveProject={setActiveProject}
+                userInfo={userInfo}
+                setUserInfo={setUserInfo}
+              />
+            );
+          })}
+        {settings.taskLayout == 'grid' ? (
           <div
             className={`grid ${
-              userInfo.hideSidebar ? 'grid-cols-4' : 'grid-cols-3'
+              userInfo.hideSidebar ? 'grid-cols-8' : 'grid-cols-4'
             } gap-4 pt-4`}
           >
             {tasks.map((task, index) => (
-              <div key={task.id} className='relative'>
+              <div
+                key={task.id}
+                className='relative aspect-w-1 aspect-h-1'
+                style={{ aspectRatio: '1 / 1' }}
+              >
                 <div
-                  className={`bg-dark-blue h-64 border border-gray-700 cursor-pointer hover:bg-gray-600           
+                  className={`bg-dark-blue border h-full border-gray-700 cursor-pointer hover:bg-gray-600      
                   ${task.id == userInfo.activeTaskId ? '!bg-blue-950' : ''}
                   ${task.labels.includes('completed') ? '!bg-green-950' : ''}
                   `}

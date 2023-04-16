@@ -115,6 +115,7 @@ model Project {
   owner       User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  FIRST       String?
 }
 
 model Task {

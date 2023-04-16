@@ -98,7 +98,8 @@ const Home: NextPage<PageProps> = props => {
   const [activeTask, setActiveTask] = useState<any>(props.activeTask);
 
   const [settings, setSettings] = useState<any>({
-    tasksPerRow: 6
+    tasksPerRow: 6,
+    taskLayout: 'grid'
   });
 
   const [debuggerObject, setDebuggerObject] = useState<any>();
@@ -147,7 +148,16 @@ const Home: NextPage<PageProps> = props => {
     if (props.userInfo.activeProjectId) {
       const api = new TodoistApi(props.userInfo.todoistApiKey);
       api.getProject(props.userInfo.activeProjectId).then(project => {
-        setActiveProject(project);
+        client.projects.get.query({ id: project.id }).then(localProject => {
+          console.log(project, localProject);
+          const merged = {
+            ...project,
+            ...localProject
+          };
+          const { ...safe } = merged;
+          console.log('merged', merged);
+          setActiveProject(safe);
+        });
       });
       api
         .getTasks({ projectId: props.userInfo.activeProjectId })
@@ -484,7 +494,7 @@ const Home: NextPage<PageProps> = props => {
             isMobile={isMobile}
             style={{
               transition: 'z-20 opacity 0.3s ease-out, transform 0.3s ease-out',
-              opacity: userInfo.hideSidebar ? 0.5 : 1,
+              opacity: userInfo.hideSidebar ? 0.0 : 1,
               transform: userInfo.hideSidebar
                 ? 'translateX(-100%)'
                 : 'translateX(0)'
