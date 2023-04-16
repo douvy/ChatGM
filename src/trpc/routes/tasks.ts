@@ -24,6 +24,11 @@ export const create = procedure
     });
     if (existingRecord) return existingRecord;
 
+    if (!(await prisma.project.findUnique({ where: { id: projectId } }))) {
+      let insertedProject = await prisma.project.create({
+        data: { id: projectId, name: project.name, ownerId: session.user.id }
+      });
+    }
     const task = await prisma.task.create({
       data: {
         id: id,
@@ -57,6 +62,25 @@ export const update = procedure
     return project;
   });
 
+export const query = procedure
+  .use(({ next, ctx }) => {
+    return next({
+      ctx: ctx
+    });
+  })
+  .input((req: any) => {
+    return req;
+  })
+  .query(async ({ ctx, input }) => {
+    const user = ctx.session.user;
+    const tasks = await prisma.task.findMany({
+      where: {
+        projectId: input.projectId
+      }
+    });
+    return tasks;
+  });
+
 export const get = procedure
   .use(({ next, ctx }) => {
     return next({
@@ -85,6 +109,7 @@ export const deleteTask = trpc.procedure
 export const tasksRouter = router({
   create: create,
   get: get,
+  query: query,
   update: update,
   delete: deleteTask
 });

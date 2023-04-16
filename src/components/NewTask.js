@@ -70,12 +70,7 @@ export default function NewTask({
                           projectId: activeProject.id, // more performant
                           content: task.content,
                           id: task.id,
-                          project: {
-                            // less performant
-                            connect: {
-                              id: activeProject.id
-                            }
-                          }
+                          project: activeProject
                         });
                     })
                     .catch(err => {

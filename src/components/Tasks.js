@@ -52,6 +52,11 @@ function Tasks({
             setActiveTask(tasks[activeTaskIndex + 1], activeTaskIndex + 1);
           }
           break;
+        case 'ArrowLeft':
+          alert(activeTask.nextTaskId);
+          break;
+        case 'ArrowRight':
+          break;
         case 'N':
           setAddingTask(true);
           break;
@@ -102,7 +107,13 @@ function Tasks({
         projectId: activeProject.id,
         priority: 1
       })
-      .then(tasks => setTasks(tasks))
+      .then(async tasks => {
+        setTasks(tasks);
+        const locallyStoredTasks = await client.tasks.query.query({
+          projectId: activeProject.id
+        });
+        console.log('locallyStoredTasks', locallyStoredTasks);
+      })
       .catch(err => console.log(err));
   }, [activeProject]);
 

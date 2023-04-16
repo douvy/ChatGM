@@ -127,4 +127,5 @@ model Task {
   updatedAt   DateTime @updatedAt
   projectId   String   
   project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  nextTaskId  String?
 }
