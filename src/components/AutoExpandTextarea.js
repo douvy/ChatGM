@@ -22,7 +22,7 @@ const AutoExpandTextarea = ({
   };
 
   useEffect(() => {
-    if (textareaRef.current) {
+    if (textareaRef.current && value !== '') {
       setHeight(textareaRef.current.scrollHeight);
     }
   }, [value]);
@@ -38,7 +38,6 @@ const AutoExpandTextarea = ({
       setHeight(45);
     }
   }, [value]);
-
   return (
     <textarea
       ref={textareaRef}
