@@ -154,6 +154,12 @@ function Tasks({
         //   });
         // });
         let ref = activeProject.FIRST;
+        if (!ref && tasks.length > 0) {
+          client.projects.update.mutate({
+            id: activeProject.id,
+            FIRST: tasks[0].id
+          });
+        }
         let orderedTasks = [];
         while (ref) {
           orderedTasks.push(mapping[ref]);
