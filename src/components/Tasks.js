@@ -6,43 +6,41 @@ import Pusher from 'pusher-js';
 import { client } from '../trpc/client';
 import { trpc } from '../utils/trpc';
 import TaskItem from './TaskItem';
+import NewTask from './NewTask';
 import ProjectListItem from './ProjectListItem';
 import { TodoistApi } from '@doist/todoist-api-typescript';
 import { Card, Row } from 'flowbite-react';
+import { useRouter } from 'next/router';
 
 function Tasks({
   userInfo,
   setUserInfo,
-  passedTasks,
-  passedActiveProject,
+  tasks,
+  setTasks,
+  activeProject,
+  setActiveProject,
+  projects,
+  setProjects,
   c,
   settings
 }) {
   const api = new TodoistApi(userInfo.todoistApiKey);
   const scrollContainer = useRef(null);
   const channelRef = useRef(null);
-  const textareaRef = useRef(null);
   const [socketId, setSocketId] = useState(null);
-  const [submitLocket, setSubmitLock] = useState(false);
-  const [tasks, setTasks] = useState(passedTasks || []);
-  const [projects, setProjects] = useState(
-    passedActiveProject ? [passedActiveProject] : []
-  );
-  const [activeProject, setActiveProject] = useState(
-    passedActiveProject || null
-  );
   const [activeTask, setActiveTask] = useState();
   const [activeTaskIndex, setActiveTaskIndex] = useState();
   const [addingTask, setAddingTask] = useState(false);
-  const [newTask, setNewTask] = useState({
-    content: ''
-  });
 
   const setActiveTaskMutation = trpc.users.setActiveTask.useMutation();
+  const setActiveProjectMutation = trpc.users.setActiveProject.useMutation();
+  const deleteTaskMutation = trpc.tasks.delete.useMutation();
+
+  const router = useRouter();
 
   useEffect(() => {
     // Check if 'c' is not null before accessing its 'key' property
-    if (c) {
+    if (c && router.asPath == '/tasks') {
       switch (c.key) {
         case 'ArrowUp':
           if (activeTaskIndex > 0) {
@@ -89,6 +87,13 @@ function Tasks({
     console.log(activeProject);
     if (!activeProject) {
       return;
+    }
+    if (userInfo.activeProjectId != activeProject.id) {
+      setUserInfo({
+        ...userInfo,
+        activeProjectId: activeProject.id
+      });
+      setActiveProjectMutation.mutate(activeProject.id);
     }
     api
       .getTasks({
@@ -137,8 +142,6 @@ function Tasks({
   return (
     <div className='mx-auto h-full p-4 pt-0'>
       <div className='overflow-y-auto' ref={scrollContainer}>
-        {settings.tasksPerRow}
-
         {projects.length != 1 &&
           projects
             .filter(project => {
@@ -157,7 +160,11 @@ function Tasks({
               );
             })}
         {true ? (
-          <div className={`grid grid-cols-3 gap-4 pt-4`}>
+          <div
+            className={`grid ${
+              userInfo.hideSidebar ? 'grid-cols-4' : 'grid-cols-3'
+            } gap-4 pt-4`}
+          >
             {tasks.map((task, index) => (
               <div key={task.id} className='relative'>
                 <div
@@ -185,6 +192,7 @@ function Tasks({
                           .closeTask(task.id)
                           .then(closed => {
                             setTasks(tasks.filter(t => t.id != task.id));
+                            deleteTaskMutation.mutate(task.id);
                           })
                           .catch(err => console.log(err))
                       )}
@@ -193,64 +201,14 @@ function Tasks({
                 </div>
               </div>
             ))}
-            <div key='new-task'>
-              <div
-                className='bg-dark-blue h-64 border border-gray-700 cursor-pointer hover:bg-gray-600'
-                onClick={() => setAddingTask(true)}
-              >
-                <div className='flex h-full flex-col justify-center gap-4 p-6'>
-                  {!addingTask ? (
-                    <i className='fas fa-plus text-4xl mx-auto'></i>
-                  ) : (
-                    <AutoExpandTextarea
-                      value={newTask.content}
-                      onChange={e => (
-                        e.stopPropagation(),
-                        setNewTask({
-                          ...newTask,
-                          content: e.target.value
-                        })
-                      )}
-                      onKeyDown={e => {
-                        e.stopPropagation();
-                        if (e.key === 'Escape') {
-                          setAddingTask(false);
-                        }
-                        if (e.key === 'Enter' && !e.shiftKey) {
-                          e.preventDefault();
-                          if (submitLocket) {
-                            return;
-                          }
-                          setSubmitLock(true);
-                          api
-                            .addTask({
-                              content: newTask.content,
-                              project_id: activeProject.id
-                            })
-                            .then(task => {
-                              setTasks([...tasks, task]);
-                              setNewTask({
-                                content: ''
-                              });
-                              setAddingTask(false);
-                              setSubmitLock(false);
-                            })
-                            .catch(err => {
-                              console.log(err);
-                              setSubmitLock(false);
-                            });
-                        }
-                      }}
-                      placeholder=''
-                      className='w-full p-2 mr-2 bg-dark border-gray-700 focus:border-gray-800 !important focus:ring-transparent'
-                      conversationId={undefined}
-                      textareaRef={textareaRef}
-                      //   autoFocus={true}
-                    />
-                  )}
-                </div>
-              </div>
-            </div>
+            <NewTask
+              addingTask={addingTask}
+              setAddingTask={setAddingTask}
+              userInfo={userInfo}
+              activeProject={activeProject}
+              tasks={tasks}
+              setTasks={setTasks}
+            ></NewTask>
           </div>
         ) : (
           tasks.map((task, index) => (

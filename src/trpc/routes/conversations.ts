@@ -253,6 +253,7 @@ export const addParticipant = procedure
     const { session } = ctx;
     if (!session) throw new Error('Not authenticated');
     if (!session.user) throw new Error('No user on session');
+    console.log('participantUsername:', participantUsername);
     const conversation = await prisma.conversation.update({
       where: {
         ownedConversation: {

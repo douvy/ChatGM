@@ -14,6 +14,7 @@ import Topbar from '../components/Topbar';
 import Debugger from '../components/Debugger';
 import Modal from '../components/Modal';
 import ActiveTask from '../components/ActiveTask';
+import NewTask from '../components/NewTask';
 import Table from '@components/Table';
 import { addInfiniteScroll } from '../utils/infiniteScroll';
 import { NextPage } from 'next';
@@ -109,6 +110,19 @@ const Home: NextPage<PageProps> = props => {
   const updateConversationMessagesMutation =
     trpc.conversations.updateMessages.useMutation();
 
+  const [addingTask, setAddingTask] = useState(false);
+
+  const [projects, setProjects] = useState<any>([]);
+
+  const api = new TodoistApi(userInfo.todoistApiKey);
+
+  useEffect(() => {
+    api
+      .getProjects()
+      .then(projects => setProjects(projects))
+      .catch(err => console.log(err));
+  }, []);
+
   useEffect(() => {
     switch (router.pathname) {
       case '/conversations/[id]':
@@ -166,6 +180,7 @@ const Home: NextPage<PageProps> = props => {
         conversation.messages.length == 10
       ) {
         client.conversations.get.query({ id: conversationId }).then(data => {
+          if (!data) return router.push('/', '/', { shallow: true });
           setConversation(data as Conversation);
         });
       }
@@ -227,6 +242,9 @@ const Home: NextPage<PageProps> = props => {
         break;
       case 't':
         router.push('/tasks');
+        break;
+      case 'N':
+        path != '/tasks' && setAddingTask(true);
         break;
     }
   }, [props.c]);
@@ -494,7 +512,30 @@ const Home: NextPage<PageProps> = props => {
             addSystemMessage={addSystemMessage}
             settings={settings}
             setSettings={setSettings}
+            activeProject={activeProject}
+            setActiveProject={setActiveProject}
+            projects={projects}
+            setProjects={setProjects}
           />
+          {path != '/tasks' && (
+            <div
+              className={`fixed inset-0 bg-gray-900 bg-opacity-80 flex items-center justify-center ${
+                addingTask ? 'block' : 'hidden'
+              }`}
+            >
+              <div className='w-1/5'>
+                <NewTask
+                  addingTask={addingTask}
+                  setAddingTask={setAddingTask}
+                  userInfo={userInfo}
+                  activeProject={activeProject}
+                  tasks={tasks}
+                  setTasks={setTasks}
+                  placeholder={'Add a task...'}
+                ></NewTask>
+              </div>
+            </div>
+          )}
           {modalOpen && (
             <Modal
               modalOpen={modalOpen}
@@ -503,8 +544,8 @@ const Home: NextPage<PageProps> = props => {
             />
           )}
           <main
-            className={`container ${
-              !userInfo.hideSidebar && 'mx-auto'
+            className={`${
+              !userInfo.hideSidebar && 'container mx-auto'
             } flex-1 mt-0`}
           >
             {conversation &&
@@ -530,8 +571,12 @@ const Home: NextPage<PageProps> = props => {
               <Tasks
                 userInfo={userInfo}
                 setUserInfo={setUserInfo}
-                passedTasks={tasks}
-                passedActiveProject={activeProject}
+                tasks={tasks}
+                setTasks={setTasks}
+                activeProject={activeProject}
+                setActiveProject={setActiveProject}
+                projects={projects}
+                setProjects={setProjects}
                 c={props.c}
                 settings={settings}
               ></Tasks>

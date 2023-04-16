@@ -44,12 +44,6 @@ model Feature {
   users       User[]  @relation("FeatureUsers")
 }
 
-model Task {
-  id       Int     @id @default(autoincrement())
-  name     String
-  complete Boolean @default(false)
-}
-
 model User {
   id                   Int            @id @default(autoincrement())
   username             String         @unique
@@ -77,6 +71,7 @@ model User {
   receivedNotifications Notification[] @relation("Recipient")
   sentNotifications     Notification[] @relation("Sender")
   features             Feature[]       @relation("FeatureUsers")
+  projects             Project[]
 }
 
 model Session {
@@ -108,4 +103,28 @@ model Notification {
   sender          User     @relation("Sender", fields: [senderId], references: [id], onDelete: Cascade)
   conversation    Conversation? @relation(fields: [conversationId], references: [id], onDelete: SetNull)
   viewed          Boolean  @default(false)
+}
+
+model Project {
+  id          String      @id @default(uuid())
+  name        String 
+  // todoistUUID String?
+  description String?
+  tasks       Task[]
+  ownerId     Int
+  owner       User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Task {
+  id          String      @id @default(uuid())
+  name        String
+  // todoistUUID String?
+  description String?
+  complete    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  projectId   String   
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
 }

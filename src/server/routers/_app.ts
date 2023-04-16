@@ -6,6 +6,8 @@ import { usersRouter } from '../../trpc/routes/users';
 import { openaiRouter } from '../../trpc/routes/openai';
 import { pusherRouter } from '../../trpc/routes/pusher';
 import { notificationsRouter } from '../../trpc/routes/notifications';
+import { projectsRouter } from '../../trpc/routes/projects';
+import { tasksRouter } from '../../trpc/routes/tasks';
 
 export const appRouter = router({
   conversations: conversationsRouter,
@@ -13,7 +15,9 @@ export const appRouter = router({
   users: usersRouter,
   openai: openaiRouter,
   pusher: pusherRouter,
-  notifications: notificationsRouter
+  notifications: notificationsRouter,
+  projects: projectsRouter,
+  tasks: tasksRouter
 });
 
 // export type definition of API

@@ -3,6 +3,7 @@ import { Conversation } from '../interfaces';
 import { trpc } from '../utils/trpc';
 import NotificationsMenu from './NotificationsMenu';
 import { useRouter } from 'next/router';
+import { TodoistApi } from '@doist/todoist-api-typescript';
 
 interface TopbarProps {
   conversation: Conversation;
@@ -10,6 +11,10 @@ interface TopbarProps {
   addSystemMessage: (...args: any) => Promise<any>;
   settings: any;
   setSettings: (...args: any) => any;
+  activeProject: any;
+  setActiveProject(...args: any): any;
+  projects: any;
+  setProjects: any;
 }
 
 const Topbar: React.FC<TopbarProps> = ({
@@ -17,7 +22,11 @@ const Topbar: React.FC<TopbarProps> = ({
   userInfo,
   addSystemMessage,
   settings,
-  setSettings
+  setSettings,
+  activeProject,
+  setActiveProject,
+  projects,
+  setProjects
 }) => {
   const [isMembersExpanded, setIsMembersExpanded] = useState(true);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -27,8 +36,44 @@ const Topbar: React.FC<TopbarProps> = ({
   const [isBellDropdownOpen, setIsBellDropdownOpen] = useState(false);
   const [isAvatarDropdownOpen, setIsAvatarDropdownOpen] = useState(false);
   const notificationData = trpc.notifications.get.useQuery({});
-
+  const createOrFetchProjectMutation = trpc.projects.create.useMutation();
+  const updateProjectMutation = trpc.projects.update.useMutation();
   const router = useRouter();
+
+  const api = new TodoistApi(userInfo.todoistApiKey);
+
+  const createOrFetchDateProject = async (_e: any, dayOffset = 0) => {
+    let date =
+      dayOffset == 0 ? new Date() : new Date(Date.parse(activeProject.name));
+    const name = new Date(
+      date.setDate(date.getDate() + dayOffset)
+    ).toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric'
+    });
+
+    const projectAttributes = {
+      name: name
+    };
+
+    const existingProject = projects.find(
+      (p: any) => p.name == projectAttributes.name
+    );
+
+    if (!existingProject) {
+      api.addProject(projectAttributes).then(async (todoistProject: any) => {
+        const fetchedProject = await createOrFetchProjectMutation.mutateAsync({
+          id: todoistProject.id,
+          ...projectAttributes
+        });
+        setActiveProject(fetchedProject);
+        console.log(fetchedProject);
+      });
+    } else {
+      setActiveProject(existingProject);
+    }
+  };
 
   return (
     <>
@@ -36,28 +81,58 @@ const Topbar: React.FC<TopbarProps> = ({
         className='flex items-center justify-between px-4 py-2 relative'
         id='top-nav'
       >
-        <div className='gap-3 flex flex-row items-center hidden'>
-          <i
-            className='fa-light fa-minus hover:font-bold mr-2 cursor-pointer transform transition duration-300 hover:scale-125 hover:font-bold'
-            onClick={async e => {
-              e.stopPropagation();
-              setSettings({
-                ...settings,
-                tasksPerRow: Math.max(settings.tasksPerRow - 1, 2)
-              });
-            }}
-          ></i>
-          <i
-            className='fa-light fa-plus hover:font-bold cursor-pointer transform transition duration-300 hover:scale-125 hover:font-bold'
-            onClick={async e => {
-              e.stopPropagation();
-              setSettings({
-                ...settings,
-                tasksPerRow: Math.min(settings.tasksPerRow + 1, 8)
-              });
-            }}
-          ></i>
-        </div>
+        {router.asPath == '/tasks' && (
+          <>
+            <div className='gap-3 flex flex-row items-center'>
+              <i
+                className='fa-light fa-minus hover:font-bold mr-2 cursor-pointer transform transition duration-300 hover:scale-125 hover:font-bold'
+                onClick={async e => {
+                  e.stopPropagation();
+                  setSettings({
+                    ...settings,
+                    tasksPerRow: Math.max(settings.tasksPerRow - 1, 2)
+                  });
+                }}
+              ></i>
+              <i
+                className='fa-light fa-plus hover:font-bold cursor-pointer transform transition duration-300 hover:scale-125 hover:font-bold'
+                onClick={async e => {
+                  e.stopPropagation();
+                  setSettings({
+                    ...settings,
+                    tasksPerRow: Math.min(settings.tasksPerRow + 1, 8)
+                  });
+                }}
+              ></i>
+              <div
+                className='hover:font-bold cursor-pointer transform transition duration-300 hover:scale-125'
+                onClick={createOrFetchDateProject}
+              >
+                今 日
+              </div>
+            </div>
+            <div className='gap-3 flex flex-row items-center'>
+              <i
+                className='fa-light fa-chevron-left hover:font-bold cursor-pointer transform transition duration-300 hover:scale-125 hover:font-bold'
+                onClick={async e => {
+                  e.stopPropagation();
+                  createOrFetchDateProject(e, -1);
+                }}
+              ></i>
+              <div className='uppercase tracking-wide'>
+                {activeProject?.name}
+              </div>
+              <i
+                className='fa-light fa-chevron-right hover:font-bold cursor-pointer transform transition duration-300 hover:scale-125 hover:font-bold'
+                onClick={async e => {
+                  e.stopPropagation();
+                  createOrFetchDateProject(e, 1);
+                }}
+              ></i>
+            </div>
+          </>
+        )}
+
         {/* Members dropdown title */}
         {(conversation?.participants?.length || 0) > 1 && (
           <div className='flex items-center space-x-2 hidden-sm'>
@@ -74,7 +149,6 @@ const Topbar: React.FC<TopbarProps> = ({
             </div>
           </div>
         )}
-        <h1 className='text-xl font-semibold'>&nbsp;</h1>
         <nav className='space-x-4 relative flex z-10'>
           <div className='relative inline-block'>
             <button
