@@ -81,7 +81,7 @@ const Topbar: React.FC<TopbarProps> = ({
         className='flex items-center justify-between px-4 py-2 relative'
         id='top-nav'
       >
-        {router.asPath == '/tasks' && (
+        {router.asPath == '/tasks' ? (
           <>
             <div className='gap-3 flex flex-row items-center'>
               <i
@@ -131,6 +131,8 @@ const Topbar: React.FC<TopbarProps> = ({
               ></i>
             </div>
           </>
+        ) : (
+          <h1 className='text-xl font-semibold'>&nbsp;</h1>
         )}
 
         {/* Members dropdown title */}
