@@ -63,19 +63,21 @@ function Tasks({
     }
   }, [c]);
 
-  if (projects.length == 0) {
-    if (!userInfo.activeProjectId) {
-      api
-        .getProjects()
-        .then(projects => setProjects(projects))
-        .catch(err => console.log(err));
-    } else {
-      api.getProject(userInfo.activeProjectId).then(project => {
-        setProjects([project]);
-        setActiveProject(project);
-      });
+  useEffect(() => {
+    if (projects.length == 0 || !userInfo.activeProjectIdq) {
+      if (!userInfo.activeProjectId) {
+        api
+          .getProjects()
+          .then(projects => setProjects(projects))
+          .catch(err => console.log(err));
+      } else {
+        api.getProject(userInfo.activeProjectId).then(project => {
+          setProjects([project]);
+          setActiveProject(project);
+        });
+      }
     }
-  }
+  }, [userInfo.activeProjectId]);
 
   function handleKeyDown(event) {
     if (event.key === 'Enter' && !event.shiftKey) {
