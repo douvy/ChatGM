@@ -27,11 +27,13 @@ function Tasks({
   const api = new TodoistApi(userInfo.todoistApiKey);
   const scrollContainer = useRef(null);
   const channelRef = useRef(null);
+  const textareaRef = useRef(null);
   const [socketId, setSocketId] = useState(null);
   const [activeTask, setActiveTask] = useState();
   const [activeTaskIndex, setActiveTaskIndex] = useState();
   const [addingTask, setAddingTask] = useState(false);
-
+  const [taskHash, setTaskHash] = useState({});
+  const [editingTask, setEditingTask] = useState();
   const setActiveTaskMutation = trpc.users.setActiveTask.useMutation();
   const setActiveProjectMutation = trpc.users.setActiveProject.useMutation();
   const deleteTaskMutation = trpc.tasks.delete.useMutation();
@@ -54,7 +56,30 @@ function Tasks({
           break;
         case 'ArrowLeft':
           if (c.e.shiftKey) {
-            alert('shift');
+            if (!userInfo.activeTaskId) return;
+            const activeTask = taskHash[userInfo.activeTaskId];
+            const previousTask = taskHash[activeTask.prevTaskId];
+            if (!previousTask) return;
+
+            const oldNext = activeTask.nextTaskId;
+            activeTask.nextTaskId = previousTask.id;
+            previousTask.nextTaskId = oldNext;
+            if (previousTask.prevTaskId) {
+              taskHash[previousTask.prevTaskId].nextTaskId = activeTask.id;
+            } else {
+              setActiveProject({
+                ...activeProject,
+                FIRST: userInfo.activeTaskId
+              });
+            }
+
+            let ref = activeProject.FIRST;
+            let orderedTasks = [];
+            while (ref) {
+              orderedTasks.push(taskHash[ref]);
+              ref = taskHash[ref].nextTaskId;
+            }
+            setTasks(orderedTasks);
           }
           break;
         case 'ArrowRight':
@@ -73,20 +98,21 @@ function Tasks({
     }
   }, [c]);
 
-  useEffect(() => {
-    if (projects.length == 0 || !userInfo.activeProjectIdq) {
-      if (!userInfo.activeProjectId) {
-        api
-          .getProjects()
-          .then(projects => setProjects(projects))
-          .catch(err => console.log(err));
-      } else {
-        api.getProject(userInfo.activeProjectId).then(project => {
-          setActiveProject(project);
-        });
-      }
-    }
-  }, [userInfo.activeProjectId]);
+  // useEffect(() => {
+  //   if (userInfo.activeProjectId == activeProject?.id) return;
+  //   if (projects.length == 0 || !userInfo.activeProjectIdq) {
+  //     if (!userInfo.activeProjectId) {
+  //       api
+  //         .getProjects()
+  //         .then(projects => setProjects(projects))
+  //         .catch(err => console.log(err));
+  //     } else {
+  //       api.getProject(userInfo.activeProjectId).then(project => {
+  //         // setActiveProject(project);
+  //       });
+  //     }
+  //   }
+  // }, [userInfo.activeProjectId]);
 
   function handleKeyDown(event) {
     if (event.key === 'Enter' && !event.shiftKey) {
@@ -125,14 +151,19 @@ function Tasks({
         //   const missingTask = client.tasks.create.mutate(task);
         //   console.log('created missing local task', missingTask);
         // });
+        let prevTaskId = null;
         tasks.forEach(task => {
           if (mapping[task.id]) {
             mapping[task.id] = {
+              ...task,
               ...mapping[task.id],
-              ...task
+              prevTaskId: prevTaskId
             };
+            prevTaskId = task.id;
           }
         });
+
+        setTaskHash(mapping);
 
         // let prevTaskId = null;
         // let updated = mergedTasks
@@ -153,6 +184,7 @@ function Tasks({
         //     nextTaskId: task.nextTaskId
         //   });
         // });
+
         let ref = activeProject.FIRST;
         if (!ref && tasks.length > 0) {
           client.projects.update.mutate({
@@ -175,7 +207,7 @@ function Tasks({
         // };
       })
       .catch(err => console.log(err));
-  }, [activeProject]);
+  }, [activeProject?.id]);
 
   const activateTask = async (task, index) => {
     const activeTaskId = task.id == userInfo.activeTaskId ? null : task.id;
@@ -233,7 +265,7 @@ function Tasks({
         {settings.taskLayout == 'grid' ? (
           <div
             className={`grid ${
-              userInfo.hideSidebar ? 'grid-cols-8' : 'grid-cols-4'
+              userInfo.hideSidebar ? 'grid-cols-8 !text-sm' : 'grid-cols-4'
             } gap-4 pt-4`}
           >
             {tasks.map((task, index) => (
@@ -250,7 +282,71 @@ function Tasks({
                   onClick={() => activateTask(task, index)}
                 >
                   <div className='flex h-full flex-col justify-center gap-4 p-6'>
-                    {task.content}
+                    {editingTask?.id != task.id ? (
+                      <span>{task.content}</span>
+                    ) : (
+                      <AutoExpandTextarea
+                        value={editingTask.content}
+                        placeholder={editingTask.content}
+                        onChange={e => (
+                          e.stopPropagation(),
+                          setEditingTask({
+                            ...editingTask,
+                            content: e.target.value
+                          })
+                        )}
+                        onKeyDown={e => {
+                          e.stopPropagation();
+                          if (e.key === 'Escape') {
+                            setEditingTask(null);
+                          }
+                          if (e.key === 'Enter' && !e.shiftKey) {
+                            e.preventDefault();
+                            if (submitLocket) {
+                              return;
+                            }
+                            api
+                              .updateTask(task.id, {
+                                content: editingTask.content
+                              })
+                              .then(updatedTask => {
+                                setTasks(
+                                  tasks.map(t =>
+                                    t.id != task.id ? t : updatedTask
+                                  )
+                                );
+                                setEditingTask(null);
+                                setSubmitLock(false);
+                              })
+                              .catch(err => console.log(err));
+
+                            // create an extension in our database
+
+                            client.tasks.updateWhere.mutate({
+                              where: {
+                                id: updatedTask.id
+                              },
+                              data: {
+                                content: updatedTask.content
+                              }
+                            });
+                          }
+                        }}
+                        className='w-full p-2 mr-2 bg-dark border-none !important focus:ring-transparent !bg-inherit'
+                        conversationId={undefined}
+                        textareaRef={textareaRef}
+                        //   autoFocus={true}
+                      />
+                    )}
+                    <i
+                      className={`fa-solid fa-edit cursor-pointer text-gray w-5 h-5 ml-auto mt-3 mr-3 absolute top-0 right-0 transform transition duration-300 hover:scale-125 hover:font-bold`}
+                      onClick={e => {
+                        e.stopPropagation();
+                        editingTask?.id != task.id
+                          ? setEditingTask(task)
+                          : setEditingTask(null);
+                      }}
+                    ></i>
                     <i
                       className={`fa-solid ${
                         task.labels.includes('completed')

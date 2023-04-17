@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import AutoExpandTextarea from './AutoExpandTextarea';
 import { TodoistApi } from '@doist/todoist-api-typescript';
 import { trpc } from '../utils/trpc';
+import { client } from '@/trpc/client';
 
 export default function NewTask({
   addingTask,
@@ -72,6 +73,14 @@ export default function NewTask({
                           id: task.id,
                           project: activeProject
                         });
+                      // client.tasks.updateWhere.mutate({
+                      //   where: {
+                      //     nextTaskId: null
+                      //   },
+                      //   data: {
+                      //     nextTaskId: fetchedTask.id
+                      //   }
+                      // });
                     })
                     .catch(err => {
                       console.log(err);

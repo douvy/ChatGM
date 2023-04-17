@@ -120,7 +120,21 @@ const Home: NextPage<PageProps> = props => {
   useEffect(() => {
     api
       .getProjects()
-      .then(projects => setProjects(projects))
+      .then(projects => {
+        client.projects.query.query().then(localProjects => {
+          const mapping = localProjects.reduce((obj, project) => {
+            obj[project.id.toString()] = project;
+            return obj;
+          }, {} as { [key: string]: any });
+          const merged = projects.map((project: any) => {
+            return {
+              ...project,
+              ...mapping[project.id]
+            };
+          });
+          setProjects(merged);
+        });
+      })
       .catch(err => console.log(err));
   }, []);
 
@@ -149,7 +163,6 @@ const Home: NextPage<PageProps> = props => {
       const api = new TodoistApi(props.userInfo.todoistApiKey);
       api.getProject(props.userInfo.activeProjectId).then(project => {
         client.projects.get.query({ id: project.id }).then(localProject => {
-          console.log(project, localProject);
           const merged = {
             ...project,
             ...localProject
@@ -494,7 +507,7 @@ const Home: NextPage<PageProps> = props => {
             isMobile={isMobile}
             style={{
               transition: 'z-20 opacity 0.3s ease-out, transform 0.3s ease-out',
-              opacity: userInfo.hideSidebar ? 0.0 : 1,
+              opacity: userInfo.hideSidebar ? 0.5 : 1,
               transform: userInfo.hideSidebar
                 ? 'translateX(-100%)'
                 : 'translateX(0)'

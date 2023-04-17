@@ -47,7 +47,7 @@ function TaskItem({
       onClick={() => {
         setActiveTask(task, index);
       }}
-      style={{ aspectRatio: '1 / 1' }}
+      // style={{ aspectRatio: '1 / 1' }}
     >
       <div
         className={`message p-2 relative ${

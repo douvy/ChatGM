@@ -24,6 +24,12 @@ export const create = procedure
     });
     if (existingRecord) return existingRecord;
 
+    const lastTask = await prisma.task.findFirst({
+      where: {
+        nextTaskId: null
+      }
+    });
+
     if (!(await prisma.project.findUnique({ where: { id: projectId } }))) {
       let insertedProject = await prisma.project.create({
         data: { id: projectId, name: project.name, ownerId: session.user.id }
@@ -37,6 +43,17 @@ export const create = procedure
         projectId: projectId
       }
     });
+
+    if (lastTask) {
+      prisma.task.update({
+        where: {
+          id: lastTask.id
+        },
+        data: {
+          nextTaskId: task.id
+        }
+      });
+    }
     return task;
   });
 
@@ -54,13 +71,34 @@ export const update = procedure
     const user = session.user;
     const { id, ...data } = input;
 
-    const project = await prisma.task.update({
+    const task = await prisma.task.update({
       where: {
         id: id
       },
       data: data
     });
-    return project;
+    return task;
+  });
+
+export const updateWhere = procedure
+  .use(({ next, ctx }) => {
+    return next({
+      ctx: ctx
+    });
+  })
+  .input((req: any) => {
+    return req;
+  })
+  .mutation(async ({ ctx, input }) => {
+    const session = ctx.session;
+    const user = session.user;
+    const { where, data } = input;
+
+    const task = await prisma.task.updateMany({
+      where: where,
+      data: data
+    });
+    return task;
   });
 
 export const query = procedure
@@ -112,5 +150,6 @@ export const tasksRouter = router({
   get: get,
   query: query,
   update: update,
+  updateWhere: updateWhere,
   delete: deleteTask
 });

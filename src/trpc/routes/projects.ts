@@ -75,8 +75,28 @@ export const get = procedure
     });
   });
 
+export const query = procedure
+  .use(({ next, ctx }) => {
+    return next({
+      ctx: ctx
+    });
+  })
+  .input((req: any) => {
+    return req;
+  })
+  .query(async ({ ctx, input }) => {
+    const user = ctx.session.user;
+    const projects = await prisma.project.findMany({
+      where: {
+        ownerId: user.id
+      }
+    });
+    return projects;
+  });
+
 export const projectsRouter = router({
   create: create,
   get: get,
-  update: update
+  update: update,
+  query: query
 });

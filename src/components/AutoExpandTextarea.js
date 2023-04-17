@@ -54,6 +54,15 @@ const AutoExpandTextarea = ({
         resize: 'none',
         overflow: 'auto'
       }}
+      onFocus={e => {
+        const {
+          target,
+          target: {
+            value: { length }
+          }
+        } = e;
+        target.setSelectionRange(length, length);
+      }}
     />
   );
 };
