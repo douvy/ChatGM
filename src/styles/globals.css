@@ -813,6 +813,11 @@ code {
   margin-top: -8px;
   scrollbar-width: none; /* Hide scrollbar for Firefox */
 }
+.flash {
+  background: #111E2E;
+  border-top: 1px solid #224981;
+  border-bottom: 1px solid #224981;
+}
 /*responsive design*/
 
 @media (max-width: 640px) {
