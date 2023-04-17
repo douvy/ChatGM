@@ -50,19 +50,21 @@ function TaskItem({
       // style={{ aspectRatio: '1 / 1' }}
     >
       <div
-        className={`message p-2 relative ${
-          task.id == userInfo.activeTaskId ? '!bg-blue-950' : ''
+        className={`message p-2 relative hover-dark-gray ${
+          task.id == userInfo.activeTaskId ? 'bg-dark-blue' : ''
         }`}
       >
         <img
           src={'avatar.png'}
           alt='Avatar'
-          className='w-9 h-9 rounded-full absolute left-4 top-2'
+          className='w-6 h-6 rounded-full absolute left-4 top-0'
         />
-        <div className='pl-16 pt-0'>
-          <span className='text-sm mb-1 inline-block name'>{'Task'}</span>{' '}
+        <div className='flex items-center pl-16'>
+          {
+            /* <span className='text-sm mb-1 inline-block name'>{'Task'}</span>{' '} */
+          }
           <br />
-          <p className='text-xs inline-block absolute top-3 right-4 timestamp'>
+          <p className='text-xs inline-block absolute top-0 right-4 timestamp'>
             <span className='message-direction'>
               {''}
               <i

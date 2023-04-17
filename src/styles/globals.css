@@ -11,6 +11,7 @@ yellow: #FEE77E;
 gray: #7d8590;
 offwhite: e6edf3;
 blue: #4073FF;
+black: #020408;
 */
 
 /*global styles*/
@@ -30,7 +31,9 @@ html {
   padding: 0;
   height: 100%;
 }
-
+.text-gray-dark {
+  color: #4d525a !important;
+}
 .text-red {
   color: #e85a40;
 }
@@ -51,15 +54,18 @@ html {
 .text-pink {
   color: #e05194;
 }
-
+.bg-black {
+  background: #020408 !important;
+}
 .bg-green-bright {
   background: #25b84c;
 }
-
+.bg-green {
+  background: #21a343 !important;
+}
 .bg-dark {
   background: #0c1116;
 }
-
 .bg-blue {
   background: #4073ff;
 }
@@ -69,36 +75,34 @@ html {
 .text-blue {
   color: #4073ff;
 }
-
 .text-lightblue {
   color: #08a4e0 !important;
 }
-
 .text-purple {
   color: #aa6efe;
 }
-
 .text-offwhite {
   color: #e6edf3 !important;
 }
-
 .text-gray {
   color: #7e8490 !important;
 }
-
+.text-gray-slate {
+  color: #7E8590 !important;
+}
 .text-yellow,
 .message .text-yellow {
   color: #fee77e;
 }
-
 .text-orange {
   color: #ff9a13;
 }
-
 .bg-gray {
   background: #7e8490;
 }
-
+.hover-dark-gray:hover {
+  background: #171B22;
+}
 .fa-stars.fa-solid {
   color: #fee77e !important;
 }
@@ -382,7 +386,6 @@ form button.editing-message-cancel:hover {
   border-top-color: white;
   animation: spin 1s linear infinite;
 }
-
 @keyframes spin {
   to {
     transform: rotate(360deg);
@@ -501,7 +504,7 @@ hr {
   border: 1px solid #2f363c;
   border-top: none;
   font-size: 14px;
-  margin-left: 3px;
+  margin-left: 0px;
   border-left: none;
 }
 
@@ -870,7 +873,10 @@ table th {
 }
 
 .bg-dark-blue {
-  background: #1b2638;
+  background: #111E2E;
+}
+.hover-dark-blue:hover {
+  background: #151e27 !important;
 }
 .bg-transparent {
   background: transparent !important;

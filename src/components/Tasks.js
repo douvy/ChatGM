@@ -277,9 +277,9 @@ function Tasks({
                 style={{ aspectRatio: '1 / 1' }}
               >
                 <div
-                  className={`bg-dark-blue border h-full border-gray-700 cursor-pointer hover:bg-gray-600      
-                  ${task.id == userInfo.activeTaskId ? '!bg-blue-950' : ''}
-                  ${task.labels.includes('completed') ? '!bg-green-950' : ''}
+                  className={`bg-dark-blue border h-full border-gray-700 cursor-pointer hover:bg-gray-60 rounded      
+                  ${task.id == userInfo.activeTaskId ? 'bg-dark-blue' : ''}
+                  ${task.labels.includes('completed') ? 'bg-green' : ''}
                   `}
                   onClick={() => activateTask(task, index)}
                 >
@@ -341,7 +341,7 @@ function Tasks({
                       />
                     )}
                     <i
-                      className={`fa-solid fa-edit cursor-pointer text-gray w-5 h-5 ml-auto mt-3 mr-3 absolute top-0 right-0 transform transition duration-300 hover:scale-125 hover:font-bold`}
+                      className={`fa-solid fa-edit cursor-pointer text-offwhite w-5 h-5 ml-auto mt-3 mr-3 absolute top-0 right-0 transform transition duration-300 hover:scale-125 hover:font-bold`}
                       onClick={e => {
                         e.stopPropagation();
                         editingTask?.id != task.id
@@ -354,11 +354,11 @@ function Tasks({
                         task.labels.includes('completed')
                           ? 'fa-undo'
                           : 'fa-check'
-                      } cursor-pointer text-gray w-5 h-5 ml-auto mb-3 mr-3 absolute bottom-0 right-0 transform transition duration-300 hover:scale-125 hover:font-bold`}
+                      } cursor-pointer text-offwhite w-5 h-5 ml-auto mb-3 mr-3 absolute bottom-0 right-0 transform transition duration-300 hover:scale-125 hover:font-bold`}
                       onClick={e => toggleCompletion(task, e)}
                     ></i>
                     <i
-                      className={`fa-solid fa-close cursor-pointer text-gray w-5 h-5 mr-auto mb-3 ml-3 absolute bottom-0 left-0 transform transition duration-300 hover:scale-125 hover:font-bold`}
+                      className={`fa-solid fa-close cursor-pointer text-offwhite w-5 h-5 mr-auto mb-3 ml-3 absolute bottom-0 left-0 transform transition duration-300 hover:scale-125 hover:font-bold`}
                       onClick={e => (
                         e.stopPropagation(),
                         api

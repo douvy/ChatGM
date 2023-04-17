@@ -37,7 +37,7 @@ function ProjectListItem({
     >
       {userInfo.hideProjectHeader}
       <div
-        className={`message relative hover-dark-blue ${
+        className={`message relative bg-black hover-dark-blue ${
           project.id == userInfo.activeProjectId ? 'bg-gray-600' : ''
         } ${
           hideProjectHeader
