@@ -44,7 +44,8 @@ export const get = trpc.procedure
         telegramUserId: true,
         includeNotepad: true,
         defaultHomepage: true,
-        hideSidebar: true
+        hideSidebar: true,
+        hideProjectHeader: true
       }
     });
     return user;
@@ -72,7 +73,8 @@ export const find = trpc.procedure
         telegramUserId: true,
         includeNotepad: true,
         defaultHomepage: true,
-        hideSidebar: true
+        hideSidebar: true,
+        hideProjectHeader: true
       }
     });
     return user;
@@ -108,7 +110,8 @@ export const getUserInfo = procedure
         telegramUserId: true,
         includeNotepad: true,
         defaultHomepage: true,
-        hideSidebar: true
+        hideSidebar: true,
+        hideProjectHeader: true
       }
     });
     return userInfo;
@@ -144,7 +147,8 @@ export const getInitialPageData = procedure
         telegramUserId: true,
         includeNotepad: true,
         defaultHomepage: true,
-        hideSidebar: true
+        hideSidebar: true,
+        hideProjectHeader: true
       }
     });
 

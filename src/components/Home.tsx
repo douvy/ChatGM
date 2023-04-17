@@ -532,6 +532,7 @@ const Home: NextPage<PageProps> = props => {
           <Topbar
             conversation={conversation}
             userInfo={userInfo}
+            setUserInfo={setUserInfo}
             addSystemMessage={addSystemMessage}
             settings={settings}
             setSettings={setSettings}

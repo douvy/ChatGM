@@ -61,6 +61,7 @@ model User {
   includeNotepad       Boolean        @default(false)
   defaultHomepage      String         @default("/")
   hideSidebar          Boolean        @default(false)
+  hideProjectHeader    Boolean        @default(false)
   sessions             Session[]
   conversations        Conversation[] @relation("ConversationParticipants")
   ownedConversations   Conversation[] @relation("conversation_owner")

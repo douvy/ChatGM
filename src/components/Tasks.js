@@ -40,6 +40,8 @@ function Tasks({
 
   const router = useRouter();
 
+  useEffect(() => {}, [userInfo.hideProjectHeader]);
+
   useEffect(() => {
     // Check if 'c' is not null before accessing its 'key' property
     if (c && router.asPath == '/tasks') {

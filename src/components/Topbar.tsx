@@ -8,6 +8,7 @@ import { TodoistApi } from '@doist/todoist-api-typescript';
 interface TopbarProps {
   conversation: Conversation;
   userInfo: any;
+  setUserInfo: (...args: any) => any;
   addSystemMessage: (...args: any) => Promise<any>;
   settings: any;
   setSettings: (...args: any) => any;
@@ -20,6 +21,7 @@ interface TopbarProps {
 const Topbar: React.FC<TopbarProps> = ({
   conversation,
   userInfo,
+  setUserInfo,
   addSystemMessage,
   settings,
   setSettings,
@@ -132,6 +134,17 @@ const Topbar: React.FC<TopbarProps> = ({
                   setSettings({
                     ...settings,
                     taskLayout: 'list'
+                  });
+                }}
+              ></i>
+              <i
+                className={`fa-regular fa-arrow-down fa-sm ml-1 mr-3 mt-2 cursor-pointer text-gray ml-auto transform transition duration-300 hover:scale-125 hover:font-bold ${
+                  userInfo.hideProjectHeader ? '' : 'hidden'
+                }`}
+                onClick={() => {
+                  setUserInfo({
+                    ...userInfo,
+                    hideProjectHeader: !userInfo.hideProjectHeader
                   });
                 }}
               ></i>
