@@ -28,6 +28,7 @@ function ChatWindow({
     trpc.conversations.updateMessages.useMutation();
   const messageCount = useRef(conversation.messages.length);
   const [users, setUsers] = useState([]);
+
   useEffect(() => {
     client.users.query
       .query({

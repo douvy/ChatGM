@@ -116,7 +116,6 @@ model Project {
   owner       User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  FIRST       String?
 }
 
 model Task {
@@ -129,5 +128,8 @@ model Task {
   updatedAt   DateTime @updatedAt
   projectId   String   
   project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  nextTaskId  String?
+  prevTaskId  String?
+  order       Int?
+  timeEstimate Int    @default(900)
+  timeSpent   Int     @default(0)
 }

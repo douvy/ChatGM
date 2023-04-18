@@ -45,7 +45,6 @@ export const update = procedure
     const session = ctx.session;
     const user = session.user;
     const { id, ...data } = input;
-
     const project = await prisma.project.update({
       where: {
         id: id

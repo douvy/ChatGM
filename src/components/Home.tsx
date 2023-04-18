@@ -26,6 +26,7 @@ import { trpc } from '../utils/trpc';
 import { Conversation, Message, Session, PageProps } from '../interfaces';
 import { TodoistApi } from '@doist/todoist-api-typescript';
 import Block from '../components/Block';
+import { LinkedList } from '../lib/LinkedList';
 
 const Home: NextPage<PageProps> = props => {
   const { data: session, status } = useSession();
@@ -56,7 +57,7 @@ const Home: NextPage<PageProps> = props => {
 
   const [messageContent, setMessageContent] = useState('');
 
-  const [tasks, setTasks] = useState<any>(props.tasks || []);
+  const [tasks, setTasks] = useState<any>(new LinkedList(props.tasks) || []);
   const [activeProject, setActiveProject] = useState<any>(undefined);
 
   const [newMessage, setMessage] = useState<Message>({
@@ -175,7 +176,28 @@ const Home: NextPage<PageProps> = props => {
       api
         .getTasks({ projectId: props.userInfo.activeProjectId })
         .then(tasks => {
-          setTasks(tasks);
+          client.tasks.queryRawSorted
+            .query({
+              projectId: props.userInfo.activeProjectId
+            })
+            .then((sorted: any[]) => {
+              const indexed = tasks.reduce((obj, task) => {
+                obj[task.id] = task;
+                return obj;
+              }, {} as { [key: string]: any });
+              let merged = sorted.map(
+                task => (
+                  (indexed[task.id] = {
+                    ...indexed[task.id],
+                    ...task
+                  }),
+                  {
+                    ...indexed[task.id]
+                  }
+                )
+              );
+              setTasks(new LinkedList(merged));
+            });
         });
     }
   }, []);
@@ -522,13 +544,6 @@ const Home: NextPage<PageProps> = props => {
             userInfo.hideSidebar && !isMobile ? 'ml-[-225px]' : ''
           }`}
         >
-          {userInfo.activeTaskId && (
-            <ActiveTask
-              activeTask={activeTask}
-              userInfo={userInfo}
-              setUserInfo={setUserInfo}
-            />
-          )}
           <Topbar
             conversation={conversation}
             userInfo={userInfo}
@@ -651,6 +666,13 @@ const Home: NextPage<PageProps> = props => {
                 role='assistant'
               ></SavedMessages>
             ) : null}
+            {userInfo.activeTaskId && false && (
+              <ActiveTask
+                activeTask={activeTask}
+                userInfo={userInfo}
+                setUserInfo={setUserInfo}
+              />
+            )}
             {debuggerObject && <Debugger debuggerObject={debuggerObject} />}
             {userInfo.hideSidebar && !isMobile && (
               <i

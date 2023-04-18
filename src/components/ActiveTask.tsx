@@ -67,8 +67,7 @@ const ActiveTask: React.FC<ActiveTaskProps> = ({
   return (
     <>
       <header
-        className='flex items-center justify-between px-4 py-2 relative cursor-pointer'
-        id='top-nav'
+        className='flex items-center justify-between px-4 py-2 relative cursor-pointer absolute bottom-0'
         onClick={() => {
           window.open(activeTask.url, '_blank');
         }}

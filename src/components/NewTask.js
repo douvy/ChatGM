@@ -3,6 +3,7 @@ import AutoExpandTextarea from './AutoExpandTextarea';
 import { TodoistApi } from '@doist/todoist-api-typescript';
 import { trpc } from '../utils/trpc';
 import { client } from '@/trpc/client';
+import { LinkedList } from '../lib/LinkedList';
 
 export default function NewTask({
   addingTask,
@@ -27,11 +28,11 @@ export default function NewTask({
         className='bg-dark-blue h-full border border-gray-700 cursor-pointer hover:bg-gray-600'
         onClick={() => setAddingTask(true)}
       >
-        <div className='flex h-full flex-col justify-center gap-4 p-6'>
+        <div className='flex h-full flex-col justify-center gap-4'>
           {!addingTask ? (
             <i className='fas fa-plus text-4xl mx-auto'></i>
           ) : (
-            <AutoExpandTextarea
+            <textarea
               value={newTask.content}
               placeholder={placeholder}
               onChange={e => (
@@ -58,7 +59,7 @@ export default function NewTask({
                       project_id: activeProject.id
                     })
                     .then(async task => {
-                      setTasks([...tasks, task]);
+                      setTasks(new LinkedList([...tasks.toArray(), task]));
                       setNewTask({
                         content: ''
                       });
@@ -71,16 +72,10 @@ export default function NewTask({
                           projectId: activeProject.id, // more performant
                           content: task.content,
                           id: task.id,
-                          project: activeProject
+                          project: activeProject,
+                          prevTaskId: tasks.tail.value.id
                         });
-                      // client.tasks.updateWhere.mutate({
-                      //   where: {
-                      //     nextTaskId: null
-                      //   },
-                      //   data: {
-                      //     nextTaskId: fetchedTask.id
-                      //   }
-                      // });
+                      console.log(fetchedTask);
                     })
                     .catch(err => {
                       console.log(err);
@@ -88,10 +83,22 @@ export default function NewTask({
                     });
                 }
               }}
-              className='w-full p-2 mr-2 bg-dark border-gray-700 focus:border-gray-800 !important focus:ring-transparent'
-              conversationId={undefined}
-              textareaRef={textareaRef}
-              //   autoFocus={true}
+              className='w-full h-full p-2 mr-2 bg-dark text-sm p-0 m-0 focus:ring-transparent !bg-inherit'
+              style={{
+                resize: 'none',
+                overflow: 'auto'
+              }}
+              textarearef={textareaRef}
+              autoFocus={true}
+              onFocus={e => {
+                const {
+                  target,
+                  target: {
+                    value: { length }
+                  }
+                } = e;
+                target.setSelectionRange(length, length);
+              }}
             />
           )}
         </div>

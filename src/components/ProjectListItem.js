@@ -17,14 +17,13 @@ function ProjectListItem({
     userInfo.hideProjectHeader && project.id == userInfo.activeProjectId
   );
 
-  if (project.id == userInfo.activeProjectId) {
-    useEffect(() => {
-      setHideProjectHeader(userInfo.hideProjectHeader);
-      userInfo.update({
-        hideProjectHeader: userInfo.hideProjectHeader
-      });
-    }, [userInfo.hideProjectHeader]);
-  }
+  useEffect(() => {
+    if (project.id == userInfo.activeProjectId) return;
+    setHideProjectHeader(userInfo.hideProjectHeader);
+    userInfo.update({
+      hideProjectHeader: userInfo.hideProjectHeader
+    });
+  }, [userInfo.hideProjectHeader]);
 
   return (
     <div
