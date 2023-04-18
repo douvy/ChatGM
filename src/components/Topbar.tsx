@@ -89,7 +89,7 @@ const Topbar: React.FC<TopbarProps> = ({
           <>
             <div className='gap-3 flex flex-row items-center'>
               <i
-                className='fa-light fa-minus hover:font-bold mr-2 cursor-pointer transform transition duration-300 hover:scale-125 hover:font-bold'
+                className='fa-light fa-minus hover:font-bold mr-2 cursor-pointer text-gray-slate transform transition duration-300 hover:scale-125 hover:font-bold'
                 onClick={async e => {
                   e.stopPropagation();
                   setSettings({
@@ -99,7 +99,7 @@ const Topbar: React.FC<TopbarProps> = ({
                 }}
               ></i>
               <i
-                className='fa-light fa-plus hover:font-bold cursor-pointer transform transition duration-300 hover:scale-125 hover:font-bold'
+                className='fa-light fa-plus hover:font-bold cursor-pointer text-gray-slate transform transition duration-300 hover:scale-125 hover:font-bold'
                 onClick={async e => {
                   e.stopPropagation();
                   setSettings({
@@ -109,16 +109,16 @@ const Topbar: React.FC<TopbarProps> = ({
                 }}
               ></i>
               <div
-                className='hover:font-bold cursor-pointer transform transition duration-300 hover:scale-125'
+                className='hover:font-bold cursor-pointer transform transition duration-300 hover:scale-125 text-red'
                 onClick={createOrFetchDateProject}
               >
                 今 日
               </div>
               <div className='gap-5'></div>
-              <i className='fa-solid fa-pipe scale-150'></i>
+              <i className='fa-solid fa-pipe fa-xl text-gray-slate'></i>
               <div className='gap-5'></div>
               <i
-                className='fa-light fa-grid hover:font-bold mr-2 cursor-pointer transform transition duration-300 hover:scale-125 hover:font-bold'
+                className='fa-light fa-grid hover:font-bold mr-2 cursor-pointer text-gray-slate transform transition duration-300 hover:scale-125 hover:font-bold'
                 onClick={async e => {
                   e.stopPropagation();
                   setSettings({
@@ -128,7 +128,7 @@ const Topbar: React.FC<TopbarProps> = ({
                 }}
               ></i>
               <i
-                className='fa-light fa-list-ul hover:font-bold mr-2 cursor-pointer transform transition duration-300 hover:scale-125 hover:font-bold'
+                className='fa-light fa-list-ul hover:font-bold mr-2 cursor-pointer text-gray-slate transform transition duration-300 hover:scale-125 hover:font-bold'
                 onClick={async e => {
                   e.stopPropagation();
                   setSettings({
