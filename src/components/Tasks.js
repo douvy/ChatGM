@@ -167,7 +167,11 @@ function Tasks({
           projectId: activeProject.id
         });
 
-        console.log('sorted', sorted);
+        const indexed = tasks.reduce((obj, task) => {
+          obj[task.id] = task;
+          return obj;
+        }, {});
+
         let merged = sorted.map(
           task => (
             (indexed[task.id] = {
@@ -179,6 +183,7 @@ function Tasks({
             }
           )
         );
+        console.log('merged', merged);
         let list = new LinkedList(merged);
         setTasks(list);
         setHeadTask(merged[0]);
