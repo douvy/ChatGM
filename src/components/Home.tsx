@@ -27,6 +27,7 @@ import { Conversation, Message, Session, PageProps } from '../interfaces';
 import { TodoistApi } from '@doist/todoist-api-typescript';
 import Block from '../components/Block';
 import { LinkedList } from '../lib/LinkedList';
+import { getHighlighter } from 'shiki';
 
 const Home: NextPage<PageProps> = props => {
   const { data: session, status } = useSession();
@@ -423,6 +424,25 @@ const Home: NextPage<PageProps> = props => {
   };
 
   const sendMessage = async () => {
+    const codeSnippetRegex = /```([\s\S]*?)```/g;
+    const match = codeSnippetRegex.exec(newMessage.content);
+  
+    if (match) {
+      const codeBlock = match[1].trim();
+      const [language, code] = codeBlock.split('\n', 2);
+  
+      // Initialize the Shiki highlighter
+      const highlighter = await getHighlighter({ theme: 'nord' });
+      const highlightedCode = highlighter.codeToHtml(code, language);
+  
+      const updatedMessageContent = newMessage.content.replace(
+        codeSnippetRegex,
+        `<pre class="shiki nord" style="background-color: #2e3440"><code>${highlightedCode}</code></pre>`
+      );
+  
+      updateMessageValue(updatedMessageContent);
+    }
+  
     if (newMessage.content.startsWith('@') && conversation.id) {
       return addUserToConversation();
     }
@@ -436,17 +456,15 @@ const Home: NextPage<PageProps> = props => {
       );
       setPlaceholderMessage(
         {
-          role: 'systen',
+          role: 'system',
           content: 'Generating name...',
           avatarSource: 'avatar-chat-gray.png'
         },
         updatedConversation as Conversation
       );
-      // setConversations([updatedConversation as Conversation, ...conversations]);
       updatedConversation =
         (await client.openai.generateName.mutate(updatedConversation)) ||
         updatedConversation;
-      // setConversations([updatedConversation as Conversation, ...conversations]);
       setConversation({
         ...conversation,
         name: updatedConversation.name || conversation.name
@@ -457,8 +475,7 @@ const Home: NextPage<PageProps> = props => {
         conversationId: conversation.id
       })) as PrismaConversation;
     }
-
-    // Update the content value with the Font Awesome spinner icon
+  
     setPlaceholderMessage(
       {
         role: 'assistant',
@@ -468,7 +485,7 @@ const Home: NextPage<PageProps> = props => {
       },
       updatedConversation as Conversation
     );
-
+  
     updatedConversation = (await client.openai.query.mutate(
       updatedConversation
     )) as PrismaConversation;
@@ -476,11 +493,10 @@ const Home: NextPage<PageProps> = props => {
       ...(updatedConversation as Conversation),
       messages: (updatedConversation as Conversation).messages
     });
-    // setConversations(conversations.map((c) => c.id == updatedConversation.id ? updatedConversation as Conversation : c));
     if (!conversationId) {
       setConversationId(updatedConversation.id);
     }
-  };
+  };  
 
   const selectConversation = (conversation: Conversation) => {
     setConversation(conversation);

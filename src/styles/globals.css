@@ -770,7 +770,7 @@ textarea {
   z-index: 20;
 }
 
-code,
+/*code,
 kbd,
 samp,
 pre {
@@ -784,14 +784,10 @@ pre {
 code {
   max-width: 750px;
   white-space: pre-wrap;
-  /* Wraps text to the next line */
   word-break: break-all;
-  /* Breaks long words */
   overflow-wrap: break-word;
-  /* Breaks long words */
   overflow-x: auto;
-  /* Enables horizontal scrolling for overflowing content */
-}
+}*/
 .mention-popover {
   max-width: 420px;
   position: absolute;
