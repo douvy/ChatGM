@@ -73,9 +73,8 @@ export default function NewTask({
                           content: task.content,
                           id: task.id,
                           project: activeProject,
-                          prevTaskId: tasks.tail.value.id
+                          prevTaskId: tasks.tail?.value.id || null
                         });
-                      console.log(fetchedTask);
                     })
                     .catch(err => {
                       console.log(err);
