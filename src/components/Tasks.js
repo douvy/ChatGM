@@ -166,11 +166,12 @@ function Tasks({
         const sorted = await client.tasks.queryRawSorted.query({
           projectId: activeProject.id
         });
+
         const indexed = tasks.reduce((obj, task) => {
           obj[task.id] = task;
           return obj;
         }, {});
-        console.log('sorted', sorted);
+
         let merged = sorted.map(
           task => (
             (indexed[task.id] = {
@@ -183,6 +184,7 @@ function Tasks({
             }
           )
         );
+        console.log('merged', merged);
         let list = new LinkedList(merged);
         setTasks(list);
         setHeadTask(merged[0]);

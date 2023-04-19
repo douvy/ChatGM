@@ -45,7 +45,6 @@ export class LinkedList {
   }
 
   fromArray(array) {
-    console.log('here', array);
     array.forEach(value => this.add(value));
     console.log(this);
   }
