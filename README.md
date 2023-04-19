@@ -22,3 +22,5 @@ You can start editing the page by modifying `pages/index.tsx`. The page auto-upd
 
 To do a Prisma migration, run 'npx prisma migrate dev --name [migration_name]'
 To regenerate the Prisma client library, run 'npx prisma generate'
+
+To run this app as an Electron app, just run the app as usual and then in another terminal navigate to the chatgm-electron folder and run 'electron main' after an npm install there
