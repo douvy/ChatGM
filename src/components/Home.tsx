@@ -188,6 +188,7 @@ const Home: NextPage<PageProps> = props => {
               let merged = sorted.map(
                 task => (
                   (indexed[task.id] = {
+                    labels: [],
                     ...indexed[task.id],
                     ...task
                   }),

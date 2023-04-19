@@ -60,6 +60,10 @@ export class LinkedList {
     return array;
   }
 
+  find(params) {
+    return this.toArray().find(params);
+  }
+
   mapArray(fn) {
     const array = this.toArray();
     return array.map(fn);
