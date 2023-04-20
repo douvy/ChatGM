@@ -383,7 +383,7 @@ function Tasks({
                           .fill()
                           .map((_, index) => {
                             console.log(task.id, index);
-                            return <span key={index}>*</span>;
+                            return <span key={index}><i class="fa-solid fa-circle font-8"></i></span>;
                           })}
                       </div>
                       <div

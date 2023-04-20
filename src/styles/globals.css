@@ -150,6 +150,9 @@ html {
 .hover-offwhite:hover {
   color: #e6edf3;
 }
+.font-8 {
+  font-size: 8px;;
+}
 
 section a {
   color: #1eed88;
