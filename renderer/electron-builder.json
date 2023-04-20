@@ -1,0 +1,21 @@
+{
+  "directories": {
+    "output": "../dist"
+  },
+  "extraFiles": [
+    {
+      "from": "out",
+      "to": "renderer/out"
+    }
+  ],
+  "win": {
+    "icon": "public/icon.ico"
+  },
+  "mac": {
+    "icon": "public/icon.icns"
+  },
+  "linux": {
+    "icon": "public/icon.png"
+  }
+}
+

@@ -159,6 +159,9 @@ export const query = procedure
     const tasks = await prisma.task.findMany({
       where: {
         projectId: input.projectId
+      },
+      include: {
+        labels: true
       }
     });
     return tasks;
@@ -179,19 +182,35 @@ export const queryRawSorted = procedure
     const tasks = await prisma.$queryRaw`WITH RECURSIVE evt(id) AS (
       SELECT
           id,
+          name,
           "projectId",
-          "prevTaskId"
+          "prevTaskId",
+          "pointValue"
       FROM "Task"
       WHERE "prevTaskId" IS NULL AND "projectId" = ${projectId}
       UNION
       SELECT
           t.id,
+          t.name,
           t."projectId",
-          t."prevTaskId"
+          t."prevTaskId",
+          t."pointValue"
       FROM "Task" t
       JOIN evt ON (t."prevTaskId" = evt.id)
       )
       SELECT * FROM evt`;
+
+    // SELECT t.*, ARRAY_AGG(l."name") AS _labels
+    // FROM evt t
+    // LEFT JOIN "_LabelToTask" tl ON tl."B" = t.id
+    // LEFT JOIN "Label" l ON l."id" = tl."A"
+    // GROUP BY t.id, t.name, t."projectId", t."prevTaskId"`;
+
+    // --   SELECT t.id, t."projectId", t."prevTaskId", ARRAY_AGG(l."name") AS labels
+    // -- FROM evt t
+    // -- LEFT JOIN "_LabelToTask" tl ON tl."A" = t.id
+    // -- LEFT JOIN "Label" l ON l."id" = tl."B"
+    // -- GROUP BY t.id`;
     console.log('tasks', tasks);
     return tasks;
   });

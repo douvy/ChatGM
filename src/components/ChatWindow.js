@@ -204,31 +204,31 @@ function ChatWindow({
           ref={scrollContainer}
         >
           {conversation.messages.map((message, index) => {
-  return (
-    <ChatMessage
-      key={conversation.id + index}
-      index={index}
-      message={message}
-      avatarSource={`/${message.avatarSource}`}
-      sender={
-        message.role == 'user'
-          ? message.sender || userInfo
-          : 'ChatGPT-3.5'
-      }
-      received={true}
-      updateState={updateConversation}
-      setConversation={setConversation}
-      referencedMessage={referencedMessage}
-      onClick={() => {
-        setReferencedMessage(
-          message.id == referencedMessage?.id ? null : message
-        );
-      }}
-      userInfo={userInfo}
-      dangerouslySetInnerHTML={true}
-    />
-  );
-})}
+            return (
+              <ChatMessage
+                key={conversation.id + index}
+                index={index}
+                message={message}
+                avatarSource={`/${message.avatarSource}`}
+                sender={
+                  message.role == 'user'
+                    ? message.sender || userInfo
+                    : 'ChatGPT-3.5'
+                }
+                received={true}
+                updateState={updateConversation}
+                setConversation={setConversation}
+                referencedMessage={referencedMessage}
+                onClick={() => {
+                  setReferencedMessage(
+                    message.id == referencedMessage?.id ? null : message
+                  );
+                }}
+                userInfo={userInfo}
+                dangerouslySetInnerHTML={true}
+              />
+            );
+          })}
           <div
             ref={element => {
               messageEnd = element;

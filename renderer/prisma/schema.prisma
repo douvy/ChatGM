@@ -1,0 +1,145 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Message {
+  id             Int           @id @default(autoincrement())
+  content        String
+  role           String
+  sender         User?         @relation("message_sender", fields: [senderId], references: [id])
+  senderId       Int?
+  avatarSource   String
+  conversationId Int?
+  starred        Boolean?      @default(false)
+  fans           User[]        @relation("MessageFans")
+  createdAt      DateTime?     @default(now())
+  conversation   Conversation? @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+}
+
+model Conversation {
+  id           Int       @id @default(autoincrement())
+  name         String?
+  isPublic     Boolean   @default(false)
+  messages     Message[]
+  creator      User      @relation("conversation_creator", fields: [creatorId], references: [id])
+  creatorId    Int
+  owner        User      @relation("conversation_owner", fields: [ownerId], references: [id])
+  ownerId      Int
+  participants User[]    @relation("ConversationParticipants")
+  notifications Notification[]
+
+  @@unique(fields: [id, ownerId], name: "ownedConversation")
+}
+
+model Feature {
+  id          Int     @id @default(autoincrement())
+  name        String
+  description String
+  isActive    Boolean @default(false)
+  users       User[]  @relation("FeatureUsers")
+}
+
+model User {
+  id                   Int            @id @default(autoincrement())
+  username             String         @unique
+  password             String
+  avatarSource         String?
+  includeTaskFeature   Boolean        @default(false)
+  todoistApiKey        String?
+  activeTaskId         String?
+  activeTaskSetAt      DateTime?
+  activeProjectId      String?
+  useGPT4              Boolean        @default(false)
+  gpt4ApiKey           String?
+  enableChatGMBot      Boolean        @default(false)
+  telegramUserId       String?
+  includeNotepad       Boolean        @default(false)
+  defaultHomepage      String         @default("/")
+  hideSidebar          Boolean        @default(false)
+  hideProjectHeader    Boolean        @default(false)
+  sessions             Session[]
+  conversations        Conversation[] @relation("ConversationParticipants")
+  ownedConversations   Conversation[] @relation("conversation_owner")
+  createdConversations Conversation[] @relation("conversation_creator")
+  starredMessages      Message[]      @relation("MessageFans")
+  sentMessages         Message[]      @relation("message_sender")
+  note                 Note?
+  receivedNotifications Notification[] @relation("Recipient")
+  sentNotifications     Notification[] @relation("Sender")
+  features             Feature[]       @relation("FeatureUsers")
+  projects             Project[]
+}
+
+model Session {
+  id           Int      @id @default(autoincrement())
+  sessionToken String   @unique
+  // accessToken  String?
+  expires      DateTime
+  createdAt    DateTime
+  updatedAt    DateTime
+  userId       Int
+  user         User     @relation(fields: [userId], references: [id])
+}
+
+model Note {
+  id      Int    @id @default(autoincrement())
+  content String
+  user    User   @relation(fields: [userId], references: [id])
+  userId  Int    @unique
+}
+
+model Notification {
+  id              Int      @id @default(autoincrement())
+  createdAt       DateTime @default(now())
+  type            String
+  recipientId     Int
+  senderId        Int
+  conversationId  Int?
+  recipient       User     @relation("Recipient", fields: [recipientId], references: [id], onDelete: Cascade)
+  sender          User     @relation("Sender", fields: [senderId], references: [id], onDelete: Cascade)
+  conversation    Conversation? @relation(fields: [conversationId], references: [id], onDelete: SetNull)
+  viewed          Boolean  @default(false)
+}
+
+model Project {
+  id          String      @id @default(uuid())
+  name        String 
+  // todoistUUID String?
+  description String?
+  tasks       Task[]
+  ownerId     Int
+  owner       User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Task {
+  id          String      @id @default(uuid())
+  name        String
+  // todoistUUID String?
+  description String?
+  complete    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  projectId   String   
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  prevTaskId  String?
+  order       Int?
+  timeEstimate Int    @default(900)
+  timeSpent   Int     @default(0)
+  labels      Label[] 
+}
+
+model Label {
+  id          String      @id @default(uuid())
+  name        String
+  color       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  tasks       Task[]
+}

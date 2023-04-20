@@ -5,6 +5,9 @@ import { SessionProvider } from 'next-auth/react';
 import React, { useEffect } from 'react';
 import { trpc } from '../utils/trpc';
 import DataFetcher from '../components/DataFetcher';
+import Wrapper from '../components/Wrapper';
+import { Provider } from 'react-redux';
+import store from './store';
 
 interface C {
   key?: string;
@@ -18,6 +21,7 @@ const App: AppType = ({ Component, pageProps }: AppProps) => {
     e: null,
     shiftKey: false
   });
+  const [selected, setSelected] = React.useState<string>('');
 
   useEffect(() => {
     const handleKeyDown = (event: any) => {
@@ -61,7 +65,11 @@ const App: AppType = ({ Component, pageProps }: AppProps) => {
         <DataFetcher Component={Component} {...pageProps} c={c}>
           {/* <Component /> */}
           {(mergedProps: any) => {
-            return <Component {...mergedProps} />;
+            return (
+              <Wrapper selected={selected} setSelected={setSelected}>
+                <Component {...mergedProps} />
+              </Wrapper>
+            );
           }}
         </DataFetcher>
       </SessionProvider>

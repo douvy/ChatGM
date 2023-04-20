@@ -1,6 +1,7 @@
 const { app, BrowserWindow } = require('electron');
 const express = require('express');
 const path = require('path');
+const contextMenu = require('electron-context-menu');
 
 const server = express();
 
@@ -9,16 +10,32 @@ server.use(express.static(path.join(__dirname, 'public')));
 
 let mainWindow;
 
+contextMenu({
+  prepend: (params, browserWindow) => [
+    {
+      label: 'Inspect element',
+      click() {
+        // Open the Developer Tools and focus on the 'Elements' tab
+        browserWindow.webContents.inspectElement(params.x, params.y);
+      }
+    }
+  ]
+});
+
 function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1400,
+    height: 900,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      contextIsolation: true,
+      enableRemoteModule: true
     }
   });
 
   mainWindow.loadURL('http://localhost:3000');
+
+  // mainWindow.webContents.openDevTools();
 
   mainWindow.on('closed', function () {
     mainWindow = null;

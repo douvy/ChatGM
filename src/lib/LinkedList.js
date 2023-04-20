@@ -46,7 +46,6 @@ export class LinkedList {
 
   fromArray(array) {
     array.forEach(value => this.add(value));
-    console.log(this);
   }
 
   toArray() {
@@ -70,8 +69,6 @@ export class LinkedList {
 
   map(fn) {
     const mapped = this.mapArray(fn);
-    console.log('mapped', mapped);
-    console.log('new LinkedList(mapped)', new LinkedList(mapped));
     return new LinkedList(mapped);
   }
 
@@ -81,13 +78,13 @@ export class LinkedList {
     }
 
     let saveableValues = [];
-    console.log(
-      node1.prev.value,
-      node1.prev.value.prevTaskId,
-      node1.value.prevTaskId,
-      node2.value.prevTaskId,
-      node2.next.value.prevTaskId
-    );
+    // console.log(
+    //   node1.prev.value,
+    //   node1.prev.value.prevTaskId,
+    //   node1.value.prevTaskId,
+    //   node2.value.prevTaskId,
+    //   node2.next.value.prevTaskId
+    // );
     const node1Prev = node1.prev;
     const node1Next = node1.next;
     const node2Prev = node2.prev;
@@ -153,7 +150,7 @@ export class LinkedList {
   toString() {
     return (
       this.toArray().reduce((acc, obj) => {
-        console.log(acc, obj.content);
+        // console.log(acc, obj.content);
         return acc + obj.content + ' -> ';
       }, '') + 'null'
     );

@@ -132,4 +132,15 @@ model Task {
   order       Int?
   timeEstimate Int    @default(900)
   timeSpent   Int     @default(0)
+  pointValue  Int     @default(1)
+  labels      Label[] 
+}
+
+model Label {
+  id          String      @id @default(uuid())
+  name        String
+  color       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  tasks       Task[]
 }

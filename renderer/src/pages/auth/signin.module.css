@@ -1,0 +1,135 @@
+/*signin*/
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.formContainer {
+    max-width: 400px;
+    width: 100%;
+    padding: 20px;
+    border-radius: 5px;
+    background: #fff;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+.heading {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.formGroup {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-shadow: none;
+}
+
+.submitButton {
+    padding: 10px 20px;
+    border-radius: 5px;
+    background: blue;
+    color: white;
+    border: none;
+    box-shadow: none;
+    cursor: pointer;
+}
+
+.linksContainer {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.link {
+    margin: 0 10px;
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.separator {
+    margin: 0 10px;
+    color: #ccc;
+}
+
+/*signup*/
+
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.auth-form {
+    width: calc(100vw / 3);
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f5f5f5;
+}
+
+.auth-input-group {
+    margin-bottom: 10px;
+}
+
+.auth-input-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.auth-input-field {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    font-size: 16px;
+}
+
+.auth-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #0070f3;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.auth-button:hover {
+    background-color: #0052cc;
+}
+
+.auth-error {
+    color: red;
+    font-weight: bold;
+    margin-bottom: 10px;
+}

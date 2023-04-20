@@ -47,6 +47,17 @@ function Tasks({
   const updateProjectMutation = trpc.projects.update.useMutation();
   const router = useRouter();
 
+  const pointMap = [
+    '',
+    'shadow-xs',
+    'shadow-sm',
+    'shadow-md',
+    'shadow-lg',
+    'shadow-xl',
+    'shadow-2xl',
+    'shadow-inner',
+    'shadow-none'
+  ];
   const estimateDisplay = seconds => {
     let duration = moment.duration(seconds, 'seconds');
     return moment.utc(duration.asMilliseconds()).format('HH:mm:ss');
@@ -280,7 +291,8 @@ function Tasks({
               return (
                 <div
                   key={task.id}
-                  className='relative aspect-w-1 aspect-h-1'
+                  className={`relative aspect-w-1 aspect-h-1 shadow-gray-500
+                  ${pointMap[task.pointValue]}`}
                   style={{ aspectRatio: '1 / 1' }}
                 >
                   <div
@@ -365,6 +377,16 @@ function Tasks({
                         />
                       )}
                       <div
+                        className={`w-full flex items-center absolute top-3 left-3 space-x-2`}
+                      >
+                        {Array(task.pointValue)
+                          .fill()
+                          .map((_, index) => {
+                            console.log(task.id, index);
+                            return <span key={index}>*</span>;
+                          })}
+                      </div>
+                      <div
                         className={`w-full flex items-center justify-between absolute top-3 left-0 ${
                           !showIcons && 'hidden'
                         } ${
@@ -448,6 +470,42 @@ function Tasks({
                               : setEditingTask(null);
                           }}
                         ></i>
+                      </div>
+                      <div
+                        className={`w-full flex items-center justify-between absolute top-1/2 left-0 ${
+                          !showIcons && 'hidden'
+                        } ${
+                          onlyShowOnHover && !isActive
+                            ? 'invisible group-hover:visible'
+                            : ''
+                        }`}
+                      >
+                        <span></span>
+                        <span className='flex items-center justify-center flex-col'>
+                          <i
+                            className={`fa-solid fa-plus cursor-pointer text-gray w-5 h-5 ml-auto mr-3 transform transition duration-300 hover:scale-125 hover:font-bold`}
+                            onClick={e => {
+                              e.stopPropagation();
+                              task.pointValue += 1;
+                              updateTaskMutation.mutate({
+                                id: task.id,
+                                pointValue: task.pointValue
+                              });
+                            }}
+                          ></i>
+                          <i
+                            className={`fa-solid fa-minus cursor-pointer text-gray w-5 h-5 mr-auto mr-3 transform transition duration-300 hover:scale-125 hover:font-bold`}
+                            onClick={e => {
+                              e.stopPropagation();
+                              task.pointValue -= 1;
+                              updateTaskMutation.mutate({
+                                id: task.id,
+                                pointValue: task.pointValue
+                              });
+                            }}
+                          ></i>
+                        </span>
+                        {/* <span></span> */}
                       </div>
                       <div
                         className={`w-full flex items-center justify-between absolute bottom-1 left-0 ${

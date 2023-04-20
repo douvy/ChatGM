@@ -27,7 +27,7 @@ import { Conversation, Message, Session, PageProps } from '../interfaces';
 import { TodoistApi } from '@doist/todoist-api-typescript';
 import Block from '../components/Block';
 import { LinkedList } from '../lib/LinkedList';
-import { getHighlighter } from 'shiki';
+// import { getHighlighter } from 'shiki';
 
 const Home: NextPage<PageProps> = props => {
   const { data: session, status } = useSession();
@@ -427,23 +427,23 @@ const Home: NextPage<PageProps> = props => {
   const sendMessage = async () => {
     const codeSnippetRegex = /```([\s\S]*?)```/g;
     const match = codeSnippetRegex.exec(newMessage.content);
-  
+
     if (match) {
       const codeBlock = match[1].trim();
       const [language, code] = codeBlock.split('\n', 2);
-  
+
       // Initialize the Shiki highlighter
       const highlighter = await getHighlighter({ theme: 'nord' });
       const highlightedCode = highlighter.codeToHtml(code, language);
-  
+
       const updatedMessageContent = newMessage.content.replace(
         codeSnippetRegex,
         `<pre class="shiki nord" style="background-color: #2e3440"><code>${highlightedCode}</code></pre>`
       );
-  
+
       updateMessageValue(updatedMessageContent);
     }
-  
+
     if (newMessage.content.startsWith('@') && conversation.id) {
       return addUserToConversation();
     }
@@ -476,7 +476,7 @@ const Home: NextPage<PageProps> = props => {
         conversationId: conversation.id
       })) as PrismaConversation;
     }
-  
+
     setPlaceholderMessage(
       {
         role: 'assistant',
@@ -486,7 +486,7 @@ const Home: NextPage<PageProps> = props => {
       },
       updatedConversation as Conversation
     );
-  
+
     updatedConversation = (await client.openai.query.mutate(
       updatedConversation
     )) as PrismaConversation;
@@ -497,7 +497,7 @@ const Home: NextPage<PageProps> = props => {
     if (!conversationId) {
       setConversationId(updatedConversation.id);
     }
-  };  
+  };
 
   const selectConversation = (conversation: Conversation) => {
     setConversation(conversation);

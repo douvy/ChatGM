@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Message" ALTER COLUMN "conversationId" DROP NOT NULL,
+ALTER COLUMN "starred" DROP NOT NULL,
+ALTER COLUMN "createdAt" DROP NOT NULL;
