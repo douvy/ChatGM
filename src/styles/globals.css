@@ -112,41 +112,32 @@ html {
 .fa-stars.fa-solid {
   color: #fee77e !important;
 }
-
 .border-red {
   border-color: #e85a40;
 }
-
 .border-yellow {
   border-color: #def241;
 }
-
 .border-gray {
   border-color: #313336;
 }
-
 .btn-yellow:hover {
   background: #def241;
 }
-
 .btn-gray {
   background: #21262d;
   border: 2px solid #363b42;
 }
-
 .btn-gray:hover {
   background: #30363c;
   border-color: #8b949d;
 }
-
 .btn-red:hover {
   background: #e85a40;
 }
-
 .text-2xs {
   font-size: 10px;
 }
-
 .hover-offwhite:hover {
   color: #e6edf3;
 }
@@ -826,6 +817,13 @@ code {
   border-top: 1px solid #224981;
   border-bottom: 1px solid #224981;
 }
+.multi-line-truncate {
+  display: -webkit-box;
+  -webkit-line-clamp: 5; /* Adjust this value to set the number of lines you want before truncating */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 /*responsive design*/
 
 @media (max-width: 640px) {

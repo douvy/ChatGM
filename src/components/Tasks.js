@@ -309,7 +309,7 @@ function Tasks({
                       }`}
                     >
                       {editingTask?.id != task.id ? (
-                        <span>{task.content || '|' + task.name + '|'}</span>
+                        <span className="multi-line-truncate w-full inline-block">{task.content || '|' + task.name + '|'}</span>
                       ) : (
                         <textarea
                           value={editingTask.content}
