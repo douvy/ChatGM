@@ -379,19 +379,19 @@ function Tasks({
                       )}
                       </div>
                       <div
-  className={`w-full flex items-center absolute top-3 left-3 space-x-2 circle-padding-on-hover`}
->
-  {Array(task.pointValue)
-    .fill()
-    .map((_, index) => {
-      console.log(task.id, index);
-      return (
-        <span key={index}>
-          <i class="fa-solid fa-circle font-8 text-offwhite"></i>
-        </span>
-      );
-    })}
-</div>
+                        className={`w-full flex items-center absolute top-3 left-3 space-x-2 circle-padding-on-hover`}
+                      >
+                        {Array(task.pointValue)
+                          .fill()
+                          .map((_, index) => {
+                            console.log(task.id, index);
+                            return (
+                              <span key={index}>
+                                <i class="fa-solid fa-circle font-8 text-offwhite"></i>
+                              </span>
+                            );
+                          })}
+                      </div>
                       <div
                         className={`w-full flex items-center justify-between absolute top-3 left-0 ${
                           !showIcons && 'hidden'
@@ -402,7 +402,7 @@ function Tasks({
                         }`}
                       >
                         <i
-                          className={`fa-solid fa-clock cursor-pointer text-gray-light w-5 h-5 mr-auto ml-3 transform transition duration-300 hover:scale-125 hover:font-bold`}
+                          className={`fa-solid fa-clock cursor-pointer text-offwhite w-5 h-5 mr-auto ml-3 transform transition duration-300 hover:scale-125 hover:font-bold`}
                           onClick={e => {
                             e.stopPropagation();
                             task._editingTimeEstimate =
@@ -455,9 +455,9 @@ function Tasks({
                             />
                           )}
                         </span>
-                        <span className={`items-center text-gray-light w-5 h-5`}>
+                        <span className={`items-center text-offwhite w-5 h-5`}>
                           <i
-                            className={`fa-solid fa-arrow-right cursor-pointer text-gray-light w-5 h-5 absolute transform transition duration-300 hover:scale-125 hover:font-bold`}
+                            className={`fa-solid fa-arrow-right cursor-pointer text-offwhite w-5 h-5 absolute transform transition duration-300 hover:scale-125 hover:font-bold`}
                             onClick={e => {
                               e.stopPropagation();
                               client.tasks.postpone.mutate({
@@ -468,7 +468,7 @@ function Tasks({
                           ></i>
                         </span>
                         <i
-                          className={`fa-solid fa-edit cursor-pointer text-gray-light w-5 h-5 ml-auto mr-3 transform transition duration-300 hover:scale-125 hover:font-bold`}
+                          className={`fa-solid fa-edit cursor-pointer text-offwhite w-5 h-5 ml-auto mr-3 transform transition duration-300 hover:scale-125 hover:font-bold`}
                           onClick={e => {
                             e.stopPropagation();
                             editingTask?.id != task.id
@@ -489,7 +489,7 @@ function Tasks({
                         <span></span>
                         <span className='flex items-center justify-center flex-col'>
                           <i
-                            className={`fa-solid fa-plus cursor-pointer text-gray-light w-5 h-5 ml-auto mr-3 transform transition duration-300 hover:scale-125 hover:font-bold`}
+                            className={`fa-solid fa-plus cursor-pointer text-offwhite w-5 h-5 ml-auto mr-3 transform transition duration-300 hover:scale-125 hover:font-bold`}
                             onClick={e => {
                               e.stopPropagation();
                               task.pointValue += 1;
@@ -500,7 +500,7 @@ function Tasks({
                             }}
                           ></i>
                           <i
-                            className={`fa-solid fa-minus cursor-pointer text-gray-light w-5 h-5 mr-auto mr-3 transform transition duration-300 hover:scale-125 hover:font-bold`}
+                            className={`fa-solid fa-minus cursor-pointer text-offwhite w-5 h-5 mr-auto mr-3 transform transition duration-300 hover:scale-125 hover:font-bold`}
                             onClick={e => {
                               e.stopPropagation();
                               task.pointValue -= 1;
@@ -523,7 +523,7 @@ function Tasks({
                         }`}
                       >
                         <i
-                          className={`fa-solid fa-close cursor-pointer text-gray-light w-5 h-5 mr-auto ml-3 transform transition duration-300 hover:scale-125 hover:font-bold`}
+                          className={`fa-solid fa-close cursor-pointer text-offwhite w-5 h-5 mr-auto ml-3 transform transition duration-300 hover:scale-125 hover:font-bold`}
                           onClick={e => (
                             e.stopPropagation(),
                             api
@@ -541,7 +541,7 @@ function Tasks({
                         ></i>
                         <span className={`items-center text-gray w-5 h-5`}>
                           <i
-                            className={`fa-solid fa-circle-half-stroke cursor-pointer text-gray-light w-5 h-5 absolute transform transition duration-300 hover:scale-125 hover:font-bold`}
+                            className={`fa-solid fa-circle-half-stroke cursor-pointer text-offwhite w-5 h-5 absolute transform transition duration-300 hover:scale-125 hover:font-bold`}
                             onClick={e => toggleInProgress(task, e)}
                           ></i>
                         </span>
@@ -550,7 +550,7 @@ function Tasks({
                             task.labels.includes('completed')
                               ? 'fa-undo'
                               : 'fa-check'
-                          } cursor-pointer text-gray-light w-5 h-5 ml-auto mr-3 transform transition duration-300 hover:scale-125 hover:font-bold`}
+                          } cursor-pointer text-offwhite w-5 h-5 ml-auto mr-3 transform transition duration-300 hover:scale-125 hover:font-bold`}
                           onClick={e => toggleCompletion(task, e)}
                         ></i>
                       </div>
