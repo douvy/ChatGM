@@ -62,6 +62,8 @@ html {
 }
 .bg-green {
   background: #21a343 !important;
+  background-color: #21a343 !important;
+  background-image: linear-gradient(0deg, #21a343 0%, #1d8e3a 100%) !important;
 }
 .bg-dark {
   background: #0c1116;
@@ -88,7 +90,7 @@ html {
   color: #7e8490 !important;
 }
 .text-gray-light {
-  color: #b5b8bf !important;
+  color: #dedfe2 !important;
 }
 .text-gray-slate {
   color: #7E8590 !important;
@@ -192,7 +194,9 @@ form {
 form input {
   border-radius: 3px;
 }
-
+.group:hover .blur-on-hover {
+  filter: blur(2px); /* Adjust this value to control the amount of blur */
+}
 .toggle-switch-checkbox:checked + .toggle-switch-label .toggle-switch-inner {
   background: #299438 !important;
 }
