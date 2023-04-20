@@ -379,15 +379,19 @@ function Tasks({
                       )}
                       </div>
                       <div
-                        className={`w-full flex items-center absolute top-3 left-3 space-x-2`}
-                      >
-                        {Array(task.pointValue)
-                          .fill()
-                          .map((_, index) => {
-                            console.log(task.id, index);
-                            return <span key={index}><i class="fa-solid fa-circle font-8 text-offwhite"></i></span>;
-                          })}
-                      </div>
+  className={`w-full flex items-center absolute top-3 left-3 space-x-2 circle-padding-on-hover`}
+>
+  {Array(task.pointValue)
+    .fill()
+    .map((_, index) => {
+      console.log(task.id, index);
+      return (
+        <span key={index}>
+          <i class="fa-solid fa-circle font-8 text-offwhite"></i>
+        </span>
+      );
+    })}
+</div>
                       <div
                         className={`w-full flex items-center justify-between absolute top-3 left-0 ${
                           !showIcons && 'hidden'

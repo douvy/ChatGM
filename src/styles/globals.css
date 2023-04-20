@@ -827,7 +827,10 @@ code {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-
+.group:hover .circle-padding-on-hover {
+  padding-top: 17px; /* Adjust this value to control the amount of padding */
+  padding-left: 2.25px;
+}
 /*responsive design*/
 
 @media (max-width: 640px) {
