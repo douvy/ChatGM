@@ -87,6 +87,9 @@ html {
 .text-gray {
   color: #7e8490 !important;
 }
+.text-gray-light {
+  color: #b5b8bf !important;
+}
 .text-gray-slate {
   color: #7E8590 !important;
 }
@@ -102,6 +105,9 @@ html {
 }
 .hover-dark-gray:hover {
   background: #171B22;
+}
+.hover-gray:hover {
+  background: #21272D;
 }
 .fa-stars.fa-solid {
   color: #fee77e !important;
