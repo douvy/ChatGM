@@ -299,6 +299,7 @@ function Tasks({
                   setUserInfo={setUserInfo}
                   setActiveTask={activateTask}
                   setActiveTaskIndex={setActiveTaskIndex}
+                  setEditingTask={setEditingTask}
                   showIcons={showIcons}
                   isActive={isActive}
                   someTaskActive={someTaskActive}
