@@ -38,7 +38,7 @@ export default function TaskBlock({
       >
         <div
           className={`group flex h-full flex-col justify-center gap-4 ${
-            editingTask?.id == task.id ? '' : 'p-2'
+            editingTask?.id == task.id ? '' : 'p-3'
           }`}
         >
           {editingTask?.id != task.id ? (

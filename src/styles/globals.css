@@ -62,6 +62,8 @@ html {
 }
 .bg-green {
   background: #21a343 !important;
+  background-color: #21a343 !important;
+  background-image: linear-gradient(0deg, #21a343 0%, #1d8e3a 100%) !important;
 }
 .bg-dark {
   background: #0c1116;
@@ -87,6 +89,9 @@ html {
 .text-gray {
   color: #7e8490 !important;
 }
+.text-gray-light {
+  color: #dedfe2 !important;
+}
 .text-gray-slate {
   color: #7E8590 !important;
 }
@@ -103,46 +108,43 @@ html {
 .hover-dark-gray:hover {
   background: #171B22;
 }
+.hover-gray:hover {
+  background: #21272D;
+}
 .fa-stars.fa-solid {
   color: #fee77e !important;
 }
-
 .border-red {
   border-color: #e85a40;
 }
-
 .border-yellow {
   border-color: #def241;
 }
-
 .border-gray {
   border-color: #313336;
 }
-
 .btn-yellow:hover {
   background: #def241;
 }
-
 .btn-gray {
   background: #21262d;
   border: 2px solid #363b42;
 }
-
 .btn-gray:hover {
   background: #30363c;
   border-color: #8b949d;
 }
-
 .btn-red:hover {
   background: #e85a40;
 }
-
 .text-2xs {
   font-size: 10px;
 }
-
 .hover-offwhite:hover {
   color: #e6edf3;
+}
+.font-8 {
+  font-size: 8px;
 }
 
 section a {
@@ -192,7 +194,9 @@ form {
 form input {
   border-radius: 3px;
 }
-
+.group:hover .blur-on-hover {
+  filter: blur(2px); /* Adjust this value to control the amount of blur */
+}
 .toggle-switch-checkbox:checked + .toggle-switch-label .toggle-switch-inner {
   background: #299438 !important;
 }
@@ -385,6 +389,9 @@ form button.editing-message-cancel:hover {
   border: 2px solid rgba(255, 255, 255, 0.5);
   border-top-color: white;
   animation: spin 1s linear infinite;
+}
+.box-shadow {
+  box-shadow: 0 10px 10px rgba(0,0,0,.1), 0 6px 3px rgba(0,0,0,.12);
 }
 @keyframes spin {
   to {
@@ -816,6 +823,19 @@ code {
   background: #111E2E;
   border-top: 1px solid #224981;
   border-bottom: 1px solid #224981;
+}
+.multi-line-truncate {
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* Adjust this value to set the number of lines you want before truncating */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.group:hover .circle-padding-on-hover {
+  padding-top: 17px; /* Adjust this value to control the amount of padding */
+  padding-left: 2.25px;
+}
+.task_checkbox:hover .check {
+  opacity: 1;
 }
 /*responsive design*/
 

@@ -25,12 +25,12 @@ export default function NewTask({
   return (
     <div key='new-task' style={{ aspectRatio: '1 / 1' }}>
       <div
-        className='bg-dark-blue h-full border border-gray cursor-pointer hover:bg-gray-900 rounded'
+        className='bg-dark h-5/6 border border-gray cursor-pointer hover-gray rounded'
         onClick={() => setAddingTask(true)}
       >
         <div className='flex h-full flex-col justify-center gap-4'>
           {!addingTask ? (
-            <i className='fas fa-plus text-4xl mx-auto'></i>
+            <i className='fas fa-plus text-3xl mx-auto'></i>
           ) : (
             <textarea
               value={newTask.content}
