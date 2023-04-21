@@ -390,6 +390,9 @@ form button.editing-message-cancel:hover {
   border-top-color: white;
   animation: spin 1s linear infinite;
 }
+.box-shadow {
+  box-shadow: 0 10px 10px rgba(0,0,0,.1), 0 6px 3px rgba(0,0,0,.12);
+}
 @keyframes spin {
   to {
     transform: rotate(360deg);
@@ -830,6 +833,9 @@ code {
 .group:hover .circle-padding-on-hover {
   padding-top: 17px; /* Adjust this value to control the amount of padding */
   padding-left: 2.25px;
+}
+.task_checkbox:hover .check {
+  opacity: 1;
 }
 /*responsive design*/
 

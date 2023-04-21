@@ -305,7 +305,7 @@ function Tasks({
                   >
                     <div
                       className={`group flex h-full flex-col justify-center gap-4 ${
-                        editingTask?.id == task.id ? '' : 'p-2'
+                        editingTask?.id == task.id ? '' : 'p-3'
                       }`}
                     >
                       <div className={`${editingTask?.id != task.id ? "blur-on-hover" : ""} w-full h-5/6 overflow-hidden flex flex-col justify-center`}>
