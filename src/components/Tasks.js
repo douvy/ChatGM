@@ -308,7 +308,7 @@ function Tasks({
                         editingTask?.id == task.id ? '' : 'p-2'
                       }`}
                     >
-                      <div className={`blur-on-hover w-full h-full overflow-hidden flex flex-col justify-center`}>
+                      <div className={`${editingTask?.id != task.id ? "blur-on-hover" : ""} w-full h-5/6 overflow-hidden flex flex-col justify-center`}>
                       {editingTask?.id != task.id ? (
                         <span className="multi-line-truncate w-full inline-block">{task.content || '|' + task.name + '|'}</span>
                       ) : (
