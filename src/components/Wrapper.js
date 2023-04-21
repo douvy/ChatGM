@@ -1,14 +1,18 @@
 import { useEffect } from 'react';
 
-export default function Wrapper({ children }) {
-  const { c, selected, setSelected } = children.props;
-  console.log(children);
+export default function Wrapper({ selected, setSelected, children }) {
+  const { c } = children.props;
   useEffect(() => {
     switch (c.key) {
       case 'I':
-        // setSelected('sidebar');
-        // console.log(selected);
+        setSelected('sidebar');
         break;
+      case 'Space':
+        alert('space');
+        break;
+    }
+    if (c.e?.code == 'Space' && c.e.altKey) {
+      alert('space');
     }
   }, [c]);
   return <>{children}</>;
