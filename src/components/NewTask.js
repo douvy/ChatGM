@@ -25,7 +25,7 @@ export default function NewTask({
   return (
     <div key='new-task' style={{ aspectRatio: '1 / 1' }}>
       <div
-        className='bg-dark h-full border border-gray cursor-pointer hover-gray rounded'
+        className='bg-dark h-5/6 border border-gray cursor-pointer hover-gray rounded'
         onClick={() => setAddingTask(true)}
       >
         <div className='flex h-full flex-col justify-center gap-4'>

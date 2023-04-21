@@ -823,7 +823,7 @@ code {
 }
 .multi-line-truncate {
   display: -webkit-box;
-  -webkit-line-clamp: 5; /* Adjust this value to set the number of lines you want before truncating */
+  -webkit-line-clamp: 4; /* Adjust this value to set the number of lines you want before truncating */
   -webkit-box-orient: vertical;
   overflow: hidden;
 }

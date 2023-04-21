@@ -281,8 +281,8 @@ function Tasks({
           <div
             className={`grid ${
               userInfo.hideSidebar
-                ? 'lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 !text-sm'
-                : 'lg:grid-cols-6 sm:grid-cols-3 gap-4 pt-4'
+                ? 'lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 !text-sm'
+                : 'lg:grid-cols-5 sm:grid-cols-3 gap-4 pt-4'
             } gap-4 pt-4 overflow-x-hidden`}
           >
             {tasks.mapArray((task, index) => {
@@ -296,7 +296,7 @@ function Tasks({
                   style={{ aspectRatio: '1 / 1' }}
                 >
                   <div
-                    className={`group bg-dark border h-full border-gray-700 cursor-pointer hover-gray rounded   
+                    className={`group bg-dark border h-5/6 border-gray-700 cursor-pointer hover-gray rounded   
                   ${task.id == userInfo.activeTaskId ? '!bg-blue-950' : ''}
                   ${task.labels.includes('completed') ? 'bg-green' : ''}
                   ${task.labels.includes('in-progress') ? '!bg-orange-800' : ''}
@@ -468,7 +468,7 @@ function Tasks({
                           ></i>
                         </span>
                         <i
-                          className={`fa-solid fa-edit cursor-pointer text-offwhite w-5 h-5 ml-auto mr-3 transform transition duration-300 hover:scale-125 hover:font-bold`}
+                          className={`fa-sharp fa-edit cursor-pointer text-offwhite w-5 h-5 ml-auto mr-3 transform transition duration-300 hover:scale-125 hover:font-bold`}
                           onClick={e => {
                             e.stopPropagation();
                             editingTask?.id != task.id
