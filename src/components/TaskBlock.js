@@ -29,7 +29,7 @@ export default function TaskBlock({
       style={{ aspectRatio: '6 / 5' }}
     >
       <div
-        className={`group bg-dark-blue border h-full border-gray-700 cursor-pointer hover:bg-gray-600 rounded      
+        className={`group bg-dark-blue border h-full border-gray-700 cursor-pointer hover-gray rounded      
   ${task.id == userInfo.activeTaskId ? '!bg-blue-950' : ''}
   ${task.labels.includes('completed') ? 'bg-green' : ''}
   ${task.labels.includes('in-progress') ? '!bg-orange-800' : ''}
