@@ -280,7 +280,7 @@ function Tasks({
                 : someTaskActive
                 ? 'lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 grid-cols-2'
                 : 'lg:grid-cols-6 sm:grid-cols-3 gap-4 pt-4'
-            } gap-4 pt-4`}
+            } gap-4 pt-4 overflow-x-hidden`}
           >
             {tasks.mapArray((task, index) => {
               let showIcons = editingTask?.id != task.id;
