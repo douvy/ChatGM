@@ -278,8 +278,8 @@ function Tasks({
               userInfo.hideSidebar
                 ? 'lg:grid-cols-6 sm:grid-cols-4 xs:grid-cols-3 text-sm transform transition-all duration-300 ease-in-out'
                 : someTaskActive
-                ? 'grid-cols-4'
-                : 'grid-cols-4'
+                ? 'lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 grid-cols-2'
+                : 'lg:grid-cols-6 sm:grid-cols-3 gap-4 pt-4'
             } gap-4 pt-4`}
           >
             {tasks.mapArray((task, index) => {

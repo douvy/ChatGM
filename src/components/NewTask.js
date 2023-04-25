@@ -23,7 +23,7 @@ export default function NewTask({
 
   const api = new TodoistApi(userInfo.todoistApiKey);
   return (
-    <div key='new-task' style={{ aspectRatio: '1 / 1' }}>
+    <div key='new-task' style={{ aspectRatio: '6 / 5' }}>
       <div
         className='bg-dark h-5/6 border border-gray cursor-pointer hover-gray rounded'
         onClick={() => setAddingTask(true)}

@@ -279,7 +279,7 @@ function Tasks({
                 <div
                   key={task.id}
                   className='relative aspect-w-1 aspect-h-1'
-                  style={{ aspectRatio: '1 / 1' }}
+                  style={{ aspectRatio: '6 / 5' }}
                 >
                   <div
                     className={`group bg-dark-blue border h-full border-gray-700 cursor-pointer hover:bg-gray-600      

@@ -56,7 +56,7 @@ useEffect(() => {
 
   return (
     <div
-      className={`w-full box cursor-pointer ${completed ? 'bg-green-200' : ''}`}
+      className={`w-full box cursor-pointer ${completed ? 'bg-green' : ''}`}
       onClick={() => {
         setActiveTask(task, index);
       }}
