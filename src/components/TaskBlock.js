@@ -26,7 +26,7 @@ export default function TaskBlock({
   ${pointMap[task.pointValue]}
   ${someTaskActive && !isActive && 'transform transition duration-300 hidden'} 
   ${isActive && 'absolute top-3 left-3'}`}
-      style={{ aspectRatio: '1 / 1' }}
+      style={{ aspectRatio: '6 / 5' }}
     >
       <div
         className={`group bg-dark-blue border h-full border-gray-700 cursor-pointer hover:bg-gray-600 rounded      
