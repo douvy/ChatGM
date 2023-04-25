@@ -36,8 +36,12 @@ export const create = procedure
         id: id,
         name: content,
         projectId: projectId,
-        prevTaskId: prevTaskId
-      }
+        prevTaskId: prevTaskId,
+        complete: false, // Set the default value for complete here
+        timeEstimate: 900, // Set the default value for timeEstimate here
+        timeSpent: 0, // Set the default value for timeSpent here
+        pointValue: 1, // Set the default value for pointValue here
+      },
     });
     return task;
   });
